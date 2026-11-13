@@ -48,7 +48,7 @@ Baseline extension bundle: 201.15 kB / 63.62 kB gzip. Integration before the fin
 
 - No npm publish was run. `npm whoami` returned ENEEDAUTH; the public registry lookup returned E404. Neither npm scope ownership nor publish permission is established. Use a local packed archive or the reviewed Git commit until release authorization and scope ownership are confirmed.
 - Inspector adoption is a separate review branch/PR; it is not merged into main automatically.
-- Storybook and demo build locally; hosting is not configured.
+- Demo and Storybook are deployed to [GitHub Pages](https://oddmash.github.io/oddmash-ui/) by `.github/workflows/pages.yml`. The playground is at the site root; Storybook is at `storybook/`. Pushes to main rebuild and deploy both.
 - Manual assistive-technology review and closed-Shadow-DOM modal testing remain. Only Button is adopted in Inspector; all six families are exercised in the separate demo/Storybook.
 - Vite reports informational `use client` bundling warnings for client-only demo/extension builds and a large Storybook manager chunk. Package ESM keeps the client directive; the demo is not an RSC certification.
 - `npm audit --omit=dev` reported zero production vulnerabilities for the UI package. The full development dependency audit reported 16 advisories (2 low, 14 moderate); dependency remediation is a follow-up, not hidden by the build result. Inspector already had a high-severity development dependency advisory at baseline; the runtime integration does not claim to resolve it.

@@ -6,7 +6,7 @@ Oddmash UI 为小型 React 开发者工具提供一致的默认界面。例如�
 
 ## 快速开始
 
-下图展示使用示例数据的真实实现。可以在本地运行演示和 Storybook，目前没有托管演示。
+下图展示使用示例数据的真实实现。可直接使用[在线演示](https://oddmash.github.io/oddmash-ui/)和 [Storybook](https://oddmash.github.io/oddmash-ui/storybook/)。推送至 main 后，GitHub Actions 会构建并自动部署两者。本地运行命令如下。
 
 ![Oddmash UI playground: dark project settings with tabs, input, buttons and badge; sample data](../assets/playground.png)
 

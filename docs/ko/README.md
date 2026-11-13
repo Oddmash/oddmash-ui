@@ -6,7 +6,7 @@ Oddmash UI는 작은 React 개발 도구에 일관된 기본 UI를 제공합니�
 
 ## 빠른 시작
 
-아래 화면은 샘플 프로젝트 데이터를 사용하는 실제 구현입니다. 데모와 Storybook을 로컬에서 실행할 수 있으며, 호스팅된 데모는 아직 없습니다.
+아래 화면은 샘플 프로젝트 데이터를 사용하는 실제 구현입니다. [라이브 데모](https://oddmash.github.io/oddmash-ui/)와 [Storybook](https://oddmash.github.io/oddmash-ui/storybook/)을 바로 사용해 보세요. main에 변경을 push하면 GitHub Actions가 둘 다 빌드하고 자동 배포합니다. 로컬 실행 명령은 아래와 같습니다.
 
 ![Oddmash UI playground: dark project settings with tabs, input, buttons and badge; sample data](../assets/playground.png)
 

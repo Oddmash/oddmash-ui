@@ -6,7 +6,7 @@ Oddmash UI gives small React developer tools consistent defaults without a new d
 
 ## Quick start
 
-The demo below is the real implementation using synthetic project data. Run the playground or Storybook locally; there is no hosted demo yet.
+The demo below is the real implementation using synthetic project data. Try the [live playground](https://oddmash.github.io/oddmash-ui/) or [Storybook](https://oddmash.github.io/oddmash-ui/storybook/). GitHub Actions rebuilds and deploys both on pushes to main; local commands are below.
 
 ![Oddmash UI playground: dark project settings with tabs, input, buttons and badge; sample data](docs/assets/playground.png)
 
