@@ -1,0 +1,116 @@
+{
+  "before": [
+    {
+      "text": "panel",
+      "x": 624,
+      "y": 16,
+      "width": 360,
+      "height": 345.5,
+      "color": "rgb(240, 243, 250)",
+      "background": "rgb(21, 25, 33)",
+      "font": "13px / 19.5px system-ui, sans-serif",
+      "radius": "12px"
+    },
+    {
+      "text": "×",
+      "x": 938.875,
+      "y": 33,
+      "width": 28.125,
+      "height": 29.5,
+      "color": "rgb(240, 243, 250)",
+      "background": "rgb(36, 45, 59)",
+      "font": "13px / 19.5px system-ui, sans-serif",
+      "radius": "6px"
+    },
+    {
+      "text": "Pick element",
+      "x": 641,
+      "y": 74.5,
+      "width": 97.734375,
+      "height": 29.5,
+      "color": "rgb(240, 243, 250)",
+      "background": "rgb(36, 45, 59)",
+      "font": "13px / 19.5px system-ui, sans-serif",
+      "radius": "6px"
+    },
+    {
+      "text": "Start",
+      "x": 746.734375,
+      "y": 74.5,
+      "width": 49.609375,
+      "height": 29.5,
+      "color": "rgb(240, 243, 250)",
+      "background": "rgb(36, 45, 59)",
+      "font": "13px / 19.5px system-ui, sans-serif",
+      "radius": "6px"
+    },
+    {
+      "text": "Reset",
+      "x": 804.34375,
+      "y": 74.5,
+      "width": 54.3125,
+      "height": 29.5,
+      "color": "rgb(240, 243, 250)",
+      "background": "rgb(36, 45, 59)",
+      "font": "13px / 19.5px system-ui, sans-serif",
+      "radius": "6px"
+    }
+  ],
+  "after": [
+    {
+      "text": "panel",
+      "x": 624,
+      "y": 16,
+      "width": 360,
+      "height": 345.5,
+      "color": "rgb(240, 243, 250)",
+      "background": "rgb(21, 25, 33)",
+      "font": "13px / 19.5px system-ui, sans-serif",
+      "radius": "12px"
+    },
+    {
+      "text": "×",
+      "x": 938.875,
+      "y": 33,
+      "width": 28.125,
+      "height": 29.5,
+      "color": "rgb(240, 243, 250)",
+      "background": "rgb(36, 45, 59)",
+      "font": "13px / 19.5px system-ui, sans-serif",
+      "radius": "6px"
+    },
+    {
+      "text": "Pick element",
+      "x": 641,
+      "y": 74.5,
+      "width": 97.734375,
+      "height": 29.5,
+      "color": "rgb(240, 243, 250)",
+      "background": "rgb(36, 45, 59)",
+      "font": "13px / 19.5px system-ui, sans-serif",
+      "radius": "6px"
+    },
+    {
+      "text": "Start",
+      "x": 746.734375,
+      "y": 74.5,
+      "width": 49.609375,
+      "height": 29.5,
+      "color": "rgb(240, 243, 250)",
+      "background": "rgb(36, 45, 59)",
+      "font": "13px / 19.5px system-ui, sans-serif",
+      "radius": "6px"
+    },
+    {
+      "text": "Reset",
+      "x": 804.34375,
+      "y": 74.5,
+      "width": 54.3125,
+      "height": 29.5,
+      "color": "rgb(240, 243, 250)",
+      "background": "rgb(36, 45, 59)",
+      "font": "13px / 19.5px system-ui, sans-serif",
+      "radius": "6px"
+    }
+  ]
+}

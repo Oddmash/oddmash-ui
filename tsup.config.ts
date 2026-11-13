@@ -1,0 +1,2 @@
+import { defineConfig } from 'tsup';
+export default defineConfig({ entry: { index: 'src/index.ts', button: 'src/button.tsx', input: 'src/input.tsx', card: 'src/card.tsx', badge: 'src/badge.tsx', tabs: 'src/tabs.tsx', dialog: 'src/dialog.tsx', tokens: 'src/generated/tokens.ts' }, format: ['esm'], dts: true, clean: true, external: ['react', 'react-dom', '@radix-ui/react-dialog', '@radix-ui/react-tabs'], banner: { js: '"use client";' } });

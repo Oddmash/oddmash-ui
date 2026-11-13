@@ -1,0 +1,11 @@
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Button, Input, Card, Badge, Tabs, TabsList, TabsTrigger, TabsContent, Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from './index';
+const meta = { title: 'Foundations', component: Button } satisfies Meta<typeof Button>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+export const Buttons: Story = { render: () => <><Button>Save changes</Button> <Button variant="secondary">Cancel</Button> <Button variant="ghost">Details</Button> <Button disabled>Unavailable</Button></> };
+export const Inputs: Story = { render: () => <><label htmlFor="name">Project name</label><Input id="name" defaultValue="Interaction Inspector" /><label htmlFor="invalid">Repository</label><Input id="invalid" aria-invalid="true" aria-describedby="error" /><p id="error">Enter a repository name.</p></> };
+export const Cards: Story = { render: () => <Card><h2>Interaction Inspector</h2><p>Inspect events with sample data.</p></Card> };
+export const Badges: Story = { render: () => <><Badge>Draft</Badge> <Badge tone="accent">Active</Badge></> };
+export const TabPanels: Story = { render: () => <Tabs defaultValue="events"><TabsList aria-label="Inspector views"><TabsTrigger value="events">Events</TabsTrigger><TabsTrigger value="focus">Focus</TabsTrigger><TabsTrigger value="disabled" disabled>State</TabsTrigger></TabsList><TabsContent value="events">No recorded events.</TabsContent><TabsContent value="focus">Select an element.</TabsContent></Tabs> };
+export const Dialogs: Story = { render: (_, context) => <Dialog><DialogTrigger asChild><Button>Project settings</Button></DialogTrigger><DialogContent theme={context.globals.theme}><DialogTitle>Project settings</DialogTitle><DialogDescription>Configure your sample project.</DialogDescription><label htmlFor="dialog-name">Name</label><Input id="dialog-name" defaultValue="Interaction Inspector" /><DialogClose asChild><Button>Done</Button></DialogClose></DialogContent></Dialog> };
