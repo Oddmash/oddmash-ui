@@ -6,9 +6,9 @@ Oddmash UI는 작은 React 개발 도구에 일관된 기본 UI를 제공합니�
 
 ## 빠른 시작
 
-아래 화면은 샘플 프로젝트 데이터를 사용하는 실제 구현입니다. [라이브 데모](https://oddmash.github.io/oddmash-ui/)와 [Storybook](https://oddmash.github.io/oddmash-ui/storybook/)을 바로 사용해 보세요. main에 변경을 push하면 GitHub Actions가 둘 다 빌드하고 자동 배포합니다. 로컬 실행 명령은 아래와 같습니다.
+[Oddmash UI 전용 문서](https://oddmash.github.io/oddmash-ui/)에서 시스템 전체를 한 번에 탐색할 수 있습니다. 검색 가능한 메뉴, 6개 컴포넌트의 실시간 예제, Button 속성 조절, 코드 복사, API·접근성 설명, 색상·타이포그래피·JSON 기반 토큰 탐색기를 제공합니다. light/dark 선택을 저장하며 모바일 메뉴와 페이지 직접 링크를 지원합니다. Storybook은 로컬 기여 도구로 유지하고 기존 공개 링크는 새 문서로 이동합니다. main에 push하면 문서가 자동 배포됩니다.
 
-![Oddmash UI playground: dark project settings with tabs, input, buttons and badge; sample data](../assets/playground.png)
+![Oddmash UI documentation: navigation, live component gallery and JSON foundations](../assets/playground.png)
 
 ```sh
 git clone https://github.com/Oddmash/oddmash-ui.git

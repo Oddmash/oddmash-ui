@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Oddmash UI — Documentation</title>
+    <script>
+      const story = new URLSearchParams(location.search).get('path') || '';
+      const routes = {
+        buttons: 'button',
+        inputs: 'input',
+        cards: 'card',
+        badges: 'badge',
+        'tab-panels': 'tabs',
+        dialogs: 'dialog',
+      };
+      const key = story.split('--')[1];
+      location.replace('../#/' + (routes[key] || 'overview'));
+    </script>
+  </head>
+  <body>
+    <p>
+      Our components have a new home.
+      <a href="../#/overview">Open Oddmash UI documentation</a>.
+    </p>
+  </body>
+</html>

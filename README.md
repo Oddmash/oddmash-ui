@@ -6,9 +6,9 @@ Oddmash UI gives small React developer tools consistent defaults without a new d
 
 ## Quick start
 
-The demo below is the real implementation using synthetic project data. Try the [live playground](https://oddmash.github.io/oddmash-ui/) or [Storybook](https://oddmash.github.io/oddmash-ui/storybook/). GitHub Actions rebuilds and deploys both on pushes to main; local commands are below.
+The [Oddmash UI documentation](https://oddmash.github.io/oddmash-ui/) brings the whole system into one place: searchable navigation, six live component pages, editable Button props, copyable examples, API and accessibility guidance, colors, typography, and a JSON-backed token explorer. Light/dark preference persists. Mobile navigation and direct page links are supported. Storybook remains a local contributor tool; old public Storybook links redirect to the new docs. Main pushes deploy the documentation automatically.
 
-![Oddmash UI playground: dark project settings with tabs, input, buttons and badge; sample data](docs/assets/playground.png)
+![Oddmash UI documentation: navigation, live component gallery and JSON foundations](docs/assets/playground.png)
 
 ```sh
 git clone https://github.com/Oddmash/oddmash-ui.git

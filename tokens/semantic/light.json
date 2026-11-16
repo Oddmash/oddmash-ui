@@ -3,11 +3,11 @@
     "color": {
       "bg": {
         "$type": "color",
-        "$value": "{primitive.color.white}"
+        "$value": "{primitive.color.paper}"
       },
       "surface": {
         "$type": "color",
-        "$value": "{primitive.color.paper}"
+        "$value": "{primitive.color.white}"
       },
       "text": {
         "$type": "color",
@@ -40,6 +40,22 @@
       "focus": {
         "$type": "color",
         "$value": "{primitive.color.mint}"
+      },
+      "border-subtle": {
+        "$type": "color",
+        "$value": "{primitive.color.softLine}"
+      },
+      "action": {
+        "$type": "color",
+        "$value": "{primitive.color.ink}"
+      },
+      "on-action": {
+        "$type": "color",
+        "$value": "{primitive.color.white}"
+      },
+      "action-hover": {
+        "$type": "color",
+        "$value": "{primitive.color.actionHover}"
       }
     },
     "space": {

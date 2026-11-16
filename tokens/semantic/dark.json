@@ -40,6 +40,22 @@
       "focus": {
         "$type": "color",
         "$value": "{primitive.color.paleMint}"
+      },
+      "border-subtle": {
+        "$type": "color",
+        "$value": "{primitive.color.darkSoftLine}"
+      },
+      "action": {
+        "$type": "color",
+        "$value": "{primitive.color.bright}"
+      },
+      "on-action": {
+        "$type": "color",
+        "$value": "{primitive.color.ink}"
+      },
+      "action-hover": {
+        "$type": "color",
+        "$value": "{primitive.color.paleHover}"
       }
     },
     "space": {
