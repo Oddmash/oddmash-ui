@@ -17,7 +17,8 @@ const events = [
 
 export const TimelineFilterExample = ({
   selectedId = 1,
-}: { selectedId?: number } = {}) => {
+  t = (text) => text,
+}: { selectedId?: number; t?: (text: string) => string } = {}) => {
   const [eventFilter, setEventFilter] = useState<EventType | 'all'>('all');
   const [selectedOnly, setSelectedOnly] = useState(false);
   const visibleEvents = events.filter(
@@ -28,16 +29,16 @@ export const TimelineFilterExample = ({
 
   return (
     <div className="timeline-filter-example">
-      <Field legend="Timeline filters">
+      <Field legend={t('Timeline filters')}>
         <label>
-          Event type
+          {t('Event type')}
           <Select
             value={eventFilter}
             onChange={(event) =>
               setEventFilter(event.target.value as EventType | 'all')
             }
           >
-            <option value="all">All events</option>
+            <option value="all">{t('All events')}</option>
             {eventTypes.map((type) => (
               <option key={type} value={type}>
                 {type}
@@ -50,11 +51,13 @@ export const TimelineFilterExample = ({
             checked={selectedOnly}
             onChange={(event) => setSelectedOnly(event.target.checked)}
           />
-          Selected element
+          {t('Selected element')}
         </label>
       </Field>
-      <p role="status">{visibleEvents.length} matching events</p>
-      <ol aria-label="Filtered event timeline">
+      <p role="status">
+        {visibleEvents.length} {t('matching events')}
+      </p>
+      <ol aria-label={t('Filtered event timeline')}>
         {visibleEvents.map(({ id, type, target }) => (
           <li key={id}>
             <code>{type}</code> <span>{target}</span>

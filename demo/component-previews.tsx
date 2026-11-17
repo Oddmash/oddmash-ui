@@ -1,8 +1,12 @@
 import {
+  AlertPreview,
+  BreadcrumbPreview,
+  LoadingPreview,
+  ToastPreview,
+} from './feedback-previews';
+import {
   Accordion,
-  Alert,
   Avatar,
-  Breadcrumbs,
   Button,
   Checkbox,
   EmptyState,
@@ -21,125 +25,118 @@ import {
 import type { ExtendedComponentId } from './component-catalog';
 import type { ReactNode } from 'react';
 
-export const componentPreviews: Record<ExtendedComponentId, ReactNode> = {
+export const getComponentPreviews = (
+  t: (text: string) => string,
+): Record<ExtendedComponentId, ReactNode> => ({
   textarea: (
     <label>
-      Release notes
-      <Textarea rows={3} placeholder="Describe what changed" />
+      {t('Release notes')}
+      <Textarea rows={3} placeholder={t('Describe what changed')} />
     </label>
   ),
   select: (
     <div>
-      <label htmlFor="example-environment">Environment</label>
+      <label htmlFor="example-environment">{t('Environment')}</label>
       <SelectDropdown
         id="example-environment"
         defaultValue="staging"
         options={[
-          { value: 'staging', label: 'Staging' },
-          { value: 'preview', label: 'Preview', disabled: true },
-          { value: 'production', label: 'Production' },
+          { value: 'staging', label: t('Staging') },
+          { value: 'preview', label: t('Preview'), disabled: true },
+          { value: 'production', label: t('Production') },
         ]}
       />
     </div>
   ),
   checkbox: (
     <label className="example-choice">
-      <Checkbox name="events" value="keyboard" defaultChecked /> Capture
-      keyboard events
+      <Checkbox name="events" value="keyboard" defaultChecked />{' '}
+      {t('Capture keyboard events')}
     </label>
   ),
   radio: (
-    <Field legend="Event order">
+    <Field legend={t('Event order')}>
       <div className="example-primitives">
         <label className="example-choice">
-          <Radio name="order" value="newest" defaultChecked /> Newest first
+          <Radio name="order" value="newest" defaultChecked />{' '}
+          {t('Newest first')}
         </label>
         <label className="example-choice">
-          <Radio name="order" value="oldest" /> Oldest first
+          <Radio name="order" value="oldest" /> {t('Oldest first')}
         </label>
       </div>
     </Field>
   ),
   switch: (
     <label className="example-choice">
-      <Switch defaultChecked /> Capture interactions
+      <Switch defaultChecked /> {t('Capture interactions')}
     </label>
   ),
   field: (
-    <Field legend="Events to capture">
+    <Field legend={t('Events to capture')}>
       <div className="example-primitives">
         <label className="example-choice">
-          <Checkbox name="events" value="focus" defaultChecked /> Focus
+          <Checkbox name="events" value="focus" defaultChecked /> {t('Focus')}
         </label>
         <label className="example-choice">
-          <Checkbox name="events" value="pointer" /> Pointer
+          <Checkbox name="events" value="pointer" /> {t('Pointer')}
         </label>
       </div>
     </Field>
   ),
-  alert: (
-    <Alert tone="danger">
-      <strong>Recording stopped</strong>
-      <div>Reconnect the inspector to continue capturing events.</div>
-    </Alert>
-  ),
+  alert: <AlertPreview />,
+  toast: <ToastPreview />,
   progress: (
-    <label>
-      Exporting events (65%)
-      <Progress value={65} max={100} />
-    </label>
+    <LoadingPreview>
+      <label>
+        {t('Exporting events (65%)')}
+        <Progress value={65} max={100} />
+      </label>
+    </LoadingPreview>
   ),
   spinner: (
-    <div className="example-choice" role="status">
-      <Spinner /> Connecting to inspector
-    </div>
+    <LoadingPreview>
+      <div className="example-choice" role="status">
+        <Spinner /> {t('Connecting to inspector')}
+      </div>
+    </LoadingPreview>
   ),
   skeleton: (
-    <div className="example-primitives" role="status">
-      <span>Loading event details</span>
-      <Skeleton style={{ width: '60%' }} />
-      <Skeleton />
-      <Skeleton style={{ width: '80%' }} />
-    </div>
+    <LoadingPreview>
+      <div className="example-primitives" role="status">
+        <span>{t('Loading event details')}</span>
+        <Skeleton style={{ width: '60%' }} />
+        <Skeleton />
+        <Skeleton style={{ width: '80%' }} />
+      </div>
+    </LoadingPreview>
   ),
   'empty-state': (
     <EmptyState>
-      <strong>No events captured</strong>
-      <p>Interact with the page to start filling the timeline.</p>
+      <strong>{t('No events captured')}</strong>
+      <p>{t('Interact with the page to start filling the timeline.')}</p>
       <Button
         variant="secondary"
         onClick={() => (location.hash = '/interaction-pattern')}
       >
-        Open Interaction Lab
+        {t('Open Interaction Lab')}
       </Button>
     </EmptyState>
   ),
   accordion: (
-    <Accordion summary="Keyboard shortcuts">
-      Press <kbd>Tab</kbd> to move to the next control and <kbd>Enter</kbd> to
-      activate it.
+    <Accordion summary={t('Keyboard shortcuts')}>
+      {t('Press')} <kbd>Tab</kbd> {t('to move to the next control and')}{' '}
+      <kbd>Enter</kbd> {t('to activate it.')}
     </Accordion>
   ),
-  breadcrumbs: (
-    <Breadcrumbs aria-label="Example breadcrumb">
-      <li>
-        <a href="#/overview">Overview</a>
-      </li>
-      <li>
-        <a href="#/colors">Foundations</a>
-      </li>
-      <li>
-        <span aria-current="page">Colors</span>
-      </li>
-    </Breadcrumbs>
-  ),
+  breadcrumbs: <BreadcrumbPreview />,
   pagination: (
-    <Pagination aria-label="Example pagination">
-      <a href="#/breadcrumbs" aria-label="Page 1">
+    <Pagination aria-label={t('Example pagination')}>
+      <a href="#/breadcrumbs" aria-label={t('Page 1')}>
         1
       </a>
       <span aria-current="page">2</span>
-      <a href="#/table" aria-label="Page 3">
+      <a href="#/table" aria-label={t('Page 3')}>
         3
       </a>
     </Pagination>
@@ -147,35 +144,35 @@ export const componentPreviews: Record<ExtendedComponentId, ReactNode> = {
   avatar: (
     <div className="example-choice">
       <Avatar label="Sangmin Park">SP</Avatar>
-      <Avatar label="Design team">DT</Avatar>
+      <Avatar label={t('Design team')}>DT</Avatar>
     </div>
   ),
   separator: (
     <div>
-      <strong>Recording settings</strong>
+      <strong>{t('Recording settings')}</strong>
       <Separator />
-      <span>Export options</span>
+      <span>{t('Export options')}</span>
     </div>
   ),
   table: (
     <Table>
-      <caption>Recorded events</caption>
+      <caption>{t('Recorded events')}</caption>
       <thead>
         <tr>
-          <th scope="col">Event</th>
-          <th scope="col">Target</th>
+          <th scope="col">{t('Event')}</th>
+          <th scope="col">{t('Target')}</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>focusin</td>
-          <td>Project name</td>
+          <td>{t('Project name')}</td>
         </tr>
         <tr>
           <td>click</td>
-          <td>Save project</td>
+          <td>{t('Save project')}</td>
         </tr>
       </tbody>
     </Table>
   ),
-};
+});

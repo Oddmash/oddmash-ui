@@ -198,3 +198,18 @@
     outline: 2px solid Highlight;
   }
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  .om-dialog-overlay[data-state='open'] {
+    animation: om-overlay-in var(--om-semantic-motion-duration) var(--om-semantic-motion-ease) both;
+  }
+
+  .om-dialog-content[data-state='open'] {
+    animation: om-enter var(--om-semantic-motion-duration) var(--om-semantic-motion-ease) both;
+  }
+
+  @keyframes om-overlay-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}

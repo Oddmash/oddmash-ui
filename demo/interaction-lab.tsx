@@ -1,3 +1,4 @@
+import { useLocale } from './locale';
 import { useId, useState, type SyntheticEvent } from 'react';
 import {
   Badge,
@@ -13,6 +14,7 @@ import {
 type Interaction = { type: string; target: string; key?: string };
 
 const InteractionLab = () => {
+  const { t } = useLocale();
   const fieldId = useId();
   const [events, setEvents] = useState<Interaction[]>([]);
   const [status, setStatus] = useState('');
@@ -31,9 +33,9 @@ const InteractionLab = () => {
   return (
     <Card className="interaction-lab">
       <div className="lab-header">
-        <h2>Interaction Lab</h2>
+        <h2>{t('Interaction Lab')}</h2>
         <Button size="sm" variant="ghost" onClick={() => setEvents([])}>
-          Clear events
+          {t('Clear events')}
         </Button>
       </div>
       <div className="lab-body">
@@ -50,10 +52,10 @@ const InteractionLab = () => {
           onSubmit={(event) => {
             event.preventDefault();
             const name = new FormData(event.currentTarget).get('project');
-            setStatus(`Saved ${name}`);
+            setStatus(String(name));
           }}
         >
-          <label htmlFor={fieldId}>Project name</label>
+          <label htmlFor={fieldId}>{t('Project name')}</label>
           <Input
             id={fieldId}
             name="project"
@@ -62,23 +64,23 @@ const InteractionLab = () => {
             data-target="Project name"
           />
           <Button type="submit" size="sm" data-target="Save project">
-            Save project
+            {t('Save project')}
           </Button>
           <p className="lab-status" role="status">
-            {status}
+            {status && `${t('Saved')} ${status}`}
           </p>
         </form>
         <Tabs className="lab-monitor" defaultValue="events">
-          <TabsList aria-label="Interaction views">
-            <TabsTrigger value="events">Events</TabsTrigger>
-            <TabsTrigger value="target">Target</TabsTrigger>
+          <TabsList aria-label={t('Interaction views')}>
+            <TabsTrigger value="events">{t('Events')}</TabsTrigger>
+            <TabsTrigger value="target">{t('Target')}</TabsTrigger>
           </TabsList>
           <TabsContent value="events">
             {events.length ? (
               <ol
                 className="lab-events"
                 role="list"
-                aria-label="Recent interactions"
+                aria-label={t('Recent interactions')}
               >
                 {events.map((event, index) => (
                   <li key={index}>
@@ -88,7 +90,7 @@ const InteractionLab = () => {
                       {event.type}
                     </Badge>
                     <span>
-                      {event.target}
+                      {t(event.target)}
                       {event.key && <small> · {event.key}</small>}
                     </span>
                   </li>
@@ -96,23 +98,23 @@ const InteractionLab = () => {
               </ol>
             ) : (
               <p className="lab-empty">
-                Tab into the form or click a control to capture an event.
+                {t('Tab into the form or click a control to capture an event.')}
               </p>
             )}
           </TabsContent>
           <TabsContent value="target">
             {latest ? (
               <dl className="lab-target-details">
-                <dt>Control</dt>
-                <dd>{latest.target}</dd>
-                <dt>Last event</dt>
+                <dt>{t('Control')}</dt>
+                <dd>{t(latest.target)}</dd>
+                <dt>{t('Last event')}</dt>
                 <dd>
                   <code>{latest.type}</code>
                 </dd>
               </dl>
             ) : (
               <p className="lab-empty">
-                Interact with the form to inspect a control.
+                {t('Interact with the form to inspect a control.')}
               </p>
             )}
           </TabsContent>

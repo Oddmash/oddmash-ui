@@ -317,3 +317,60 @@ test('custom Select navigates, skips disabled options and dismisses', async ({
   await expect(select).toHaveText('Staging');
   await expect(select).toHaveAttribute('aria-expanded', 'false');
 });
+
+test('feedback demos reveal content on demand and honor reduced motion', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/#/alert');
+  const alert = page.getByRole('alert');
+  await expect(alert).toHaveCount(0);
+  await page.getByRole('button', { name: 'Show alert' }).click();
+  await expect(alert).toContainText('Recording stopped');
+  await expect(alert).toHaveCSS('animation-name', 'none');
+  await page.getByRole('button', { name: 'Hide alert' }).click();
+  await expect(alert).toHaveCount(0);
+  await page.goto('/#/toast');
+  const trigger = page.getByRole('button', { name: 'Show toast' });
+  await expect(page.getByText('Project saved', { exact: true })).toHaveCount(0);
+  await trigger.click();
+  await expect(page.locator('.om-toast [role=status]')).toContainText(
+    'Project saved',
+  );
+  await expect(page.locator('.om-toast')).toHaveCSS('animation-name', 'none');
+  await page.getByRole('button', { name: 'Dismiss notification' }).click();
+  await expect(trigger).toBeFocused();
+  await expect(page.locator('.om-toast')).toHaveCount(0);
+});
+
+test('breadcrumb preview updates its local location without routing', async ({
+  page,
+}) => {
+  await page.goto('/#/breadcrumbs');
+  const sample = page.getByRole('navigation', { name: 'Example breadcrumb' });
+  const overview = sample.getByRole('button', { name: 'Overview' });
+  await overview.click();
+  await expect(overview).toHaveAttribute('aria-current', 'page');
+  await expect(overview).toBeFocused();
+  await expect(page).toHaveURL(/#\/breadcrumbs$/);
+});
+
+test('language switch translates docs and persists across reloads', async ({
+  page,
+}) => {
+  await page.goto('/#/colors');
+  const language = page.locator('.locale-select');
+  for (const [locale, heading, palette] of [
+    ['ko', '색상', '모노크롬 팔레트'],
+    ['ja', 'カラー', 'モノクロパレット'],
+    ['zh-CN', '颜色', '单色调色板'],
+    ['en', 'Colors', 'Monochrome palette'],
+  ]) {
+    await language.selectOption(locale);
+    await expect(page.locator('html')).toHaveAttribute('lang', locale);
+    await expect(page.locator('#page-title')).toHaveText(heading);
+    await expect(page.getByRole('heading', { name: palette })).toBeVisible();
+    await page.reload();
+    await expect(language).toHaveValue(locale);
+  }
+});

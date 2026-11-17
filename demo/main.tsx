@@ -1,4 +1,11 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import {
+  languages,
+  LocaleProvider,
+  readLocale,
+  useLocale,
+  type Locale,
+} from './locale';
 import { createRoot } from 'react-dom/client';
 import { pages, componentIds, type PageId, type ComponentId } from './content';
 import { Arrow, Example, ComponentPage } from './examples';
@@ -7,6 +14,7 @@ import '@oddmash/ui/styles.css';
 import './fonts.scss';
 import './style.scss';
 import './interaction-lab.scss';
+import './brand.scss';
 import InteractionLab from './interaction-lab';
 import { TimelineFilters } from './timeline-filters';
 import { npmPackageUrl, repositoryUrl } from './package-links';
@@ -24,93 +32,101 @@ const readTheme = (): 'light' | 'dark' => {
     return 'light';
   }
 };
-const Overview = () => (
-  <>
-    <section className="overview-intro">
-      <div>
-        <h1 tabIndex={-1} id="page-title">
-          Small tools.
-          <br />
-          Better flow.
-        </h1>
-        <p>
-          React components and design tokens for Oddmash developer tools. Try
-          the Interaction Lab to see how they work together.
-        </p>
-        <div className="overview-actions">
-          <a className="solid-link" href="#/installation">
-            Getting started <span aria-hidden="true">→</span>
-          </a>
-          <a className="text-link" href="#/button">
-            Browse components <Arrow />
-          </a>
-        </div>
-      </div>
-      <InteractionLab />
-    </section>
-    <section className="overview-section component-collection">
-      <div className="overview-section-heading">
+const Overview = () => {
+  const { t } = useLocale();
+  return (
+    <>
+      <section className="overview-intro">
+        <span className="brand-ribbon" aria-hidden="true" />
         <div>
-          <h2>Components</h2>
+          <h1 tabIndex={-1} id="page-title">
+            {t('Small tools.')}
+            <br />
+            <span>{t('Better flow.')}</span>
+          </h1>
+          <p>
+            {t(
+              'React components and design tokens for Oddmash developer tools.',
+            )}
+          </p>
+          <div className="overview-actions">
+            <a className="solid-link" href="#/installation">
+              {t('Getting started')} <span aria-hidden="true">→</span>
+            </a>
+            <a className="text-link" href="#/button">
+              {t('Browse components')} <Arrow />
+            </a>
+          </div>
         </div>
-      </div>
-      {navigationGroups.map((group) => {
-        const items = pages.filter(
-          (page) =>
-            page.group === group &&
-            componentIds.includes(page.id as ComponentId),
-        );
-        if (!items.length) return null;
-        return (
-          <section className="gallery-section" key={group}>
-            <h3>{group === 'Components' ? 'Core components' : group}</h3>
-            <div className="component-grid">
-              {items.map(({ id, title }) => (
-                <article className={`component-tile tile-${id}`} key={id}>
-                  <div className="tile-preview">
-                    <Example id={id as ComponentId} />
-                  </div>
-                  <a href={`#/${id}`} className="tile-link">
-                    <span>{title}</span>
-                    <Arrow />
-                  </a>
-                </article>
-              ))}
-            </div>
-          </section>
-        );
-      })}
-    </section>
-    <section className="overview-section overview-foundations">
-      <div className="overview-section-heading">
-        <div>
-          <h2>Foundations</h2>
-          <p>Shared color, type, spacing, motion, and theme behavior.</p>
+        <InteractionLab />
+      </section>
+      <section className="overview-section component-collection">
+        <div className="overview-section-heading">
+          <div>
+            <h2>{t('Components')}</h2>
+          </div>
         </div>
-      </div>
-      <div className="foundation-links">
-        {[
-          ['colors', 'Colors', 'Semantic roles for light and dark themes.'],
-          [
-            'typography',
-            'Typography',
-            'Geist Sans for interfaces and Geist Mono for technical values.',
-          ],
-          ['tokens', 'Tokens', 'DTCG JSON compiled to CSS and TypeScript.'],
-        ].map(([id, title, description]) => (
-          <a key={id} href={`#/${id}`}>
-            <span>
-              <strong>{title}</strong>
-              <small>{description}</small>
-            </span>
-            <Arrow />
-          </a>
-        ))}
-      </div>
-    </section>
-  </>
-);
-const App = () => {
+        {navigationGroups.map((group) => {
+          const items = pages.filter(
+            (page) =>
+              page.group === group &&
+              componentIds.includes(page.id as ComponentId),
+          );
+          if (!items.length) return null;
+          return (
+            <section className="gallery-section" key={group}>
+              <h3>{t(group === 'Components' ? 'Core components' : group)}</h3>
+              <div className="component-grid">
+                {items.map(({ id, title }) => (
+                  <article className={`component-tile tile-${id}`} key={id}>
+                    <div className="tile-preview">
+                      <Example id={id as ComponentId} />
+                    </div>
+                    <a href={`#/${id}`} className="tile-link">
+                      <span>{t(title)}</span>
+                      <Arrow />
+                    </a>
+                  </article>
+                ))}
+              </div>
+            </section>
+          );
+        })}
+      </section>
+      <section className="overview-section overview-foundations">
+        <div className="overview-section-heading">
+          <div>
+            <h2>{t('Foundations')}</h2>
+            <p>
+              {t('Shared color, type, spacing, motion, and theme behavior.')}
+            </p>
+          </div>
+        </div>
+        <div className="foundation-links">
+          {[
+            ['colors', 'Colors', 'Semantic roles for light and dark themes.'],
+            [
+              'typography',
+              'Typography',
+              'Geist Sans for interfaces and Geist Mono for technical values.',
+            ],
+            ['tokens', 'Tokens', 'DTCG JSON compiled to CSS and TypeScript.'],
+          ].map(([id, title, description]) => (
+            <a key={id} href={`#/${id}`}>
+              <span>
+                <strong>{t(title)}</strong>
+                <small>{t(description)}</small>
+              </span>
+              <Arrow />
+            </a>
+          ))}
+        </div>
+      </section>
+    </>
+  );
+};
+const App = ({ onLocale }: { onLocale: (locale: Locale) => void }) => {
+  const { locale, t } = useLocale();
   const [page, setPage] = useState<PageId>(readPage);
   const [theme, setTheme] = useState<'light' | 'dark'>(readTheme);
   const [query, setQuery] = useState('');
@@ -166,10 +182,12 @@ const App = () => {
   }, []);
   const current = pages.find((item) => item.id === page)!;
   useEffect(() => {
-    document.title = `${current.title} | Oddmash UI`;
-  }, [current.title]);
+    document.title = `${t(current.title)} | Oddmash UI`;
+  }, [current.title, t]);
   const filtered = pages.filter((item) =>
-    `${item.title} ${item.group}`.toLowerCase().includes(query.toLowerCase()),
+    `${t(item.title)} ${t(item.group)} ${item.title} ${item.group}`
+      .toLowerCase()
+      .includes(query.toLowerCase()),
   );
   const component = componentIds.includes(page as ComponentId);
   return (
@@ -182,22 +200,26 @@ const App = () => {
           main.current?.focus();
         }}
       >
-        Skip to content
+        {t('Skip to content')}
       </a>
       <header className="site-header">
-        <a className="wordmark" href="#/overview" aria-label="Oddmash UI home">
+        <a
+          className="wordmark"
+          href="#/overview"
+          aria-label={t('Oddmash UI home')}
+        >
           <img className="brand-logo" src="./oddmash-logo.png" alt="" />
           <strong>Oddmash UI</strong>
         </a>
         <div className="search-box">
           <span aria-hidden="true">⌕</span>
           <label className="sr-only" htmlFor="nav-search">
-            Search documentation
+            {t('Search documentation')}
           </label>
           <input
             id="nav-search"
             ref={search}
-            placeholder="Search docs…"
+            placeholder={t('Search docs…')}
             aria-controls="docs-sidebar"
             onFocus={() => setMenu(true)}
             value={query}
@@ -218,9 +240,25 @@ const App = () => {
               GitHub <Arrow />
             </a>
           </div>
+          <select
+            className="locale-select"
+            aria-label={t('Language')}
+            value={locale}
+            onChange={(event) => onLocale(event.target.value as Locale)}
+          >
+            {Object.entries(languages).map(([id, label]) => (
+              <option key={id} value={id} lang={id}>
+                {label}
+              </option>
+            ))}
+          </select>
           <button
             className="icon-button theme-button"
-            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+            aria-label={t(
+              theme === 'light'
+                ? 'Switch to dark theme'
+                : 'Switch to light theme',
+            )}
             onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
           >
             <span aria-hidden="true">{theme === 'light' ? '◐' : '☼'}</span>
@@ -231,7 +269,7 @@ const App = () => {
             aria-expanded={menu}
             aria-controls="docs-sidebar"
             onClick={() => setMenu((open) => !open)}
-            aria-label="Toggle navigation"
+            aria-label={t('Toggle navigation')}
           >
             ☰
           </button>
@@ -242,12 +280,12 @@ const App = () => {
         id="docs-sidebar"
         className={`sidebar ${menu ? 'is-open' : ''}`}
       >
-        <nav aria-label="Documentation">
+        <nav aria-label={t('Documentation')}>
           {navigationGroups.map(
             (group) =>
               filtered.some((item) => item.group === group) && (
                 <div className="nav-group" key={group}>
-                  <h2>{group}</h2>
+                  <h2>{t(group)}</h2>
                   {filtered
                     .filter((item) => item.group === group)
                     .map((item) => (
@@ -262,7 +300,7 @@ const App = () => {
                           main.current?.querySelector('h1')?.focus();
                         }}
                       >
-                        <span>{item.title}</span>
+                        <span>{t(item.title)}</span>
                       </a>
                     ))}
                 </div>
@@ -270,7 +308,7 @@ const App = () => {
           )}
           {!filtered.length && (
             <p className="nav-empty" role="status">
-              No pages found.
+              {t('No pages found.')}
             </p>
           )}
         </nav>
@@ -284,72 +322,93 @@ const App = () => {
         }
       >
         <div className="breadcrumb">
-          <span>{current.group}</span>
+          <span>{t(current.group)}</span>
           <span aria-hidden="true">/</span>
-          <strong>{current.title}</strong>
+          <strong>{t(current.title)}</strong>
         </div>
-        {page === 'overview' ? (
-          <Overview />
-        ) : (
-          <>
-            <header className="page-heading">
-              <h1 id="page-title" tabIndex={-1}>
-                {current.title}
-              </h1>
-              <p>{current.description}</p>
-            </header>
-            {component ? (
-              <ComponentPage key={page} id={page as ComponentId} />
-            ) : page === 'colors' ? (
-              <Colors theme={theme} />
-            ) : page === 'typography' ? (
-              <Typography />
-            ) : page === 'tokens' ? (
-              <TokenExplorer />
-            ) : page === 'timeline-filters' ? (
-              <TimelineFilters />
-            ) : page === 'interaction-pattern' ? (
-              <div className="pattern-content">
-                <InteractionLab />
-                <section>
-                  <h2>Use the pattern</h2>
-                  <p>
-                    Pair a keyboard-operable form with a separate, bounded event
-                    history. Keep the event list in chronological order and keep
-                    focus on the control the user is operating.
-                  </p>
-                  <p>
-                    Use a status message for a completed action. Keep routine
-                    focus and key events out of live regions so they do not
-                    interrupt screen reader announcements.
-                  </p>
-                  <p>
-                    <a className="text-link" href="#/input">
-                      Input <Arrow />
-                    </a>
-                    {' · '}
-                    <a className="text-link" href="#/tabs">
-                      Tabs <Arrow />
-                    </a>
-                  </p>
-                </section>
-              </div>
-            ) : (
-              <Installation />
-            )}
-          </>
-        )}
+        <div key={page} className="route-content">
+          {page === 'overview' ? (
+            <Overview />
+          ) : (
+            <>
+              <header className="page-heading">
+                <h1 id="page-title" tabIndex={-1}>
+                  {t(current.title)}
+                </h1>
+                <p>{t(current.description)}</p>
+              </header>
+              {component ? (
+                <ComponentPage key={page} id={page as ComponentId} />
+              ) : page === 'colors' ? (
+                <Colors theme={theme} />
+              ) : page === 'typography' ? (
+                <Typography />
+              ) : page === 'tokens' ? (
+                <TokenExplorer />
+              ) : page === 'timeline-filters' ? (
+                <TimelineFilters />
+              ) : page === 'interaction-pattern' ? (
+                <div className="pattern-content">
+                  <InteractionLab />
+                  <section>
+                    <h2>{t('Use the pattern')}</h2>
+                    <p>
+                      {t(
+                        'Pair a keyboard-operable form with a separate, bounded event history. Keep the event list in chronological order and keep focus on the control the user is operating.',
+                      )}
+                    </p>
+                    <p>
+                      {t(
+                        'Use a status message for a completed action. Keep routine focus and key events out of live regions so they do not interrupt screen reader announcements.',
+                      )}
+                    </p>
+                    <p>
+                      <a className="text-link" href="#/input">
+                        Input <Arrow />
+                      </a>
+                      {' · '}
+                      <a className="text-link" href="#/tabs">
+                        Tabs <Arrow />
+                      </a>
+                    </p>
+                  </section>
+                </div>
+              ) : (
+                <Installation />
+              )}
+            </>
+          )}
+        </div>
         <footer className="site-footer">
           <span>
             <img className="footer-logo" src="./oddmash-logo.png" alt="" />
             Oddmash UI <span className="muted">· v0.2</span>
           </span>
           <a href="https://github.com/Oddmash/oddmash-ui/blob/main/CONTRIBUTING.md">
-            Contribute to the system <Arrow />
+            {t('Contribute to the system')} <Arrow />
           </a>
         </footer>
       </main>
     </div>
   );
 };
-createRoot(document.getElementById('root')!).render(<App />);
+const Root = () => {
+  const [locale, setLocale] = useState<Locale>(readLocale);
+
+  useLayoutEffect(() => {
+    document.documentElement.lang = locale;
+    try {
+      localStorage.setItem('om-docs-locale', locale);
+    } catch {
+      return;
+    }
+  }, [locale]);
+
+  return (
+    <LocaleProvider locale={locale}>
+      <App onLocale={setLocale} />
+    </LocaleProvider>
+  );
+};
+
+createRoot(document.getElementById('root')!).render(<Root />);
