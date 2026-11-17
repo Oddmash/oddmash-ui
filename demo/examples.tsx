@@ -160,7 +160,7 @@ export const Example = ({ id }: { id: ComponentId }) => {
             Active
           </Badge>
           <Badge>Draft</Badge>
-          <Badge>v0.1.0</Badge>
+          <Badge>v0.2.0</Badge>
         </div>
         <p className="muted">A little context. No extra noise.</p>
       </div>

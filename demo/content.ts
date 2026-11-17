@@ -168,7 +168,7 @@ export const details: Record<
       ['className', 'string', 'None'],
       ['ref', 'HTMLSpanElement', 'None'],
     ],
-    code: `<Badge>Draft</Badge>\n<Badge tone="accent">Active</Badge>\n<Badge>v0.1.0</Badge>`,
+    code: `<Badge>Draft</Badge>\n<Badge tone="accent">Active</Badge>\n<Badge>v0.2.0</Badge>`,
   },
   tabs: {
     usage:

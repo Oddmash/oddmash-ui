@@ -28,6 +28,6 @@ Interaction Inspector のように、明確な操作と信頼できる挙動が�
 
 ## 現在の範囲
 
-Oddmash UI は 1.0 前の段階で開発中です。GitHub のソースとドキュメントでは 23 種類、npm のバージョン 0.1.0 では基本の 6 種類のコンポーネントファミリーを提供しています。
+Oddmash UI は 1.0 前の段階で開発中です。npm のバージョン 0.2.0 とオンラインドキュメントで、23 種類のコンポーネントファミリーを提供しています。
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [コントリビューターガイド](../../CONTRIBUTING.md) · [MIT License](../../LICENSE)

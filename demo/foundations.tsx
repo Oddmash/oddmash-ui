@@ -275,8 +275,7 @@ export const Installation = () => (
       <p>
         <strong>Package and source</strong>
         <br />
-        npm v0.1.0 includes Button, Input, Card, Badge, Tabs, and Dialog. Build
-        from GitHub to use the full catalog shown in these docs.
+        npm v0.2.0 includes all 23 component families shown in these docs.
       </p>
     </div>
     <section className="doc-section">
@@ -288,7 +287,7 @@ export const Installation = () => (
         </a>
         .
       </p>
-      <Code label="npm install">{`npm install @oddmash/ui@0.1.0`}</Code>
+      <Code label="npm install">{`npm install @oddmash/ui@0.2.0`}</Code>
     </section>
     <section className="doc-section">
       <h2>Build from GitHub</h2>
@@ -306,7 +305,7 @@ npm ci
 npm pack
 
 # In your React project:
-npm install /path/to/oddmash-ui-0.1.0.tgz`}</Code>
+npm install /path/to/oddmash-ui-0.2.0.tgz`}</Code>
     </section>
     <section className="doc-section">
       <h2>Make something small</h2>
