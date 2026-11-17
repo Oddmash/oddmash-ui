@@ -1,3 +1,4 @@
+import { useLocale } from './locale';
 import { useState, type ReactNode } from 'react';
 import {
   Button,
@@ -17,7 +18,7 @@ import {
   type ButtonProps,
 } from '@oddmash/ui';
 import { details, type ComponentId } from './content';
-import { componentPreviews } from './component-previews';
+import { getComponentPreviews } from './component-previews';
 import type { ExtendedComponentId } from './component-catalog';
 
 export const Arrow = () => <span aria-hidden="true">↗</span>;
@@ -36,6 +37,7 @@ export const Code = ({
   children: string;
   label?: string;
 }) => {
+  const { t } = useLocale();
   const [status, setStatus] = useState('');
   const copy = async () => {
     try {
@@ -49,13 +51,13 @@ export const Code = ({
     <div className="code-block">
       <div className="code-toolbar">
         <span>{label}</span>
-        <button onClick={copy}>Copy code</button>
+        <button onClick={copy}>{t('Copy code')}</button>
       </div>
-      <pre tabIndex={0} role="region" aria-label={`${label} code`}>
+      <pre tabIndex={0} role="region" aria-label={`${label} ${t('code')}`}>
         <code>{children}</code>
       </pre>
       <span className="copy-status" role="status">
-        {status}
+        {t(status)}
       </span>
     </div>
   );
@@ -68,6 +70,8 @@ export const Preview = ({
   className?: string;
 }) => <div className={`preview ${className}`}>{children}</div>;
 export const Example = ({ id }: { id: ComponentId }) => {
+  const { t } = useLocale();
+  const componentPreviews = getComponentPreviews(t);
   const [notice, setNotice] = useState('');
   const [name, setName] = useState('Interaction Inspector');
   const [open, setOpen] = useState(false);
@@ -82,38 +86,38 @@ export const Example = ({ id }: { id: ComponentId }) => {
     return (
       <div className="example-stack">
         <div className="button-row">
-          <Button onClick={() => setNotice('Primary action triggered')}>
-            Create project <Arrow />
+          <Button onClick={() => setNotice(t('Primary action triggered'))}>
+            {t('Create project')} <Arrow />
           </Button>
           <Button
             variant="secondary"
-            onClick={() => setNotice('Secondary action triggered')}
+            onClick={() => setNotice(t('Secondary action triggered'))}
           >
-            Cancel
+            {t('Cancel')}
           </Button>
           <Button
             variant="ghost"
-            onClick={() => setNotice('Ghost action triggered')}
+            onClick={() => setNotice(t('Ghost action triggered'))}
           >
-            Learn more
+            {t('Learn more')}
           </Button>
         </div>
         <span className="example-feedback" role="status">
-          {notice}
+          {t(notice)}
         </span>
       </div>
     );
   if (id === 'input')
     return (
       <div className="field-example">
-        <label htmlFor="example-project">Project name</label>
+        <label htmlFor="example-project">{t('Project name')}</label>
         <Input
           id="example-project"
-          placeholder="Your next idea"
+          placeholder={t('Your next idea')}
           aria-describedby="project-hint"
         />
-        <p id="project-hint">Use a short, memorable name.</p>
-        <label htmlFor="example-error">Repository URL</label>
+        <p id="project-hint">{t('Use a short, memorable name.')}</p>
+        <label htmlFor="example-error">{t('Repository URL')}</label>
         <Input
           id="example-error"
           defaultValue="not-a-url"
@@ -121,7 +125,7 @@ export const Example = ({ id }: { id: ComponentId }) => {
           aria-describedby="repo-error"
         />
         <p id="repo-error" className="error-text">
-          Enter a valid repository URL.
+          {t('Enter a valid repository URL.')}
         </p>
       </div>
     );
@@ -132,22 +136,22 @@ export const Example = ({ id }: { id: ComponentId }) => {
           <span className="project-icon" aria-hidden="true">
             ⌘
           </span>
-          <Badge tone="accent">Active</Badge>
+          <Badge tone="accent">{t('Active')}</Badge>
         </div>
         <h3>Interaction Inspector</h3>
-        <p>A clearer view of every interaction.</p>
+        <p>{t('A clearer view of every interaction.')}</p>
         <div className="project-card-bottom">
-          <span>Updated just now</span>
+          <span>{t('Updated just now')}</span>
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => setNotice('This is a local preview project.')}
+            onClick={() => setNotice(t('This is a local preview project.'))}
           >
-            Open project <Arrow />
+            {t('Open project')} <Arrow />
           </Button>
         </div>
         <span role="status" className="example-feedback">
-          {notice}
+          {t(notice)}
         </span>
       </Card>
     );
@@ -157,36 +161,36 @@ export const Example = ({ id }: { id: ComponentId }) => {
         <div className="button-row">
           <Badge tone="accent">
             <span className="status-dot" />
-            Active
+            {t('Active')}
           </Badge>
-          <Badge>Draft</Badge>
+          <Badge>{t('Draft')}</Badge>
           <Badge>v0.2.0</Badge>
         </div>
-        <p className="muted">A little context. No extra noise.</p>
+        <p className="muted">{t('A little context. No extra noise.')}</p>
       </div>
     );
   if (id === 'tabs')
     return (
       <Tabs defaultValue="activity" className="tabs-example">
-        <TabsList aria-label="Project views">
-          <TabsTrigger value="activity">Activity</TabsTrigger>
-          <TabsTrigger value="settings">Settings</TabsTrigger>
+        <TabsList aria-label={t('Project views')}>
+          <TabsTrigger value="activity">{t('Activity')}</TabsTrigger>
+          <TabsTrigger value="settings">{t('Settings')}</TabsTrigger>
           <TabsTrigger value="members" disabled>
-            Members
+            {t('Members')}
           </TabsTrigger>
         </TabsList>
         <TabsContent value="activity">
           <div className="activity-item">
             <span className="status-dot" />
             <div>
-              <strong>Project created</strong>
-              <p>Ready for your next idea.</p>
+              <strong>{t('Project created')}</strong>
+              <p>{t('Ready for your next idea.')}</p>
             </div>
-            <span>Just now</span>
+            <span>{t('Just now')}</span>
           </div>
         </TabsContent>
         <TabsContent value="settings">
-          <label htmlFor="tab-project">Project name</label>
+          <label htmlFor="tab-project">{t('Project name')}</label>
           <Input id="tab-project" defaultValue="Interaction Inspector" />
         </TabsContent>
       </Tabs>
@@ -196,24 +200,23 @@ export const Example = ({ id }: { id: ComponentId }) => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button variant="secondary">
-            Edit project <Arrow />
+            {t('Edit project')} <Arrow />
           </Button>
         </DialogTrigger>
         <DialogContent className="docs-dialog">
-          <div className="dialog-eyebrow">PROJECT / SETTINGS</div>
-          <DialogTitle>Make it yours.</DialogTitle>
+          <DialogTitle>{t('Project settings')}</DialogTitle>
           <DialogDescription>
-            A good name is a good place to start.
+            {t('Give your project a name.')}
           </DialogDescription>
           <form
             onSubmit={(event) => {
               event.preventDefault();
               if (!name.trim()) return;
-              setNotice(`Saved: ${name.trim()}`);
+              setNotice(`${t('Saved')}: ${name.trim()}`);
               setOpen(false);
             }}
           >
-            <label htmlFor="dialog-name">Project name</label>
+            <label htmlFor="dialog-name">{t('Project name')}</label>
             <Input
               id="dialog-name"
               value={name}
@@ -222,20 +225,21 @@ export const Example = ({ id }: { id: ComponentId }) => {
             />
             <div className="dialog-actions">
               <DialogClose asChild>
-                <Button variant="secondary">Cancel</Button>
+                <Button variant="secondary">{t('Cancel')}</Button>
               </DialogClose>
-              <Button type="submit">Save changes</Button>
+              <Button type="submit">{t('Save changes')}</Button>
             </div>
           </form>
         </DialogContent>
       </Dialog>
       <span className="example-feedback" role="status">
-        {notice}
+        {t(notice)}
       </span>
     </div>
   );
 };
 export const ComponentPage = ({ id }: { id: ComponentId }) => {
+  const { t } = useLocale();
   const [variant, setVariant] =
     useState<NonNullable<ButtonProps['variant']>>('primary');
   const [size, setSize] = useState<NonNullable<ButtonProps['size']>>('md');
@@ -258,8 +262,7 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
     <>
       <section className="doc-section" aria-labelledby="playground-heading">
         <div className="section-title">
-          <h2 id="playground-heading">Playground</h2>
-          <span className="section-caption">REAL COMPONENTS. LIVE PROPS.</span>
+          <h2 id="playground-heading">{t('Playground')}</h2>
         </div>
         <div className="playground">
           <div className="playground-toolbar">
@@ -268,18 +271,18 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
                 aria-pressed={view === 'preview'}
                 onClick={() => setView('preview')}
               >
-                Preview
+                {t('Preview')}
               </button>
               <button
                 aria-pressed={view === 'code'}
                 onClick={() => setView('code')}
               >
-                Code
+                {t('Code')}
               </button>
             </div>
             <span className="live-label">
               <span className="status-dot" />
-              Interactive
+              {t('Interactive')}
             </span>
           </div>
           {view === 'preview' ? (
@@ -290,12 +293,12 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
                     variant={variant}
                     size={size}
                     disabled={disabled}
-                    onClick={() => setNotice('Project action triggered')}
+                    onClick={() => setNotice(t('Project action triggered'))}
                   >
-                    Create project <Arrow />
+                    {t('Create project')} <Arrow />
                   </Button>
                   <span role="status" className="example-feedback">
-                    {notice}
+                    {t(notice)}
                   </span>
                 </div>
               ) : (
@@ -308,9 +311,9 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
           {id === 'button' && (
             <div className="playground-controls">
               <label>
-                Variant
+                {t('Variant')}
                 <select
-                  aria-label="Variant"
+                  aria-label={t('Variant')}
                   value={variant}
                   onChange={(event) =>
                     setVariant(event.target.value as typeof variant)
@@ -322,9 +325,9 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
                 </select>
               </label>
               <label>
-                Size
+                {t('Size')}
                 <select
-                  aria-label="Size"
+                  aria-label={t('Size')}
                   value={size}
                   onChange={(event) =>
                     setSize(event.target.value as typeof size)
@@ -340,19 +343,19 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
                   checked={disabled}
                   onChange={(event) => setDisabled(event.target.checked)}
                 />
-                Disabled
+                {t('Disabled')}
               </label>
             </div>
           )}
         </div>
       </section>
       <section className="doc-section" id="usage">
-        <h2>Usage</h2>
-        <p className="body-copy">{info.usage}</p>
+        <h2>{t('Usage')}</h2>
+        <p className="body-copy">{t(info.usage)}</p>
         <Code>{`import { ${exports} } from '@oddmash/ui';\nimport '@oddmash/ui/styles.css';\n\n${code}`}</Code>
       </section>
       <section className="doc-section" id="api">
-        <h2>API reference</h2>
+        <h2>{t('API reference')}</h2>
         <p className="body-copy">
           {id === 'dialog'
             ? 'Dialog controls state. Put native attributes, className, style, and refs on DialogContent or the other rendered parts.'
@@ -362,14 +365,14 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
           className="table-scroll"
           tabIndex={0}
           role="region"
-          aria-label="API reference table"
+          aria-label={t('API reference table')}
         >
           <table>
             <thead>
               <tr>
-                <th>Prop</th>
-                <th>Type</th>
-                <th>Default</th>
+                <th>{t('Prop')}</th>
+                <th>{t('Type')}</th>
+                <th>{t('Default')}</th>
               </tr>
             </thead>
             <tbody>
@@ -391,8 +394,8 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
       <section className="accessibility-note" id="accessibility">
         <span aria-hidden="true">◎</span>
         <div>
-          <h2>Built for everyone</h2>
-          <p>{info.accessibility}</p>
+          <h2>{t('Built for everyone')}</h2>
+          <p>{t(info.accessibility)}</p>
         </div>
       </section>
     </>

@@ -28,6 +28,6 @@ Oddmash UI is for focused tools such as Interaction Inspector: products that nee
 
 ## Current scope
 
-Oddmash UI is under active pre-1.0 development. Version 0.2.0 provides 23 component families through npm and the live documentation.
+Oddmash UI is under active pre-1.0 development. The documentation previews 24 component families. npm version 0.2.0 includes 23, with Toast available from the GitHub source.
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [Contributor guide](CONTRIBUTING.md) · [MIT License](LICENSE)

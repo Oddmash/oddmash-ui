@@ -78,3 +78,9 @@ Register the GitHub Actions trusted publisher on the npm settings page for `@odd
 Update the version in `package.json` and the lockfile, merge to `main`, then publish a GitHub Release whose tag is `v` followed by the package version. The workflow validates and packages the tagged commit, then publishes the archive to npm through OIDC. Draft releases and prereleases do not publish a package.
 
 If a publish fails, use **Run workflow** on `main` and enter the existing published release tag.
+
+## Brand and localized documentation
+
+Oddmash UI takes its visual cues from the folded ribbon in the Oddmash mark. Paired diagonals define the brand surface, adjoining panels create depth, and high-contrast text keeps tools readable. Blue and red identify focus and errors. Motion is short and follows reduced-motion preferences.
+
+English is the source copy for the docs. Keep Korean, Japanese, and Simplified Chinese entries in `demo/translations.ts` in sync with the source. Translate headings, instructions, and accessible names. Keep component names, prop names, and copyable code in their original form.

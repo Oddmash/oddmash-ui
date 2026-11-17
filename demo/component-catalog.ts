@@ -93,8 +93,61 @@ export const extendedComponents = {
     accessibility:
       'Include text that describes the state. Use role="alert" for urgent messages added dynamically.',
     props: [['tone', 'neutral | danger', 'neutral']],
-    exports: 'Alert',
-    code: '<Alert tone="danger">\n  <strong>Recording stopped</strong>\n  <div>Reconnect the inspector to continue capturing events.</div>\n</Alert>',
+    exports: 'Alert, Button',
+    code: `import { useState } from 'react';
+
+export const RecordingNotice = () => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <>
+      <Button aria-expanded={visible} onClick={() => setVisible(!visible)}>
+        {visible ? 'Hide alert' : 'Show alert'}
+      </Button>
+      {visible && (
+        <Alert tone="danger" role="alert">
+          <strong>Recording stopped</strong>
+          <div>Reconnect the inspector to continue capturing events.</div>
+        </Alert>
+      )}
+    </>
+  );
+};`,
+  },
+  toast: {
+    title: 'Toast',
+    group: 'Feedback',
+    description: 'Confirm a completed action in a dismissible notification.',
+    usage:
+      'Mount Toast before the action runs and control its open state. Give each notification a short title.',
+    accessibility:
+      'Use neutral for confirmations and danger for urgent errors. Keep the dismiss button available and restore focus when it is used.',
+    props: [
+      ['open', 'boolean', 'Required'],
+      ['title', 'string', 'Required'],
+      ['onDismiss', '() => void', 'Required'],
+      ['dismissLabel', 'string', 'Dismiss notification'],
+      ['tone', 'neutral | danger', 'neutral'],
+    ],
+    exports: 'Button, Toast',
+    code: `import { useRef, useState } from 'react';
+
+export const SaveNotice = () => {
+  const [open, setOpen] = useState(false);
+  const trigger = useRef<HTMLButtonElement>(null);
+
+  return (
+    <>
+      <Button ref={trigger} onClick={() => setOpen(true)}>Show toast</Button>
+      <Toast open={open} title="Project saved" onDismiss={() => {
+        setOpen(false);
+        trigger.current?.focus();
+      }}>
+        Your changes are ready.
+      </Toast>
+    </>
+  );
+};`,
   },
   progress: {
     title: 'Progress',
