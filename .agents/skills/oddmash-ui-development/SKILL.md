@@ -1,6 +1,6 @@
 ---
 name: oddmash-ui-development
-description: Evolve Oddmash UI tokens, React components, package exports, styles, documentation, or tests while preserving its generated-token pipeline, accessibility contracts, and supported consumer boundaries.
+description: Use for Oddmash UI brand changes, design tokens, React components, package exports, multilingual documentation, interactive demos, testing, and authorized npm releases.
 ---
 
 # Oddmash UI development
@@ -23,12 +23,22 @@ Use this workflow for substantive work in `Oddmash/oddmash-ui`. Treat the packag
 - After token edits, run `npm run tokens`, review the generated diff, and run `npm run tokens:check`.
 - Treat product-specific palettes and layout rules as consumer overrides rather than additions to the shared foundation unless more than one Oddmash product needs them.
 
+## Brand, demos, and languages
+
+- Use the existing Oddmash mark as the shape reference. Its folded ribbon appears as paired diagonals and adjoining surfaces in `demo/brand.scss`. Use Geist Sans for UI and Geist Mono for code and event values, with locale-appropriate fallback fonts.
+- Keep the palette neutral and limit state color to its semantic purpose. Apply brief opacity-free movement to content that must remain readable during a transition. Honor `prefers-reduced-motion` and keep focus indicators visible in both themes.
+- Use real exported components in the playground. Provide a trigger for Alert, Dialog, Toast, and loading examples. Keep Breadcrumbs previews within their own state and preserve keyboard focus. Provide a clear way to dismiss feedback.
+- Treat English as source copy. Update `demo/translations.ts` with Korean, Japanese, and Simplified Chinese for changed headings, descriptions, controls, error messages, and accessible labels. Keep API names, props, event names, and copyable code stable. Check the language choice survives reload and all four layouts fit at 320 px.
+- Keep preview code and the live example synchronized. For larger recipes, use the same example source for the preview and copyable code. When the public UI changes materially, keep the four READMEs linked to current light and dark captures.
+
 ## Components and exports
 
 - Preserve native element props, refs, `className`, and `style` behavior for wrapper components.
 - Keep Button's default `type="button"` behavior and retain keyboard, focus, disabled, reduced-motion, and forced-colors behavior.
 - For Tabs and Dialog, preserve the underlying Radix controlled and uncontrolled APIs, keyboard behavior, focus trapping, restoration, and explicit portal-container support.
-- Update `src/index.ts`, package exports, declarations, tests, examples, and documentation together when the public API changes.
+- Keep native Select available for browser-native validation, optgroups, and multi-select. Use SelectDropdown for a styled single choice. Check keyboard navigation, type-ahead, cancellation, disabled options, and focus.
+- Keep Toast controlled and render its live region before the message appears. Use polite status for confirmations and alert for urgent errors. Keep dismissal available and return focus in the caller when appropriate.
+- Update `src/index.ts`, `package.json` subpaths, `tsup.config.ts` entries, declarations, tests, examples, and documentation together when the public API changes.
 - Avoid adding a runtime dependency or component family solely for completeness. Explain the demonstrated consumer need and bundle impact.
 
 ## Verify proportionally
@@ -40,6 +50,12 @@ Use this workflow for substantive work in `Oddmash/oddmash-ui`. Treat the packag
 - Keep English, Korean, Japanese, and Simplified Chinese README claims aligned when shared behavior changes.
 
 If a required browser is not installed, report the missing prerequisite instead of claiming the browser suite passed. Do not weaken an accessibility assertion or disable a rule merely to make CI green.
+
+## Release via OIDC
+
+- For an authorized release, update the manifest, lockfile, installation examples, and localized version claims together. Run the full check and verify the packed archive in a fresh React consumer before publishing.
+- After CI passes, merge the release PR and publish the matching stable GitHub Release on a commit reachable from `main`. Use `publish-npm.yml` with the registered npm Trusted Publisher. For a failed publish, dispatch that workflow on `main` with the existing published tag.
+- Confirm success in Actions and on the npm registry. Install the published version in a fresh project and check public imports and CSS. Distinguish npm release availability from GitHub source or Pages deployment when reporting status.
 
 ## Handoff
 

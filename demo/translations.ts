@@ -441,12 +441,11 @@ export const translations: Record<string, Translation> = {
       'tokens/primitive.json とテーマのトークンを編集します。src/generated は自動生成されます。DTCG の型、値、エイリアスを使います。',
       '编辑 tokens/primitive.json 和主题令牌。src/generated 由工具自动生成。使用 DTCG 类型、值和别名。',
     ],
-  'npm v0.2.0 includes 23 component families. Toast is available in the current source.':
-    [
-      'npm v0.2.0에는 23개 컴포넌트 계열이 포함됩니다. Toast는 GitHub 소스에서 사용할 수 있습니다.',
-      'npm v0.2.0 は 23 種類を提供します。Toast は現在の GitHub ソースで利用できます。',
-      'npm v0.2.0 包含 23 类组件。Toast 可通过当前 GitHub 源码使用。',
-    ],
+  'npm v0.3.0 includes all 24 component families, including Toast.': [
+    'npm v0.3.0에는 Toast를 포함한 24개 컴포넌트 계열이 모두 들어 있습니다.',
+    'npm v0.3.0 には Toast を含む 24 種類のコンポーネントが含まれます。',
+    'npm v0.3.0 包含全部 24 类组件，包括 Toast。',
+  ],
   'See published versions on': [
     '게시된 버전 확인:',
     '公開バージョンを確認:',
@@ -949,9 +948,4 @@ export const translations: Record<string, Translation> = {
       'ネイティブ属性、className、style、ref は内部 DOM 要素に渡されます。',
       '原生属性、className、style 和 ref 会传给底层 DOM 元素。',
     ],
-  'Toast is available from the GitHub source.': [
-    'Toast는 GitHub 소스에서 사용할 수 있습니다.',
-    'Toast は GitHub のソースから利用できます。',
-    'Toast 可通过 GitHub 源码使用。',
-  ],
 };
