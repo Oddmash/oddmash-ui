@@ -163,6 +163,13 @@ test('navigation, search, live props, code, tokens and mobile menu work', async 
   await page.reload();
   await expect(page.locator('#page-title')).toHaveText('Tokens');
   await page.setViewportSize({ width: 375, height: 812 });
+  await expect(navigation).toBeHidden();
+  await page
+    .getByRole('textbox', { name: 'Search documentation' })
+    .fill('dialog');
+  await expect(navigation.getByRole('link')).toHaveCount(1);
+  await page.keyboard.press('Escape');
+  await expect(navigation).toBeHidden();
   await page.getByRole('button', { name: 'Toggle navigation' }).click();
   await navigation.getByRole('link', { name: 'Dialog', exact: true }).click();
   await expect(navigation).toBeHidden();
@@ -216,6 +223,7 @@ test('interaction lab captures keyboard events and keeps a bounded history', asy
   await page.keyboard.press('Tab');
   const submit = page.getByRole('button', { name: 'Save project' });
   await expect(submit).toBeFocused();
+  await expect(submit).toHaveCSS('outline-color', 'rgb(36, 89, 211)');
   await page.keyboard.press('Enter');
   await expect(page.getByRole('status')).toHaveText('Saved A new tool');
   const history = page.getByRole('list', { name: 'Recent interactions' });

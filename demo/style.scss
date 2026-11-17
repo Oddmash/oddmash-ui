@@ -76,10 +76,10 @@ h1:focus {
   top: 0;
   z-index: 20;
   background: var(--om-semantic-color-bg);
-  gap: 36px;
+  gap: 18px;
 }
 .wordmark {
-  width: 184px;
+  width: 198px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -115,24 +115,6 @@ h1:focus {
   height: 30px;
   display: block;
   border-radius: 7px;
-}
-.site-header nav {
-  display: flex;
-  height: 100%;
-  gap: 28px;
-  align-items: center;
-}
-.site-header nav a {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  border-bottom: 2px solid transparent;
-  font-size: 13px;
-  color: var(--om-semantic-color-muted);
-}
-.site-header nav a[aria-current] {
-  border-bottom-color: var(--om-semantic-color-text);
-  color: var(--om-semantic-color-text);
 }
 .header-actions {
   margin-left: auto;
@@ -183,7 +165,9 @@ h1:focus {
   border-radius: 6px;
   background: var(--om-semantic-color-surface);
   padding: 7px 9px;
-  margin-bottom: 30px;
+  width: min(320px, 100%);
+  margin: 0;
+  min-width: 0;
 }
 .search-box input {
   width: 100%;
@@ -192,7 +176,7 @@ h1:focus {
   outline-offset: 1px;
   background: transparent;
   color: inherit;
-  font-size: 11px;
+  font-size: 13px;
 }
 .search-box input::placeholder {
   color: var(--om-semantic-color-muted);
@@ -226,15 +210,10 @@ h1:focus {
   background: var(--om-semantic-color-surface);
 }
 .nav-group a[aria-current] {
-  color: var(--om-semantic-color-accent);
-  background: color-mix(
-    in srgb,
-    var(--om-semantic-color-accent) 8%,
-    transparent
-  );
-  font-weight: 550;
+  color: var(--om-semantic-color-on-action);
+  background: var(--om-semantic-color-action);
+  font-weight: 600;
 }
-.nav-dot,
 .status-dot {
   display: inline-block;
   width: 6px;
@@ -242,26 +221,6 @@ h1:focus {
   background: var(--om-semantic-color-accent);
   border-radius: 50%;
   flex-shrink: 0;
-}
-.sidebar-bottom {
-  margin-top: auto;
-  padding-top: 32px;
-  display: flex;
-  align-items: baseline;
-  gap: 9px;
-  font-size: 11px;
-}
-.sidebar-logo {
-  width: 22px;
-  height: 22px;
-  border-radius: 5px;
-  flex: 0 0 auto;
-}
-.sidebar-bottom a {
-  display: block;
-  color: var(--om-semantic-color-muted);
-  font-size: 10px;
-  margin-top: 3px;
 }
 .nav-empty {
   padding: 10px;
@@ -1493,9 +1452,8 @@ td code {
   }
   .wordmark {
     width: auto;
-    font-size: 20px;
+    font-size: 14px;
   }
-  .site-header nav,
   .github-link,
   .version-label {
     display: none;
@@ -1518,7 +1476,7 @@ td code {
   .sidebar.is-open {
     display: flex;
   }
-  .sidebar-bottom {
+  .search-box kbd {
     display: none;
   }
   .sidebar nav {
@@ -1643,7 +1601,21 @@ td code {
     padding-inline: 18px;
   }
   .site-header {
-    padding-inline: 18px;
+    padding-inline: 12px;
+    gap: 8px;
+  }
+  .site-header .brand-logo {
+    width: 24px;
+    height: 24px;
+  }
+  .wordmark {
+    gap: 5px;
+  }
+  .header-actions {
+    gap: 4px;
+  }
+  .search-box input {
+    font-size: 16px;
   }
   .component-grid {
     grid-template-columns: 1fr;
