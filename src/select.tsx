@@ -10,3 +10,9 @@ export const Select = /* @__PURE__ */ forwardRef<
   <select {...props} ref={ref} className={cx('om-select', className)} />
 ));
 Select.displayName = 'Select';
+
+export {
+  SelectDropdown,
+  type SelectDropdownOption,
+  type SelectDropdownProps,
+} from './select-dropdown';

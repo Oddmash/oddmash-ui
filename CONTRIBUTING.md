@@ -70,3 +70,9 @@ The initial Interaction Inspector integration was measured on a Chromium fixture
 CI checks React 18 and 19 with matching type packages. The browser suite covers the documentation pages in light and dark themes, 320 px layouts, axe scans, keyboard navigation, focus return, live props, copy behavior, token filtering, scoped themes, mobile navigation, dialog submission, reduced motion, and product overrides across Chromium, Firefox, and WebKit.
 
 Automated accessibility checks are not a WCAG certification or a substitute for manual assistive-technology testing. Publishing remains a separate owner-approved action; npm scope ownership and release permission must be confirmed before any release.
+
+## Publish a stable version
+
+Register the GitHub Actions trusted publisher on the npm settings page for `@oddmash/ui`. Enter organization `Oddmash`, repository `oddmash-ui`, and workflow filename `publish-npm.yml`. Allow direct publishing and leave the environment blank. This registration is required once for this workflow.
+
+Update the version in `package.json` and the lockfile, merge to `main`, then publish a GitHub Release whose tag is `v` followed by the package version. The workflow validates and packages the tagged commit, then publishes the archive to npm through OIDC. Draft releases and prereleases do not publish a package.

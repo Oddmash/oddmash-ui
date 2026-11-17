@@ -15,12 +15,29 @@ export const extendedComponents = {
     group: 'Forms',
     description: 'Choose from a compact list of options.',
     usage:
-      'Use a native select for short lists with familiar keyboard behavior.',
+      'Use SelectDropdown for a styled single choice. Use Select with native options for native validation, optgroups, or multiple selection.',
     accessibility:
-      'Provide a visible label and preserve the native keyboard behavior.',
-    props: [['defaultValue', 'string | string[]', 'None']],
-    exports: 'Select',
-    code: '<label>Environment\n  <Select defaultValue="staging">\n    <option value="staging">Staging</option>\n    <option value="production">Production</option>\n  </Select>\n</label>',
+      'Provide a visible label. Use arrow keys to move, type to search by label, Enter to select, and Escape to dismiss.',
+    props: [
+      ['options', 'readonly SelectDropdownOption[]', 'Required'],
+      ['value / defaultValue', 'string', 'None'],
+      ['onValueChange', '(value: string) => void', 'None'],
+      ['name', 'string', 'None'],
+    ],
+    exports: 'SelectDropdown',
+    code: `<div>
+  <label htmlFor="environment">Environment</label>
+  <SelectDropdown
+    id="environment"
+    name="environment"
+    defaultValue="staging"
+    options={[
+      { value: 'staging', label: 'Staging' },
+      { value: 'preview', label: 'Preview', disabled: true },
+      { value: 'production', label: 'Production' },
+    ]}
+  />
+</div>`,
   },
   checkbox: {
     title: 'Checkbox',
