@@ -315,9 +315,11 @@ export const Installation = () => {
           {t('Clone the')}{' '}
           <a className="text-link" href={repositoryUrl}>
             {t('GitHub repository')}
-          </a>{' '}
-          and build a local package with Node 24 or later. React 18.3.1 and
-          React 19 are supported peers.
+          </a>
+          {'. '}
+          {t(
+            'Build with Node 24 or later. React 18.3.1 and React 19 are supported peers.',
+          )}
         </p>
         <Code label="GitHub source">{`git clone ${repositoryUrl}.git
 cd oddmash-ui
