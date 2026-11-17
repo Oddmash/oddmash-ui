@@ -409,3 +409,16 @@ test('wide layouts center docs within the space beyond the sidebar', async ({
     }
   }
 });
+
+test('route navigation is static while components keep their motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/#/button');
+  const content = page.locator('.route-content');
+  await expect(content).toHaveCSS('animation-name', 'none');
+  await page.locator('#docs-sidebar').getByRole('link', { name: 'Select', exact: true }).click();
+  await expect(page).toHaveURL(/#\/select$/);
+  await expect(content).toHaveCSS('animation-name', 'none');
+  const select = page.getByRole('combobox', { name: 'Environment' });
+  await select.press('Enter');
+  await expect(page.getByRole('listbox')).toHaveCSS('animation-name', 'om-dropdown-reveal');
+});

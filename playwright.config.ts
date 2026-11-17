@@ -1,7 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests/browser',
-  use: { baseURL: 'http://127.0.0.1:4173' },
+  use: {
+    baseURL: 'http://127.0.0.1:4173',
+    trace: 'retain-on-failure',
+    screenshot: 'only-on-failure',
+  },
   webServer: {
     command:
       'npm run build:demo && npx vite preview --config demo/vite.config.ts --host 127.0.0.1 --port 4173',
