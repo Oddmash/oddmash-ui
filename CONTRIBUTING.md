@@ -2,7 +2,7 @@
 
 The product README explains what Oddmash UI is. Repository setup, local usage, architecture, and verification belong here.
 
-## Local documentation and Storybook
+## Local documentation
 
 Node.js 24 or later is required.
 
@@ -12,8 +12,6 @@ cd oddmash-ui
 npm ci
 npm run demo
 # http://localhost:5173
-npm run storybook
-# http://localhost:6006
 ```
 
 ## Use from another local project
@@ -36,7 +34,6 @@ src/
   button.tsx / input.tsx / card.tsx / badge.tsx
   tabs.tsx / dialog.tsx
   styles.scss
-.storybook/
 demo/
 tests/
 ```
@@ -56,8 +53,7 @@ Set `data-om-theme="light"` or `data-om-theme="dark"` on the document or a subtr
 | `npm test` | Run behavior, hydration, and token tests |
 | `npm run build` | Build ESM, declarations, and CSS |
 | `npm run test:bundle` | Verify the small Button-only bundle |
-| `npm run build-storybook` | Build the component explorer |
-| `npm run build:demo` | Build the package-consuming demo |
+| `npm run build:demo` | Build the documentation site against the compiled package |
 | `npm run test:browser` | Run keyboard, focus, axe, responsive, and motion checks |
 | `npm run check` | Run the non-browser validation suite |
 

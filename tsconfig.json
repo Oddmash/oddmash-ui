@@ -24,7 +24,6 @@
     "src",
     "scripts",
     "tests",
-    ".storybook",
     "demo",
     "*.ts"
   ]

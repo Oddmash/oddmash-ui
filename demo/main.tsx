@@ -1,10 +1,12 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { pages, componentIds, type PageId, type ComponentId } from './content';
-import { Arrow, Code, Example, ComponentPage } from './examples';
+import { Arrow, Example, ComponentPage } from './examples';
 import { Colors, Typography, TokenExplorer, Installation } from './foundations';
 import '@oddmash/ui/styles.css';
 import './style.scss';
+import './interaction-lab.scss';
+import InteractionLab from './interaction-lab';
 
 const readPage = (): PageId => {
   const candidate = location.hash.slice(2);
@@ -22,12 +24,14 @@ const Overview = () => (
     <section className="overview-intro">
       <div>
         <h1 tabIndex={-1} id="page-title">
-          Oddmash UI
+          Small tools.
+          <br />
+          Better flow.
         </h1>
         <p>
-          React components and JSON design tokens for building Oddmash tools.
-          The package is small, themeable, and currently under active
-          development.
+          Oddmash UI is the shared design system for our developer tools.
+          Explore the React components, build with JSON tokens, and try how they
+          work together in the Interaction Lab.
         </p>
         <div className="overview-actions">
           <a className="solid-link" href="#/installation">
@@ -38,50 +42,13 @@ const Overview = () => (
           </a>
         </div>
       </div>
-      <dl className="overview-meta">
-        <div>
-          <dt>Version</dt>
-          <dd>0.1.0</dd>
-        </div>
-        <div>
-          <dt>Status</dt>
-          <dd>In development</dd>
-        </div>
-        <div>
-          <dt>React</dt>
-          <dd>18 and 19</dd>
-        </div>
-        <div>
-          <dt>Styling</dt>
-          <dd>JSON tokens + SCSS</dd>
-        </div>
-      </dl>
-    </section>
-    <section className="overview-section overview-start">
-      <div className="overview-section-heading">
-        <div>
-          <h2>Getting started</h2>
-          <p>
-            The package is not published to npm yet. Clone the repository or
-            install a locally packed archive while the API is being refined.
-          </p>
-        </div>
-        <a className="text-link" href="#/installation">
-          Full installation guide <Arrow />
-        </a>
-      </div>
-      <Code label="terminal">{`git clone https://github.com/Oddmash/oddmash-ui.git
-cd oddmash-ui
-npm ci
-npm run demo`}</Code>
+      <InteractionLab />
     </section>
     <section className="overview-section component-collection">
       <div className="overview-section-heading">
         <div>
           <h2>Components</h2>
-          <p>
-            Six accessible primitives for common developer-tool interfaces.
-          </p>
+          <p>Six accessible primitives for common developer-tool interfaces.</p>
         </div>
         <a className="text-link" href="#/button">
           Component documentation <Arrow />
@@ -206,10 +173,7 @@ const App = () => {
           >
             Overview
           </a>
-          <a
-            href="#/button"
-            aria-current={component ? 'page' : undefined}
-          >
+          <a href="#/button" aria-current={component ? 'page' : undefined}>
             Components
           </a>
           <a
@@ -269,25 +233,27 @@ const App = () => {
           <kbd>⌘ K</kbd>
         </div>
         <nav aria-label="Documentation">
-          {['Start here', 'Foundations', 'Components'].map((group) => (
-            <div className="nav-group" key={group}>
-              <h2>{group}</h2>
-              {filtered
-                .filter((item) => item.group === group)
-                .map((item) => (
-                  <a
-                    key={item.id}
-                    href={`#/${item.id}`}
-                    aria-current={page === item.id ? 'page' : undefined}
-                  >
-                    <span>{item.title}</span>
-                    {page === item.id && (
-                      <span className="nav-dot" aria-hidden="true" />
-                    )}
-                  </a>
-                ))}
-            </div>
-          ))}
+          {['Start here', 'Foundations', 'Components', 'Patterns'].map(
+            (group) => (
+              <div className="nav-group" key={group}>
+                <h2>{group}</h2>
+                {filtered
+                  .filter((item) => item.group === group)
+                  .map((item) => (
+                    <a
+                      key={item.id}
+                      href={`#/${item.id}`}
+                      aria-current={page === item.id ? 'page' : undefined}
+                    >
+                      <span>{item.title}</span>
+                      {page === item.id && (
+                        <span className="nav-dot" aria-hidden="true" />
+                      )}
+                    </a>
+                  ))}
+              </div>
+            ),
+          )}
           {!filtered.length && (
             <p className="nav-empty" role="status">
               No pages found.
@@ -332,7 +298,33 @@ const App = () => {
             ) : page === 'typography' ? (
               <Typography />
             ) : page === 'tokens' ? (
-              <TokenExplorer theme={theme} />
+              <TokenExplorer />
+            ) : page === 'interaction-pattern' ? (
+              <div className="pattern-content">
+                <InteractionLab />
+                <section>
+                  <h2>Use the pattern</h2>
+                  <p>
+                    Pair a keyboard-operable form with a separate, bounded event
+                    history. Keep the event list in chronological order and keep
+                    focus on the control the user is operating.
+                  </p>
+                  <p>
+                    Use a status message for a completed action. Keep routine
+                    focus and key events out of live regions so they do not
+                    interrupt screen reader announcements.
+                  </p>
+                  <p>
+                    <a className="text-link" href="#/input">
+                      Input <Arrow />
+                    </a>
+                    {' · '}
+                    <a className="text-link" href="#/tabs">
+                      Tabs <Arrow />
+                    </a>
+                  </p>
+                </section>
+              </div>
             ) : (
               <Installation />
             )}
@@ -343,7 +335,7 @@ const App = () => {
             <img className="footer-logo" src="./oddmash-logo.png" alt="" />
             Oddmash UI <span className="muted">· v0.1</span>
           </span>
-          <a href="https://github.com/Oddmash/oddmash-ui/blob/main/README.md">
+          <a href="https://github.com/Oddmash/oddmash-ui/blob/main/CONTRIBUTING.md">
             Contribute to the system <Arrow />
           </a>
         </footer>

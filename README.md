@@ -12,6 +12,7 @@ Oddmash UI is the shared interface foundation for Oddmash products. It gives sma
 - JSON design tokens for color, typography, spacing, radius, shadow, border, and motion.
 - Light and dark themes that can be applied to a whole app or a single subtree.
 - A documentation site with live examples, API guidance, accessibility notes, and a token explorer.
+- An Interaction Lab that shows how the components work together in a developer-tool interface.
 
 ## Who it is for
 

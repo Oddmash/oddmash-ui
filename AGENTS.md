@@ -10,6 +10,6 @@ Treat every localized README as a product introduction, not a repository setup g
 - Keep product-specific layout and palettes in consumer overrides or the demo. Add them to the shared package only when more than one product needs the same behavior.
 - Do not publish to npm, create a release, or change consumer repositories without explicit authorization.
 
-For code or build changes, run the relevant subset of `npm run tokens:check`, `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, and `npm run test:bundle`. For interaction, theme, responsive, or visual changes, also run `npm run test:browser`, `npm run build-storybook`, and `npm run build:demo`.
+For code or build changes, run the relevant subset of `npm run tokens:check`, `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, and `npm run test:bundle`. For interaction, theme, responsive, or visual changes, also run `npm run test:browser` and `npm run build:demo`.
 
 Keep shared behavior claims aligned across the English, Korean, Japanese, and Simplified Chinese READMEs.

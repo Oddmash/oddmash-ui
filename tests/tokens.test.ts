@@ -6,7 +6,7 @@ import { it, expect } from 'vitest';
 
 it('rejects stale output, broken aliases and theme drift; regenerates after JSON edits', () => {
   const cwd = mkdtempSync(join(tmpdir(), 'oddmash-tokens-'));
-  const run = (...args: string[]) => spawnSync(process.execPath, [resolve('node_modules/tsx/dist/cli.mjs'), resolve('scripts/tokens.ts'), ...args], { cwd, encoding: 'utf8' });
+  const run = (...args: string[]) => spawnSync(process.execPath, ['--import', import.meta.resolve('tsx'), resolve('scripts/tokens.ts'), ...args], { cwd, encoding: 'utf8' });
   try {
     cpSync('tokens', join(cwd, 'tokens'), { recursive: true });
     cpSync('src/generated', join(cwd, 'src/generated'), { recursive: true });
