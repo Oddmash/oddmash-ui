@@ -76,3 +76,5 @@ Automated accessibility checks are not a WCAG certification or a substitute for 
 Register the GitHub Actions trusted publisher on the npm settings page for `@oddmash/ui`. Enter organization `Oddmash`, repository `oddmash-ui`, and workflow filename `publish-npm.yml`. Allow direct publishing and leave the environment blank. This registration is required once for this workflow.
 
 Update the version in `package.json` and the lockfile, merge to `main`, then publish a GitHub Release whose tag is `v` followed by the package version. The workflow validates and packages the tagged commit, then publishes the archive to npm through OIDC. Draft releases and prereleases do not publish a package.
+
+If a publish fails, use **Run workflow** on `main` and enter the existing published release tag.
