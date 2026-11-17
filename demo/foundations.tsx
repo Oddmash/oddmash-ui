@@ -4,6 +4,7 @@ import light from '../tokens/semantic/light.json';
 import dark from '../tokens/semantic/dark.json';
 import { tokens, type TokenName } from '@oddmash/ui/tokens';
 import { Code } from './examples';
+import { npmPackageUrl, repositoryUrl } from './package-links';
 
 type Token = { $type: string; $value: unknown };
 const flatten = (value: unknown, prefix = ''): [string, Token][] => {
@@ -272,32 +273,47 @@ export const Installation = () => (
     <div className="install-note">
       <span className="status-dot" />
       <p>
-        <strong>v0.1 · Source distribution</strong>
+        <strong>Package and source</strong>
         <br />
-        The npm package is not published yet. Start from the repository or
-        install a locally packed archive.
+        npm v0.1.0 includes Button, Input, Card, Badge, Tabs, and Dialog. Build
+        from GitHub to use the full catalog shown in these docs.
       </p>
     </div>
     <section className="doc-section">
-      <h2>
-        <span className="step">01</span> Get the foundations
-      </h2>
-      <Code label="terminal">{`git clone https://github.com/Oddmash/oddmash-ui.git\ncd oddmash-ui\nnpm ci\nnpm pack\n\n# In your React project:\nnpm install /path/to/oddmash-ui-0.1.0.tgz`}</Code>
+      <h2>Install from npm</h2>
       <p className="body-copy">
-        Build with Node 24+. React 18.3.1 and React 19 are supported peers. No
-        Tailwind, CSS-in-JS runtime, or font download required.
+        See published versions on{' '}
+        <a className="text-link" href={npmPackageUrl}>
+          npm
+        </a>
+        .
       </p>
+      <Code label="terminal">{`npm install @oddmash/ui@0.1.0`}</Code>
     </section>
     <section className="doc-section">
-      <h2>
-        <span className="step">02</span> Make something small
-      </h2>
+      <h2>Build from GitHub</h2>
+      <p className="body-copy">
+        Clone the{' '}
+        <a className="text-link" href={repositoryUrl}>
+          GitHub repository
+        </a>{' '}
+        and build a local package with Node 24 or later. React 18.3.1 and React
+        19 are supported peers.
+      </p>
+      <Code label="terminal">{`git clone ${repositoryUrl}.git
+cd oddmash-ui
+npm ci
+npm pack
+
+# In your React project:
+npm install /path/to/oddmash-ui-0.1.0.tgz`}</Code>
+    </section>
+    <section className="doc-section">
+      <h2>Make something small</h2>
       <Code>{`import { Button, Card, Input } from '@oddmash/ui';\nimport '@oddmash/ui/styles.css';\n\nexport const Project = () => (\n  <Card>\n    <label htmlFor="name">Project name</label>\n    <Input id="name" placeholder="Your next idea" />\n    <Button>Create project</Button>\n  </Card>\n);`}</Code>
     </section>
     <section className="doc-section">
-      <h2>
-        <span className="step">03</span> Choose a theme
-      </h2>
+      <h2>Choose a theme</h2>
       <Code label="index.html">{`<html data-om-theme="dark">\n  <!-- Your application -->\n</html>`}</Code>
       <p className="body-copy">
         Set light or dark on the document or a subtree. Your application owns

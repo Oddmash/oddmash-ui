@@ -8,6 +8,7 @@ import './fonts.scss';
 import './style.scss';
 import './interaction-lab.scss';
 import InteractionLab from './interaction-lab';
+import { npmPackageUrl, repositoryUrl } from './package-links';
 
 const navigationGroups = [...new Set(pages.map((page) => page.group))];
 
@@ -208,14 +209,14 @@ const App = () => {
         </div>
         <div className="header-actions">
           <span className="version-label">v0.1</span>
-          <a
-            className="github-link"
-            href="https://github.com/Oddmash/oddmash-ui"
-            target="_blank"
-            rel="noreferrer"
-          >
-            GitHub <Arrow />
-          </a>
+          <div className="header-package-links">
+            <a href={npmPackageUrl}>
+              npm <Arrow />
+            </a>
+            <a href={repositoryUrl}>
+              GitHub <Arrow />
+            </a>
+          </div>
           <button
             className="icon-button theme-button"
             aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}

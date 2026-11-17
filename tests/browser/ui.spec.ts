@@ -228,6 +228,22 @@ test('interaction lab captures keyboard events and keeps a bounded history', asy
   await expect(history).toHaveCount(0);
 });
 
+test('installation links distinguish the published package from source', async ({
+  page,
+}) => {
+  await page.goto('/#/installation');
+  const content = page.getByRole('main');
+  await expect(
+    content.getByRole('link', { name: 'npm', exact: true }),
+  ).toHaveAttribute('href', 'https://www.npmjs.com/package/@oddmash/ui');
+  await expect(
+    content.getByRole('link', { name: 'GitHub repository' }),
+  ).toHaveAttribute('href', 'https://github.com/Oddmash/oddmash-ui');
+  await expect(
+    content.getByText('npm install @oddmash/ui@0.1.0', { exact: true }),
+  ).toBeVisible();
+});
+
 test('new controls support native keyboard interaction and navigation', async ({
   page,
 }) => {

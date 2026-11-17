@@ -132,7 +132,11 @@ h1:focus {
     11px var(--om-semantic-font-mono-family);
   color: var(--om-semantic-color-muted);
 }
-.github-link {
+.header-package-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  white-space: nowrap;
   font-size: 12px;
 }
 .icon-button {
@@ -1424,7 +1428,7 @@ td code {
     width: auto;
     font-size: 14px;
   }
-  .github-link,
+  .header-package-links,
   .version-label {
     display: none;
   }
