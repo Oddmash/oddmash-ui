@@ -352,14 +352,24 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
       <section className="doc-section" id="usage">
         <h2>{t('Usage')}</h2>
         <p className="body-copy">{t(info.usage)}</p>
+        {id === 'toast' && (
+          <p className="body-copy">
+            {t('Toast is available from the GitHub source.')}{' '}
+            <a className="text-link" href="#/installation">
+              {t('Installation')}
+            </a>
+          </p>
+        )}
         <Code>{`import { ${exports} } from '@oddmash/ui';\nimport '@oddmash/ui/styles.css';\n\n${code}`}</Code>
       </section>
       <section className="doc-section" id="api">
         <h2>{t('API reference')}</h2>
         <p className="body-copy">
-          {id === 'dialog'
-            ? 'Dialog controls state. Put native attributes, className, style, and refs on DialogContent or the other rendered parts.'
-            : 'Native attributes, className, style, and refs pass through to the underlying element.'}
+          {t(
+            id === 'dialog'
+              ? 'Dialog controls state. Put native attributes, className, style, and refs on DialogContent or the other rendered parts.'
+              : 'Native attributes, className, style, and refs pass through to the underlying element.',
+          )}
         </p>
         <div
           className="table-scroll"

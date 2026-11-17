@@ -937,4 +937,21 @@ export const translations: Record<string, Translation> = {
     '読み込み状態を表示',
     '显示加载状态',
   ],
+  'Dialog controls state. Put native attributes, className, style, and refs on DialogContent or the other rendered parts.':
+    [
+      'Dialog가 상태를 관리합니다. 기본 속성, className, style, ref는 DialogContent 등 렌더링되는 요소에 전달하세요.',
+      'Dialog が状態を管理します。ネイティブ属性、className、style、ref は DialogContent などの描画要素に渡します。',
+      'Dialog 管理状态。将原生属性、className、style 和 ref 传给 DialogContent 等渲染元素。',
+    ],
+  'Native attributes, className, style, and refs pass through to the underlying element.':
+    [
+      '기본 속성, className, style, ref는 내부 DOM 요소에 전달됩니다.',
+      'ネイティブ属性、className、style、ref は内部 DOM 要素に渡されます。',
+      '原生属性、className、style 和 ref 会传给底层 DOM 元素。',
+    ],
+  'Toast is available from the GitHub source.': [
+    'Toast는 GitHub 소스에서 사용할 수 있습니다.',
+    'Toast は GitHub のソースから利用できます。',
+    'Toast 可通过 GitHub 源码使用。',
+  ],
 };
