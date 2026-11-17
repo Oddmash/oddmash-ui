@@ -153,10 +153,13 @@ h1:focus {
 .menu-toggle {
   display: none;
 }
+.docs-app {
+  --docs-sidebar-width: 248px;
+}
 .sidebar {
   position: fixed;
   inset: 72px auto 0 0;
-  width: 248px;
+  width: var(--docs-sidebar-width);
   border-right: 1px solid var(--om-semantic-color-border-subtle);
   padding: 28px 24px;
   overflow-y: auto;
@@ -234,8 +237,12 @@ h1:focus {
   color: var(--om-semantic-color-muted);
 }
 .docs-main {
-  margin-left: 248px;
-  max-width: 1530px;
+  --docs-content-max: 1530px;
+  max-inline-size: var(--docs-content-max);
+  margin-inline-start: max(
+    var(--docs-sidebar-width),
+    calc((100% + var(--docs-sidebar-width) - var(--docs-content-max)) / 2)
+  );
   padding: 0 56px;
 }
 .breadcrumb {
@@ -904,8 +911,7 @@ h1:focus {
   color: var(--om-semantic-color-muted);
 }
 .detail {
-  max-width: 1200px;
-  padding-right: 72px;
+  --docs-content-max: 1200px;
 }
 .page-heading {
   padding-top: 52px;
@@ -1354,12 +1360,11 @@ td code {
   }
 }
 @media (max-width: 1000px) {
-  .sidebar {
-    width: 220px;
-    padding-inline: 20px;
+  .docs-app {
+    --docs-sidebar-width: 220px;
   }
-  .docs-main {
-    margin-left: 220px;
+  .sidebar {
+    padding-inline: 20px;
   }
   .wordmark {
     width: 156px;
@@ -1419,6 +1424,9 @@ td code {
   }
 }
 @media (max-width: 760px) {
+  .docs-app {
+    --docs-sidebar-width: 0px;
+  }
   .site-header {
     height: 64px;
     padding-inline: 20px;
@@ -1463,7 +1471,6 @@ td code {
     padding-inline: 8px;
   }
   .docs-main {
-    margin-left: 0;
     padding-inline: 24px;
   }
   .breadcrumb {

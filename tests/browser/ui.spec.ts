@@ -374,3 +374,23 @@ test('language switch translates docs and persists across reloads', async ({
     await expect(language).toHaveValue(locale);
   }
 });
+
+test('wide layouts center docs within the space beyond the sidebar', async ({
+  page,
+}) => {
+  for (const width of [1440, 1920, 2560]) {
+    await page.setViewportSize({ width, height: 960 });
+    for (const path of ['overview', 'button']) {
+      await page.goto(`/#/${path}`);
+      await expect(page.locator('#page-title')).toBeVisible();
+      const sidebar = await page.locator('#docs-sidebar').boundingBox();
+      const breadcrumb = await page.locator('.breadcrumb').boundingBox();
+      expect(sidebar).not.toBeNull();
+      expect(breadcrumb).not.toBeNull();
+      const laneStart = sidebar!.x + sidebar!.width;
+      const leftSpace = breadcrumb!.x - laneStart;
+      const rightSpace = width - breadcrumb!.x - breadcrumb!.width;
+      expect(Math.abs(leftSpace - rightSpace)).toBeLessThanOrEqual(1);
+    }
+  }
+});
