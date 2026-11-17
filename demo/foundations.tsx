@@ -288,7 +288,7 @@ export const Installation = () => (
         </a>
         .
       </p>
-      <Code label="terminal">{`npm install @oddmash/ui@0.1.0`}</Code>
+      <Code label="npm install">{`npm install @oddmash/ui@0.1.0`}</Code>
     </section>
     <section className="doc-section">
       <h2>Build from GitHub</h2>
@@ -300,7 +300,7 @@ export const Installation = () => (
         and build a local package with Node 24 or later. React 18.3.1 and React
         19 are supported peers.
       </p>
-      <Code label="terminal">{`git clone ${repositoryUrl}.git
+      <Code label="GitHub source">{`git clone ${repositoryUrl}.git
 cd oddmash-ui
 npm ci
 npm pack
