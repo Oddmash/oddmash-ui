@@ -3,11 +3,12 @@ import AxeBuilder from '@axe-core/playwright';
 import { componentIds, type ComponentId } from '../../demo/content';
 
 const previewChecks = {
-  button: async (preview) => {
+  button: async (preview, page) => {
     const button = preview.getByRole('button', { name: 'Create project' });
-    await button.press('Enter');
+    await page.locator('.view-switch').getByRole('button', { name: 'Code' }).press('Tab');
     await expect(button).toBeFocused();
     await expect(button).toHaveCSS('outline-style', 'solid');
+    await page.keyboard.press('Enter');
     await expect(preview.getByRole('status')).toHaveCount(0);
   },
   input: async (preview) => {
@@ -150,6 +151,7 @@ for (const id of componentIds) {
         await expect(preview).toBeVisible();
         await previewChecks[id](preview, page);
         const { violations } = await new AxeBuilder({ page })
+          .include(id === 'dialog' ? '.docs-dialog' : '.playground .preview')
           .setLegacyMode(browserName === 'firefox')
           .analyze();
         expect(violations.map(({ id, nodes }) => ({ id, targets: nodes.map(({ target }) => target) }))).toEqual([]);

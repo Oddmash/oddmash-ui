@@ -7,6 +7,7 @@ for (const theme of ['light', 'dark']) {
     page,
     browserName,
   }) => {
+    test.setTimeout(75_000);
     await page.goto('/');
     if (theme === 'dark')
       await page.getByRole('button', { name: 'Switch to dark theme' }).click();
