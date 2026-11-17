@@ -87,7 +87,7 @@ test('navigation, search, live props, code, tokens and mobile menu work', async 
     .fill('button');
   await expect(navigation.getByRole('link')).toHaveCount(1);
   await navigation.getByRole('link', { name: 'Button', exact: true }).click();
-  await expect(page.locator('#page-title')).toHaveText('Button.');
+  await expect(page.locator('#page-title')).toHaveText('Button');
   await page.getByLabel('Variant', { exact: true }).selectOption('secondary');
   await page.getByLabel('Size', { exact: true }).selectOption('sm');
   await expect(
@@ -137,7 +137,7 @@ test('navigation, search, live props, code, tokens and mobile menu work', async 
   await page.getByRole('textbox', { name: 'Filter tokens' }).fill('motion');
   await expect(page.locator('tbody tr')).toHaveCount(2);
   await page.reload();
-  await expect(page.locator('#page-title')).toHaveText('Tokens.');
+  await expect(page.locator('#page-title')).toHaveText('Tokens');
   await page.setViewportSize({ width: 375, height: 812 });
   await page.getByRole('button', { name: 'Toggle navigation' }).click();
   await navigation.getByRole('link', { name: 'Dialog', exact: true }).click();

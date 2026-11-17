@@ -1,10 +1,8 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Button, Badge, Input } from '@oddmash/ui';
 import { pages, componentIds, type PageId, type ComponentId } from './content';
-import { Arrow, Mark, Code, Example, ComponentPage } from './examples';
+import { Arrow, Code, Example, ComponentPage } from './examples';
 import { Colors, Typography, TokenExplorer, Installation } from './foundations';
-import lightTokens from '../tokens/semantic/light.json';
 import '@oddmash/ui/styles.css';
 import './style.scss';
 
@@ -21,172 +19,114 @@ const readTheme = (): 'light' | 'dark' => {
 };
 const Overview = () => (
   <>
-    <section className="overview-hero">
-      <div className="hero-copy">
-        <div className="eyebrow">
-          <span className="status-dot" /> THE ODDMASH DESIGN SYSTEM
-        </div>
+    <section className="overview-intro">
+      <div>
         <h1 tabIndex={-1} id="page-title">
-          Small pieces.
-          <br />
-          <span>Distinct possibilities.</span>
+          Oddmash UI
         </h1>
         <p>
-          A considered starting point for developer tools.
-          <br className="desktop-break" /> Less design overhead. More room for
-          your ideas.
+          React components and JSON design tokens for building Oddmash tools.
+          The package is small, themeable, and currently under active
+          development.
         </p>
-        <div className="hero-actions">
+        <div className="overview-actions">
           <a className="solid-link" href="#/installation">
-            Start building <span aria-hidden="true">→</span>
+            Getting started <span aria-hidden="true">→</span>
           </a>
           <a className="text-link" href="#/button">
-            Explore components <Arrow />
+            Browse components <Arrow />
           </a>
         </div>
-        <div className="hero-meta">
-          <span>REACT 18 / 19</span>
-          <i />
-          <span>SCSS</span>
-          <i />
-          <span>JSON TOKENS</span>
-        </div>
       </div>
-      <div
-        className="hero-composition"
-        role="group"
-        aria-label="A composition of real Oddmash UI components"
-      >
-        <div className="composition-label">
-          <span>FIG. 01</span>
-          <span>BUILT FROM THE BASICS</span>
-        </div>
-        <div className="composition-grid">
-          <div className="composition-cell identity-cell">
-            <Mark />
-            <span>
-              oddmash
-              <br />
-              <small>Made to fit together.</small>
-            </span>
-          </div>
-          <div className="composition-cell badge-cell">
-            <Badge tone="accent">
-              <span className="status-dot" />
-              All systems ready
-            </Badge>
-            <span className="micro-label">A CLEAR SIGNAL</span>
-          </div>
-          <div className="composition-cell action-cell">
-            <Button
-              onClick={() => {
-                location.hash = '/button';
-              }}
-            >
-              Build something <Arrow />
-            </Button>
-            <span className="micro-label">A GOOD DEFAULT</span>
-          </div>
-          <div className="composition-cell scale-cell">
-            <span>Aa</span>
-            <small>Clarity at every scale.</small>
-          </div>
-          <div className="composition-cell input-cell">
-            <label htmlFor="hero-name">Your next project</label>
-            <Input id="hero-name" placeholder="Something a little different…" />
-          </div>
-          <div
-            className="composition-cell palette-cell"
-            role="img"
-            aria-label="Theme palette"
-          >
-            <i />
-            <i />
-            <i />
-            <i />
-            <i />
-          </div>
-        </div>
-        <div className="composition-label">
-          <span>6 COMPONENTS. ONE SHARED LANGUAGE.</span>
-          <span>↳ v0.1</span>
-        </div>
-      </div>
-    </section>
-    <section className="principles-strip" aria-label="Design principles">
-      <div>
-        <span>01</span>
-        <strong>Quiet by default</strong>
-        <p>Let the work take the spotlight.</p>
-      </div>
-      <div>
-        <span>02</span>
-        <strong>Clear in every state</strong>
-        <p>Focus, feedback, and intent built in.</p>
-      </div>
-      <div>
-        <span>03</span>
-        <strong>Yours to shape</strong>
-        <p>Change the tokens. Keep the rhythm.</p>
-      </div>
-    </section>
-    <section className="doc-section component-collection">
-      <div className="section-title">
+      <dl className="overview-meta">
         <div>
-          <div className="eyebrow">THE BUILDING BLOCKS</div>
-          <h2>
-            Useful on their own.
-            <br />
-            Better together.
-          </h2>
+          <dt>Version</dt>
+          <dd>0.1.0</dd>
         </div>
-        <span className="section-caption">
-          SIX ESSENTIALS / NO EXTRA BAGGAGE
-        </span>
+        <div>
+          <dt>Status</dt>
+          <dd>In development</dd>
+        </div>
+        <div>
+          <dt>React</dt>
+          <dd>18 and 19</dd>
+        </div>
+        <div>
+          <dt>Styling</dt>
+          <dd>JSON tokens + SCSS</dd>
+        </div>
+      </dl>
+    </section>
+    <section className="overview-section overview-start">
+      <div className="overview-section-heading">
+        <div>
+          <h2>Getting started</h2>
+          <p>
+            The package is not published to npm yet. Clone the repository or
+            install a locally packed archive while the API is being refined.
+          </p>
+        </div>
+        <a className="text-link" href="#/installation">
+          Full installation guide <Arrow />
+        </a>
+      </div>
+      <Code label="terminal">{`git clone https://github.com/Oddmash/oddmash-ui.git
+cd oddmash-ui
+npm ci
+npm run demo`}</Code>
+    </section>
+    <section className="overview-section component-collection">
+      <div className="overview-section-heading">
+        <div>
+          <h2>Components</h2>
+          <p>
+            Six accessible primitives for common developer-tool interfaces.
+          </p>
+        </div>
+        <a className="text-link" href="#/button">
+          Component documentation <Arrow />
+        </a>
       </div>
       <div className="component-grid">
-        {componentIds.map((id, index) => (
+        {componentIds.map((id) => (
           <article className={`component-tile tile-${id}`} key={id}>
             <div className="tile-preview">
               <Example id={id} />
             </div>
             <a href={`#/${id}`} className="tile-link">
-              <span>
-                <small>0{index + 1}</small>
-                {pages.find((page) => page.id === id)?.title}
-              </span>
+              <span>{pages.find((page) => page.id === id)?.title}</span>
               <Arrow />
             </a>
           </article>
         ))}
       </div>
     </section>
-    <section className="foundation-callout">
-      <div>
-        <div className="eyebrow">THE SYSTEM UNDERNEATH</div>
-        <h2>
-          One source.
-          <br />
-          Every surface.
-        </h2>
-        <p>
-          Colors, spacing, type, and motion.
-          <br />
-          All connected through a small set of JSON tokens.
-        </p>
-        <a className="text-link" href="#/tokens">
-          Explore the foundations <Arrow />
-        </a>
+    <section className="overview-section overview-foundations">
+      <div className="overview-section-heading">
+        <div>
+          <h2>Foundations</h2>
+          <p>Shared color, type, spacing, motion, and theme behavior.</p>
+        </div>
       </div>
-      <Code label="tokens/semantic/light.json">
-        {JSON.stringify(
-          {
-            semantic: { color: { accent: lightTokens.semantic.color.accent } },
-          },
-          null,
-          2,
-        )}
-      </Code>
+      <div className="foundation-links">
+        {[
+          ['colors', 'Colors', 'Semantic roles for light and dark themes.'],
+          [
+            'typography',
+            'Typography',
+            'A system-font scale for tools and documentation.',
+          ],
+          ['tokens', 'Tokens', 'DTCG JSON compiled to CSS and TypeScript.'],
+        ].map(([id, title, description]) => (
+          <a key={id} href={`#/${id}`}>
+            <span>
+              <strong>{title}</strong>
+              <small>{description}</small>
+            </span>
+            <Arrow />
+          </a>
+        ))}
+      </div>
     </section>
   </>
 );
@@ -256,23 +196,33 @@ const App = () => {
       </a>
       <header className="site-header">
         <a className="wordmark" href="#/overview" aria-label="Oddmash UI home">
-          <Mark />
-          <strong>
-            oddmash<span> / ui</span>
-          </strong>
+          <img className="brand-logo" src="./oddmash-logo.png" alt="" />
+          <strong>Oddmash UI</strong>
         </a>
         <nav aria-label="Top navigation">
           <a
             href="#/overview"
             aria-current={page === 'overview' ? 'page' : undefined}
           >
-            Design system
+            Overview
+          </a>
+          <a
+            href="#/button"
+            aria-current={component ? 'page' : undefined}
+          >
+            Components
+          </a>
+          <a
+            href="#/colors"
+            aria-current={current.group === 'Foundations' ? 'page' : undefined}
+          >
+            Foundations
           </a>
           <a
             href="#/installation"
             aria-current={page === 'installation' ? 'page' : undefined}
           >
-            Get started
+            Getting started
           </a>
         </nav>
         <div className="header-actions">
@@ -345,10 +295,10 @@ const App = () => {
           )}
         </nav>
         <div className="sidebar-bottom">
-          <span className="status-dot" />
+          <img className="sidebar-logo" src="./oddmash-logo.png" alt="" />
           <div>
-            Small tools. Better flow.
-            <a href="https://github.com/Oddmash">An Oddmash project ↗</a>
+            Oddmash UI
+            <a href="https://github.com/Oddmash">Oddmash on GitHub ↗</a>
           </div>
         </div>
       </aside>
@@ -364,17 +314,14 @@ const App = () => {
           <span>{current.group}</span>
           <span aria-hidden="true">/</span>
           <strong>{current.title}</strong>
-          <span className="breadcrumb-end">DESIGN LESS. BUILD MORE.</span>
         </div>
         {page === 'overview' ? (
           <Overview />
         ) : (
           <>
             <header className="page-heading">
-              <div className="eyebrow">{current.group.toUpperCase()}</div>
               <h1 id="page-title" tabIndex={-1}>
                 {current.title}
-                <span>.</span>
               </h1>
               <p>{current.description}</p>
             </header>
@@ -393,8 +340,8 @@ const App = () => {
         )}
         <footer className="site-footer">
           <span>
-            <Mark /> Oddmash UI{' '}
-            <span className="muted">/ a little less friction.</span>
+            <img className="footer-logo" src="./oddmash-logo.png" alt="" />
+            Oddmash UI <span className="muted">· v0.1</span>
           </span>
           <a href="https://github.com/Oddmash/oddmash-ui/blob/main/README.md">
             Contribute to the system <Arrow />
