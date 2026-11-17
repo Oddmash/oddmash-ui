@@ -21,6 +21,7 @@ export default defineConfig({
     field: 'src/field.tsx',
     accordion: 'src/accordion.tsx',
     alert: 'src/alert.tsx',
+    toast: 'src/toast.tsx',
     avatar: 'src/avatar.tsx',
     spinner: 'src/spinner.tsx',
     breadcrumbs: 'src/breadcrumbs.tsx',
