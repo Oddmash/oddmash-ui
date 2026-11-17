@@ -59,25 +59,22 @@
     "node": ">=24"
   },
   "scripts": {
-    "tokens": "tsx scripts/tokens.ts",
-    "tokens:check": "tsx scripts/tokens.ts --check",
+    "tokens": "node --import tsx scripts/tokens.ts",
+    "tokens:check": "node --import tsx scripts/tokens.ts --check",
     "build": "npm run tokens && tsup && sass --no-source-map src/styles.scss dist/styles.css && cp src/generated/tokens.css dist/tokens.css",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
     "demo": "vite --config demo/vite.config.ts",
     "build:demo": "vite build --config demo/vite.config.ts",
-    "check": "npm run tokens:check && npm run typecheck && npm run lint && npm test && npm run build && npm run test:bundle && npm run build-storybook && npm run build:demo",
+    "check": "npm run tokens:check && npm run build && npm run typecheck && npm run lint && npm test && npm run test:bundle && npm run build:demo",
     "test:browser": "playwright test",
     "prepare": "npm run build",
-    "test:bundle": "tsx scripts/bundle.ts"
+    "test:bundle": "node --import tsx scripts/bundle.ts"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
     "@playwright/test": "^1.65.0",
-    "@storybook/react-vite": "^10.6.7",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.10",
@@ -91,7 +88,6 @@
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "sass": "^1.108.2",
-    "storybook": "^10.6.7",
     "style-dictionary": "^5.8.0",
     "tsup": "^9.0.0",
     "tsx": "^4.23.15",

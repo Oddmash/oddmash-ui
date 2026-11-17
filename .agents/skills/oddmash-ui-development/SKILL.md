@@ -35,7 +35,7 @@ Use this workflow for substantive work in `Oddmash/oddmash-ui`. Treat the packag
 
 - Token-only changes: `npm run tokens:check`, `npm test`, and `npm run build`.
 - Component, export, or build changes: `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, and `npm run test:bundle`.
-- Interaction, focus, theme, responsive, or visual changes: also run `npm run test:browser`, `npm run build-storybook`, and `npm run build:demo`.
+- Interaction, focus, theme, responsive, or visual changes: also run `npm run test:browser` and `npm run build:demo`.
 - Documentation-site changes: run `npm run build:demo`; run browser tests when navigation, live examples, themes, or responsive behavior changes.
 - Keep English, Korean, Japanese, and Simplified Chinese README claims aligned when shared behavior changes.
 
