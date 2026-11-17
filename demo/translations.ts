@@ -143,7 +143,7 @@ export const translations: Record<string, Translation> = {
   Prop: ['속성', 'プロパティ', '属性'],
   Type: ['타입', '型', '类型'],
   Default: ['기본값', '既定値', '默认值'],
-  'Built for everyone': ['접근성', 'アクセシビリティ', '无障碍'],
+  Accessibility: ['접근성', 'アクセシビリティ', '无障碍'],
   'Copy code': ['코드 복사', 'コードをコピー', '复制代码'],
   Copied: ['복사했습니다', 'コピーしました', '已复制'],
   'Select the code to copy': [
@@ -470,25 +470,25 @@ export const translations: Record<string, Translation> = {
     'Oddmash の開発ツール向け共通デザインシステム。',
     'Oddmash 开发工具的共享设计系统。',
   ],
-  'From a blank project to your first interface.': [
-    '빈 프로젝트부터 첫 화면까지.',
-    '空のプロジェクトから最初の画面まで。',
-    '从空白项目到第一个界面。',
+  'Install the package and load its styles.': [
+    '패키지를 설치하고 스타일을 불러옵니다.',
+    'パッケージをインストールし、スタイルを読み込みます。',
+    '安装软件包并加载样式。',
   ],
   'Neutral surfaces with distinct focus and error states.': [
     '중립색 표면과 명확한 포커스·오류 상태.',
     '無彩色の面と明確なフォーカス・エラー状態。',
     '中性色表面与清晰的焦点、错误状态。',
   ],
-  'A readable rhythm, from labels to headlines.': [
-    '레이블부터 제목까지 읽기 쉬운 글자 규칙.',
-    'ラベルから見出しまで読みやすい文字のルール。',
-    '从标签到标题的易读排版规则。',
+  'Font families, sizes, and line heights.': [
+    '글꼴, 크기, 줄 높이를 확인합니다.',
+    '書体、文字サイズ、行の高さを確認できます。',
+    '查看字体、字号和行高。',
   ],
-  'One source of truth. Every detail connected.': [
-    '하나의 소스에서 생성하는 디자인 토큰.',
-    '一つのソースから生成するデザイントークン。',
-    '从同一数据源生成设计令牌。',
+  'Browse the design tokens and their CSS variables.': [
+    '디자인 토큰과 대응하는 CSS 변수를 확인합니다.',
+    'デザイントークンと対応する CSS 変数を確認できます。',
+    '查看设计令牌及对应的 CSS 变量。',
   ],
   'Compose a form and a live event history for a keyboard-friendly developer tool.':
     [
@@ -501,10 +501,10 @@ export const translations: Record<string, Translation> = {
     'イベントの種類と選択中の要素で記録を絞り込みます。',
     '按类型和所选元素筛选已记录事件。',
   ],
-  'Make the next action feel obvious.': [
-    '다음 동작을 명확히 보여줍니다.',
-    '次の操作を明確にします。',
-    '让下一步操作清晰可见。',
+  'Trigger an action or submit a form.': [
+    '동작을 실행하거나 폼을 제출합니다.',
+    '操作の実行やフォームの送信に使います。',
+    '触发操作或提交表单。',
   ],
   'Use one primary action per section. Secondary actions sit alongside it; ghost buttons keep repeated utility actions light.':
     [
@@ -518,10 +518,10 @@ export const translations: Record<string, Translation> = {
       '操作を明示し、アイコンだけの場合は aria-label、送信には type="submit" を指定します。',
       '使用清晰的标签。纯图标按钮需设置 aria-label，提交表单时使用 type="submit"。',
     ],
-  'Give every field a label, a purpose, and a little room.': [
-    '입력에 레이블과 목적을 부여합니다.',
-    '入力欄にラベルと目的を示します。',
-    '为输入框提供标签与用途。',
+  'Collect a single line of text.': [
+    '한 줄의 텍스트를 입력받습니다.',
+    '一行のテキストを入力します。',
+    '输入单行文本。',
   ],
   'Keep labels visible. Explain constraints before submission and connect error messages to their input.':
     [
@@ -535,10 +535,10 @@ export const translations: Record<string, Translation> = {
       'htmlFor と id で結び付け、エラーには aria-invalid、補足には aria-describedby を使います。',
       '用 htmlFor 和 id 关联标签，错误用 aria-invalid，提示用 aria-describedby。',
     ],
-  'A quiet container for related information.': [
-    '관련 정보를 한곳에 모읍니다.',
-    '関連情報をひとまとめにします。',
-    '将相关内容归在一起。',
+  'Group related content and controls.': [
+    '관련 정보와 컨트롤을 한곳에 묶습니다.',
+    '関連する情報と操作をまとめます。',
+    '归组相关内容和控件。',
   ],
   'Group related content with a subtle boundary. Cards are div elements: add your own heading hierarchy and explicit actions.':
     [
@@ -552,10 +552,10 @@ export const translations: Record<string, Translation> = {
       '内部に操作がある場合、カード全体をクリック対象にしないでください。',
       '卡片中已有控件时，避免令整张卡片可点击。',
     ],
-  'A small signal with just enough emphasis.': [
-    '상태와 분류를 짧게 표시합니다.',
-    '状態や分類を短く示します。',
-    '简短标记状态或分类。',
+  'Label a status or category.': [
+    '상태나 분류를 표시합니다.',
+    '状態や分類を示します。',
+    '标记状态或分类。',
   ],
   'Describe status or category in a few words. Reserve the accent tone for a state that deserves attention.':
     [
@@ -569,10 +569,10 @@ export const translations: Record<string, Translation> = {
       '色と意味のあるテキストを併用し、操作にはボタンを使います。',
       '同时提供颜色和明确文字，操作使用按钮。',
     ],
-  'Different views. One shared context.': [
-    '같은 맥락 안에서 뷰를 전환합니다.',
-    '同じ文脈の中で表示を切り替えます。',
-    '在同一上下文中切换视图。',
+  'Switch between panels on the same page.': [
+    '같은 페이지 안에서 패널을 전환합니다.',
+    '同じページ内でパネルを切り替えます。',
+    '在同一页面切换面板。',
   ],
   'Switch between related views, not different destinations. Use links for site navigation. Keep tab names short and distinct.':
     [
@@ -586,10 +586,10 @@ export const translations: Record<string, Translation> = {
       'TabsList に名前を付けます。矢印キーで移動し、Home と End で端に移動できます。',
       '为 TabsList 命名。方向键移动，Home 和 End 跳至两端。',
     ],
-  'Bring one decision into focus.': [
-    '한 가지 결정에 집중할 수 있는 모달입니다.',
-    '一つの判断に集中できるモーダルです。',
-    '让用户专注于一个决定。',
+  'Open a modal for editing or confirmation.': [
+    '편집이나 확인을 위한 모달을 엽니다.',
+    '編集や確認のためにモーダルを開きます。',
+    '打开用于编辑或确认的模态框。',
   ],
   'Use a dialog for a focused task that needs the current page as context. Keep the title specific and provide a clear way to leave.':
     [

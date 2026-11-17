@@ -288,14 +288,6 @@ export const Installation = () => {
   const { t } = useLocale();
   return (
     <>
-      <div className="install-note">
-        <span className="status-dot" />
-        <p>
-          <strong>{t('Package and source')}</strong>
-          <br />
-          {t('npm v0.3.0 includes all 24 component families, including Toast.')}
-        </p>
-      </div>
       <section className="doc-section">
         <h2>{t('Install from npm')}</h2>
         <p className="body-copy">

@@ -8,7 +8,7 @@ import {
 } from './locale';
 import { createRoot } from 'react-dom/client';
 import { pages, componentIds, type PageId, type ComponentId } from './content';
-import { Arrow, Example, ComponentPage } from './examples';
+import { Arrow, ComponentPage } from './examples';
 import { Colors, Typography, TokenExplorer, Installation } from './foundations';
 import '@oddmash/ui/styles.css';
 import './fonts.scss';
@@ -34,94 +34,52 @@ const readTheme = (): 'light' | 'dark' => {
 };
 const Overview = () => {
   const { t } = useLocale();
+  const componentGroups = navigationGroups.filter((group) =>
+    pages.some((page) => page.group === group && componentIds.includes(page.id as ComponentId)),
+  );
+  const sections = [
+    { title: 'Patterns', groups: ['Patterns'] },
+    { title: 'Components', groups: componentGroups },
+    { title: 'Foundations', groups: ['Foundations'] },
+  ];
   return (
     <>
-      <section className="overview-intro">
-        <span className="brand-ribbon" aria-hidden="true" />
-        <div>
-          <h1 tabIndex={-1} id="page-title">
-            {t('Small tools.')}
-            <br />
-            <span>{t('Better flow.')}</span>
-          </h1>
-          <p>
-            {t(
-              'React components and design tokens for Oddmash developer tools.',
-            )}
-          </p>
-          <div className="overview-actions">
-            <a className="solid-link" href="#/installation">
-              {t('Getting started')} <span aria-hidden="true">→</span>
-            </a>
-            <a className="text-link" href="#/button">
-              {t('Browse components')} <Arrow />
-            </a>
+      <header className="page-heading overview-heading">
+        <h1 tabIndex={-1} id="page-title">Oddmash UI</h1>
+        <p>{t('React components and design tokens for Oddmash developer tools.')}</p>
+        <a className="text-link" href="#/installation">
+          {t('Getting started')} <span aria-hidden="true">→</span>
+        </a>
+      </header>
+      {sections.map(({ title, groups }) => (
+        <section className="overview-section" key={title}>
+          <h2>{t(title)}</h2>
+          <div className="component-directory">
+            {groups.map((group) => {
+              const items = pages.filter((page) => page.group === group);
+              if (!items.length) return null;
+              return (
+                <div className="directory-group" key={group}>
+                  {groups.length > 1 && (
+                    <h3>{t(group === 'Components' ? 'Core components' : group)}</h3>
+                  )}
+                  <ul>
+                    {items.map(({ id, title, description }) => (
+                      <li key={id}>
+                        <a href={`#/${id}`}>
+                          <strong>{t(title)}</strong>
+                          <span className="directory-description">{t(description)}</span>
+                          <Arrow />
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
-        </div>
-        <InteractionLab />
-      </section>
-      <section className="overview-section component-collection">
-        <div className="overview-section-heading">
-          <div>
-            <h2>{t('Components')}</h2>
-          </div>
-        </div>
-        {navigationGroups.map((group) => {
-          const items = pages.filter(
-            (page) =>
-              page.group === group &&
-              componentIds.includes(page.id as ComponentId),
-          );
-          if (!items.length) return null;
-          return (
-            <section className="gallery-section" key={group}>
-              <h3>{t(group === 'Components' ? 'Core components' : group)}</h3>
-              <div className="component-grid">
-                {items.map(({ id, title }) => (
-                  <article className={`component-tile tile-${id}`} key={id}>
-                    <div className="tile-preview">
-                      <Example id={id as ComponentId} />
-                    </div>
-                    <a href={`#/${id}`} className="tile-link">
-                      <span>{t(title)}</span>
-                      <Arrow />
-                    </a>
-                  </article>
-                ))}
-              </div>
-            </section>
-          );
-        })}
-      </section>
-      <section className="overview-section overview-foundations">
-        <div className="overview-section-heading">
-          <div>
-            <h2>{t('Foundations')}</h2>
-            <p>
-              {t('Shared color, type, spacing, motion, and theme behavior.')}
-            </p>
-          </div>
-        </div>
-        <div className="foundation-links">
-          {[
-            ['colors', 'Colors', 'Semantic roles for light and dark themes.'],
-            [
-              'typography',
-              'Typography',
-              'Geist Sans for interfaces and Geist Mono for technical values.',
-            ],
-            ['tokens', 'Tokens', 'DTCG JSON compiled to CSS and TypeScript.'],
-          ].map(([id, title, description]) => (
-            <a key={id} href={`#/${id}`}>
-              <span>
-                <strong>{t(title)}</strong>
-                <small>{t(description)}</small>
-              </span>
-              <Arrow />
-            </a>
-          ))}
-        </div>
-      </section>
+        </section>
+      ))}
     </>
   );
 };

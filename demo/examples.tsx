@@ -22,14 +22,6 @@ import { getComponentPreviews } from './component-previews';
 import type { ExtendedComponentId } from './component-catalog';
 
 export const Arrow = () => <span aria-hidden="true">↗</span>;
-export const Mark = () => (
-  <span className="brand-mark" aria-hidden="true">
-    <i />
-    <i />
-    <i />
-    <i />
-  </span>
-);
 export const Code = ({
   children,
   label = 'Example.tsx',
@@ -279,7 +271,7 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
               )}
             </Preview>
           ) : (
-            <Code>{`import { ${exports} } from '@oddmash/ui';\n\n${code}`}</Code>
+            <Code>{`import { ${exports} } from '@oddmash/ui';\nimport '@oddmash/ui/styles.css';\n\n${code}`}</Code>
           )}
           {id === 'button' && (
             <div className="playground-controls">
@@ -325,7 +317,6 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
       <section className="doc-section" id="usage">
         <h2>{t('Usage')}</h2>
         <p className="body-copy">{t(info.usage)}</p>
-        <Code>{`import { ${exports} } from '@oddmash/ui';\nimport '@oddmash/ui/styles.css';\n\n${code}`}</Code>
       </section>
       <section className="doc-section" id="api">
         <h2>{t('API reference')}</h2>
@@ -366,12 +357,9 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
           </table>
         </div>
       </section>
-      <section className="accessibility-note" id="accessibility">
-        <span aria-hidden="true">◎</span>
-        <div>
-          <h2>{t('Built for everyone')}</h2>
-          <p>{t(info.accessibility)}</p>
-        </div>
+      <section className="doc-section" id="accessibility">
+        <h2>{t('Accessibility')}</h2>
+        <p className="body-copy">{t(info.accessibility)}</p>
       </section>
     </>
   );
