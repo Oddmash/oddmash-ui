@@ -399,13 +399,34 @@
       cursor: not-allowed;
     }
 
-    &[data-active], &:hover:not([aria-disabled='true']) {
-      outline: 1px solid currentColor;
+    &[aria-selected='true'] {
+      background: color-mix(in srgb, var(--om-semantic-color-text) 10%, var(--om-semantic-color-surface));
+    }
+
+    &[data-active],
+    &:hover:not([aria-disabled='true']) {
+      background: color-mix(in srgb, var(--om-semantic-color-text) 18%, var(--om-semantic-color-surface));
+    }
+  }
+}
+
+@media (forced-colors: active) {
+  .om-select-dropdown > [role='listbox'] > [role='option'] {
+    &[aria-selected='true'] {
+      forced-color-adjust: none;
+      background: Highlight;
+      color: HighlightText;
+    }
+
+    &[data-active],
+    &:hover:not([aria-disabled='true']) {
+      outline: 1px solid Highlight;
       outline-offset: -1px;
     }
 
-    &[aria-selected='true'] {
-      font-weight: 700;
+    &[aria-selected='true'][data-active],
+    &[aria-selected='true']:hover {
+      outline-color: HighlightText;
     }
   }
 }
@@ -477,8 +498,17 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .om-toast, .om-alert[role='alert'], .om-select-dropdown > [role='listbox']:not([hidden]) {
+  .om-toast, .om-alert[role='alert'] {
     animation: om-enter var(--om-semantic-motion-duration) var(--om-semantic-motion-ease) both;
+  }
+
+  .om-select-dropdown > [role='listbox']:not([hidden]) {
+    animation: om-dropdown-reveal var(--om-semantic-motion-duration) var(--om-semantic-motion-ease);
+  }
+
+  @keyframes om-dropdown-reveal {
+    from { clip-path: inset(0 0 100% 0); }
+    to { clip-path: inset(0); }
   }
 
   @keyframes om-enter {

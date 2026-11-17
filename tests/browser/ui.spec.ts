@@ -165,8 +165,10 @@ test('navigation, search, live props, code, tokens and mobile menu work', async 
   await page.getByLabel('Project name', { exact: true }).fill('A new idea');
   await page.getByRole('button', { name: 'Save changes' }).click();
   await expect(page.getByRole('dialog')).toBeHidden();
-  await expect(page.locator('.preview').getByRole('status')).toContainText(
-    'Saved: A new idea',
+  await expect(page.locator('.preview').getByRole('status')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Edit project' }).click();
+  await expect(page.getByLabel('Project name', { exact: true })).toHaveValue(
+    'A new idea',
   );
 });
 
@@ -312,8 +314,21 @@ test('custom Select navigates, skips disabled options and dismisses', async ({
   await select.press('s');
   await select.press('Escape');
   await expect(select).toHaveText('Production');
-  await select.click();
-  await page.getByRole('option', { name: 'Staging' }).click();
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await select.press('Home');
+  const listbox = page.getByRole('listbox');
+  const selected = listbox.getByRole('option', { selected: true });
+  const active = listbox.locator('[data-active]');
+  await expect(listbox).toHaveCSS('animation-name', 'om-dropdown-reveal');
+  await expect(selected).toHaveCSS('font-weight', '400');
+  await expect(selected).toHaveCSS('outline-style', 'none');
+  await expect(active).toHaveAttribute('aria-selected', 'false');
+  expect(await selected.evaluate((option) => getComputedStyle(option).backgroundColor)).not.toBe(
+    await active.evaluate((option) => getComputedStyle(option).backgroundColor),
+  );
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(listbox).toHaveCSS('animation-name', 'none');
+  await listbox.getByRole('option', { name: 'Staging' }).click();
   await expect(select).toHaveText('Staging');
   await expect(select).toHaveAttribute('aria-expanded', 'false');
 });
@@ -372,5 +387,25 @@ test('language switch translates docs and persists across reloads', async ({
     await expect(page.getByRole('heading', { name: palette })).toBeVisible();
     await page.reload();
     await expect(language).toHaveValue(locale);
+  }
+});
+
+test('wide layouts center docs within the space beyond the sidebar', async ({
+  page,
+}) => {
+  for (const width of [1440, 1920, 2560]) {
+    await page.setViewportSize({ width, height: 960 });
+    for (const path of ['overview', 'button']) {
+      await page.goto(`/#/${path}`);
+      await expect(page.locator('#page-title')).toBeVisible();
+      const sidebar = await page.locator('#docs-sidebar').boundingBox();
+      const breadcrumb = await page.locator('.breadcrumb').boundingBox();
+      expect(sidebar).not.toBeNull();
+      expect(breadcrumb).not.toBeNull();
+      const laneStart = sidebar!.x + sidebar!.width;
+      const leftSpace = breadcrumb!.x - laneStart;
+      const rightSpace = width - breadcrumb!.x - breadcrumb!.width;
+      expect(Math.abs(leftSpace - rightSpace)).toBeLessThanOrEqual(1);
+    }
   }
 });

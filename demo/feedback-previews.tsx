@@ -58,27 +58,22 @@ export const BreadcrumbPreview = () => {
   const { t } = useLocale();
   const [selected, setSelected] = useState('Colors');
   return (
-    <>
-      <Breadcrumbs aria-label={t('Example breadcrumb')}>
-        {['Overview', 'Foundations', 'Colors'].map((page) => (
-          <li key={page}>
-            <button
-              type="button"
-              aria-current={page === selected ? 'page' : undefined}
-              onClick={(event) => {
-                setSelected(page);
-                event.currentTarget.focus();
-              }}
-            >
-              {t(page)}
-            </button>
-          </li>
-        ))}
-      </Breadcrumbs>
-      <p className="breadcrumb-preview-status" role="status">
-        {t('Preview location')}: {t(selected)}
-      </p>
-    </>
+    <Breadcrumbs aria-label={t('Example breadcrumb')}>
+      {['Overview', 'Foundations', 'Colors'].map((page) => (
+        <li key={page}>
+          <button
+            type="button"
+            aria-current={page === selected ? 'page' : undefined}
+            onClick={(event) => {
+              setSelected(page);
+              event.currentTarget.focus();
+            }}
+          >
+            {t(page)}
+          </button>
+        </li>
+      ))}
+    </Breadcrumbs>
   );
 };
 

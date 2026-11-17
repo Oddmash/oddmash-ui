@@ -35,12 +35,9 @@ select {
 button {
   cursor: pointer;
 }
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-select:focus-visible {
+:where(button, a, input, select, textarea, summary):focus-visible {
   outline: 2px solid var(--om-semantic-color-focus);
-  outline-offset: 4px;
+  outline-offset: 3px;
 }
 h1,
 h2,
@@ -153,10 +150,13 @@ h1:focus {
 .menu-toggle {
   display: none;
 }
+.docs-app {
+  --docs-sidebar-width: 248px;
+}
 .sidebar {
   position: fixed;
   inset: 72px auto 0 0;
-  width: 248px;
+  width: var(--docs-sidebar-width);
   border-right: 1px solid var(--om-semantic-color-border-subtle);
   padding: 28px 24px;
   overflow-y: auto;
@@ -234,8 +234,12 @@ h1:focus {
   color: var(--om-semantic-color-muted);
 }
 .docs-main {
-  margin-left: 248px;
-  max-width: 1530px;
+  --docs-content-max: 1530px;
+  max-inline-size: var(--docs-content-max);
+  margin-inline-start: max(
+    var(--docs-sidebar-width),
+    calc((100% + var(--docs-sidebar-width) - var(--docs-content-max)) / 2)
+  );
   padding: 0 56px;
 }
 .breadcrumb {
@@ -655,7 +659,7 @@ h1:focus {
 .tile-preview .project-card p {
   font-size: 10px;
 }
-.tile-preview .project-card-bottom > span {
+.tile-preview .project-card-updated {
   display: none;
 }
 .tile-preview .tabs-example .om-tabs-trigger {
@@ -679,9 +683,6 @@ h1:focus {
   height: 26px;
   font-size: 17px;
 }
-.tile-preview .example-feedback:empty {
-  display: none;
-}
 .button-row {
   display: flex;
   flex-wrap: wrap;
@@ -694,12 +695,6 @@ h1:focus {
   flex-direction: column;
   align-items: center;
   gap: 16px;
-}
-.example-feedback {
-  color: var(--om-semantic-color-muted);
-  font-size: 12px;
-  min-height: 18px;
-  text-align: center;
 }
 .muted {
   color: var(--om-semantic-color-muted);
@@ -761,23 +756,11 @@ h1:focus {
   font-size: 12px;
   color: var(--om-semantic-color-muted);
 }
-.project-card-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 20px;
-}
-.project-card-bottom > span {
+.project-card-updated {
+  display: block;
+  margin-block-start: 20px;
   font-size: 10px;
   color: var(--om-semantic-color-muted);
-}
-.project-card .example-feedback {
-  display: block;
-  margin-top: 8px;
-}
-.project-card .example-feedback:empty {
-  display: none;
 }
 .tabs-example {
   max-width: 440px;
@@ -904,8 +887,7 @@ h1:focus {
   color: var(--om-semantic-color-muted);
 }
 .detail {
-  max-width: 1200px;
-  padding-right: 72px;
+  --docs-content-max: 1200px;
 }
 .page-heading {
   padding-top: 52px;
@@ -953,16 +935,10 @@ h1:focus {
   padding: 5px 12px;
   border-radius: 5px;
 }
+.view-switch button:hover,
 .view-switch button[aria-pressed='true'] {
   color: var(--om-semantic-color-text);
   background: var(--om-semantic-color-bg);
-}
-.live-label {
-  font-size: 10px;
-  color: var(--om-semantic-color-muted);
-  display: flex;
-  align-items: center;
-  gap: 7px;
 }
 .preview {
   min-height: 270px;
@@ -1354,12 +1330,11 @@ td code {
   }
 }
 @media (max-width: 1000px) {
-  .sidebar {
-    width: 220px;
-    padding-inline: 20px;
+  .docs-app {
+    --docs-sidebar-width: 220px;
   }
-  .docs-main {
-    margin-left: 220px;
+  .sidebar {
+    padding-inline: 20px;
   }
   .wordmark {
     width: 156px;
@@ -1419,6 +1394,9 @@ td code {
   }
 }
 @media (max-width: 760px) {
+  .docs-app {
+    --docs-sidebar-width: 0px;
+  }
   .site-header {
     height: 64px;
     padding-inline: 20px;
@@ -1463,7 +1441,6 @@ td code {
     padding-inline: 8px;
   }
   .docs-main {
-    margin-left: 0;
     padding-inline: 24px;
   }
   .breadcrumb {
