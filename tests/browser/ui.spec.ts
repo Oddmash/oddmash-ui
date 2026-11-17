@@ -423,3 +423,16 @@ test('route navigation is static while components keep their motion', async ({ p
   await select.press('Enter');
   await expect(page.getByRole('listbox')).toHaveCSS('animation-name', 'om-dropdown-reveal');
 });
+
+test('overview links lead to the actual pattern and component previews', async ({ page }) => {
+  await page.goto('/#/overview');
+  const main = page.getByRole('main');
+  await expect(main.getByRole('heading', { level: 1 })).toHaveText('Oddmash UI');
+  for (const id of ['interaction-pattern', 'timeline-filters', 'select', 'colors']) {
+    await expect(main.locator(`a[href="#/${id}"]`)).toBeVisible();
+  }
+  await expect(main.locator('.preview')).toHaveCount(0);
+  await main.getByRole('link', { name: /Getting started/ }).click();
+  await expect(main.getByRole('heading', { level: 1 })).toHaveText('Installation');
+  await expect(main.getByRole('heading', { level: 2 }).first()).toHaveText('Install from npm');
+});

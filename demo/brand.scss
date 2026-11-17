@@ -28,62 +28,6 @@
   font-size: 12px;
 }
 
-.overview-intro {
-  position: relative;
-  isolation: isolate;
-  overflow: clip;
-  margin-block-start: 28px;
-  padding: clamp(36px, 6vw, 88px) clamp(17px, 4vw, 60px);
-  border: 1px solid var(--docs-stroke);
-  border-radius: var(--om-semantic-radius-lg);
-  background: var(--docs-panel);
-
-  > div {
-    min-inline-size: 0;
-  }
-
-  h1 {
-    font-size: clamp(40px, 5.2vw, 88px);
-    line-height: 0.99;
-    letter-spacing: -0.075em;
-    font-weight: 750;
-    overflow-wrap: anywhere;
-  }
-
-  h1 span {
-    color: var(--om-semantic-color-muted);
-  }
-}
-
-.brand-ribbon {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    135deg,
-    transparent 38%,
-    var(--docs-stroke) 69%,
-    transparent
-  );
-  clip-path: polygon(
-    0 86%,
-    31% 18%,
-    41% 18%,
-    56% 46%,
-    72% 8%,
-    82% 8%,
-    100% 55%,
-    100% 65%,
-    77% 19%,
-    58% 58%,
-    54% 58%,
-    36% 27%,
-    0 98%
-  );
-  opacity: 0.53;
-}
-
 .interaction-lab {
   background: var(--om-semantic-color-bg);
   border-color: var(--docs-stroke);
@@ -93,32 +37,6 @@
   background: var(--docs-panel);
 }
 
-.component-tile {
-  border-radius: var(--om-semantic-radius-md);
-  transition: border-color var(--om-semantic-motion-duration)
-    var(--om-semantic-motion-ease);
-}
-
-.component-tile:is(:hover, :focus-within) {
-  border-color: var(--om-semantic-color-border);
-}
-
-.tile-preview {
-  background: linear-gradient(
-    153deg,
-    var(--docs-panel),
-    var(--om-semantic-color-bg)
-  );
-}
-
-.tile-link {
-  border-inline-start: 2px solid transparent;
-}
-
-.tile-link:is(:hover, :focus-visible) {
-  border-inline-start-color: var(--om-semantic-color-text);
-}
-
 .om-breadcrumbs button {
   padding: 0;
   border: 0;
@@ -126,12 +44,6 @@
   background: none;
   text-decoration: underline;
   text-underline-offset: 0.2em;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .component-tile {
-    transition: none;
-  }
 }
 
 @media (max-width: 760px) {
@@ -161,10 +73,6 @@
 
   .sidebar {
     max-height: calc(100dvh - var(--docs-header-height));
-  }
-
-  .overview-intro h1 {
-    letter-spacing: -0.055em;
   }
 }
 

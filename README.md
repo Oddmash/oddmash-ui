@@ -4,7 +4,7 @@
 
 Oddmash UI is the shared interface foundation for Oddmash products. It gives small React developer tools a consistent visual language, accessible interaction patterns, and themeable design tokens without deciding the product layout for them.
 
-![Oddmash UI documentation showing the component gallery and design foundations](docs/assets/playground.png)
+![Oddmash UI documentation with its patterns and component index](docs/assets/playground.png)
 
 ## What it provides
 
