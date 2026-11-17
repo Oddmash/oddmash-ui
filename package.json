@@ -141,6 +141,8 @@
     "build:demo": "vite build --config demo/vite.config.ts",
     "check": "npm run tokens:check && npm run build && npm run typecheck && npm run lint && npm test && npm run test:bundle && npm run build:demo",
     "test:browser": "playwright test",
+    "test:a11y": "playwright test --grep \"accessibility|contrast\"",
+    "test:visual": "playwright test visual.spec.ts --project=chromium",
     "prepare": "npm run build",
     "test:bundle": "node --import tsx scripts/bundle.ts"
   },

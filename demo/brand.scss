@@ -128,21 +128,6 @@
   text-underline-offset: 0.2em;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .route-content {
-    animation: docs-reveal 200ms var(--om-semantic-motion-ease);
-  }
-
-  @keyframes docs-reveal {
-    from {
-      translate: 0 4px;
-    }
-    to {
-      translate: 0 0;
-    }
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .component-tile {
     transition: none;
