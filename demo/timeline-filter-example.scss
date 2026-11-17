@@ -1,0 +1,40 @@
+.timeline-filter-example {
+  inline-size: min(100%, 30rem);
+  min-inline-size: 0;
+  text-align: start;
+
+  .om-field {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--om-semantic-space-sm) var(--om-semantic-space-lg);
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: var(--om-semantic-space-sm);
+  }
+
+  .om-select {
+    inline-size: auto;
+  }
+
+  p {
+    margin-block: var(--om-semantic-space-md) var(--om-semantic-space-xs);
+    color: var(--om-semantic-color-muted);
+  }
+
+  ol {
+    margin: 0;
+    padding-inline-start: var(--om-semantic-space-xl);
+  }
+
+  li {
+    padding-block: var(--om-semantic-space-xs);
+  }
+
+  code {
+    font-family: var(--om-semantic-font-mono-family);
+  }
+}

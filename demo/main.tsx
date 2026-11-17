@@ -8,6 +8,7 @@ import './fonts.scss';
 import './style.scss';
 import './interaction-lab.scss';
 import InteractionLab from './interaction-lab';
+import { TimelineFilters } from './timeline-filters';
 import { npmPackageUrl, repositoryUrl } from './package-links';
 
 const navigationGroups = [...new Set(pages.map((page) => page.group))];
@@ -305,6 +306,8 @@ const App = () => {
               <Typography />
             ) : page === 'tokens' ? (
               <TokenExplorer />
+            ) : page === 'timeline-filters' ? (
+              <TimelineFilters />
             ) : page === 'interaction-pattern' ? (
               <div className="pattern-content">
                 <InteractionLab />

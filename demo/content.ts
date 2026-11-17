@@ -82,6 +82,12 @@ export const pages = [
     description:
       'Compose a form and a live event history for a keyboard-friendly developer tool.',
   },
+  {
+    id: 'timeline-filters',
+    title: 'Timeline filters',
+    group: 'Patterns',
+    description: 'Filter captured events by type and by the selected element.',
+  },
 ] as const;
 export type PageId = (typeof pages)[number]['id'];
 export type ComponentId =
