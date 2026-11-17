@@ -208,7 +208,7 @@ const App = () => {
           <kbd>⌘ K</kbd>
         </div>
         <div className="header-actions">
-          <span className="version-label">v0.1</span>
+          <span className="version-label">v0.2</span>
           <div className="header-package-links">
             <a href={npmPackageUrl}>
               npm <Arrow />
@@ -339,7 +339,7 @@ const App = () => {
         <footer className="site-footer">
           <span>
             <img className="footer-logo" src="./oddmash-logo.png" alt="" />
-            Oddmash UI <span className="muted">· v0.1</span>
+            Oddmash UI <span className="muted">· v0.2</span>
           </span>
           <a href="https://github.com/Oddmash/oddmash-ui/blob/main/CONTRIBUTING.md">
             Contribute to the system <Arrow />
