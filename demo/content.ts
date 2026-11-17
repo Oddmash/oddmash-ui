@@ -115,6 +115,7 @@ export const details: Record<
     props: string[][];
     code: string;
     exports?: string;
+    reactImports?: readonly string[];
   }
 > = {
   ...extendedComponents,

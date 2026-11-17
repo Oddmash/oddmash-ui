@@ -255,7 +255,28 @@
 }
 
 .om-accordion-content {
-  padding: 0 var(--om-semantic-space-xs) var(--om-semantic-space-md);
+  min-block-size: 0;
+
+  > div {
+    padding: 0 var(--om-semantic-space-xs) var(--om-semantic-space-md);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports selector(::details-content) and (transition-behavior: allow-discrete) {
+    .om-accordion::details-content {
+      display: grid;
+      grid-template-rows: minmax(0, 0fr);
+      overflow: clip;
+      transition:
+        grid-template-rows var(--om-semantic-motion-duration) var(--om-semantic-motion-ease),
+        content-visibility var(--om-semantic-motion-duration) allow-discrete;
+    }
+
+    .om-accordion[open]::details-content {
+      grid-template-rows: minmax(0, 1fr);
+    }
+  }
 }
 
 .om-table {
@@ -330,7 +351,6 @@
 }
 
 :is(
-  .om-textarea,
   .om-select,
   .om-checkbox,
   .om-radio,

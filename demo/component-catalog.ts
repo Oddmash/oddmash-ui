@@ -231,7 +231,25 @@ export const SaveNotice = () => {
       'Label page links and omit or disable unavailable previous and next actions.',
     props: [['aria-label', 'string', 'Pagination']],
     exports: 'Pagination',
-    code: '<Pagination aria-label="Example pagination">\n  <a href="#/breadcrumbs" aria-label="Page 1">1</a>\n  <span aria-current="page">2</span>\n  <a href="#/table" aria-label="Page 3">3</a>\n</Pagination>',
+    reactImports: ['useState'],
+    code: `const Example = () => {
+  const [currentPage, setCurrentPage] = useState(2);
+  return (
+    <Pagination aria-label="Example pagination">
+      {[1, 2, 3].map((page) => (
+        <button
+          key={page}
+          type="button"
+          aria-label={\`Page \${page}\`}
+          aria-current={page === currentPage ? 'page' : undefined}
+          onClick={() => setCurrentPage(page)}
+        >
+          {page}
+        </button>
+      ))}
+    </Pagination>
+  );
+};`,
   },
   avatar: {
     title: 'Avatar',

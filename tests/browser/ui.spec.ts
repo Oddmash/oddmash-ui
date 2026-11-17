@@ -78,8 +78,12 @@ test('navigation, search, live props, code, tokens and mobile menu work', async 
   await expect(navigation.getByRole('link')).toHaveCount(1);
   await navigation.getByRole('link', { name: 'Button', exact: true }).click();
   await expect(page.locator('#page-title')).toHaveText('Button');
-  await page.getByLabel('Variant', { exact: true }).selectOption('secondary');
-  await page.getByLabel('Size', { exact: true }).selectOption('sm');
+  await page.getByRole('combobox', { name: 'Variant', exact: true }).click();
+  await page.getByRole('option', { name: 'secondary', exact: true }).click();
+  const size = page.getByRole('combobox', { name: 'Size', exact: true });
+  await size.press('End');
+  await size.press('Enter');
+  await expect(size).toHaveText('sm');
   await expect(
     page.getByRole('button', { name: 'Create project' }),
   ).toHaveClass(/om-button--secondary.*om-button--sm/);
@@ -276,10 +280,13 @@ test('new controls support native keyboard interaction and navigation', async ({
   ).toBeVisible();
 
   await page.goto('/#/pagination');
-  await page.getByRole('link', { name: 'Page 3' }).click();
-  await expect(
-    page.getByRole('table', { name: 'Recorded events' }),
-  ).toBeVisible();
+  const pagination = page.getByRole('navigation', { name: 'Example pagination' });
+  const third = pagination.getByRole('button', { name: 'Page 3' });
+  await third.press('Enter');
+  await expect(third).toBeFocused();
+  await expect(third).toHaveAttribute('aria-current', 'page');
+  await expect(pagination.locator('[aria-current="page"]')).toHaveCount(1);
+  await expect(page).toHaveURL(/#\/pagination$/);
 });
 
 test('timeline filters combine without changing the original event list', async ({
@@ -435,4 +442,52 @@ test('overview links lead to the actual pattern and component previews', async (
   await main.getByRole('link', { name: /Getting started/ }).click();
   await expect(main.getByRole('heading', { level: 1 })).toHaveText('Installation');
   await expect(main.getByRole('heading', { level: 2 }).first()).toHaveText('Install from npm');
+});
+
+test('form focus uses a single outline and preserves the invalid border', async ({ page }) => {
+  await page.goto('/#/input');
+  const name = page.getByRole('textbox', { name: 'Project name' });
+  await name.focus();
+  await expect(name).toHaveCSS('outline-style', 'solid');
+  await expect(name).toHaveCSS('outline-offset', '-1px');
+  const invalid = page.getByRole('textbox', { name: 'Repository URL' });
+  await name.press('Tab');
+  await expect(invalid).toBeFocused();
+  await expect(invalid).toHaveCSS('outline-offset', '-3px');
+  await expect(invalid).toHaveAttribute('aria-invalid', 'true');
+});
+
+test('accordion expands and collapses with native disclosure motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/#/accordion');
+  const accordion = page.locator('.om-accordion');
+  const sampleToggle = () =>
+    accordion.evaluate(async (element) => {
+      const summary = element.querySelector('summary')!;
+      const start = element.getBoundingClientRect().height;
+      const heights: number[] = [];
+      summary.click();
+      const duration = Number.parseFloat(
+        getComputedStyle(element, '::details-content').transitionDuration,
+      ) * 1000;
+      const started = performance.now();
+      while (performance.now() - started < duration + 80) {
+        await new Promise(requestAnimationFrame);
+        heights.push(element.getBoundingClientRect().height);
+      }
+      return { start, end: heights.at(-1)!, heights };
+    });
+
+  for (const direction of ['open', 'closed']) {
+    const { start, end, heights } = await sampleToggle();
+    expect(end > start).toBe(direction === 'open');
+    expect(heights.some((height) =>
+      height > Math.min(start, end) && height < Math.max(start, end),
+    )).toBe(true);
+  }
+  await expect(accordion).not.toHaveAttribute('open', '');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect.poll(() => accordion.evaluate((element) =>
+    getComputedStyle(element, '::details-content').transitionDuration,
+  )).toBe('0s');
 });

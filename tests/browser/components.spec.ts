@@ -115,10 +115,12 @@ const previewChecks = {
     await expect(overview).toHaveAttribute('aria-current', 'page');
     await expect(page).toHaveURL(/#\/breadcrumbs$/);
   },
-  pagination: async (preview) => {
+  pagination: async (preview, page) => {
     const pagination = preview.getByRole('navigation', { name: 'Example pagination' });
     await expect(pagination.locator('[aria-current="page"]')).toHaveText('2');
-    await expect(pagination.getByRole('link', { name: 'Page 3' })).toHaveAttribute('href', '#/table');
+    await pagination.getByRole('button', { name: 'Page 3' }).click();
+    await expect(pagination.locator('[aria-current="page"]')).toHaveText('3');
+    await expect(page).toHaveURL(/#\/pagination$/);
   },
   'empty-state': async (preview) => {
     await expect(preview.getByText('No events captured')).toBeVisible();

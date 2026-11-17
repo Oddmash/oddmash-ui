@@ -1,5 +1,5 @@
 import { useId, useRef, useState, type ReactNode } from 'react';
-import { Alert, Breadcrumbs, Button, Toast } from '@oddmash/ui';
+import { Alert, Breadcrumbs, Button, Pagination, Toast } from '@oddmash/ui';
 import { useLocale } from './locale';
 
 export const AlertPreview = () => {
@@ -96,5 +96,26 @@ export const LoadingPreview = ({ children }: { children: ReactNode }) => {
         {visible && children}
       </div>
     </>
+  );
+};
+
+
+export const PaginationPreview = () => {
+  const { t } = useLocale();
+  const [currentPage, setCurrentPage] = useState(2);
+  return (
+    <Pagination aria-label={t('Example pagination')}>
+      {[1, 2, 3].map((page) => (
+        <button
+          key={page}
+          type="button"
+          aria-label={t(`Page ${page}`)}
+          aria-current={page === currentPage ? 'page' : undefined}
+          onClick={() => setCurrentPage(page)}
+        >
+          {page}
+        </button>
+      ))}
+    </Pagination>
   );
 };

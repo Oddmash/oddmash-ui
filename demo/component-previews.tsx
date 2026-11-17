@@ -2,6 +2,7 @@ import {
   AlertPreview,
   BreadcrumbPreview,
   LoadingPreview,
+  PaginationPreview,
   ToastPreview,
 } from './feedback-previews';
 import {
@@ -11,7 +12,6 @@ import {
   Checkbox,
   EmptyState,
   Field,
-  Pagination,
   Progress,
   Radio,
   SelectDropdown,
@@ -130,17 +130,7 @@ export const getComponentPreviews = (
     </Accordion>
   ),
   breadcrumbs: <BreadcrumbPreview />,
-  pagination: (
-    <Pagination aria-label={t('Example pagination')}>
-      <a href="#/breadcrumbs" aria-label={t('Page 1')}>
-        1
-      </a>
-      <span aria-current="page">2</span>
-      <a href="#/table" aria-label={t('Page 3')}>
-        3
-      </a>
-    </Pagination>
-  ),
+  pagination: <PaginationPreview />,
   avatar: (
     <div className="example-choice">
       <Avatar label="Sangmin Park">SP</Avatar>

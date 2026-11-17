@@ -174,13 +174,21 @@
 }
 :is(
   .om-button,
-  .om-input,
   .om-tabs-trigger,
   .om-tabs-content,
   .om-dialog-content
 ):focus-visible {
   outline: 2px solid var(--om-semantic-color-focus);
   outline-offset: 3px;
+}
+:is(.om-input, .om-textarea):focus-visible {
+  outline: 2px solid var(--om-semantic-color-focus);
+  outline-offset: -1px;
+
+  &[aria-invalid='true'],
+  &:user-invalid {
+    outline-offset: -3px;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .om-button,

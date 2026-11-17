@@ -15,7 +15,9 @@ export const Accordion = /* @__PURE__ */ forwardRef<
 >(({ className, summary, children, ...props }, ref) => (
   <details {...props} ref={ref} className={cx('om-accordion', className)}>
     <summary>{summary}</summary>
-    <div className="om-accordion-content">{children}</div>
+    <div className="om-accordion-content">
+      <div>{children}</div>
+    </div>
   </details>
 ));
 Accordion.displayName = 'Accordion';
