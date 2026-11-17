@@ -7,7 +7,7 @@ Treat every localized README as a product introduction, not a repository setup g
 - Use `.agents/skills/oddmash-ui-development/SKILL.md` for substantive token, component, export, demo, documentation, or test work.
 - Use the folded ribbon in the Oddmash logo as the visual reference. Use neutral surfaces, paired diagonals, and high-contrast text. Reserve blue for focus and red for errors.
 - Keep the documentation in English, Korean, Japanese, and Simplified Chinese. Localize navigation, prose, and accessible labels together. Keep public API identifiers and copyable code recognizable.
-- Let users reveal alerts, dialogs, toasts, and loading states from an explicit preview control. Keep breadcrumb demos on the current page.
+- Let users reveal alerts, dialogs, toasts, and loading states from an explicit preview control. Keep breadcrumb and pagination demos on the current page. Use shared controls in playground settings and verify keyboard focus, component motion, and reduced motion.
 - Keep JSON under `tokens/` as the token source of truth. Never hand-edit `src/generated/` or `dist/`.
 - Preserve ESM-only output, React 18/19 peer support, component entry points, native prop/ref behavior, accessibility contracts, and the no-global-reset boundary unless the task explicitly changes them.
 - Keep product-specific layout and palettes in consumer overrides or the demo. Add them to the shared package only when more than one product needs the same behavior.
