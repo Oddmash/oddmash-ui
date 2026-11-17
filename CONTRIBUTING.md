@@ -57,6 +57,8 @@ Set `data-om-theme="light"` or `data-om-theme="dark"` on the document or a subtr
 | `npm run test:bundle` | Verify the small Button-only bundle |
 | `npm run build:demo` | Build the documentation site against the compiled package |
 | `npm run test:browser` | Run keyboard, focus, axe, responsive, and motion checks |
+| `npm run test:a11y` | Run axe and accessibility assertions on the docs and active component states |
+| `npm run test:visual` | Compare Select and Dialog screenshots against the Linux Chromium baselines |
 | `npm run check` | Run the non-browser validation suite |
 
 Run `npx playwright install chromium firefox webkit` before the browser suite when the browsers are not installed. Keep the four product README translations, language links, and visuals synchronized. Follow the [Oddmash organization contribution policy](https://github.com/Oddmash/.github/blob/main/CONTRIBUTING.md) and discuss cross-project API changes in an issue first.
@@ -68,6 +70,10 @@ The initial Interaction Inspector integration was measured on a Chromium fixture
 ## Current verification coverage
 
 CI checks React 18 and 19 with matching type packages. The browser suite covers the documentation pages in light and dark themes, 320 px layouts, axe scans, keyboard navigation, focus return, live props, copy behavior, token filtering, scoped themes, mobile navigation, dialog submission, reduced motion, and product overrides across Chromium, Firefox, and WebKit.
+
+Each component preview has a dedicated browser test that exercises its behavior or rendered semantics before running axe in light and dark themes. CI includes failures with screenshots, traces, and visual diffs in the browser results artifact.
+
+Run visual comparisons on Linux with the version of Chromium installed by Playwright. After reviewing an intentional change against the current baselines, regenerate them on Linux with `npm run test:visual -- --update-snapshots=all` and include the changed images in the PR.
 
 Automated accessibility checks are not a WCAG certification or a substitute for manual assistive-technology testing. Publishing remains a separate owner-approved action; npm scope ownership and release permission must be confirmed before any release.
 
