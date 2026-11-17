@@ -231,6 +231,7 @@ export const translations: Record<string, Translation> = {
   ],
   'Example pagination': ['페이지 이동 예제', 'ページ切り替えの例', '分页示例'],
   'Page 1': ['1페이지', '1 ページ', '第 1 页'],
+  'Page 2': ['2페이지', '2 ページ', '第 2 页'],
   'Page 3': ['3페이지', '3 ページ', '第 3 页'],
   'Design team': ['디자인 팀', 'デザインチーム', '设计团队'],
   'Recording settings': ['기록 설정', '記録設定', '记录设置'],

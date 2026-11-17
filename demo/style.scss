@@ -804,7 +804,11 @@ h1:focus {
   border-radius: 9px;
   overflow: hidden;
 }
+.playground:has(> .playground-controls) {
+  overflow: visible;
+}
 .playground-toolbar {
+  border-radius: 8px 8px 0 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -843,10 +847,11 @@ h1:focus {
 }
 .playground > .code-block {
   border: 0;
-  border-radius: 0;
+  border-radius: 0 0 8px 8px;
   min-height: 270px;
 }
 .playground-controls {
+  border-radius: 0 0 8px 8px;
   padding: 18px 24px;
   display: flex;
   gap: 28px;
@@ -861,13 +866,13 @@ h1:focus {
   gap: 10px;
   font-size: 11px;
 }
-.playground-controls select {
-  border: 1px solid var(--om-semantic-color-border);
-  background: var(--om-semantic-color-surface);
-  color: inherit;
-  border-radius: 5px;
-  padding: 5px 8px;
-  font-size: 11px;
+.playground-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.playground-control .om-select-dropdown-trigger {
+  min-block-size: var(--om-semantic-control-small);
 }
 .playground-controls input {
   accent-color: var(--om-semantic-color-accent);

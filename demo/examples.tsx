@@ -3,6 +3,7 @@ import { useState, type ReactNode } from 'react';
 import {
   Button,
   Input,
+  SelectDropdown,
   Card,
   Badge,
   Tabs,
@@ -231,6 +232,9 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
         : id === 'card'
           ? 'Card, Badge'
           : id[0].toUpperCase() + id.slice(1));
+  const reactImport = info.reactImports
+    ? `import { ${info.reactImports.join(', ')} } from 'react';\n`
+    : '';
   return (
     <>
       <section className="doc-section" aria-labelledby="playground-heading">
@@ -271,37 +275,35 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
               )}
             </Preview>
           ) : (
-            <Code>{`import { ${exports} } from '@oddmash/ui';\nimport '@oddmash/ui/styles.css';\n\n${code}`}</Code>
+            <Code>{`${reactImport}import { ${exports} } from '@oddmash/ui';\nimport '@oddmash/ui/styles.css';\n\n${code}`}</Code>
           )}
           {id === 'button' && (
             <div className="playground-controls">
-              <label>
-                {t('Variant')}
-                <select
-                  aria-label={t('Variant')}
+              <div className="playground-control">
+                <label htmlFor="button-variant">{t('Variant')}</label>
+                <SelectDropdown
+                  id="button-variant"
                   value={variant}
-                  onChange={(event) =>
-                    setVariant(event.target.value as typeof variant)
-                  }
-                >
-                  <option>primary</option>
-                  <option>secondary</option>
-                  <option>ghost</option>
-                </select>
-              </label>
-              <label>
-                {t('Size')}
-                <select
-                  aria-label={t('Size')}
+                  options={[
+                    { value: 'primary', label: 'primary' },
+                    { value: 'secondary', label: 'secondary' },
+                    { value: 'ghost', label: 'ghost' },
+                  ]}
+                  onValueChange={(value) => setVariant(value as typeof variant)}
+                />
+              </div>
+              <div className="playground-control">
+                <label htmlFor="button-size">{t('Size')}</label>
+                <SelectDropdown
+                  id="button-size"
                   value={size}
-                  onChange={(event) =>
-                    setSize(event.target.value as typeof size)
-                  }
-                >
-                  <option>md</option>
-                  <option>sm</option>
-                </select>
-              </label>
+                  options={[
+                    { value: 'md', label: 'md' },
+                    { value: 'sm', label: 'sm' },
+                  ]}
+                  onValueChange={(value) => setSize(value as typeof size)}
+                />
+              </div>
               <label className="checkbox-label">
                 <input
                   type="checkbox"
