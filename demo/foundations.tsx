@@ -47,11 +47,6 @@ export const Colors = ({ theme }: { theme: 'light' | 'dark' }) => {
             focus, and red marks errors.
           </p>
         </div>
-        <div className="color-orbit" aria-hidden="true">
-          <i />
-          <i />
-          <i />
-        </div>
       </div>
       <section className="doc-section">
         <div className="section-title">
@@ -93,12 +88,14 @@ export const Colors = ({ theme }: { theme: 'light' | 'dark' }) => {
 export const Typography = () => (
   <>
     <div className="type-specimen">
-      <span className="section-caption">SYSTEM SANS / NO FONT DOWNLOAD</span>
+      <span className="section-caption">Geist Sans</span>
       <div className="specimen-letters">
         Aa<span>Bb</span>
       </div>
-      <p>Good tools speak clearly.</p>
+      <p>Small tools. Better flow.</p>
       <div className="specimen-alphabet">
+        <strong>Geist Mono</strong>
+        <br />
         ABCDEFGHIJKLMNOPQRSTUVWXYZ
         <br />
         abcdefghijklmnopqrstuvwxyz
@@ -124,12 +121,9 @@ export const Typography = () => (
     <section className="doc-section">
       <h2>Readable by default</h2>
       <p className="body-copy">
-        The component font stack is{' '}
-        {primitive.primitive.font.family.$value.join(', ')}. It uses an
-        available local font and never makes a font request. Labels use weight{' '}
-        {primitive.primitive.font.weight.medium.$value}; body copy keeps a{' '}
-        {primitive.primitive.font.line.$value} line height. Documentation
-        headlines have a separate editorial scale.
+        Use Geist Sans for interface labels, descriptions, and headings. Use
+        Geist Mono for code, token values, and event logs. This site serves both
+        fonts locally. Korean text uses a Korean font available on your device.
       </p>
       <Code>{`import { tokens } from '@oddmash/ui/tokens';\n\n<p style={{ fontSize: tokens['font.small'] }}>\n  A little context goes a long way.\n</p>`}</Code>
     </section>

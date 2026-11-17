@@ -28,6 +28,7 @@ export const tokens = {
   "font.heading": "var(--om-semantic-font-heading)",
   "font.weight": "var(--om-semantic-font-weight)",
   "font.line": "var(--om-semantic-font-line)",
+  "font.mono-family": "var(--om-semantic-font-mono-family)",
   "border.default": "var(--om-semantic-border-default)",
   "border.width": "var(--om-semantic-border-width)",
   "border.style": "var(--om-semantic-border-style)",
