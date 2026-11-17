@@ -109,7 +109,6 @@ export const translations: Record<string, Translation> = {
     '与表单交互以查看控件。',
   ],
   'Interaction views': ['상호작용 보기', '操作ビュー', '交互视图'],
-  Saved: ['저장됨', '保存済み', '已保存'],
   'Show alert': ['알림 표시', 'アラートを表示', '显示警告'],
   'Hide alert': ['알림 숨기기', 'アラートを隠す', '隐藏警告'],
   'Recording stopped': [
@@ -135,11 +134,9 @@ export const translations: Record<string, Translation> = {
   ],
   'Dismiss notification': ['알림 닫기', '通知を閉じる', '关闭通知'],
   'Example breadcrumb': ['경로 탐색 예제', 'パンくずリストの例', '面包屑示例'],
-  'Preview location': ['예제 위치', 'プレビューの位置', '预览位置'],
   Playground: ['플레이그라운드', 'プレイグラウンド', '演练场'],
   Preview: ['미리보기', 'プレビュー', '预览'],
   Code: ['코드', 'コード', '代码'],
-  Interactive: ['직접 체험', '操作可能', '可交互'],
   Usage: ['사용법', '使い方', '用法'],
   'API reference': ['API 참고', 'API リファレンス', 'API 参考'],
   'API reference table': ['API 참고 표', 'API 参照表', 'API 参考表'],
@@ -303,26 +300,6 @@ export const translations: Record<string, Translation> = {
   ],
   'matching events': ['일치하는 이벤트', '件の一致', '条匹配事件'],
   code: ['코드', 'コード', '代码'],
-  'Primary action triggered': [
-    '기본 동작을 실행했습니다',
-    '主操作を実行しました',
-    '已执行主要操作',
-  ],
-  'Secondary action triggered': [
-    '보조 동작을 실행했습니다',
-    '補助操作を実行しました',
-    '已执行次要操作',
-  ],
-  'Ghost action triggered': [
-    '간단한 동작을 실행했습니다',
-    '軽い操作を実行しました',
-    '已执行轻量操作',
-  ],
-  'Project action triggered': [
-    '프로젝트 동작을 실행했습니다',
-    'プロジェクトの操作を実行しました',
-    '已执行项目操作',
-  ],
   'Your next idea': ['새로운 아이디어', '次のアイデア', '你的新想法'],
   'Use a short, memorable name.': [
     '짧고 기억하기 쉬운 이름을 사용하세요.',
@@ -342,12 +319,6 @@ export const translations: Record<string, Translation> = {
     '更清晰地查看每次交互。',
   ],
   'Updated just now': ['방금 업데이트됨', 'たった今更新', '刚刚更新'],
-  'Open project': ['프로젝트 열기', 'プロジェクトを開く', '打开项目'],
-  'This is a local preview project.': [
-    '미리보기용 프로젝트입니다.',
-    'プレビュー用のプロジェクトです。',
-    '这是预览项目。',
-  ],
   Draft: ['초안', '下書き', '草稿'],
   'A little context. No extra noise.': [
     '필요한 맥락만 간단히 표시합니다.',

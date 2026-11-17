@@ -72,8 +72,8 @@ export const Preview = ({
 export const Example = ({ id }: { id: ComponentId }) => {
   const { t } = useLocale();
   const componentPreviews = getComponentPreviews(t);
-  const [notice, setNotice] = useState('');
   const [name, setName] = useState('Interaction Inspector');
+  const [draftName, setDraftName] = useState(name);
   const [open, setOpen] = useState(false);
   if (Object.hasOwn(componentPreviews, id)) {
     return (
@@ -86,25 +86,16 @@ export const Example = ({ id }: { id: ComponentId }) => {
     return (
       <div className="example-stack">
         <div className="button-row">
-          <Button onClick={() => setNotice(t('Primary action triggered'))}>
+          <Button>
             {t('Create project')} <Arrow />
           </Button>
-          <Button
-            variant="secondary"
-            onClick={() => setNotice(t('Secondary action triggered'))}
-          >
+          <Button variant="secondary">
             {t('Cancel')}
           </Button>
-          <Button
-            variant="ghost"
-            onClick={() => setNotice(t('Ghost action triggered'))}
-          >
+          <Button variant="ghost">
             {t('Learn more')}
           </Button>
         </div>
-        <span className="example-feedback" role="status">
-          {t(notice)}
-        </span>
       </div>
     );
   if (id === 'input')
@@ -140,19 +131,7 @@ export const Example = ({ id }: { id: ComponentId }) => {
         </div>
         <h3>Interaction Inspector</h3>
         <p>{t('A clearer view of every interaction.')}</p>
-        <div className="project-card-bottom">
-          <span>{t('Updated just now')}</span>
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => setNotice(t('This is a local preview project.'))}
-          >
-            {t('Open project')} <Arrow />
-          </Button>
-        </div>
-        <span role="status" className="example-feedback">
-          {t(notice)}
-        </span>
+        <span className="project-card-updated">{t('Updated just now')}</span>
       </Card>
     );
   if (id === 'badge')
@@ -197,7 +176,13 @@ export const Example = ({ id }: { id: ComponentId }) => {
     );
   return (
     <div className="example-stack">
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog
+        open={open}
+        onOpenChange={(nextOpen) => {
+          if (nextOpen) setDraftName(name);
+          setOpen(nextOpen);
+        }}
+      >
         <DialogTrigger asChild>
           <Button variant="secondary">
             {t('Edit project')} <Arrow />
@@ -211,17 +196,17 @@ export const Example = ({ id }: { id: ComponentId }) => {
           <form
             onSubmit={(event) => {
               event.preventDefault();
-              if (!name.trim()) return;
-              setNotice(`${t('Saved')}: ${name.trim()}`);
+              if (!draftName.trim()) return;
+              setName(draftName.trim());
               setOpen(false);
             }}
           >
             <label htmlFor="dialog-name">{t('Project name')}</label>
             <Input
               id="dialog-name"
-              value={name}
+              value={draftName}
               required
-              onChange={(event) => setName(event.target.value)}
+              onChange={(event) => setDraftName(event.target.value)}
             />
             <div className="dialog-actions">
               <DialogClose asChild>
@@ -232,9 +217,6 @@ export const Example = ({ id }: { id: ComponentId }) => {
           </form>
         </DialogContent>
       </Dialog>
-      <span className="example-feedback" role="status">
-        {t(notice)}
-      </span>
     </div>
   );
 };
@@ -244,7 +226,6 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
     useState<NonNullable<ButtonProps['variant']>>('primary');
   const [size, setSize] = useState<NonNullable<ButtonProps['size']>>('md');
   const [disabled, setDisabled] = useState(false);
-  const [notice, setNotice] = useState('');
   const [view, setView] = useState<'preview' | 'code'>('preview');
   const info = details[id];
   const buttonCode = `<Button variant="${variant}" size="${size}"${disabled ? ' disabled' : ''}>\n  Create project\n</Button>`;
@@ -256,7 +237,7 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
       : id === 'dialog'
         ? 'Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose, Button, Input'
         : id === 'card'
-          ? 'Card, Badge, Button'
+          ? 'Card, Badge'
           : id[0].toUpperCase() + id.slice(1));
   return (
     <>
@@ -280,10 +261,6 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
                 {t('Code')}
               </button>
             </div>
-            <span className="live-label">
-              <span className="status-dot" />
-              {t('Interactive')}
-            </span>
           </div>
           {view === 'preview' ? (
             <Preview>
@@ -293,13 +270,9 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
                     variant={variant}
                     size={size}
                     disabled={disabled}
-                    onClick={() => setNotice(t('Project action triggered'))}
                   >
                     {t('Create project')} <Arrow />
                   </Button>
-                  <span role="status" className="example-feedback">
-                    {t(notice)}
-                  </span>
                 </div>
               ) : (
                 <Example id={id} />

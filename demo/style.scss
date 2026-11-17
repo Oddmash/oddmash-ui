@@ -35,12 +35,9 @@ select {
 button {
   cursor: pointer;
 }
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-select:focus-visible {
+:where(button, a, input, select, textarea, summary):focus-visible {
   outline: 2px solid var(--om-semantic-color-focus);
-  outline-offset: 4px;
+  outline-offset: 3px;
 }
 h1,
 h2,
@@ -662,7 +659,7 @@ h1:focus {
 .tile-preview .project-card p {
   font-size: 10px;
 }
-.tile-preview .project-card-bottom > span {
+.tile-preview .project-card-updated {
   display: none;
 }
 .tile-preview .tabs-example .om-tabs-trigger {
@@ -686,9 +683,6 @@ h1:focus {
   height: 26px;
   font-size: 17px;
 }
-.tile-preview .example-feedback:empty {
-  display: none;
-}
 .button-row {
   display: flex;
   flex-wrap: wrap;
@@ -701,12 +695,6 @@ h1:focus {
   flex-direction: column;
   align-items: center;
   gap: 16px;
-}
-.example-feedback {
-  color: var(--om-semantic-color-muted);
-  font-size: 12px;
-  min-height: 18px;
-  text-align: center;
 }
 .muted {
   color: var(--om-semantic-color-muted);
@@ -768,23 +756,11 @@ h1:focus {
   font-size: 12px;
   color: var(--om-semantic-color-muted);
 }
-.project-card-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 20px;
-}
-.project-card-bottom > span {
+.project-card-updated {
+  display: block;
+  margin-block-start: 20px;
   font-size: 10px;
   color: var(--om-semantic-color-muted);
-}
-.project-card .example-feedback {
-  display: block;
-  margin-top: 8px;
-}
-.project-card .example-feedback:empty {
-  display: none;
 }
 .tabs-example {
   max-width: 440px;
@@ -959,16 +935,10 @@ h1:focus {
   padding: 5px 12px;
   border-radius: 5px;
 }
+.view-switch button:hover,
 .view-switch button[aria-pressed='true'] {
   color: var(--om-semantic-color-text);
   background: var(--om-semantic-color-bg);
-}
-.live-label {
-  font-size: 10px;
-  color: var(--om-semantic-color-muted);
-  display: flex;
-  align-items: center;
-  gap: 7px;
 }
 .preview {
   min-height: 270px;

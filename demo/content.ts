@@ -155,7 +155,7 @@ export const details: Record<
       ['style', 'CSSProperties', 'None'],
       ['ref', 'HTMLDivElement', 'None'],
     ],
-    code: `<Card>\n  <Badge tone="accent">Active</Badge>\n  <h3>Interaction Inspector</h3>\n  <p>A clearer view of every interaction.</p>\n  <Button variant="secondary">Open project</Button>\n</Card>`,
+    code: `<Card>\n  <Badge tone="accent">Active</Badge>\n  <h3>Interaction Inspector</h3>\n  <p>A clearer view of every interaction.</p>\n  <span>Updated just now</span>\n</Card>`,
   },
   badge: {
     usage:
