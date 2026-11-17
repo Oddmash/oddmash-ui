@@ -278,3 +278,42 @@ test('new controls support native keyboard interaction and navigation', async ({
     page.getByRole('table', { name: 'Recorded events' }),
   ).toBeVisible();
 });
+
+test('timeline filters combine without changing the original event list', async ({
+  page,
+}) => {
+  await page.goto('/#/timeline-filters');
+  const filters = page.getByRole('group', { name: 'Timeline filters' });
+  const timeline = page.getByRole('list', { name: 'Filtered event timeline' });
+  await expect(timeline.getByRole('listitem')).toHaveCount(4);
+  await filters
+    .getByRole('combobox', { name: 'Event type' })
+    .selectOption('click');
+  await expect(timeline.getByRole('listitem')).toHaveCount(2);
+  await filters
+    .getByRole('switch', { name: 'Selected element' })
+    .press('Space');
+  await expect(timeline.getByRole('listitem')).toHaveCount(1);
+  await expect(timeline.getByRole('listitem')).toHaveText('click button');
+});
+
+test('custom Select navigates, skips disabled options and dismisses', async ({
+  page,
+}) => {
+  await page.goto('/#/select');
+  const select = page.getByRole('combobox', { name: 'Environment' });
+  await select.focus();
+  await select.press('ArrowDown');
+  await expect(select).toHaveAttribute('aria-expanded', 'true');
+  await select.press('ArrowDown');
+  await select.press('Enter');
+  await expect(select).toHaveText('Production');
+  await expect(select).toBeFocused();
+  await select.press('s');
+  await select.press('Escape');
+  await expect(select).toHaveText('Production');
+  await select.click();
+  await page.getByRole('option', { name: 'Staging' }).click();
+  await expect(select).toHaveText('Staging');
+  await expect(select).toHaveAttribute('aria-expanded', 'false');
+});

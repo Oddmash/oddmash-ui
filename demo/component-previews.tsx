@@ -10,7 +10,7 @@ import {
   Pagination,
   Progress,
   Radio,
-  Select,
+  SelectDropdown,
   Separator,
   Skeleton,
   Spinner,
@@ -29,13 +29,18 @@ export const componentPreviews: Record<ExtendedComponentId, ReactNode> = {
     </label>
   ),
   select: (
-    <label>
-      Environment
-      <Select defaultValue="staging">
-        <option value="staging">Staging</option>
-        <option value="production">Production</option>
-      </Select>
-    </label>
+    <div>
+      <label htmlFor="example-environment">Environment</label>
+      <SelectDropdown
+        id="example-environment"
+        defaultValue="staging"
+        options={[
+          { value: 'staging', label: 'Staging' },
+          { value: 'preview', label: 'Preview', disabled: true },
+          { value: 'production', label: 'Production' },
+        ]}
+      />
+    </div>
   ),
   checkbox: (
     <label className="example-choice">
