@@ -28,6 +28,6 @@ Oddmash UI 是 Oddmash 产品共享的界面基础。它为小型 React 开发�
 
 ## 当前范围
 
-Oddmash UI 正处于 1.0 之前的活跃开发阶段。目前包含23 类组件，尚未发布到 npm。可前往 [Oddmash UI 文档](https://oddmash.github.io/oddmash-ui/)查看实际效果。
+Oddmash UI 正处于 1.0 之前的开发阶段。GitHub 源码和在线文档涵盖 23 类组件，npm 0.1.0 提供 6 类基础组件。
 
-[贡献指南](../../CONTRIBUTING.md) · [MIT License](../../LICENSE)
+[Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [贡献指南](../../CONTRIBUTING.md) · [MIT License](../../LICENSE)
