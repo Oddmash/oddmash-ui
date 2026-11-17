@@ -1,0 +1,70 @@
+# Contributing to Oddmash UI
+
+The product README explains what Oddmash UI is. Repository setup, local usage, architecture, and verification belong here.
+
+## Local documentation and Storybook
+
+Node.js 24 or later is required.
+
+```sh
+git clone https://github.com/Oddmash/oddmash-ui.git
+cd oddmash-ui
+npm ci
+npm run demo
+# http://localhost:5173
+npm run storybook
+# http://localhost:6006
+```
+
+## Use from another local project
+
+React 18.3.1 and React 19 are supported peers. The package is not published to npm yet. Build a local archive with `npm pack`, then install the resulting `oddmash-ui-0.1.0.tgz` in the consuming project. Import `@oddmash/ui/styles.css` once. The package is ESM-only and does not include a global reset, Tailwind, an icon package, or a CSS-in-JS runtime.
+
+## Token architecture
+
+JSON is the only token source. `tokens/primitive.json` stores palettes and scales; `tokens/semantic/light.json` and `tokens/semantic/dark.json` map intent for each theme. Style Dictionary generates CSS variables and typed references in `src/generated`. Do not edit generated files or `dist` directly.
+
+```text
+tokens/
+  primitive.json
+  semantic/light.json
+  semantic/dark.json
+scripts/tokens.ts
+src/
+  generated/tokens.css
+  generated/tokens.ts
+  button.tsx / input.tsx / card.tsx / badge.tsx
+  tabs.tsx / dialog.tsx
+  styles.scss
+.storybook/
+demo/
+tests/
+```
+
+## Themes and product overrides
+
+Set `data-om-theme="light"` or `data-om-theme="dark"` on the document or a subtree. Applications own system preference and persistence. Load product overrides after the package CSS and override semantic variables rather than primitives. Shadow DOM consumers must inject the stylesheet and portal containers inside their root.
+
+## Verification
+
+| Command | Purpose |
+| --- | --- |
+| `npm run tokens` | Generate CSS and TypeScript from JSON tokens |
+| `npm run tokens:check` | Reject stale output and theme mismatches |
+| `npm run typecheck` | Check TypeScript |
+| `npm run lint` | Run ESLint |
+| `npm test` | Run behavior, hydration, and token tests |
+| `npm run build` | Build ESM, declarations, and CSS |
+| `npm run test:bundle` | Verify the small Button-only bundle |
+| `npm run build-storybook` | Build the component explorer |
+| `npm run build:demo` | Build the package-consuming demo |
+| `npm run test:browser` | Run keyboard, focus, axe, responsive, and motion checks |
+| `npm run check` | Run the non-browser validation suite |
+
+Run `npx playwright install chromium firefox webkit` before the browser suite when the browsers are not installed. Keep the four product README translations, language links, and visuals synchronized. Follow the [Oddmash organization contribution policy](https://github.com/Oddmash/.github/blob/main/CONTRIBUTING.md) and discuss cross-project API changes in an issue first.
+
+## Current verification coverage
+
+CI checks React 18 and 19 with matching type packages. The browser suite covers the documentation pages in light and dark themes, 320 px layouts, axe scans, keyboard navigation, focus return, live props, copy behavior, token filtering, scoped themes, mobile navigation, dialog submission, reduced motion, and product overrides across Chromium, Firefox, and WebKit.
+
+Automated accessibility checks are not a WCAG certification or a substitute for manual assistive-technology testing. Publishing remains a separate owner-approved action; npm scope ownership and release permission must be confirmed before any release.

@@ -2,6 +2,8 @@
 
 Oddmash UI is an evolving pre-1.0 package. Treat the current visuals and APIs as reviewed working decisions, not permanent standards.
 
+Treat every localized README as a product introduction, not a repository setup guide. Explain what Oddmash UI is, who it serves, the problem it solves, its main capabilities, and its current product status. Do not put clone, install, local-run, build, test, release, or contributor workflows in a README; keep all development and verification details in `CONTRIBUTING.md`. Keep all four README translations, language links, claims, and visuals synchronized.
+
 - Use `.agents/skills/oddmash-ui-development/SKILL.md` for substantive token, component, export, demo, documentation, or test work.
 - Keep JSON under `tokens/` as the token source of truth. Never hand-edit `src/generated/` or `dist/`.
 - Preserve ESM-only output, React 18/19 peer support, component entry points, native prop/ref behavior, accessibility contracts, and the no-global-reset boundary unless the task explicitly changes them.

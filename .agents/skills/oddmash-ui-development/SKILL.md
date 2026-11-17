@@ -5,11 +5,12 @@ description: Evolve Oddmash UI tokens, React components, package exports, styles
 
 # Oddmash UI development
 
-Use this workflow for substantive work in `Oddmash/oddmash-ui`. Treat the package as an evolving pre-1.0 project: inspect the current code and verification record before assuming an API or visual choice is final.
+Use this workflow for substantive work in `Oddmash/oddmash-ui`. Treat the package as an evolving pre-1.0 project: inspect the current code and contributor guide before assuming an API or visual choice is final.
 
 ## Establish the change boundary
 
-- Read only the relevant parts of `README.md`, `docs/VERIFICATION.md`, `package.json`, and the files being changed.
+- Read only the relevant parts of `README.md`, `CONTRIBUTING.md`, `package.json`, and the files being changed.
+- Keep localized READMEs focused on the product: what it is, who it serves, the problem it solves, its capabilities, and its status. Put repository setup, local-run, build, test, release, and verification details only in `CONTRIBUTING.md`.
 - Distinguish shared foundations from demo-only presentation. Components and tokens under `src/` and `tokens/` are package behavior; `demo/` is documentation and validation unless the task explicitly changes the public package.
 - Preserve the package's ESM-only, React peer dependency, component-level export, and no-global-reset boundaries unless the user asks to change them.
 - Do not publish to npm, create a release, or modify consumer repositories without explicit authorization.
