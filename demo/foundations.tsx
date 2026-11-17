@@ -293,9 +293,7 @@ export const Installation = () => {
         <p>
           <strong>{t('Package and source')}</strong>
           <br />
-          {t(
-            'npm v0.2.0 includes 23 component families. Toast is available in the current source.',
-          )}
+          {t('npm v0.3.0 includes all 24 component families, including Toast.')}
         </p>
       </div>
       <section className="doc-section">
@@ -307,7 +305,7 @@ export const Installation = () => {
           </a>
           .
         </p>
-        <Code label="npm install">{`npm install @oddmash/ui@0.2.0`}</Code>
+        <Code label="npm install">{`npm install @oddmash/ui@0.3.0`}</Code>
       </section>
       <section className="doc-section">
         <h2>{t('Build from GitHub')}</h2>
@@ -327,7 +325,7 @@ npm ci
 npm pack
 
 # In your React project:
-npm install /path/to/oddmash-ui-0.2.0.tgz`}</Code>
+npm install /path/to/oddmash-ui-0.3.0.tgz`}</Code>
       </section>
       <section className="doc-section">
         <h2>{t('Make something small')}</h2>

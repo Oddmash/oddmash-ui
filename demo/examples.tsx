@@ -164,7 +164,7 @@ export const Example = ({ id }: { id: ComponentId }) => {
             {t('Active')}
           </Badge>
           <Badge>{t('Draft')}</Badge>
-          <Badge>v0.2.0</Badge>
+          <Badge>v0.3.0</Badge>
         </div>
         <p className="muted">{t('A little context. No extra noise.')}</p>
       </div>
@@ -352,14 +352,6 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
       <section className="doc-section" id="usage">
         <h2>{t('Usage')}</h2>
         <p className="body-copy">{t(info.usage)}</p>
-        {id === 'toast' && (
-          <p className="body-copy">
-            {t('Toast is available from the GitHub source.')}{' '}
-            <a className="text-link" href="#/installation">
-              {t('Installation')}
-            </a>
-          </p>
-        )}
         <Code>{`import { ${exports} } from '@oddmash/ui';\nimport '@oddmash/ui/styles.css';\n\n${code}`}</Code>
       </section>
       <section className="doc-section" id="api">

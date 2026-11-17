@@ -240,7 +240,7 @@ test('installation links distinguish the published package from source', async (
     content.getByRole('link', { name: 'GitHub repository' }),
   ).toHaveAttribute('href', 'https://github.com/Oddmash/oddmash-ui');
   await expect(
-    content.getByText('npm install @oddmash/ui@0.2.0', { exact: true }),
+    content.getByText('npm install @oddmash/ui@0.3.0', { exact: true }),
   ).toBeVisible();
 });
 
