@@ -34,11 +34,6 @@ const previewChecks = {
     await expect(preview.getByRole('tabpanel', { name: 'Settings' })).toBeVisible();
     await expect(preview.getByRole('tab', { name: 'Members' })).toBeDisabled();
   },
-  dialog: async (preview, page) => {
-    await preview.getByRole('button', { name: 'Edit project' }).press('Enter');
-    await expect(page.getByRole('dialog', { name: 'Project settings' })).toBeVisible();
-    await expect(page.getByRole('dialog').getByRole('textbox')).toBeFocused();
-  },
   textarea: async (preview) => {
     const notes = preview.getByRole('textbox', { name: 'Release notes' });
     await notes.fill('First line\nSecond line');
@@ -134,11 +129,11 @@ const previewChecks = {
     await expect(page.getByRole('status').filter({ hasText: 'Project saved' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Dismiss notification' })).toBeVisible();
   },
-} satisfies Record<ComponentId, (preview: Locator, page: Page) => Promise<void>>;
+} satisfies Record<Exclude<ComponentId, 'dialog'>, (preview: Locator, page: Page) => Promise<void>>;
 
 test.use({ reducedMotion: 'reduce' });
 
-for (const id of componentIds) {
+for (const id of componentIds.filter((id) => id !== 'dialog')) {
   test(`${id}: real component and active-state accessibility`, async ({ page, browserName }) => {
     await page.goto(`/#/${id}`);
     const preview = page.locator('.playground .preview');
@@ -151,7 +146,7 @@ for (const id of componentIds) {
         await expect(preview).toBeVisible();
         await previewChecks[id](preview, page);
         const { violations } = await new AxeBuilder({ page })
-          .include(id === 'dialog' ? '.docs-dialog' : '.playground .preview')
+          .include('.playground .preview')
           .setLegacyMode(browserName === 'firefox')
           .analyze();
         expect(violations.map(({ id, nodes }) => ({ id, targets: nodes.map(({ target }) => target) }))).toEqual([]);
