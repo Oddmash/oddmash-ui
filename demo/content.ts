@@ -3,7 +3,7 @@ export const pages = [
     id: 'overview',
     title: 'Overview',
     group: 'Start here',
-    description: 'The small system behind your next big idea.',
+    description: 'The shared design system for Oddmash developer tools.',
   },
   {
     id: 'installation',
@@ -65,15 +65,17 @@ export const pages = [
     group: 'Components',
     description: 'Bring one decision into focus.',
   },
+  {
+    id: 'interaction-pattern',
+    title: 'Interaction monitor',
+    group: 'Patterns',
+    description:
+      'Compose a form and a live event history for a keyboard-friendly developer tool.',
+  },
 ] as const;
 export type PageId = (typeof pages)[number]['id'];
 export type ComponentId =
-  | 'button'
-  | 'input'
-  | 'card'
-  | 'badge'
-  | 'tabs'
-  | 'dialog';
+  'button' | 'input' | 'card' | 'badge' | 'tabs' | 'dialog';
 export const componentIds: ComponentId[] = [
   'button',
   'input',

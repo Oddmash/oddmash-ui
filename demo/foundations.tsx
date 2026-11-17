@@ -136,17 +136,33 @@ export const Typography = () => (
     </section>
   </>
 );
-export const TokenExplorer = ({ theme }: { theme: 'light' | 'dark' }) => {
-  const [query, setQuery] = useState('');
-  const all = flatten((theme === 'light' ? light : dark).semantic);
-  const aliases = {
+const themeEntries = {
+  light: flatten(light.semantic),
+  dark: flatten(dark.semantic),
+};
+const themeTokens = {
+  light: Object.fromEntries(themeEntries.light),
+  dark: Object.fromEntries(themeEntries.dark),
+};
+const themeAliases = {
+  light: {
     ...primitives,
     ...Object.fromEntries(
-      all.map(([name, token]) => [`semantic.${name}`, token]),
+      themeEntries.light.map(([name, token]) => [`semantic.${name}`, token]),
     ),
-  };
-  const entries = all.filter(([name, token]) =>
-    `${name} ${token.$type}`.includes(query.toLowerCase()),
+  },
+  dark: {
+    ...primitives,
+    ...Object.fromEntries(
+      themeEntries.dark.map(([name, token]) => [`semantic.${name}`, token]),
+    ),
+  },
+};
+
+export const TokenExplorer = () => {
+  const [query, setQuery] = useState('');
+  const entries = themeEntries.light.filter(([name, token]) =>
+    `${name} ${token.$type}`.includes(query.trim().toLowerCase()),
   );
   return (
     <>
@@ -194,7 +210,8 @@ export const TokenExplorer = ({ theme }: { theme: 'light' | 'dark' }) => {
               <tr>
                 <th>Token / CSS variable</th>
                 <th>Type</th>
-                <th>Resolved value</th>
+                <th scope="col">Light</th>
+                <th scope="col">Dark</th>
               </tr>
             </thead>
             <tbody>
@@ -205,15 +222,22 @@ export const TokenExplorer = ({ theme }: { theme: 'light' | 'dark' }) => {
                     <code>{tokens[name as TokenName]?.slice(4, -1)}</code>
                   </td>
                   <td>{token.$type}</td>
-                  <td>
-                    {token.$type === 'color' && (
-                      <i
-                        className="inline-swatch"
-                        style={{ background: tokens[name as TokenName] }}
-                      />
-                    )}
-                    {resolveValue(token.$value, aliases)}
-                  </td>
+                  {(['light', 'dark'] as const).map((theme) => (
+                    <td key={theme}>
+                      {token.$type === 'color' && (
+                        <i
+                          aria-hidden="true"
+                          className="inline-swatch"
+                          data-om-theme={theme}
+                          style={{ background: tokens[name as TokenName] }}
+                        />
+                      )}
+                      {resolveValue(
+                        themeTokens[theme][name].$value,
+                        themeAliases[theme],
+                      )}
+                    </td>
+                  ))}
                 </tr>
               ))}
             </tbody>

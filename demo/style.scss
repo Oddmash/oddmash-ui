@@ -319,26 +319,6 @@ h1:focus {
   flex-wrap: wrap;
   gap: 22px;
 }
-.overview-meta {
-  align-self: start;
-  margin: 4px 0 0;
-  border-top: 1px solid var(--om-semantic-color-border-subtle);
-}
-.overview-meta div {
-  display: grid;
-  grid-template-columns: 90px 1fr;
-  gap: 16px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--om-semantic-color-border-subtle);
-  font-size: 12px;
-}
-.overview-meta dt {
-  color: var(--om-semantic-color-muted);
-}
-.overview-meta dd {
-  margin: 0;
-  font-weight: 500;
-}
 .overview-section {
   padding: 56px 0;
   border-bottom: 1px solid var(--om-semantic-color-border-subtle);
@@ -362,9 +342,6 @@ h1:focus {
   margin: 0;
   color: var(--om-semantic-color-muted);
   font-size: 13px;
-}
-.overview-start .code-block {
-  max-width: 760px;
 }
 .foundation-links {
   border-top: 1px solid var(--om-semantic-color-border-subtle);
@@ -1459,9 +1436,6 @@ td code {
     gap: 40px;
     padding-top: 56px;
   }
-  .overview-meta {
-    max-width: 520px;
-  }
   .overview-hero {
     grid-template-columns: 1fr;
   }
@@ -1549,7 +1523,7 @@ td code {
   }
   .sidebar nav {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
   .nav-group a {
@@ -1673,9 +1647,6 @@ td code {
   }
   .component-grid {
     grid-template-columns: 1fr;
-  }
-  .overview-meta div {
-    grid-template-columns: 76px 1fr;
   }
   .foundation-links small {
     max-width: 250px;

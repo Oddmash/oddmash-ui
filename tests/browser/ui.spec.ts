@@ -22,6 +22,7 @@ for (const theme of ['light', 'dark']) {
       'badge',
       'tabs',
       'dialog',
+      'interaction-pattern',
     ]) {
       await page.goto(`/#/${id}`);
       await expect(page.locator('#page-title')).toBeVisible();
@@ -134,6 +135,29 @@ test('navigation, search, live props, code, tokens and mobile menu work', async 
   await page.keyboard.press('ArrowRight');
   await expect(page.getByRole('tab', { name: 'Activity' })).toBeFocused();
   await navigation.getByRole('link', { name: 'Tokens', exact: true }).click();
+  const tokenTable = page.getByRole('table');
+  await expect(
+    tokenTable.getByRole('columnheader', { name: 'Light' }),
+  ).toBeVisible();
+  await expect(
+    tokenTable.getByRole('columnheader', { name: 'Dark' }),
+  ).toBeVisible();
+  const background = tokenTable
+    .getByRole('row')
+    .filter({ hasText: '--om-semantic-color-bg' });
+  await expect(background.locator('[data-om-theme="light"]')).not.toHaveCSS(
+    'background-color',
+    'rgba(0, 0, 0, 0)',
+  );
+  expect(
+    await background
+      .locator('[data-om-theme="light"]')
+      .evaluate((swatch) => getComputedStyle(swatch).backgroundColor),
+  ).not.toBe(
+    await background
+      .locator('[data-om-theme="dark"]')
+      .evaluate((swatch) => getComputedStyle(swatch).backgroundColor),
+  );
   await page.getByRole('textbox', { name: 'Filter tokens' }).fill('motion');
   await expect(page.locator('tbody tr')).toHaveCount(2);
   await page.reload();
@@ -180,4 +204,30 @@ test('nested themes and project overrides stay scoped', async ({ page }) => {
     'transition-duration',
     '0s',
   );
+});
+
+test('interaction lab captures keyboard events and keeps a bounded history', async ({
+  page,
+}) => {
+  await page.goto('/#/interaction-pattern');
+  const input = page.getByLabel('Project name', { exact: true });
+  await input.focus();
+  await input.fill('A new tool');
+  await page.keyboard.press('Tab');
+  const submit = page.getByRole('button', { name: 'Save project' });
+  await expect(submit).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('status')).toHaveText('Saved A new tool');
+  const history = page.getByRole('list', { name: 'Recent interactions' });
+  await expect(history.getByRole('listitem')).toHaveCount(6);
+  await expect(history).toContainText('keydown');
+  await expect(history).toContainText('Enter');
+  await page.getByRole('tab', { name: 'Target' }).click();
+  await expect(page.getByRole('tabpanel')).toContainText('Save project');
+  await page.getByRole('button', { name: 'Clear events' }).click();
+  await expect(page.getByRole('tabpanel')).toContainText(
+    'Interact with the form',
+  );
+  await page.getByRole('tab', { name: 'Events' }).click();
+  await expect(history).toHaveCount(0);
 });
