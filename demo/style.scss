@@ -12,6 +12,11 @@ body {
 * {
   box-sizing: border-box;
 }
+code,
+pre,
+kbd {
+  font-family: var(--om-semantic-font-mono-family);
+}
 a {
   color: inherit;
   text-decoration: none;
@@ -124,8 +129,7 @@ h1:focus {
 }
 .version-label {
   font:
-    11px ui-monospace,
-    monospace;
+    11px var(--om-semantic-font-mono-family);
   color: var(--om-semantic-color-muted);
 }
 .github-link {
@@ -184,8 +188,7 @@ h1:focus {
 .search-box kbd {
   white-space: nowrap;
   font:
-    10px ui-monospace,
-    monospace;
+    10px var(--om-semantic-font-mono-family);
   color: var(--om-semantic-color-muted);
 }
 .nav-group {
@@ -246,8 +249,7 @@ h1:focus {
 .breadcrumb-end {
   margin-left: auto;
   font:
-    9px ui-monospace,
-    monospace;
+    9px var(--om-semantic-font-mono-family);
   letter-spacing: 1px;
   align-self: center;
 }
@@ -341,8 +343,7 @@ h1:focus {
   gap: 9px;
   align-items: center;
   font:
-    10px ui-monospace,
-    monospace;
+    10px var(--om-semantic-font-mono-family);
   letter-spacing: 1.3px;
   color: var(--om-semantic-color-muted);
   margin-bottom: 22px;
@@ -397,8 +398,7 @@ h1:focus {
   align-items: center;
   margin-top: 40px;
   font:
-    9px ui-monospace,
-    monospace;
+    9px var(--om-semantic-font-mono-family);
   letter-spacing: 0.5px;
   color: var(--om-semantic-color-muted);
 }
@@ -412,8 +412,7 @@ h1:focus {
   display: flex;
   justify-content: space-between;
   font:
-    8px ui-monospace,
-    monospace;
+    8px var(--om-semantic-font-mono-family);
   letter-spacing: 0.7px;
   color: var(--om-semantic-color-muted);
   padding: 10px 0;
@@ -461,8 +460,7 @@ h1:focus {
 }
 .micro-label {
   font:
-    8px ui-monospace,
-    monospace;
+    8px var(--om-semantic-font-mono-family);
   letter-spacing: 0.7px;
   color: var(--om-semantic-color-muted);
 }
@@ -513,10 +511,10 @@ h1:focus {
   background: var(--om-primitive-color-ink);
 }
 .palette-cell i:nth-child(2) {
-  background: var(--om-primitive-color-mint);
+  background: var(--om-semantic-color-muted);
 }
 .palette-cell i:nth-child(3) {
-  background: var(--om-primitive-color-pale-mint);
+  background: var(--om-semantic-color-border);
 }
 .palette-cell i:nth-child(4) {
   background: var(--om-primitive-color-soft-line);
@@ -542,8 +540,7 @@ h1:focus {
 }
 .principles-strip span {
   font:
-    10px ui-monospace,
-    monospace;
+    10px var(--om-semantic-font-mono-family);
   color: var(--om-semantic-color-muted);
   margin-right: 16px;
 }
@@ -591,8 +588,7 @@ h1:focus {
 }
 .section-caption {
   font:
-    9px ui-monospace,
-    monospace;
+    9px var(--om-semantic-font-mono-family);
   letter-spacing: 0.8px;
   color: var(--om-semantic-color-muted);
 }
@@ -628,8 +624,7 @@ h1:focus {
 }
 .tile-link small {
   font:
-    10px ui-monospace,
-    monospace;
+    10px var(--om-semantic-font-mono-family);
   color: var(--om-semantic-color-muted);
   margin-right: 12px;
 }
@@ -844,8 +839,7 @@ h1:focus {
   justify-content: space-between;
   gap: 12px;
   font:
-    10px ui-monospace,
-    monospace;
+    10px var(--om-semantic-font-mono-family);
   color: var(--om-semantic-color-muted);
 }
 .code-toolbar button {
@@ -1074,8 +1068,7 @@ td code {
 }
 .dialog-eyebrow {
   font:
-    9px ui-monospace,
-    monospace;
+    9px var(--om-semantic-font-mono-family);
   letter-spacing: 1px;
   color: var(--om-semantic-color-muted);
   margin-bottom: 18px;
@@ -1108,8 +1101,7 @@ td code {
 }
 .foundation-number {
   font:
-    12px ui-monospace,
-    monospace;
+    12px var(--om-semantic-font-mono-family);
   align-self: flex-start;
   color: var(--om-semantic-color-muted);
 }
@@ -1123,24 +1115,6 @@ td code {
   color: var(--om-semantic-color-muted);
   margin: 0;
   max-width: 420px;
-}
-.color-orbit {
-  display: flex;
-  margin-left: auto;
-}
-.color-orbit i {
-  width: 45px;
-  height: 72px;
-  border-radius: 30px;
-  background: var(--om-semantic-color-action);
-  transform: rotate(25deg);
-  margin-left: -10px;
-}
-.color-orbit i:nth-child(2) {
-  background: var(--om-semantic-color-accent);
-}
-.color-orbit i:nth-child(3) {
-  background: var(--om-primitive-color-pale-mint);
 }
 .swatch-grid {
   display: grid;
@@ -1194,8 +1168,7 @@ td code {
 }
 .specimen-alphabet {
   font:
-    13px/2 ui-monospace,
-    monospace;
+    13px/2 var(--om-semantic-font-mono-family);
   letter-spacing: 2px;
   color: var(--om-semantic-color-muted);
   overflow-wrap: anywhere;
@@ -1229,8 +1202,7 @@ td code {
 }
 .token-pipeline span {
   font:
-    9px ui-monospace,
-    monospace;
+    9px var(--om-semantic-font-mono-family);
   color: var(--om-semantic-color-muted);
 }
 .token-pipeline strong {
@@ -1252,8 +1224,7 @@ td code {
 }
 .count {
   font:
-    11px ui-monospace,
-    monospace;
+    11px var(--om-semantic-font-mono-family);
   color: var(--om-semantic-color-muted);
   margin-left: 8px;
 }
@@ -1332,8 +1303,7 @@ td code {
   border: 1px solid var(--om-semantic-color-border-subtle);
   border-radius: 6px;
   font:
-    10px ui-monospace,
-    monospace;
+    10px var(--om-semantic-font-mono-family);
   margin-right: 10px;
 }
 @media (min-width: 1600px) {
@@ -1587,9 +1557,6 @@ td code {
   }
   .type-scale > div {
     gap: 20px;
-  }
-  .color-orbit {
-    display: none;
   }
   .foundation-banner {
     padding: 22px;

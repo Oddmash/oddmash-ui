@@ -109,8 +109,8 @@ export const details: Record<
     props: [
       ['type', 'Native HTML input type', 'text'],
       ['disabled / readOnly', 'boolean', 'false'],
-      ['aria-invalid', 'boolean', '—'],
-      ['ref', 'HTMLInputElement', '—'],
+      ['aria-invalid', 'boolean', 'None'],
+      ['ref', 'HTMLInputElement', 'None'],
     ],
     code: `<label htmlFor="project">Project name</label>\n<Input id="project" placeholder="Your next idea"\n  aria-describedby="project-hint" />\n<p id="project-hint">Use a short, memorable name.</p>`,
   },
@@ -120,10 +120,10 @@ export const details: Record<
     accessibility:
       'Do not make an entire card clickable when it contains other controls. Keep headings in the document outline and use descriptive links.',
     props: [
-      ['children', 'ReactNode', '—'],
-      ['className', 'string', '—'],
-      ['style', 'CSSProperties', '—'],
-      ['ref', 'HTMLDivElement', '—'],
+      ['children', 'ReactNode', 'None'],
+      ['className', 'string', 'None'],
+      ['style', 'CSSProperties', 'None'],
+      ['ref', 'HTMLDivElement', 'None'],
     ],
     code: `<Card>\n  <Badge tone="accent">Active</Badge>\n  <h3>Interaction Inspector</h3>\n  <p>A clearer view of every interaction.</p>\n  <Button variant="secondary">Open project</Button>\n</Card>`,
   },
@@ -134,9 +134,9 @@ export const details: Record<
       'Always include meaningful text; color alone should not communicate status. Badge is non-interactive. Use a button for an action.',
     props: [
       ['tone', 'neutral | accent', 'neutral'],
-      ['children', 'ReactNode', '—'],
-      ['className', 'string', '—'],
-      ['ref', 'HTMLSpanElement', '—'],
+      ['children', 'ReactNode', 'None'],
+      ['className', 'string', 'None'],
+      ['ref', 'HTMLSpanElement', 'None'],
     ],
     code: `<Badge>Draft</Badge>\n<Badge tone="accent">Active</Badge>\n<Badge>v0.1.0</Badge>`,
   },
@@ -146,8 +146,8 @@ export const details: Record<
     accessibility:
       'Label TabsList. Arrow keys move between enabled tabs; Home and End jump to the edges. Radix manages selection, focus, and panel relationships.',
     props: [
-      ['value / defaultValue', 'string', '—'],
-      ['onValueChange', '(value: string) => void', '—'],
+      ['value / defaultValue', 'string', 'None'],
+      ['onValueChange', '(value: string) => void', 'None'],
       ['orientation', 'horizontal | vertical', 'horizontal'],
       ['activationMode', 'automatic | manual', 'automatic'],
     ],
@@ -160,7 +160,7 @@ export const details: Record<
       'Include DialogTitle and DialogDescription. Escape closes and restores trigger focus. Focus stays inside while open. Use container for a locally themed portal.',
     props: [
       ['open / defaultOpen', 'boolean', 'false'],
-      ['onOpenChange', '(open: boolean) => void', '—'],
+      ['onOpenChange', '(open: boolean) => void', 'None'],
       ['theme (DialogContent)', 'light | dark', 'inherited'],
       ['container (DialogContent)', 'HTMLElement', 'document.body'],
     ],

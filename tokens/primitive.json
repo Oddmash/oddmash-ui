@@ -393,7 +393,10 @@
       "family": {
         "$type": "fontFamily",
         "$value": [
-          "Inter",
+          "Geist Sans",
+          "Noto Sans KR",
+          "Apple SD Gothic Neo",
+          "Malgun Gothic",
           "system-ui",
           "sans-serif"
         ]
@@ -434,6 +437,16 @@
       "line": {
         "$type": "number",
         "$value": 1.5
+      },
+      "mono-family": {
+        "$type": "fontFamily",
+        "$value": [
+          "Geist Mono",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Consolas",
+          "monospace"
+        ]
       }
     },
     "border": {

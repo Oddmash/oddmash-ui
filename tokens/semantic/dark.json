@@ -122,6 +122,10 @@
       "line": {
         "$type": "number",
         "$value": "{primitive.font.line}"
+      },
+      "mono-family": {
+        "$type": "fontFamily",
+        "$value": "{primitive.font.mono-family}"
       }
     },
     "border": {

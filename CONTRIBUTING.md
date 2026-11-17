@@ -18,6 +18,8 @@ npm run demo
 
 React 18.3.1 and React 19 are supported peers. The package is not published to npm yet. Build a local archive with `npm pack`, then install the resulting `oddmash-ui-0.1.0.tgz` in the consuming project. Import `@oddmash/ui/styles.css` once. The package is ESM-only and does not include a global reset, Tailwind, an icon package, or a CSS-in-JS runtime.
 
+The documentation site serves Geist Sans and Geist Mono from `demo/public/fonts/` under the SIL Open Font License included there. Package consumers can self-host the fonts under those family names or use the system fallbacks in the font tokens.
+
 ## Token architecture
 
 JSON is the only token source. `tokens/primitive.json` stores palettes and scales; `tokens/semantic/light.json` and `tokens/semantic/dark.json` map intent for each theme. Style Dictionary generates CSS variables and typed references in `src/generated`. Do not edit generated files or `dist` directly.

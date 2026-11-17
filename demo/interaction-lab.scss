@@ -33,8 +33,7 @@
 .lab-header h2 {
   margin: 0;
   font:
-    600 13px/1.3 ui-monospace,
-    monospace;
+    600 13px/1.3 var(--om-semantic-font-mono-family);
 }
 
 .lab-body {
@@ -110,8 +109,7 @@
 
 .lab-events .om-badge {
   font:
-    11px/1.2 ui-monospace,
-    monospace;
+    11px/1.2 var(--om-semantic-font-mono-family);
 }
 
 .lab-empty,

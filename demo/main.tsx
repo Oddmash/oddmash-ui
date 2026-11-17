@@ -4,6 +4,7 @@ import { pages, componentIds, type PageId, type ComponentId } from './content';
 import { Arrow, Example, ComponentPage } from './examples';
 import { Colors, Typography, TokenExplorer, Installation } from './foundations';
 import '@oddmash/ui/styles.css';
+import './fonts.scss';
 import './style.scss';
 import './interaction-lab.scss';
 import InteractionLab from './interaction-lab';
@@ -76,7 +77,7 @@ const Overview = () => (
           [
             'typography',
             'Typography',
-            'A system-font scale for tools and documentation.',
+            'Geist Sans for interfaces and Geist Mono for technical values.',
           ],
           ['tokens', 'Tokens', 'DTCG JSON compiled to CSS and TypeScript.'],
         ].map(([id, title, description]) => (
@@ -148,7 +149,7 @@ const App = () => {
   }, []);
   const current = pages.find((item) => item.id === page)!;
   useEffect(() => {
-    document.title = `${current.title} — Oddmash UI`;
+    document.title = `${current.title} | Oddmash UI`;
   }, [current.title]);
   const filtered = pages.filter((item) =>
     `${item.title} ${item.group}`.toLowerCase().includes(query.toLowerCase()),

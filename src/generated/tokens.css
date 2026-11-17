@@ -35,13 +35,14 @@
   --om-primitive-radius-md: 6px;
   --om-primitive-radius-lg: 8px;
   --om-primitive-radius-pill: 999px;
-  --om-primitive-font-family: Inter, system-ui, sans-serif;
+  --om-primitive-font-family: 'Geist Sans', 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
   --om-primitive-font-size-sm: 13px;
   --om-primitive-font-size-md: 14px;
   --om-primitive-font-size-lg: 20px;
   --om-primitive-font-weight-normal: 400;
   --om-primitive-font-weight-medium: 500;
   --om-primitive-font-line: 1.5;
+  --om-primitive-font-mono-family: 'Geist Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
   --om-primitive-border-width: 1px;
   --om-primitive-motion-fast: 0.12s;
   --om-primitive-motion-ease: cubic-bezier(0.2, 0, 0, 1);
@@ -79,6 +80,7 @@
   --om-semantic-font-heading: var(--om-primitive-font-size-lg);
   --om-semantic-font-weight: var(--om-primitive-font-weight-medium);
   --om-semantic-font-line: var(--om-primitive-font-line);
+  --om-semantic-font-mono-family: var(--om-primitive-font-mono-family);
   --om-semantic-border-width: var(--om-primitive-border-width);
   --om-semantic-shadow: var(--om-primitive-shadow-panel);
   --om-semantic-motion-duration: var(--om-primitive-motion-fast);
@@ -121,13 +123,14 @@
   --om-primitive-radius-md: 6px;
   --om-primitive-radius-lg: 8px;
   --om-primitive-radius-pill: 999px;
-  --om-primitive-font-family: Inter, system-ui, sans-serif;
+  --om-primitive-font-family: 'Geist Sans', 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
   --om-primitive-font-size-sm: 13px;
   --om-primitive-font-size-md: 14px;
   --om-primitive-font-size-lg: 20px;
   --om-primitive-font-weight-normal: 400;
   --om-primitive-font-weight-medium: 500;
   --om-primitive-font-line: 1.5;
+  --om-primitive-font-mono-family: 'Geist Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
   --om-primitive-border-width: 1px;
   --om-primitive-motion-fast: 0.12s;
   --om-primitive-motion-ease: cubic-bezier(0.2, 0, 0, 1);
@@ -165,6 +168,7 @@
   --om-semantic-font-heading: var(--om-primitive-font-size-lg);
   --om-semantic-font-weight: var(--om-primitive-font-weight-medium);
   --om-semantic-font-line: var(--om-primitive-font-line);
+  --om-semantic-font-mono-family: var(--om-primitive-font-mono-family);
   --om-semantic-border-width: var(--om-primitive-border-width);
   --om-semantic-shadow: var(--om-primitive-shadow-panel);
   --om-semantic-motion-duration: var(--om-primitive-motion-fast);
