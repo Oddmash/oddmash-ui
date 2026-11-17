@@ -1,3 +1,9 @@
+import {
+  extendedComponents,
+  extendedComponentIds,
+  type ExtendedComponentId,
+} from './component-catalog';
+
 export const pages = [
   {
     id: 'overview',
@@ -65,6 +71,10 @@ export const pages = [
     group: 'Components',
     description: 'Bring one decision into focus.',
   },
+  ...extendedComponentIds.map((id) => {
+    const { title, group, description } = extendedComponents[id];
+    return { id, title, group, description };
+  }),
   {
     id: 'interaction-pattern',
     title: 'Interaction monitor',
@@ -75,7 +85,13 @@ export const pages = [
 ] as const;
 export type PageId = (typeof pages)[number]['id'];
 export type ComponentId =
-  'button' | 'input' | 'card' | 'badge' | 'tabs' | 'dialog';
+  | 'button'
+  | 'input'
+  | 'card'
+  | 'badge'
+  | 'tabs'
+  | 'dialog'
+  | ExtendedComponentId;
 export const componentIds: ComponentId[] = [
   'button',
   'input',
@@ -83,11 +99,19 @@ export const componentIds: ComponentId[] = [
   'badge',
   'tabs',
   'dialog',
+  ...extendedComponentIds,
 ];
 export const details: Record<
   ComponentId,
-  { usage: string; accessibility: string; props: string[][]; code: string }
+  {
+    usage: string;
+    accessibility: string;
+    props: string[][];
+    code: string;
+    exports?: string;
+  }
 > = {
+  ...extendedComponents,
   button: {
     usage:
       'Use one primary action per section. Secondary actions sit alongside it; ghost buttons keep repeated utility actions light.',

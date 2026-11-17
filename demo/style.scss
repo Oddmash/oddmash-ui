@@ -1698,3 +1698,36 @@ pre:focus-visible,
   outline: 2px solid var(--om-semantic-color-focus);
   outline-offset: -3px;
 }
+
+.gallery-section + .gallery-section {
+  margin-block-start: 32px;
+}
+
+.gallery-section > h3 {
+  font-size: 15px;
+  margin-block-end: 12px;
+}
+
+.example-primitives {
+  display: grid;
+  gap: 12px;
+  width: min(100%, 380px);
+  min-width: 0;
+  text-align: start;
+}
+
+.example-primitives label > :is(.om-textarea, .om-select, .om-progress) {
+  display: block;
+  margin-block-start: 6px;
+}
+
+.example-choice {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tile-empty-state .om-empty-state {
+  padding: var(--om-semantic-space-md);
+}

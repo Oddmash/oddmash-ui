@@ -8,7 +8,7 @@ Oddmash UI 是 Oddmash 产品共享的界面基础。它为小型 React 开发�
 
 ## 提供什么
 
-- 用于按钮、输入框、卡片、徽标、标签页和对话框的无障碍 React 基础组件
+- 用于表单、反馈、导航、浮层和数据显示的无障碍 React 组件
 - 定义颜色、排版、间距、圆角、阴影、边框和动效的 JSON 设计令牌
 - 可应用于整个应用或局部区域的浅色与深色主题
 - 包含实时示例、API 指南、无障碍说明和令牌浏览器的文档站点
@@ -28,6 +28,6 @@ Oddmash UI 是 Oddmash 产品共享的界面基础。它为小型 React 开发�
 
 ## 当前范围
 
-Oddmash UI 正处于 1.0 之前的活跃开发阶段。目前包含六类组件，尚未发布到 npm。可前往 [Oddmash UI 文档](https://oddmash.github.io/oddmash-ui/)查看实际效果。
+Oddmash UI 正处于 1.0 之前的活跃开发阶段。目前包含23 类组件，尚未发布到 npm。可前往 [Oddmash UI 文档](https://oddmash.github.io/oddmash-ui/)查看实际效果。
 
 [贡献指南](../../CONTRIBUTING.md) · [MIT License](../../LICENSE)

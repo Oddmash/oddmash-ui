@@ -8,7 +8,7 @@ Oddmash UI is the shared interface foundation for Oddmash products. It gives sma
 
 ## What it provides
 
-- Accessible React primitives for buttons, inputs, cards, badges, tabs, and dialogs.
+- Accessible React components for forms, feedback, navigation, overlays, and data display.
 - JSON design tokens for color, typography, spacing, radius, shadow, border, and motion.
 - Light and dark themes that can be applied to a whole app or a single subtree.
 - A documentation site with live examples, API guidance, accessibility notes, and a token explorer.
@@ -28,6 +28,6 @@ Oddmash UI is for focused tools such as Interaction Inspector: products that nee
 
 ## Current scope
 
-Oddmash UI is under active pre-1.0 development. The current release surface contains six component families and is not yet published to npm. Explore the [Oddmash UI documentation](https://oddmash.github.io/oddmash-ui/) to see the system in action.
+Oddmash UI is under active pre-1.0 development. The current release surface contains 23 component families and is not yet published to npm. Explore the [Oddmash UI documentation](https://oddmash.github.io/oddmash-ui/) to see the system in action.
 
 [Contributor guide](CONTRIBUTING.md) · [MIT License](LICENSE)
