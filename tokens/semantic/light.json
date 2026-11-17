@@ -23,11 +23,11 @@
       },
       "accent": {
         "$type": "color",
-        "$value": "{primitive.color.mint}"
+        "$value": "{primitive.color.ink}"
       },
       "accent-hover": {
         "$type": "color",
-        "$value": "{primitive.color.mintHover}"
+        "$value": "{primitive.color.actionHover}"
       },
       "on-accent": {
         "$type": "color",
@@ -39,7 +39,7 @@
       },
       "focus": {
         "$type": "color",
-        "$value": "{primitive.color.mint}"
+        "$value": "{primitive.color.focusBlue}"
       },
       "border-subtle": {
         "$type": "color",

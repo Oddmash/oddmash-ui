@@ -12,7 +12,9 @@ it('rejects stale output, broken aliases and theme drift; regenerates after JSON
     cpSync('src/generated', join(cwd, 'src/generated'), { recursive: true });
     expect(run('--check').status).toBe(0);
     const primitive = join(cwd, 'tokens/primitive.json');
-    writeFileSync(primitive, readFileSync(primitive, 'utf8').replace('"value": 36', '"value": 40'));
+    const updated = JSON.parse(readFileSync(primitive, 'utf8'));
+    updated.primitive.radius.sm.$value.value += 1;
+    writeFileSync(primitive, JSON.stringify(updated));
     expect(run('--check').status).not.toBe(0);
     expect(run().status).toBe(0);
     expect(run('--check').status).toBe(0);

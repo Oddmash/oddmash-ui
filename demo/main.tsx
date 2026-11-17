@@ -29,9 +29,8 @@ const Overview = () => (
           Better flow.
         </h1>
         <p>
-          Oddmash UI is the shared design system for our developer tools.
-          Explore the React components, build with JSON tokens, and try how they
-          work together in the Interaction Lab.
+          React components and design tokens for Oddmash developer tools. Try
+          the Interaction Lab to see how they work together.
         </p>
         <div className="overview-actions">
           <a className="solid-link" href="#/installation">
@@ -48,11 +47,7 @@ const Overview = () => (
       <div className="overview-section-heading">
         <div>
           <h2>Components</h2>
-          <p>Six accessible primitives for common developer-tool interfaces.</p>
         </div>
-        <a className="text-link" href="#/button">
-          Component documentation <Arrow />
-        </a>
       </div>
       <div className="component-grid">
         {componentIds.map((id) => (
@@ -103,6 +98,8 @@ const App = () => {
   const [query, setQuery] = useState('');
   const [menu, setMenu] = useState(false);
   const search = useRef<HTMLInputElement>(null);
+  const menuToggle = useRef<HTMLButtonElement>(null);
+  const sidebar = useRef<HTMLElement>(null);
   const main = useRef<HTMLElement>(null);
   useLayoutEffect(() => {
     main.current?.querySelector<HTMLElement>('h1')?.focus();
@@ -133,9 +130,17 @@ const App = () => {
         setMenu(true);
         requestAnimationFrame(() => search.current?.focus());
       }
-      if (event.key === 'Escape') {
+      if (
+        event.key === 'Escape' &&
+        sidebar.current?.contains(document.activeElement) &&
+        menuToggle.current?.offsetWidth
+      ) {
         setMenu(false);
-        search.current?.blur();
+        menuToggle.current.focus();
+      }
+      if (event.key === 'Escape' && document.activeElement === search.current) {
+        setMenu(false);
+        setQuery('');
       }
     };
     document.addEventListener('keydown', shortcut);
@@ -166,29 +171,25 @@ const App = () => {
           <img className="brand-logo" src="./oddmash-logo.png" alt="" />
           <strong>Oddmash UI</strong>
         </a>
-        <nav aria-label="Top navigation">
-          <a
-            href="#/overview"
-            aria-current={page === 'overview' ? 'page' : undefined}
-          >
-            Overview
-          </a>
-          <a href="#/button" aria-current={component ? 'page' : undefined}>
-            Components
-          </a>
-          <a
-            href="#/colors"
-            aria-current={current.group === 'Foundations' ? 'page' : undefined}
-          >
-            Foundations
-          </a>
-          <a
-            href="#/installation"
-            aria-current={page === 'installation' ? 'page' : undefined}
-          >
-            Getting started
-          </a>
-        </nav>
+        <div className="search-box">
+          <span aria-hidden="true">⌕</span>
+          <label className="sr-only" htmlFor="nav-search">
+            Search documentation
+          </label>
+          <input
+            id="nav-search"
+            ref={search}
+            placeholder="Search docs…"
+            aria-controls="docs-sidebar"
+            onFocus={() => setMenu(true)}
+            value={query}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setMenu(true);
+            }}
+          />
+          <kbd>⌘ K</kbd>
+        </div>
         <div className="header-actions">
           <span className="version-label">v0.1</span>
           <a
@@ -207,52 +208,47 @@ const App = () => {
             <span aria-hidden="true">{theme === 'light' ? '◐' : '☼'}</span>
           </button>
           <button
+            ref={menuToggle}
             className="icon-button menu-toggle"
             aria-expanded={menu}
             aria-controls="docs-sidebar"
-            onClick={() => setMenu(!menu)}
+            onClick={() => setMenu((open) => !open)}
             aria-label="Toggle navigation"
           >
             ☰
           </button>
         </div>
       </header>
-      <aside id="docs-sidebar" className={`sidebar ${menu ? 'is-open' : ''}`}>
-        <div className="search-box">
-          <span aria-hidden="true">⌕</span>
-          <label className="sr-only" htmlFor="nav-search">
-            Search documentation
-          </label>
-          <input
-            id="nav-search"
-            ref={search}
-            placeholder="Find something…"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-          />
-          <kbd>⌘ K</kbd>
-        </div>
+      <aside
+        ref={sidebar}
+        id="docs-sidebar"
+        className={`sidebar ${menu ? 'is-open' : ''}`}
+      >
         <nav aria-label="Documentation">
           {['Start here', 'Foundations', 'Components', 'Patterns'].map(
-            (group) => (
-              <div className="nav-group" key={group}>
-                <h2>{group}</h2>
-                {filtered
-                  .filter((item) => item.group === group)
-                  .map((item) => (
-                    <a
-                      key={item.id}
-                      href={`#/${item.id}`}
-                      aria-current={page === item.id ? 'page' : undefined}
-                    >
-                      <span>{item.title}</span>
-                      {page === item.id && (
-                        <span className="nav-dot" aria-hidden="true" />
-                      )}
-                    </a>
-                  ))}
-              </div>
-            ),
+            (group) =>
+              filtered.some((item) => item.group === group) && (
+                <div className="nav-group" key={group}>
+                  <h2>{group}</h2>
+                  {filtered
+                    .filter((item) => item.group === group)
+                    .map((item) => (
+                      <a
+                        key={item.id}
+                        href={`#/${item.id}`}
+                        aria-current={page === item.id ? 'page' : undefined}
+                        onClick={() => {
+                          if (page !== item.id) return;
+                          setMenu(false);
+                          setQuery('');
+                          main.current?.querySelector('h1')?.focus();
+                        }}
+                      >
+                        <span>{item.title}</span>
+                      </a>
+                    ))}
+                </div>
+              ),
           )}
           {!filtered.length && (
             <p className="nav-empty" role="status">
@@ -260,13 +256,6 @@ const App = () => {
             </p>
           )}
         </nav>
-        <div className="sidebar-bottom">
-          <img className="sidebar-logo" src="./oddmash-logo.png" alt="" />
-          <div>
-            Oddmash UI
-            <a href="https://github.com/Oddmash">Oddmash on GitHub ↗</a>
-          </div>
-        </div>
       </aside>
       <main
         id="main-content"

@@ -15,7 +15,7 @@ export const pages = [
     id: 'colors',
     title: 'Colors',
     group: 'Foundations',
-    description: 'Quiet surfaces. Clear signals. A little green.',
+    description: 'Neutral surfaces with distinct focus and error states.',
   },
   {
     id: 'typography',

@@ -40,12 +40,11 @@ export const Colors = ({ theme }: { theme: 'light' | 'dark' }) => {
   return (
     <>
       <div className="foundation-banner">
-        <span className="foundation-number">01</span>
         <div>
-          <h2>Color with a job to do.</h2>
+          <h2>Monochrome palette</h2>
           <p>
-            Choose the role, not the hex. Semantic tokens keep every surface and
-            state in sync with your theme.
+            Use neutral colors for surfaces and actions. Blue marks keyboard
+            focus, and red marks errors.
           </p>
         </div>
         <div className="color-orbit" aria-hidden="true">
@@ -82,7 +81,7 @@ export const Colors = ({ theme }: { theme: 'light' | 'dark' }) => {
           Override semantic variables on a scoped container. Store lasting brand
           choices in your project’s JSON source and generate the overrides.
         </p>
-        <Code label="project.scss">{`.my-project {\n  --om-semantic-color-accent: #216c50;\n  --om-semantic-color-action: #1b231e;\n  --om-semantic-color-on-action: #ffffff;\n}`}</Code>
+        <Code label="project.scss">{`.my-project {\n  --om-semantic-color-focus: #2459d3;\n  --om-semantic-color-action: #171717;\n  --om-semantic-color-on-action: #ffffff;\n}`}</Code>
         <p className="body-copy">
           This snippet is illustrative, not a second token source. Check text
           and focus contrast whenever you change a color pair.

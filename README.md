@@ -21,6 +21,7 @@ Oddmash UI is for focused tools such as Interaction Inspector: products that nee
 ## Design principles
 
 - **Consistent by default.** Shared components and semantic tokens make Oddmash tools feel related.
+- **Color signals interaction.** Neutral surfaces and controls carry the interface. Blue indicates focus and red indicates errors.
 - **Accessible in behavior.** Keyboard interaction, focus handling, reduced motion, and forced colors are part of the component contract.
 - **Themeable, not prescriptive.** Products can override semantic tokens without forking the components.
 - **Small on purpose.** The system grows from real product needs rather than trying to cover every UI pattern.

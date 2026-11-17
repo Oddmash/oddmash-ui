@@ -23,11 +23,11 @@
       },
       "accent": {
         "$type": "color",
-        "$value": "{primitive.color.paleMint}"
+        "$value": "{primitive.color.bright}"
       },
       "accent-hover": {
         "$type": "color",
-        "$value": "{primitive.color.paleHover}"
+        "$value": "{primitive.color.lightActionHover}"
       },
       "on-accent": {
         "$type": "color",
@@ -39,7 +39,7 @@
       },
       "focus": {
         "$type": "color",
-        "$value": "{primitive.color.paleMint}"
+        "$value": "{primitive.color.focusBlueDark}"
       },
       "border-subtle": {
         "$type": "color",
@@ -55,7 +55,7 @@
       },
       "action-hover": {
         "$type": "color",
-        "$value": "{primitive.color.paleHover}"
+        "$value": "{primitive.color.lightActionHover}"
       }
     },
     "space": {

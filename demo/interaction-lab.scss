@@ -17,7 +17,6 @@
   padding: 0;
   background: var(--om-semantic-color-surface);
   border-color: var(--om-semantic-color-border);
-  box-shadow: var(--om-semantic-shadow);
 }
 
 .lab-header {
@@ -26,7 +25,8 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 12px 16px;
+  padding: 9px 16px;
+  background: var(--om-semantic-color-bg);
   border-bottom: 1px solid var(--om-semantic-color-border-subtle);
 }
 
@@ -57,7 +57,7 @@
     var(--om-semantic-color-border-subtle) 1px,
     transparent 1px
   );
-  background-size: 12px 12px;
+  background-size: 16px 16px;
 }
 
 .lab-targets label,
@@ -157,4 +157,9 @@
     border-inline-start: 0;
     border-top: 1px solid var(--om-semantic-color-border-subtle);
   }
+}
+
+.lab-events .om-badge--accent {
+  color: var(--om-semantic-color-focus);
+  border-color: currentColor;
 }
