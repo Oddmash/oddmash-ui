@@ -9,6 +9,8 @@ import './style.scss';
 import './interaction-lab.scss';
 import InteractionLab from './interaction-lab';
 
+const navigationGroups = [...new Set(pages.map((page) => page.group))];
+
 const readPage = (): PageId => {
   const candidate = location.hash.slice(2);
   return pages.find((page) => page.id === candidate)?.id ?? 'overview';
@@ -50,19 +52,32 @@ const Overview = () => (
           <h2>Components</h2>
         </div>
       </div>
-      <div className="component-grid">
-        {componentIds.map((id) => (
-          <article className={`component-tile tile-${id}`} key={id}>
-            <div className="tile-preview">
-              <Example id={id} />
+      {navigationGroups.map((group) => {
+        const items = pages.filter(
+          (page) =>
+            page.group === group &&
+            componentIds.includes(page.id as ComponentId),
+        );
+        if (!items.length) return null;
+        return (
+          <section className="gallery-section" key={group}>
+            <h3>{group === 'Components' ? 'Core components' : group}</h3>
+            <div className="component-grid">
+              {items.map(({ id, title }) => (
+                <article className={`component-tile tile-${id}`} key={id}>
+                  <div className="tile-preview">
+                    <Example id={id as ComponentId} />
+                  </div>
+                  <a href={`#/${id}`} className="tile-link">
+                    <span>{title}</span>
+                    <Arrow />
+                  </a>
+                </article>
+              ))}
             </div>
-            <a href={`#/${id}`} className="tile-link">
-              <span>{pages.find((page) => page.id === id)?.title}</span>
-              <Arrow />
-            </a>
-          </article>
-        ))}
-      </div>
+          </section>
+        );
+      })}
     </section>
     <section className="overview-section overview-foundations">
       <div className="overview-section-heading">
@@ -226,7 +241,7 @@ const App = () => {
         className={`sidebar ${menu ? 'is-open' : ''}`}
       >
         <nav aria-label="Documentation">
-          {['Start here', 'Foundations', 'Components', 'Patterns'].map(
+          {navigationGroups.map(
             (group) =>
               filtered.some((item) => item.group === group) && (
                 <div className="nav-group" key={group}>

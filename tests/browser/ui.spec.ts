@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { pages } from '../../demo/content';
 
 for (const theme of ['light', 'dark']) {
   test(`${theme}: document pages, examples, contrast and mobile layout`, async ({
@@ -10,20 +11,7 @@ for (const theme of ['light', 'dark']) {
     if (theme === 'dark')
       await page.getByRole('button', { name: 'Switch to dark theme' }).click();
     await expect(page.locator('html')).toHaveAttribute('data-om-theme', theme);
-    for (const id of [
-      'overview',
-      'installation',
-      'colors',
-      'typography',
-      'tokens',
-      'button',
-      'input',
-      'card',
-      'badge',
-      'tabs',
-      'dialog',
-      'interaction-pattern',
-    ]) {
+    for (const { id } of pages) {
       await page.goto(`/#/${id}`);
       await expect(page.locator('#page-title')).toBeVisible();
       expect(
@@ -238,4 +226,39 @@ test('interaction lab captures keyboard events and keeps a bounded history', asy
   );
   await page.getByRole('tab', { name: 'Events' }).click();
   await expect(history).toHaveCount(0);
+});
+
+test('new controls support native keyboard interaction and navigation', async ({
+  page,
+}) => {
+  await page.goto('/#/switch');
+  const toggle = page.getByRole('switch', { name: 'Capture interactions' });
+  await expect(toggle).toBeChecked();
+  await toggle.focus();
+  await page.keyboard.press('Space');
+  await expect(toggle).not.toBeChecked();
+  await expect(toggle).toBeFocused();
+
+  await page.goto('/#/radio');
+  const newest = page.getByRole('radio', { name: 'Newest first' });
+  await newest.focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.getByRole('radio', { name: 'Oldest first' })).toBeChecked();
+
+  await page.goto('/#/accordion');
+  const summary = page.locator('summary');
+  await summary.focus();
+  await page.keyboard.press('Enter');
+  await expect(summary.locator('..')).toHaveAttribute('open', '');
+  await expect(
+    summary
+      .locator('..')
+      .getByText('to move to the next control', { exact: false }),
+  ).toBeVisible();
+
+  await page.goto('/#/pagination');
+  await page.getByRole('link', { name: 'Page 3' }).click();
+  await expect(
+    page.getByRole('table', { name: 'Recorded events' }),
+  ).toBeVisible();
 });

@@ -17,6 +17,8 @@ import {
   type ButtonProps,
 } from '@oddmash/ui';
 import { details, type ComponentId } from './content';
+import { componentPreviews } from './component-previews';
+import type { ExtendedComponentId } from './component-catalog';
 
 export const Arrow = () => <span aria-hidden="true">↗</span>;
 export const Mark = () => (
@@ -69,6 +71,13 @@ export const Example = ({ id }: { id: ComponentId }) => {
   const [notice, setNotice] = useState('');
   const [name, setName] = useState('Interaction Inspector');
   const [open, setOpen] = useState(false);
+  if (Object.hasOwn(componentPreviews, id)) {
+    return (
+      <div className="example-primitives">
+        {componentPreviews[id as ExtendedComponentId]}
+      </div>
+    );
+  }
   if (id === 'button')
     return (
       <div className="example-stack">
@@ -237,13 +246,14 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
   const buttonCode = `<Button variant="${variant}" size="${size}"${disabled ? ' disabled' : ''}>\n  Create project\n</Button>`;
   const code = info.code || buttonCode;
   const exports =
-    id === 'tabs'
+    info.exports ??
+    (id === 'tabs'
       ? 'Tabs, TabsList, TabsTrigger, TabsContent'
       : id === 'dialog'
         ? 'Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose, Button, Input'
         : id === 'card'
           ? 'Card, Badge, Button'
-          : id[0].toUpperCase() + id.slice(1);
+          : id[0].toUpperCase() + id.slice(1));
   return (
     <>
       <section className="doc-section" aria-labelledby="playground-heading">
