@@ -63,6 +63,10 @@ Set `data-om-theme="light"` or `data-om-theme="dark"` on the document or a subtr
 
 Run `npx playwright install chromium firefox webkit` before the browser suite when the browsers are not installed. Keep the four product README translations, language links, and visuals synchronized. Follow the [Oddmash organization contribution policy](https://github.com/Oddmash/.github/blob/main/CONTRIBUTING.md) and discuss cross-project API changes in an issue first.
 
+## Previous verification
+
+The initial Interaction Inspector integration was measured on a Chromium fixture at 1000 × 800. The initial panel screenshots matched byte for byte in that fixture. See the [before screenshot](docs/assets/inspector-before.png), [after screenshot](docs/assets/inspector-after.png), and [measured geometry and styles](docs/assets/inspector-metrics.json). The [original verification record](https://github.com/Oddmash/oddmash-ui/blob/dcc03a1/docs/VERIFICATION.md) captures the historical test and integration context.
+
 ## Current verification coverage
 
 CI checks React 18 and 19 with matching type packages. The browser suite covers the documentation pages in light and dark themes, 320 px layouts, axe scans, keyboard navigation, focus return, live props, copy behavior, token filtering, scoped themes, mobile navigation, dialog submission, reduced motion, and product overrides across Chromium, Firefox, and WebKit.
