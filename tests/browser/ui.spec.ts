@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { pages } from '../../demo/content';
+import { tabToAllControls } from './keyboard';
 
 for (const theme of ['light', 'dark']) {
   test(`${theme}: document pages, examples, contrast and mobile layout`, async ({
@@ -62,6 +63,18 @@ for (const theme of ['light', 'dark']) {
     ).toBeFocused();
   });
 }
+
+test('a scrollable dialog contains overscroll on a short viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 240 });
+  await page.goto('/#/dialog');
+  await page.getByRole('button', { name: 'Edit project' }).click();
+  const dialog = page.getByRole('dialog');
+  await expect(dialog).toBeVisible();
+  expect(await dialog.evaluate((element) => element.scrollHeight > element.clientHeight)).toBe(true);
+  await expect(dialog).toHaveCSS('overscroll-behavior', 'contain');
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('button', { name: 'Edit project' })).toBeFocused();
+});
 
 test('navigation, search, live props, code, tokens and mobile menu work', async ({
   page,
@@ -210,12 +223,13 @@ test('nested themes and project overrides stay scoped', async ({ page }) => {
 
 test('interaction lab captures keyboard events and keeps a bounded history', async ({
   page,
+  browserName,
 }) => {
   await page.goto('/#/interaction-pattern');
   const input = page.getByLabel('Project name', { exact: true });
   await input.focus();
   await input.fill('A new tool');
-  await page.keyboard.press('Tab');
+  await page.keyboard.press(tabToAllControls(browserName));
   const submit = page.getByRole('button', { name: 'Save project' });
   await expect(submit).toBeFocused();
   await expect(submit).toHaveCSS('outline-color', 'rgb(36, 89, 211)');
