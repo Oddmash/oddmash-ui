@@ -165,6 +165,7 @@
   width: min(440px, calc(100vw - 32px));
   max-height: calc(100dvh - 32px);
   overflow: auto;
+  overscroll-behavior: contain;
   padding: var(--om-semantic-space-xl);
   background: var(--om-semantic-color-surface);
   border: var(--om-semantic-border-width) var(--om-semantic-border-style)

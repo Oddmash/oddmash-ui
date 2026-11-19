@@ -1,11 +1,12 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { componentIds, type ComponentId } from '../../demo/content';
+import { tabToAllControls } from './keyboard';
 
 const previewChecks = {
-  button: async (preview, page) => {
+  button: async (preview, page, browserName) => {
     const button = preview.getByRole('button', { name: 'Create project' });
-    await page.locator('.view-switch').getByRole('button', { name: 'Code' }).press('Tab');
+    await page.locator('.view-switch').getByRole('button', { name: 'Code' }).press(tabToAllControls(browserName));
     await expect(button).toBeFocused();
     await expect(button).toHaveCSS('outline-style', 'solid');
     await page.keyboard.press('Enter');
@@ -131,7 +132,7 @@ const previewChecks = {
     await expect(page.getByRole('status').filter({ hasText: 'Project saved' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Dismiss notification' })).toBeVisible();
   },
-} satisfies Record<Exclude<ComponentId, 'dialog'>, (preview: Locator, page: Page) => Promise<void>>;
+} satisfies Record<Exclude<ComponentId, 'dialog'>, (preview: Locator, page: Page, browserName: string) => Promise<void>>;
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -146,7 +147,7 @@ for (const id of componentIds.filter((id) => id !== 'dialog')) {
           await page.getByRole('button', { name: 'Switch to dark theme' }).click();
         }
         await expect(preview).toBeVisible();
-        await previewChecks[id](preview, page);
+        await previewChecks[id](preview, page, browserName);
         const { violations } = await new AxeBuilder({ page })
           .include('.playground .preview')
           .setLegacyMode(browserName === 'firefox')
