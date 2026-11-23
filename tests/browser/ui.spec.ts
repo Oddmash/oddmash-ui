@@ -514,3 +514,16 @@ test('accordion expands and collapses with native disclosure motion', async ({ p
     getComputedStyle(element, '::details-content').transitionDuration,
   )).toBe('0s');
 });
+
+test('overview exposes a working demo and primary documentation links', async ({ page }) => {
+  await page.goto('/#/overview');
+  await expect(page.getByRole('heading', { name: 'Oddmash UI', exact: true })).toBeVisible();
+  const lab = page.locator('.overview .interaction-lab');
+  await lab.getByLabel('Project name', { exact: true }).fill('Demo project');
+  await lab.getByRole('button', { name: 'Save project' }).click();
+  await expect(lab.getByRole('status')).toHaveText('Saved Demo project');
+  await page.setViewportSize({ width: 320, height: 780 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.getByRole('link', { name: 'Browse components', exact: true }).click();
+  await expect(page.locator('#page-title')).toHaveText('Button');
+});
