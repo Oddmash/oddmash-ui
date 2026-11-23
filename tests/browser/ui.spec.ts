@@ -179,6 +179,15 @@ test('navigation, search, live props, code, tokens and mobile menu work', async 
   await page.getByRole('button', { name: 'Toggle navigation' }).click();
   await navigation.getByRole('link', { name: 'Dialog', exact: true }).click();
   await expect(navigation).toBeHidden();
+  const toggle = page.getByRole('button', { name: 'Toggle navigation' });
+  await toggle.focus();
+  await page.keyboard.press('Enter');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await expect(navigation).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(navigation).toBeHidden();
+  await expect(toggle).toBeFocused();
   await page.getByRole('button', { name: 'Edit project' }).click();
   await page.getByLabel('Project name', { exact: true }).fill('A new idea');
   await page.getByRole('button', { name: 'Save changes' }).click();
