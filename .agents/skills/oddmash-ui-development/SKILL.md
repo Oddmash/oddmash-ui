@@ -20,7 +20,7 @@ Use this workflow for substantive work in `Oddmash/oddmash-ui`. Treat the packag
 - JSON under `tokens/` is the source of truth. Do not hand-edit `src/generated/` or `dist/`.
 - Put raw palette and scale values in `tokens/primitive.json`. Put intent-based aliases in both semantic theme files.
 - Keep light and dark semantic key sets identical. Prefer semantic CSS variables in component SCSS instead of primitive values or duplicate SCSS variables.
-- After token edits, run `npm run tokens`, review the generated diff, and run `npm run tokens:check`.
+- After token edits, run `pnpm run tokens`, review the generated diff, and run `pnpm run tokens:check`.
 - Treat product-specific palettes and layout rules as consumer overrides rather than additions to the shared foundation unless more than one Oddmash product needs them.
 
 ## Brand, demos, and languages
@@ -45,10 +45,10 @@ Use this workflow for substantive work in `Oddmash/oddmash-ui`. Treat the packag
 
 ## Verify proportionally
 
-- Token-only changes: `npm run tokens:check`, `npm test`, and `npm run build`.
-- Component, export, or build changes: `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, and `npm run test:bundle`.
-- Interaction, focus, theme, responsive, or visual changes: also run `npm run test:browser` and `npm run build:demo`.
-- Documentation-site changes: run `npm run build:demo`; run browser tests when navigation, live examples, themes, or responsive behavior changes.
+- Token-only changes: `pnpm run tokens:check`, `pnpm test`, and `pnpm run build`.
+- Component, export, or build changes: `pnpm run typecheck`, `pnpm run lint`, `pnpm test`, `pnpm run build`, and `pnpm run test:bundle`.
+- Interaction, focus, theme, responsive, or visual changes: also run `pnpm run test:browser` and `pnpm run build:demo`.
+- Documentation-site changes: run `pnpm run build:demo`; run browser tests when navigation, live examples, themes, or responsive behavior changes.
 - Keep English, Korean, Japanese, and Simplified Chinese README claims aligned when shared behavior changes.
 
 If a required browser is not installed, report the missing prerequisite instead of claiming the browser suite passed. Do not weaken an accessibility assertion or disable a rule merely to make CI green.
