@@ -514,3 +514,22 @@ test('accordion expands and collapses with native disclosure motion', async ({ p
     getComputedStyle(element, '::details-content').transitionDuration,
   )).toBe('0s');
 });
+
+test('overview exposes a working demo and primary documentation links', async ({ page }, testInfo) => {
+  await page.goto('/#/overview');
+  await expect(page.getByRole('heading', { name: 'Oddmash UI', exact: true })).toBeVisible();
+  await page.screenshot({ path: testInfo.outputPath('landing-light.png'), fullPage: true, animations: 'disabled' });
+  const lab = page.locator('.overview .interaction-lab');
+  await lab.getByLabel('Project name', { exact: true }).fill('Demo project');
+  await lab.getByRole('button', { name: 'Save project' }).click();
+  await expect(lab.getByRole('status')).toHaveText('Saved Demo project');
+  await page.getByRole('button', { name: 'Switch to dark theme' }).click();
+  await page.screenshot({ path: testInfo.outputPath('landing-dark.png'), fullPage: true, animations: 'disabled' });
+  await page.setViewportSize({ width: 320, height: 780 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath('landing-mobile.png'), fullPage: true, animations: 'disabled' });
+  await page.getByRole('link', { name: 'Browse components', exact: true }).click();
+  await expect(page.locator('#page-title')).toHaveText('Button');
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.screenshot({ path: testInfo.outputPath('component-docs.png'), fullPage: true, animations: 'disabled' });
+});

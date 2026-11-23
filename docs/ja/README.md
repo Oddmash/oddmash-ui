@@ -4,7 +4,10 @@
 
 Oddmash UI は、Oddmash 製品で共有するインターフェース基盤です。小規模な React 開発ツールに、一貫したビジュアル言語、アクセシブルな操作パターン、テーマ変更可能なデザイントークンを提供しつつ、製品固有のレイアウトまでは規定しません。
 
-![パターンとコンポーネント一覧を表示する Oddmash UI ドキュメント](../assets/playground.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/playground-dark.png">
+  <img alt="パターンとコンポーネント一覧を表示する Oddmash UI ドキュメント" src="../assets/playground.png">
+</picture>
 
 ## 提供するもの
 

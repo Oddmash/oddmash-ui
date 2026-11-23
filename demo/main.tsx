@@ -44,13 +44,25 @@ const Overview = () => {
   ];
   return (
     <>
-      <header className="page-heading overview-heading">
-        <h1 tabIndex={-1} id="page-title">Oddmash UI</h1>
-        <p>{t('React components and design tokens for Oddmash developer tools.')}</p>
-        <a className="text-link" href="#/installation">
-          {t('Getting started')} <span aria-hidden="true">→</span>
-        </a>
+      <header className="overview-heading renewal-hero">
+        <div className="renewal-copy">
+          <p className="renewal-kicker">React · {t('Tokens')}</p>
+          <h1 tabIndex={-1} id="page-title">Oddmash UI</h1>
+          <p>{t('React components and design tokens for Oddmash developer tools.')}</p>
+          <div className="hero-actions">
+            <a className="solid-link" href="#/installation">
+              {t('Getting started')} <Arrow />
+            </a>
+            <a className="text-link" href="#/button">
+              {t('Browse components')} <Arrow />
+            </a>
+          </div>
+        </div>
+        <div className="renewal-mark" aria-hidden="true">
+          <img src="./oddmash-logo.png" alt="" />
+        </div>
       </header>
+      <InteractionLab />
       {sections.map(({ title, groups }) => (
         <section className="overview-section" key={title}>
           <h2>{t(title)}</h2>

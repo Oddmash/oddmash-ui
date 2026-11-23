@@ -4,7 +4,10 @@
 
 Oddmash UI는 Oddmash 제품이 함께 사용하는 인터페이스 기반입니다. 작은 React 개발 도구에 일관된 시각 언어, 접근 가능한 상호작용 패턴, 테마를 바꿀 수 있는 디자인 토큰을 제공하되 제품의 화면 구성까지 대신 결정하지는 않습니다.
 
-![제품 패턴과 컴포넌트 목록이 보이는 Oddmash UI 문서](../assets/playground.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/playground-dark.png">
+  <img alt="제품 패턴과 컴포넌트 목록이 보이는 Oddmash UI 문서" src="../assets/playground.png">
+</picture>
 
 ## 무엇을 제공하나요?
 

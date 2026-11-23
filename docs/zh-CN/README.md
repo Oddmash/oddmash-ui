@@ -4,7 +4,10 @@
 
 Oddmash UI 是 Oddmash 产品共享的界面基础。它为小型 React 开发工具提供一致的视觉语言、无障碍交互模式和可主题化的设计令牌，同时不替产品决定具体布局。
 
-![展示模式和组件目录的 Oddmash UI 文档](../assets/playground.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/playground-dark.png">
+  <img alt="展示模式和组件目录的 Oddmash UI 文档" src="../assets/playground.png">
+</picture>
 
 ## 提供什么
 
