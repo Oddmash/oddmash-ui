@@ -124,7 +124,8 @@ const App = ({ onLocale }: { onLocale: (locale: Locale) => void }) => {
       }
       if (
         event.key === 'Escape' &&
-        sidebar.current?.contains(document.activeElement) &&
+        (sidebar.current?.contains(document.activeElement) ||
+          document.activeElement === menuToggle.current) &&
         menuToggle.current?.offsetWidth
       ) {
         setMenu(false);
