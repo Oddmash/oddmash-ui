@@ -4,6 +4,8 @@ export default defineConfig({
     index: 'src/index.ts',
     button: 'src/button.tsx',
     input: 'src/input.tsx',
+    slider: 'src/slider.tsx',
+    'command-palette': 'src/command-palette.tsx',
     card: 'src/card.tsx',
     badge: 'src/badge.tsx',
     tabs: 'src/tabs.tsx',

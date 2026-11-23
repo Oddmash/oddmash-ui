@@ -1,4 +1,16 @@
 export const extendedComponents = {
+  slider: {
+    title: 'Slider', group: 'Forms', description: 'Adjust a numeric value.',
+    usage: 'Use a visible label and native range limits.', accessibility: 'Arrow keys adjust the value.',
+    props: [['min / max / step', 'number', 'Native defaults']], exports: 'Slider',
+    code: '<label>Width <Slider min={100} max={600} defaultValue={320} /></label>',
+  },
+  'command-palette': {
+    title: 'Command Palette', group: 'Navigation', description: 'Find and execute actions.',
+    usage: 'Open with an explicit trigger.', accessibility: 'Use arrow keys, Enter and Escape.',
+    props: [['items', 'readonly CommandPaletteItem[]', 'Required']], exports: 'Button, CommandPalette',
+    code: '<CommandPalette trigger={<Button>Commands</Button>} title="Commands" description="Choose an action" searchLabel="Search commands" emptyLabel="No commands found" items={[{ id: "save", label: "Save project", onSelect: () => {} }]} />',
+  },
   textarea: {
     title: 'Textarea',
     group: 'Forms',

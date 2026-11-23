@@ -1,6 +1,19 @@
 type Translation = [ko: string, ja: string, simplifiedChinese: string];
 
 export const translations: Record<string, Translation> = {
+  'Command Palette': ['명령 팔레트', 'コマンドパレット', '命令面板'],
+  Width: ['너비', '幅', '宽度'],
+  Slider: ['슬라이더', 'スライダー', '滑块'],
+  Commands: ['명령', 'コマンド', '命令'],
+  'Choose an action': ['작업 선택', '操作を選択', '选择操作'],
+  'Search commands': ['명령 검색', 'コマンドを検索', '搜索命令'],
+  'No commands found': ['명령 없음', 'コマンドがありません', '没有命令'],
+  'Adjust a numeric value.': ['숫자 값을 조절합니다.', '数値を調整します。', '调整数值。'],
+  'Use a visible label and native range limits.': ['보이는 레이블과 기본 범위를 사용하세요.', 'ラベルと範囲を指定します。', '使用可见标签和原生范围。'],
+  'Arrow keys adjust the value.': ['방향키로 값을 조절합니다.', '矢印キーで値を調整します。', '方向键调整数值。'],
+  'Find and execute actions.': ['작업을 찾아 실행합니다.', '操作を検索して実行します。', '查找并执行操作。'],
+  'Open with an explicit trigger.': ['명시적인 버튼으로 엽니다.', '明示的なボタンで開きます。', '使用明确按钮打开。'],
+  'Use arrow keys, Enter and Escape.': ['방향키, Enter, Escape를 사용합니다.', '矢印キー、Enter、Escape を使います。', '使用方向键、Enter 和 Escape。'],
   Overview: ['개요', '概要', '概览'],
   'Start here': ['시작하기', 'はじめに', '开始'],
   Installation: ['설치', 'インストール', '安装'],

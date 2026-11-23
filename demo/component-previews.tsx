@@ -9,6 +9,8 @@ import {
   Accordion,
   Avatar,
   Button,
+  CommandPalette,
+  Slider,
   Checkbox,
   EmptyState,
   Field,
@@ -28,6 +30,8 @@ import type { ReactNode } from 'react';
 export const getComponentPreviews = (
   t: (text: string) => string,
 ): Record<ExtendedComponentId, ReactNode> => ({
+  slider: <label>{t('Width')} <Slider min={100} max={600} defaultValue={320} /></label>,
+  'command-palette': <CommandPalette trigger={<Button>{t('Commands')}</Button>} title={t('Commands')} description={t('Choose an action')} searchLabel={t('Search commands')} emptyLabel={t('No commands found')} items={[{ id: 'save', label: t('Save project'), onSelect: () => {} }]} />,
   textarea: (
     <label>
       {t('Release notes')}

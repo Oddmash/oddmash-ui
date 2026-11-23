@@ -4,6 +4,24 @@ import { componentIds, type ComponentId } from '../../demo/content';
 import { tabToAllControls } from './keyboard';
 
 const previewChecks = {
+  slider: async (preview) => {
+    const slider = preview.getByRole('slider', { name: 'Width' });
+    await slider.press('ArrowRight');
+    await expect(slider).toHaveValue('321');
+  },
+  'command-palette': async (preview, page) => {
+    const trigger = preview.getByRole('button', { name: 'Commands' });
+    await trigger.click();
+    const search = page.getByRole('combobox', { name: 'Search commands' });
+    await expect(search).toBeFocused();
+    await search.fill('missing');
+    await expect(page.getByRole('status').filter({ hasText: 'No commands found' })).toBeVisible();
+    await search.fill('save');
+    await expect(page.getByRole('option', { name: 'Save project' })).toBeVisible();
+    await search.press('Enter');
+    await expect(page.getByRole('dialog', { name: 'Commands' })).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+  },
   button: async (preview, page, browserName) => {
     const button = preview.getByRole('button', { name: 'Create project' });
     await page.locator('.view-switch').getByRole('button', { name: 'Code' }).press(tabToAllControls(browserName));

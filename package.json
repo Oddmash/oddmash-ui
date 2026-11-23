@@ -125,6 +125,14 @@
     "./toast": {
       "types": "./dist/toast.d.ts",
       "import": "./dist/toast.js"
+    },
+    "./slider": {
+      "types": "./dist/slider.d.ts",
+      "import": "./dist/slider.js"
+    },
+    "./command-palette": {
+      "types": "./dist/command-palette.d.ts",
+      "import": "./dist/command-palette.js"
     }
   },
   "engines": {
