@@ -46,7 +46,7 @@ const Overview = () => {
     <>
       <header className="overview-heading renewal-hero">
         <div className="renewal-copy">
-          <p className="renewal-kicker">React · Design tokens</p>
+          <p className="renewal-kicker">React · {t('Tokens')}</p>
           <h1 tabIndex={-1} id="page-title">Oddmash UI</h1>
           <p>{t('React components and design tokens for Oddmash developer tools.')}</p>
           <div className="hero-actions">
