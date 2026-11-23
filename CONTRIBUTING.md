@@ -71,6 +71,8 @@ The initial Interaction Inspector integration was measured on a Chromium fixture
 
 CI checks React 18 and 19 with matching type packages. The browser suite covers the documentation pages in light and dark themes, 320 px layouts, axe scans, keyboard navigation, focus return, live props, copy behavior, token filtering, scoped themes, mobile navigation, dialog submission, reduced motion, and product overrides across Chromium, Firefox, and WebKit.
 
+React 19 uses the root lockfile. React 18 uses a separate temporary checkout with the four exact compatibility versions applied by `scripts/prepare-react18.mjs` and the committed `tests/compatibility/react18/pnpm-lock.yaml`. Both install with a frozen lockfile. When dependencies change, generate the React 18 manifest in a disposable checkout, update its lockfile using the pinned pnpm, and copy only that reviewed lockfile back to the compatibility fixture. Neither CI matrix job rewrites tracked dependency inputs.
+
 Each component preview has a dedicated browser test that exercises its behavior or rendered semantics before running axe in light and dark themes. CI includes failures with screenshots, traces, and visual diffs in the browser results artifact.
 
 Run visual comparisons on Linux with the version of Chromium installed by Playwright. After reviewing an intentional change against the current baselines, regenerate them on Linux with `pnpm run test:visual --update-snapshots=all` and include the changed images in the PR.
