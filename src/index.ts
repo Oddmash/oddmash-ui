@@ -23,3 +23,5 @@ export * from './pagination';
 export * from './empty-state';
 export { tokens, type TokenName } from './generated/tokens';
 export * from './toast';
+export * from './slider';
+export * from './command-palette';
