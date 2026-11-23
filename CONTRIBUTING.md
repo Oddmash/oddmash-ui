@@ -90,3 +90,7 @@ If a publish fails, use **Run workflow** on `main` and enter the existing publis
 Oddmash UI takes its visual cues from the folded ribbon in the Oddmash mark. Paired diagonals define the brand surface, adjoining panels create depth, and high-contrast text keeps tools readable. Blue and red identify focus and errors. Motion is short and follows reduced-motion preferences.
 
 English is the source copy for the docs. Keep Korean, Japanese, and Simplified Chinese entries in `demo/translations.ts` in sync with the source. Translate headings, instructions, and accessible names. Keep component names, prop names, and copyable code in their original form.
+
+## Public contribution language
+
+Write issue and pull request titles, bodies, public review discussions, commit messages, and changelog entries in English. Use the shared English issue and PR templates from [Oddmash](https://github.com/Oddmash/.github/blob/main/CONTRIBUTING.md). Preserve existing product documentation localization and provide translation help when needed.

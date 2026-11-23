@@ -16,3 +16,7 @@ Treat every localized README as a product introduction, not a repository setup g
 For code or build changes, run the relevant subset of `npm run tokens:check`, `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, and `npm run test:bundle`. For interaction, theme, responsive, or visual changes, also run `npm run test:browser` and `npm run build:demo`.
 
 Use a focused branch and reviewable commits for each change. Verify the relevant CI before merging. For an authorized npm release, use the GitHub Release and OIDC workflow documented in `CONTRIBUTING.md`.
+
+## Public contribution language
+
+Write issue and pull request titles, bodies, public review discussions, commit messages, and changelog entries in English. Use the shared English issue and PR templates from [Oddmash](https://github.com/Oddmash/.github/blob/main/CONTRIBUTING.md). Preserve existing product documentation localization and provide translation help when needed.
