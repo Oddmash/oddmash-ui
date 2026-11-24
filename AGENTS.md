@@ -1,5 +1,7 @@
 # Oddmash UI working agreements
 
+Follow the [Oddmash review follow-up guidance](https://github.com/Oddmash/.github/blob/main/docs/AI-CODE-REVIEW.md#following-up-on-review-findings) when addressing review comments.
+
 Oddmash UI is an evolving pre-1.0 package. Use the current visuals and APIs as the baseline for incremental changes.
 
 Treat every localized README as a product introduction, not a repository setup guide. Explain what Oddmash UI is, who it serves, the problem it solves, its main capabilities, and its current product status. Do not put clone, install, local-run, build, test, release, or contributor workflows in a README; keep all development and verification details in `CONTRIBUTING.md`. Keep all four README translations, language links, claims, and visuals synchronized.
