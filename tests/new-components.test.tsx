@@ -12,7 +12,7 @@ import {
   Switch,
   Textarea,
   Toast,
-
+  ToastViewport,
 } from '../src';
 
 it('preserves independent toast live regions and dismissal inside a viewport', async () => {
