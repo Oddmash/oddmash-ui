@@ -92,7 +92,7 @@ jobs:
             echo 'Browser installation failed or timed out; retrying once.'
             timeout --kill-after=10s 90s npx playwright install --with-deps "$BROWSER"
           fi
-      - run: npm run test:browser -- --project=${{ matrix.browser }} --update-snapshots=none
+      - run: npm run test:browser -- --project=${{ matrix.browser }} --fully-parallel --update-snapshots=none
       - uses: actions/upload-artifact@v4
         if: always()
         with:
