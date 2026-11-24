@@ -9,7 +9,7 @@ test('only isolated root-level unit tests skip browser checks', () => {
 });
 
 test('runtime, browser configuration, shared test setup and unknown files retain browsers', () => {
-  for (const path of ['src/toast.tsx', 'demo/index.html', 'tests/setup.ts', 'tests/browser/ui.spec.ts', 'tests/browser/visual.spec.ts-snapshots/a.png', 'package-lock.json', 'playwright.config.ts', '.github/workflows/ci.yml', 'unknown.test.ts']) {
+  for (const path of ['src/toast.tsx', 'demo/index.html', 'tests/setup.ts', 'tests/browser/ui.spec.ts', 'tests/browser/visual.spec.ts-snapshots/a.png', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', 'tests/compatibility/react18/pnpm-lock.yaml', 'playwright.config.ts', '.github/workflows/ci.yml', 'unknown.test.ts']) {
     assert.deepEqual(classify(['tests/new-components.test.tsx', path]), { full: false, browser: true });
   }
   assert.equal(classify([]).browser, true);

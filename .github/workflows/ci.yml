@@ -3,11 +3,12 @@ on:
   push:
     branches: [main]
   pull_request:
+    branches: [develop, main]
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}-${{ github.event_name == 'workflow_dispatch' && github.run_id || 'auto' }}
+  cancel-in-progress: ${{ github.event_name != 'workflow_dispatch' }}
 permissions:
   contents: read
 jobs:
@@ -27,21 +28,14 @@ jobs:
         with:
           fetch-depth: 2
           persist-credentials: false
-      - run: node --test scripts/ci-browser-scope.test.mjs
+      - run: node --test scripts/ci-browser-scope.test.mjs scripts/ci-playwright-version.test.mjs
       - id: classify
         env:
           CI_EVENT: ${{ github.event_name }}
           CI_BASE_REF: ${{ github.base_ref }}
         run: node scripts/ci-browser-scope.mjs
       - id: playwright
-        run: |
-          node --input-type=module -e '
-            import { readFileSync, appendFileSync } from "node:fs";
-            const lock = JSON.parse(readFileSync("package-lock.json", "utf8"));
-            const version = lock.packages["node_modules/@playwright/test"].version;
-            if (!/^\d+\.\d+\.\d+$/.test(version)) throw Error("Expected a stable Playwright version");
-            appendFileSync(process.env.GITHUB_OUTPUT, `version=${version}\n`);
-          '
+        run: node scripts/ci-playwright-version.mjs
   quality:
     needs: [scope, browser-scope]
     if: needs.scope.outputs.runtime == 'true' || needs.browser-scope.outputs.full == 'true'
@@ -55,22 +49,44 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
           persist-credentials: false
+      - uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
           node-version: 24
-          cache: npm
-      - run: npm ci --ignore-scripts
-      - if: matrix.react == 18
-        run: npm install --no-save --ignore-scripts react@18 react-dom@18 @types/react@18 @types/react-dom@18
+          cache: pnpm
+          cache-dependency-path: |
+            pnpm-lock.yaml
+            tests/compatibility/react18/pnpm-lock.yaml
+      - name: Select isolated compatibility checkout
+        run: |
+          check_dir="$GITHUB_WORKSPACE"
+          if [ "${{ matrix.react }}" = "18" ]; then
+            check_dir="$RUNNER_TEMP/oddmash-ui-react18"
+            mkdir -p "$check_dir"
+            git archive HEAD | tar -x -C "$check_dir"
+            node scripts/prepare-react18.mjs "$check_dir"
+            cp "$check_dir/tests/compatibility/react18/pnpm-lock.yaml" "$check_dir/pnpm-lock.yaml"
+          fi
+          echo "CHECK_DIR=$check_dir" >> "$GITHUB_ENV"
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+        working-directory: ${{ env.CHECK_DIR }}
       - if: matrix.react == 19
-        run: npm run tokens:check
-      - run: npm run build
+        run: pnpm run tokens:check
+        working-directory: ${{ env.CHECK_DIR }}
+      - run: pnpm run build
+        working-directory: ${{ env.CHECK_DIR }}
       - if: matrix.react == 19
-        run: npm run test:bundle
-      - run: npm run typecheck
+        run: pnpm run test:bundle
+        working-directory: ${{ env.CHECK_DIR }}
+      - run: pnpm run typecheck
+        working-directory: ${{ env.CHECK_DIR }}
       - if: matrix.react == 19
-        run: npm run lint
-      - run: npm test
+        run: pnpm run lint
+        working-directory: ${{ env.CHECK_DIR }}
+      - run: pnpm test
+        working-directory: ${{ env.CHECK_DIR }}
+      - name: Confirm tracked dependency inputs remain unchanged
+        run: git diff --exit-code -- package.json pnpm-lock.yaml pnpm-workspace.yaml tests/compatibility/react18/pnpm-lock.yaml
   browser:
     needs: [scope, browser-scope]
     if: (needs.scope.outputs.runtime == 'true' || needs.browser-scope.outputs.full == 'true') && needs.browser-scope.outputs.browser == 'true'
@@ -88,15 +104,31 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
           persist-credentials: false
+      - uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
           node-version: 24
-          cache: npm
-      - run: npm ci --ignore-scripts
-      - if: matrix.react == 18
-        run: npm install --no-save --ignore-scripts react@18 react-dom@18 @types/react@18 @types/react-dom@18
-      - run: npm run build
+          cache: pnpm
+          cache-dependency-path: |
+            pnpm-lock.yaml
+            tests/compatibility/react18/pnpm-lock.yaml
+      - name: Select isolated compatibility checkout
+        run: |
+          check_dir="$GITHUB_WORKSPACE"
+          if [ "${{ matrix.react }}" = "18" ]; then
+            check_dir="$RUNNER_TEMP/oddmash-ui-react18"
+            mkdir -p "$check_dir"
+            git archive HEAD | tar -x -C "$check_dir"
+            node scripts/prepare-react18.mjs "$check_dir"
+            cp "$check_dir/tests/compatibility/react18/pnpm-lock.yaml" "$check_dir/pnpm-lock.yaml"
+          fi
+          echo "CHECK_DIR=$check_dir" >> "$GITHUB_ENV"
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+        working-directory: ${{ env.CHECK_DIR }}
+      - run: pnpm run build
+        working-directory: ${{ env.CHECK_DIR }}
       - name: Run browser tests
+        working-directory: ${{ env.CHECK_DIR }}
         env:
           BROWSER: ${{ matrix.browser }}
         run: |
@@ -105,12 +137,14 @@ jobs:
             chown "$(id -u):$(id -g)" /github/home
             trap 'chown "$container_home_owner" /github/home' EXIT
           fi
-          npm run test:browser -- --project="$BROWSER" --fully-parallel --update-snapshots=none
+          pnpm run test:browser --project="$BROWSER" --fully-parallel --update-snapshots=none
+      - name: Confirm tracked dependency inputs remain unchanged
+        run: git diff --exit-code -- package.json pnpm-lock.yaml pnpm-workspace.yaml tests/compatibility/react18/pnpm-lock.yaml
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: browser-results-react-${{ matrix.react }}-${{ matrix.browser }}
-          path: test-results/
+          path: ${{ env.CHECK_DIR }}/test-results/
 
   verify:
     needs: [scope, browser-scope, quality, browser]
