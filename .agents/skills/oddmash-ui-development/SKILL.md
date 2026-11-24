@@ -27,7 +27,7 @@ Use this workflow for substantive work in `Oddmash/oddmash-ui`. Treat the packag
 
 - Use the existing Oddmash mark as the shape reference. Its folded ribbon appears as paired diagonals and adjoining surfaces in `demo/brand.scss`. Use Geist Sans for UI and Geist Mono for code and event values, with locale-appropriate fallback fonts.
 - Keep the palette neutral and limit state color to its semantic purpose. Apply brief opacity-free movement to content that must remain readable during a transition. Honor `prefers-reduced-motion` and keep focus indicators visible in both themes.
-- Use real exported components in the playground. Provide a trigger for Alert, Dialog, Toast, and loading examples. Keep Breadcrumbs and Pagination previews within their own state, preserve keyboard focus, and verify the URL stays unchanged. Use shared components for playground settings, including SelectDropdown for single-choice controls. Provide a clear way to dismiss feedback.
+- Use real exported components in the playground. Provide a trigger for Alert, Dialog, Toast, and loading examples. Keep Breadcrumbs and Pagination previews within their own state, preserve keyboard focus, and verify the URL stays unchanged. Use shared components for playground settings, including Select for single-choice controls. Provide a clear way to dismiss feedback.
 - Treat English as source copy. Update `demo/translations.ts` with Korean, Japanese, and Simplified Chinese for changed headings, descriptions, controls, error messages, and accessible labels. Keep API names, props, event names, and copyable code stable. Check the language choice survives reload and all four layouts fit at 320 px.
 - Keep preview code and the live example synchronized. For larger recipes, use the same example source for the preview and copyable code. When the public UI changes materially, keep the four READMEs linked to current light and dark captures.
 
@@ -38,7 +38,7 @@ Use this workflow for substantive work in `Oddmash/oddmash-ui`. Treat the packag
 - Keep page navigation static. Check that Accordion visibly expands and collapses, including on keyboard activation, and switches instantly under reduced motion. Preserve native details and summary behavior.
 - Keep Button's default `type="button"` behavior and retain keyboard, focus, disabled, reduced-motion, and forced-colors behavior.
 - For Tabs and Dialog, preserve the underlying Radix controlled and uncontrolled APIs, keyboard behavior, focus trapping, restoration, and explicit portal-container support.
-- Keep native Select available for browser-native validation, optgroups, and multi-select. Use SelectDropdown for a styled single choice. Check keyboard navigation, type-ahead, cancellation, disabled options, and focus.
+- Use Select for a styled single choice. Use the HTML select element for native validation, optgroups, or multi-select. Retain the SelectDropdown alias for existing consumers. Check keyboard navigation, type-ahead, cancellation, disabled options, and focus.
 - Keep Toast controlled and render its live region before the message appears. Use polite status for confirmations and alert for urgent errors. Keep dismissal available and return focus in the caller when appropriate.
 - Update `src/index.ts`, `package.json` subpaths, `tsup.config.ts` entries, declarations, tests, examples, and documentation together when the public API changes.
 - Avoid adding a runtime dependency or component family solely for completeness. Explain the demonstrated consumer need and bundle impact.

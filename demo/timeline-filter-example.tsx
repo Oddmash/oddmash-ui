@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Field } from '@oddmash/ui/field';
-import { SelectDropdown } from '@oddmash/ui/select';
+import { Select } from '@oddmash/ui/select';
 import { Switch } from '@oddmash/ui/switch';
 import '@oddmash/ui/styles.css';
 import './timeline-filter-example.scss';
@@ -32,7 +32,7 @@ export const TimelineFilterExample = ({
       <Field legend={t('Timeline filters')}>
         <div className="timeline-select">
           <span>{t('Event type')}</span>
-          <SelectDropdown
+          <Select
             aria-label={t('Event type')}
             value={eventFilter}
             onValueChange={(value) =>

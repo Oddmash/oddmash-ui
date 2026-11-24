@@ -16,7 +16,7 @@ import {
   Field,
   Progress,
   Radio,
-  SelectDropdown,
+  Select,
   Separator,
   Skeleton,
   Spinner,
@@ -41,7 +41,7 @@ export const getComponentPreviews = (
   select: (
     <div>
       <label htmlFor="example-environment">{t('Environment')}</label>
-      <SelectDropdown
+      <Select
         id="example-environment"
         defaultValue="staging"
         options={[
