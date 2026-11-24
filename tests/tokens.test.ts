@@ -26,3 +26,15 @@ it('rejects stale output, broken aliases and theme drift; regenerates after JSON
     expect(run().status).not.toBe(0);
   } finally { rmSync(cwd, { recursive: true, force: true }); }
 }, 20_000);
+
+it('exposes the same role-based radius scale in both themes', () => {
+  const { primitive } = JSON.parse(readFileSync('tokens/primitive.json', 'utf8'));
+  const expected = { sm: 6, md: 8, lg: 12, xl: 16, '2xl': 24, pill: 999 };
+  for (const [key, value] of Object.entries(expected)) {
+    expect(primitive.radius[key].$value.value).toBe(value);
+    for (const theme of ['light', 'dark']) {
+      const { semantic } = JSON.parse(readFileSync(`tokens/semantic/${theme}.json`, 'utf8'));
+      expect(semantic.radius[key].$value).toBe(`{primitive.radius.${key}}`);
+    }
+  }
+});

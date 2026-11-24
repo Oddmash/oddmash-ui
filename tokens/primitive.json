@@ -6,9 +6,9 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            1.0,
-            1.0,
-            1.0
+            1,
+            1,
+            1
           ],
           "alpha": 1,
           "hex": "#ffffff"
@@ -201,7 +201,7 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            1.0,
+            1,
             0.705882,
             0.670588
           ],
@@ -214,9 +214,9 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.0,
-            0.0,
-            0.0
+            0,
+            0,
+            0
           ],
           "alpha": 1,
           "hex": "#000000"
@@ -294,7 +294,7 @@
           "components": [
             0.56862745,
             0.68627451,
-            1.0
+            1
           ],
           "alpha": 1,
           "hex": "#91afff"
@@ -363,21 +363,35 @@
       "sm": {
         "$type": "dimension",
         "$value": {
-          "value": 4,
+          "value": 6,
           "unit": "px"
         }
       },
       "md": {
         "$type": "dimension",
         "$value": {
-          "value": 6,
+          "value": 8,
           "unit": "px"
         }
       },
       "lg": {
         "$type": "dimension",
         "$value": {
-          "value": 8,
+          "value": 12,
+          "unit": "px"
+        }
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        }
+      },
+      "2xl": {
+        "$type": "dimension",
+        "$value": {
+          "value": 24,
           "unit": "px"
         }
       },
