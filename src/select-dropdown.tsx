@@ -13,6 +13,7 @@ export type SelectDropdownOption = {
   value: string;
   label: string;
   disabled?: boolean;
+  lang?: string;
 };
 
 export type SelectDropdownProps = Omit<
@@ -241,7 +242,7 @@ export const SelectDropdown = /* @__PURE__ */ forwardRef<
         <ul
           id={listId}
           role="listbox"
-          aria-label="Options"
+          aria-label={props['aria-label'] ?? 'Options'}
           ref={list}
           hidden={!expanded}
         >
@@ -252,6 +253,7 @@ export const SelectDropdown = /* @__PURE__ */ forwardRef<
               role="option"
               aria-selected={selected === index}
               aria-disabled={option.disabled || undefined}
+              lang={option.lang}
               data-active={activeIndex === index || undefined}
               onMouseDown={(event) => event.preventDefault()}
               onClick={() => choose(index)}

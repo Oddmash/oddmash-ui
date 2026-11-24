@@ -43,6 +43,12 @@
   }
 }
 
+select.om-select option,
+select.om-select optgroup {
+  background: var(--om-semantic-color-surface);
+  color: var(--om-semantic-color-text);
+}
+
 .om-progress {
   accent-color: var(--om-semantic-color-action);
 }
@@ -351,7 +357,6 @@
 }
 
 :is(
-  .om-select,
   .om-checkbox,
   .om-radio,
   .om-switch,
@@ -360,7 +365,7 @@
   .om-pagination > :is(a, button)
 ):focus-visible {
   outline: 2px solid var(--om-semantic-color-focus);
-  outline-offset: 3px;
+  outline-offset: -1px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -409,10 +414,26 @@
   }
 
   > [role='listbox'] > [role='option'] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--om-semantic-space-sm);
+    min-block-size: var(--om-semantic-control-small);
     padding: var(--om-semantic-space-xs) var(--om-semantic-space-sm);
     border-radius: var(--om-semantic-radius-sm);
     overflow-wrap: anywhere;
     cursor: pointer;
+
+    &::after {
+      content: '';
+      flex: none;
+      inline-size: 0.6em;
+      block-size: 0.35em;
+      border-inline-start: 2px solid currentColor;
+      border-block-end: 2px solid currentColor;
+      transform: rotate(-45deg);
+      visibility: hidden;
+    }
 
     &[aria-disabled='true'] {
       color: var(--om-semantic-color-muted);
@@ -421,11 +442,20 @@
 
     &[aria-selected='true'] {
       background: color-mix(in srgb, var(--om-semantic-color-text) 10%, var(--om-semantic-color-surface));
+
+      &::after {
+        visibility: visible;
+      }
     }
 
-    &[data-active],
     &:hover:not([aria-disabled='true']) {
       background: color-mix(in srgb, var(--om-semantic-color-text) 18%, var(--om-semantic-color-surface));
+    }
+
+    &[data-active] {
+      background: color-mix(in srgb, var(--om-semantic-color-text) 18%, var(--om-semantic-color-surface));
+      outline: 2px solid var(--om-semantic-color-focus);
+      outline-offset: -2px;
     }
   }
 }
@@ -512,7 +542,7 @@
 
     &:focus-visible {
       outline: 2px solid var(--om-semantic-color-focus);
-      outline-offset: 2px;
+      outline-offset: -1px;
     }
   }
 }

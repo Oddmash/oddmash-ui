@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Field } from '@oddmash/ui/field';
-import { Select } from '@oddmash/ui/select';
+import { SelectDropdown } from '@oddmash/ui/select';
 import { Switch } from '@oddmash/ui/switch';
 import '@oddmash/ui/styles.css';
 import './timeline-filter-example.scss';
@@ -30,22 +30,17 @@ export const TimelineFilterExample = ({
   return (
     <div className="timeline-filter-example">
       <Field legend={t('Timeline filters')}>
-        <label>
-          {t('Event type')}
-          <Select
+        <div className="timeline-select">
+          <span>{t('Event type')}</span>
+          <SelectDropdown
+            aria-label={t('Event type')}
             value={eventFilter}
-            onChange={(event) =>
-              setEventFilter(event.target.value as EventType | 'all')
+            onValueChange={(value) =>
+              setEventFilter(value as EventType | 'all')
             }
-          >
-            <option value="all">{t('All events')}</option>
-            {eventTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </Select>
-        </label>
+            options={[{ value: 'all', label: t('All events') }, ...eventTypes.map((type) => ({ value: type, label: type }))]}
+          />
+        </div>
         <label>
           <Switch
             checked={selectedOnly}

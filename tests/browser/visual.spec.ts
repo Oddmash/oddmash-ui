@@ -16,7 +16,7 @@ for (const theme of ['light', 'dark']) {
     await select.press('Enter');
     await select.press('ArrowDown');
     await expect(page.getByRole('listbox')).toBeVisible();
-    await expect(page.locator('.playground .preview')).toHaveScreenshot(`select-${theme}.png`, { maxDiffPixels: 8 });
+    await expect.soft(page.locator('.playground .preview')).toHaveScreenshot(`select-${theme}.png`, { maxDiffPixels: 8 });
 
     await page.goto('/#/dialog');
     await page.getByRole('button', { name: 'Edit project' }).press('Enter');
