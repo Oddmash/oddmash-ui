@@ -155,20 +155,6 @@ jobs:
             trap 'chown "$container_home_owner" /github/home' EXIT
           fi
           pnpm run test:browser --project="$BROWSER" --fully-parallel --update-snapshots=none
-      - name: Capture exact Select visual failures for PR 44
-        if: ${{ failure() && github.event_name == 'pull_request' && github.event.pull_request.number == 44 && github.event.pull_request.head.repo.full_name == github.repository && matrix.react == 19 && matrix.browser == 'chromium' }}
-        working-directory: ${{ env.CHECK_DIR }}
-        shell: bash
-        run: |
-          for theme in light dark; do
-            file="test-results/visual-${theme}-screenshot-baselines-for-focus-and-overlays-chromium/select-${theme}-actual.png"
-            if [ -f "$file" ]; then
-              test "$(stat -c '%s' "$file")" -le 1048576
-              echo "SELECT_SNAPSHOT_BEGIN:${theme}"
-              base64 -w 1000 "$file" | sed 's/^/SELECT_SNAPSHOT_DATA:/'
-              echo "SELECT_SNAPSHOT_END:${theme}"
-            fi
-          done
       - name: Confirm prepared dependency inputs remain unchanged
         working-directory: ${{ env.CHECK_DIR }}
         run: sha256sum --check "$RUNNER_TEMP/oddmash-ui-dependency-inputs.sha256"
