@@ -55,7 +55,9 @@ export const AlertDialog = /* @__PURE__ */ forwardRef<HTMLDivElement, AlertDialo
         onInteractOutside={(event) => event.preventDefault()}
       >
         <DialogTitle>{title}</DialogTitle>
-        <DialogDescription>{children}</DialogDescription>
+        <DialogDescription asChild>
+          <div className="om-alert-dialog-description">{children}</div>
+        </DialogDescription>
         <div className="om-alert-dialog-actions">
           <Button onClick={onConfirm}>{confirmLabel}</Button>
         </div>

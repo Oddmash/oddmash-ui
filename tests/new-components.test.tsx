@@ -47,6 +47,19 @@ it('requires explicit acknowledgment in the alert dialog', async () => {
   expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
 });
 
+it('supports rich alert dialog descriptions without nesting block elements in a paragraph', () => {
+  render(
+    <AlertDialog open title="Notice" onConfirm={() => {}}>
+      <section><p>Check connection.</p></section>
+    </AlertDialog>,
+  );
+  const dialog = screen.getByRole('alertdialog', { name: 'Notice' });
+  const description = document.getElementById(dialog.getAttribute('aria-describedby') ?? '');
+  expect(description?.tagName).toBe('DIV');
+  expect(description).toContainElement(screen.getByText('Check connection.'));
+  expect(dialog).toHaveAccessibleDescription('Check connection.');
+});
+
 it('keeps form values, refs, and disabled fieldset behavior native', async () => {
   const user = userEvent.setup();
   const ref = createRef<HTMLTextAreaElement>();
