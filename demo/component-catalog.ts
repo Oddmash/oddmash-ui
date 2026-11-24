@@ -100,12 +100,12 @@ export const extendedComponents = {
   alert: {
     title: 'Alert',
     group: 'Feedback',
-    description: 'Surface a status or a problem in context.',
-    usage: 'Lead with the outcome and tell the user what they can do next.',
+    description: 'Require acknowledgment of an important message.',
+    usage: 'Use AlertDialog for acknowledgment and Alert for inline status.',
     accessibility:
-      'Include text that describes the state. Use role="alert" for urgent messages added dynamically.',
-    props: [['tone', 'neutral | danger', 'neutral']],
-    exports: 'Alert, Button',
+      'The modal traps focus and restores it on confirmation. Inline alerts can use role="alert".',
+    props: [['open', 'boolean', 'Required'], ['title', 'string', 'Required'], ['onConfirm', '() => void', 'Required'], ['confirmLabel', 'string', 'OK']],
+    exports: 'AlertDialog, Alert, Button',
     code: `import { useState } from 'react';
 
 export const RecordingNotice = () => {
@@ -113,15 +113,10 @@ export const RecordingNotice = () => {
 
   return (
     <>
-      <Button aria-expanded={visible} onClick={() => setVisible(!visible)}>
-        {visible ? 'Hide alert' : 'Show alert'}
-      </Button>
-      {visible && (
-        <Alert tone="danger" role="alert">
-          <strong>Recording stopped</strong>
-          <div>Reconnect the inspector to continue capturing events.</div>
-        </Alert>
-      )}
+      <Button onClick={() => setVisible(true)}>Show alert</Button>
+      <AlertDialog open={visible} title="Recording stopped" onConfirm={() => setVisible(false)}>
+        Reconnect the inspector to continue capturing events.
+      </AlertDialog>
     </>
   );
 };`,
@@ -131,7 +126,7 @@ export const RecordingNotice = () => {
     group: 'Feedback',
     description: 'Confirm a completed action in a dismissible notification.',
     usage:
-      'Mount Toast before the action runs and control its open state. Give each notification a short title.',
+      'Mount Toasts within ToastViewport before the action runs to stack notifications.',
     accessibility:
       'Use neutral for confirmations and danger for urgent errors. Keep the dismiss button available and restore focus when it is used.',
     props: [
@@ -141,22 +136,24 @@ export const RecordingNotice = () => {
       ['dismissLabel', 'string', 'Dismiss notification'],
       ['tone', 'neutral | danger', 'neutral'],
     ],
-    exports: 'Button, Toast',
+    exports: 'Button, Toast, ToastViewport',
     code: `import { useRef, useState } from 'react';
 
 export const SaveNotice = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState([false, false, false]);
   const trigger = useRef<HTMLButtonElement>(null);
 
   return (
     <>
-      <Button ref={trigger} onClick={() => setOpen(true)}>Show toast</Button>
-      <Toast open={open} title="Project saved" onDismiss={() => {
-        setOpen(false);
-        trigger.current?.focus();
-      }}>
-        Your changes are ready.
-      </Toast>
+      <Button ref={trigger} disabled={open.every(Boolean)} onClick={() => setOpen(current => current.map((value, index) => value || index === current.indexOf(false)))}>Show toast</Button>
+      <ToastViewport>
+        {open.map((visible, index) => (
+          <Toast key={index} open={visible} title="Project saved" onDismiss={() => {
+            setOpen(current => current.map((value, position) => position === index ? false : value));
+            requestAnimationFrame(() => trigger.current?.focus());
+          }}>Your changes are ready.</Toast>
+        ))}
+      </ToastViewport>
     </>
   );
 };`,

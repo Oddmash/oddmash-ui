@@ -509,6 +509,30 @@ select.om-select optgroup {
   pointer-events: none;
 }
 
+.om-toast-viewport {
+  position: fixed;
+  z-index: 900;
+  inset: auto var(--om-semantic-space-lg) var(--om-semantic-space-lg) auto;
+  inline-size: min(22rem, calc(100vw - 2 * var(--om-semantic-space-lg)));
+  max-block-size: calc(100dvh - 2 * var(--om-semantic-space-lg));
+  display: flex;
+  flex-direction: column;
+  gap: var(--om-semantic-space-sm);
+  overflow-y: auto;
+  pointer-events: none;
+
+  > .om-toast-region {
+    position: static;
+    inline-size: auto;
+    flex: none;
+  }
+
+  > .om-toast-region:not(:has(.om-toast)) {
+    block-size: 0;
+    margin-block-end: calc(-1 * var(--om-semantic-space-sm));
+  }
+}
+
 .om-toast {
   pointer-events: auto;
   display: flex;
@@ -517,8 +541,7 @@ select.om-select optgroup {
   justify-content: space-between;
   padding: var(--om-semantic-space-md);
   border: 1px solid var(--om-semantic-color-border);
-  border-inline-start: 3px solid var(--om-semantic-color-text);
-  border-radius: var(--om-semantic-radius-md);
+  border-radius: var(--om-semantic-radius-lg);
   background: var(--om-semantic-color-surface);
   color: var(--om-semantic-color-text);
   box-shadow: var(--om-semantic-shadow);
@@ -526,16 +549,36 @@ select.om-select optgroup {
   overflow-wrap: anywhere;
 
   &[data-tone='danger'] {
-    border-inline-start-color: var(--om-semantic-color-danger);
+    .om-toast-icon { color: var(--om-semantic-color-danger); }
+  }
+
+  .om-toast-icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    inline-size: 24px;
+    block-size: 24px;
+    border: 1px solid var(--om-semantic-color-border-subtle);
+    border-radius: var(--om-semantic-radius-pill);
+  }
+
+  > [role] {
+    flex: 1;
+    min-inline-size: 0;
+  }
+
+  > [role] > div {
+    color: var(--om-semantic-color-muted);
+    font-size: var(--om-semantic-font-small);
   }
 
   > button {
     flex: none;
-    width: 32px;
-    height: 32px;
-    border: 1px solid var(--om-semantic-color-border-subtle);
+    width: 28px;
+    height: 28px;
+    border: 1px solid transparent;
     border-radius: var(--om-semantic-radius-sm);
-    background: var(--om-semantic-color-bg);
+    background: transparent;
     color: inherit;
     font: inherit;
     cursor: pointer;
@@ -545,6 +588,26 @@ select.om-select optgroup {
       outline-offset: -1px;
     }
   }
+}
+
+.om-dialog-content.om-alert-dialog {
+  width: min(360px, calc(100vw - 32px));
+}
+
+.om-alert-dialog h2 {
+  margin: 0 0 var(--om-semantic-space-sm);
+  font-size: var(--om-semantic-font-heading);
+}
+
+.om-alert-dialog-description {
+  margin: 0;
+  color: var(--om-semantic-color-muted);
+}
+
+.om-alert-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-block-start: var(--om-semantic-space-xl);
 }
 
 @media (prefers-reduced-motion: no-preference) {

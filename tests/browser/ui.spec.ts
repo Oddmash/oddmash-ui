@@ -371,13 +371,17 @@ test('feedback demos reveal content on demand and honor reduced motion', async (
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/#/alert');
-  const alert = page.getByRole('alert');
+  const alert = page.getByRole('alertdialog');
   await expect(alert).toHaveCount(0);
   await page.getByRole('button', { name: 'Show alert' }).click();
   await expect(alert).toContainText('Recording stopped');
   await expect(alert).toHaveCSS('animation-name', 'none');
-  await page.getByRole('button', { name: 'Hide alert' }).click();
+  await expect(alert.getByRole('button', { name: 'OK' })).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(alert).toBeVisible();
+  await alert.getByRole('button', { name: 'OK' }).press('Enter');
   await expect(alert).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Show alert' })).toBeFocused();
   await page.goto('/#/toast');
   const trigger = page.getByRole('button', { name: 'Show toast' });
   await expect(page.getByText('Project saved', { exact: true })).toHaveCount(0);
@@ -386,6 +390,13 @@ test('feedback demos reveal content on demand and honor reduced motion', async (
     'Project saved',
   );
   await expect(page.locator('.om-toast')).toHaveCSS('animation-name', 'none');
+  await trigger.click();
+  const toasts = page.locator('.om-toast');
+  await expect(toasts).toHaveCount(2);
+  const [first, second] = await Promise.all([toasts.nth(0).boundingBox(), toasts.nth(1).boundingBox()]);
+  expect(first!.y + first!.height).toBeLessThanOrEqual(second!.y);
+  await page.getByRole('button', { name: 'Dismiss notification' }).first().click();
+  await expect(toasts).toHaveCount(1);
   await page.getByRole('button', { name: 'Dismiss notification' }).click();
   await expect(trigger).toBeFocused();
   await expect(page.locator('.om-toast')).toHaveCount(0);

@@ -4,13 +4,61 @@ import userEvent from '@testing-library/user-event';
 import { expect, it } from 'vitest';
 import {
   Avatar,
+  AlertDialog,
   Checkbox,
   Field,
   Radio,
   Select,
   Switch,
   Textarea,
+  Toast,
+  ToastViewport,
 } from '../src';
+
+it('preserves independent toast live regions and dismissal inside a viewport', async () => {
+  const user = userEvent.setup();
+  let dismissed = 0;
+  render(
+    <ToastViewport>
+      <Toast open title="Saved" onDismiss={() => dismissed++} />
+      <Toast open title="Failed" tone="danger" onDismiss={() => dismissed++} />
+      <Toast open={false} title="Hidden" onDismiss={() => dismissed++} />
+    </ToastViewport>,
+  );
+  expect(screen.getAllByRole('status')[0]).toHaveTextContent('Saved');
+  expect(screen.getByRole('alert')).toHaveTextContent('Failed');
+  expect(screen.queryByText('Hidden')).not.toBeInTheDocument();
+  const dismiss = screen.getAllByRole('button', { name: 'Dismiss notification' });
+  expect(dismiss).toHaveLength(2);
+  await user.click(dismiss[0]);
+  expect(dismissed).toBe(1);
+});
+
+it('requires explicit acknowledgment in the alert dialog', async () => {
+  const user = userEvent.setup();
+  let confirmed = 0;
+  const view = render(<AlertDialog open title="Notice" onConfirm={() => confirmed++}>Check connection.</AlertDialog>);
+  expect(screen.getByRole('alertdialog', { name: 'Notice' })).toHaveTextContent('Check connection.');
+  await user.keyboard('{Escape}');
+  expect(screen.getByRole('alertdialog')).toBeVisible();
+  await user.click(screen.getByRole('button', { name: 'OK' }));
+  expect(confirmed).toBe(1);
+  view.rerender(<AlertDialog open={false} title="Notice" onConfirm={() => confirmed++}>Check connection.</AlertDialog>);
+  expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
+});
+
+it('supports rich alert dialog descriptions without nesting block elements in a paragraph', () => {
+  render(
+    <AlertDialog open title="Notice" onConfirm={() => {}}>
+      <section><p>Check connection.</p></section>
+    </AlertDialog>,
+  );
+  const dialog = screen.getByRole('alertdialog', { name: 'Notice' });
+  const description = document.getElementById(dialog.getAttribute('aria-describedby') ?? '');
+  expect(description?.tagName).toBe('DIV');
+  expect(description).toContainElement(screen.getByText('Check connection.'));
+  expect(dialog).toHaveAccessibleDescription('Check connection.');
+});
 
 it('keeps form values, refs, and disabled fieldset behavior native', async () => {
   const user = userEvent.setup();
