@@ -8,8 +8,9 @@ on:
       - 'tokens/**'
       - 'scripts/**'
       - 'package.json'
-      - 'package-lock.json'
-      - '*.config.*'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+      - 'tsup.config.ts'
       - 'tsconfig.json'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
@@ -26,16 +27,17 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
           persist-credentials: false
+      - uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
           node-version: 24
-          cache: npm
+          cache: pnpm
       - uses: actions/configure-pages@v5
-      - run: npm ci --ignore-scripts
-      - run: npm run tokens:check
-      - run: npm run build
-      - run: npm run typecheck && npm run lint && npm test
-      - run: npm run build:demo
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm run tokens:check
+      - run: pnpm run build
+      - run: pnpm run typecheck && pnpm run lint && pnpm test
+      - run: pnpm run build:demo
       - uses: actions/upload-pages-artifact@v3
         with:
           path: demo-dist
