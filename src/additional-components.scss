@@ -22,7 +22,7 @@
   min-height: var(--om-semantic-control-height);
   padding: var(--om-semantic-space-xs) var(--om-semantic-space-sm);
   border: var(--om-semantic-border-width) solid var(--om-semantic-color-border);
-  border-radius: var(--om-semantic-radius-md);
+  border-radius: var(--om-semantic-radius-sm);
   background: var(--om-semantic-color-bg);
 
   &:invalid:user-invalid,
@@ -165,7 +165,7 @@
   padding: var(--om-semantic-space-md);
   border: 1px solid var(--om-semantic-color-border-subtle);
   border-inline-start: 3px solid var(--om-semantic-color-text);
-  border-radius: var(--om-semantic-radius-lg);
+  border-radius: var(--om-semantic-radius-sm);
   background: var(--om-semantic-color-surface);
 
   &[data-tone='danger'] {
@@ -346,7 +346,7 @@
 .om-empty-state {
   padding: var(--om-semantic-space-xl);
   border: 1px dashed var(--om-semantic-color-border);
-  border-radius: var(--om-semantic-radius-lg);
+  border-radius: var(--om-semantic-radius-md);
   text-align: center;
 }
 
@@ -401,7 +401,7 @@
     overflow: auto;
     list-style: none;
     border: 1px solid var(--om-semantic-color-border);
-    border-radius: var(--om-semantic-radius-lg);
+    border-radius: var(--om-semantic-radius-md);
     background: var(--om-semantic-color-surface);
     box-shadow: var(--om-semantic-shadow);
     color: var(--om-semantic-color-text);
