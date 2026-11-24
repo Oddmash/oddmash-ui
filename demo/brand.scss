@@ -18,7 +18,7 @@
 }
 
 .locale-select {
-  max-inline-size: 8rem;
+  inline-size: 7rem;
   min-block-size: 34px;
   padding-inline: 8px;
   border: 1px solid var(--docs-stroke);
@@ -26,6 +26,13 @@
   background: var(--docs-panel);
   color: var(--om-semantic-color-text);
   font-size: 12px;
+}
+
+.header-actions .om-select-dropdown > [role='listbox'] {
+  inset-inline: auto 0;
+  min-inline-size: 100%;
+  inline-size: max-content;
+  max-inline-size: calc(100vw - 24px);
 }
 
 .interaction-lab {
@@ -68,7 +75,7 @@
   }
 
   .locale-select {
-    max-inline-size: 5.8rem;
+    inline-size: 5.8rem;
   }
 
   .sidebar {

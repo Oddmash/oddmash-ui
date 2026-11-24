@@ -354,6 +354,9 @@ test('custom Select navigates, skips disabled options and dismisses', async ({
   await expect(selected).toHaveCSS('font-weight', '400');
   await expect(selected).toHaveCSS('outline-style', 'none');
   await expect(active).toHaveAttribute('aria-selected', 'false');
+  await expect(active).toHaveCSS('outline-style', 'solid');
+  await expect(selected).toHaveCSS('display', 'flex');
+  expect(await selected.evaluate((option) => getComputedStyle(option, '::after').visibility)).toBe('visible');
   expect(await selected.evaluate((option) => getComputedStyle(option).backgroundColor)).not.toBe(
     await active.evaluate((option) => getComputedStyle(option).backgroundColor),
   );
@@ -406,19 +409,30 @@ test('language switch translates docs and persists across reloads', async ({
 }) => {
   await page.goto('/#/colors');
   const language = page.locator('.locale-select');
-  for (const [locale, heading, palette] of [
-    ['ko', '색상', '모노크롬 팔레트'],
-    ['ja', 'カラー', 'モノクロパレット'],
-    ['zh-CN', '颜色', '单色调色板'],
-    ['en', 'Colors', 'Monochrome palette'],
+  for (const [locale, label, heading, palette] of [
+    ['ko', '한국어', '색상', '모노크롬 팔레트'],
+    ['ja', '日本語', 'カラー', 'モノクロパレット'],
+    ['zh-CN', '简体中文', '颜色', '单色调色板'],
+    ['en', 'English', 'Colors', 'Monochrome palette'],
   ]) {
-    await language.selectOption(locale);
+    await language.press('Enter');
+    await expect(language).toHaveCSS('outline-offset', '-1px');
+    const list = page.locator('.header-actions [role="listbox"]');
+    await expect(list).toBeVisible();
+    await list.getByRole('option', { name: label }).click();
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
     await expect(page.locator('#page-title')).toHaveText(heading);
     await expect(page.getByRole('heading', { name: palette })).toBeVisible();
     await page.reload();
-    await expect(language).toHaveValue(locale);
+    await expect(language).toHaveText(label);
   }
+  await page.setViewportSize({ width: 320, height: 720 });
+  await language.press('Enter');
+  await language.press('ArrowDown');
+  await language.press('Escape');
+  await expect(language).toHaveText('English');
+  await expect(language).toBeFocused();
+  await expect(language).toHaveAttribute('aria-expanded', 'false');
 });
 
 test('wide layouts center docs within the space beyond the sidebar', async ({
