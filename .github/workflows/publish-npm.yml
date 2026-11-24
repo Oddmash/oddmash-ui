@@ -36,6 +36,8 @@ jobs:
           ref: refs/tags/${{ steps.release.outputs.tag }}
           fetch-depth: 0
           persist-credentials: false
+      - uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa
+        if: ${{ hashFiles('pnpm-lock.yaml') != '' }}
       - uses: actions/setup-node@v6
         with:
           node-version: '24'
@@ -52,8 +54,14 @@ jobs:
               throw Error("The release tag must match the stable @oddmash/ui package version");
             }
           '
-      - run: npm ci --ignore-scripts
-      - run: npm run check
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+        if: ${{ hashFiles('pnpm-lock.yaml') != '' }}
+      - run: pnpm run check
+        if: ${{ hashFiles('pnpm-lock.yaml') != '' }}
+      - name: Verify historical npm-lockfile release retry
+        if: ${{ hashFiles('pnpm-lock.yaml') == '' && hashFiles('package-lock.json') != '' }}
+        run: npm ci --ignore-scripts && npm run check
+      - run: test -f pnpm-lock.yaml || test -f package-lock.json
       - run: npm pack --ignore-scripts --pack-destination /tmp
       - uses: actions/upload-artifact@v4
         with:
