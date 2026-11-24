@@ -58,12 +58,13 @@ jobs:
             pnpm-lock.yaml
             tests/compatibility/react18/pnpm-lock.yaml
       - name: Select isolated compatibility checkout
+        shell: bash
         run: |
           check_dir="$GITHUB_WORKSPACE"
           if [ "${{ matrix.react }}" = "18" ]; then
             check_dir="$RUNNER_TEMP/oddmash-ui-react18"
             mkdir -p "$check_dir"
-            git archive HEAD | tar -x -C "$check_dir"
+            git -c safe.directory="$GITHUB_WORKSPACE" archive HEAD | tar -x -C "$check_dir"
             node scripts/prepare-react18.mjs "$check_dir"
             cp "$check_dir/tests/compatibility/react18/pnpm-lock.yaml" "$check_dir/pnpm-lock.yaml"
           fi
@@ -86,7 +87,7 @@ jobs:
       - run: pnpm test
         working-directory: ${{ env.CHECK_DIR }}
       - name: Confirm tracked dependency inputs remain unchanged
-        run: git diff --exit-code -- package.json pnpm-lock.yaml pnpm-workspace.yaml tests/compatibility/react18/pnpm-lock.yaml
+        run: git -c safe.directory="$GITHUB_WORKSPACE" diff --exit-code -- package.json pnpm-lock.yaml pnpm-workspace.yaml tests/compatibility/react18/pnpm-lock.yaml
   browser:
     needs: [scope, browser-scope]
     if: (needs.scope.outputs.runtime == 'true' || needs.browser-scope.outputs.full == 'true') && needs.browser-scope.outputs.browser == 'true'
@@ -113,12 +114,13 @@ jobs:
             pnpm-lock.yaml
             tests/compatibility/react18/pnpm-lock.yaml
       - name: Select isolated compatibility checkout
+        shell: bash
         run: |
           check_dir="$GITHUB_WORKSPACE"
           if [ "${{ matrix.react }}" = "18" ]; then
             check_dir="$RUNNER_TEMP/oddmash-ui-react18"
             mkdir -p "$check_dir"
-            git archive HEAD | tar -x -C "$check_dir"
+            git -c safe.directory="$GITHUB_WORKSPACE" archive HEAD | tar -x -C "$check_dir"
             node scripts/prepare-react18.mjs "$check_dir"
             cp "$check_dir/tests/compatibility/react18/pnpm-lock.yaml" "$check_dir/pnpm-lock.yaml"
           fi
@@ -139,7 +141,7 @@ jobs:
           fi
           pnpm run test:browser --project="$BROWSER" --fully-parallel --update-snapshots=none
       - name: Confirm tracked dependency inputs remain unchanged
-        run: git diff --exit-code -- package.json pnpm-lock.yaml pnpm-workspace.yaml tests/compatibility/react18/pnpm-lock.yaml
+        run: git -c safe.directory="$GITHUB_WORKSPACE" diff --exit-code -- package.json pnpm-lock.yaml pnpm-workspace.yaml tests/compatibility/react18/pnpm-lock.yaml
       - uses: actions/upload-artifact@v4
         if: always()
         with:
