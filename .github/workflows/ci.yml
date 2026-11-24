@@ -96,7 +96,16 @@ jobs:
       - if: matrix.react == 18
         run: npm install --no-save --ignore-scripts react@18 react-dom@18 @types/react@18 @types/react-dom@18
       - run: npm run build
-      - run: npm run test:browser -- --project=${{ matrix.browser }} --fully-parallel --update-snapshots=none
+      - name: Run browser tests
+        env:
+          BROWSER: ${{ matrix.browser }}
+        run: |
+          if [ "$BROWSER" = firefox ]; then
+            container_home_owner=$(stat -c '%u:%g' /github/home)
+            chown "$(id -u):$(id -g)" /github/home
+            trap 'chown "$container_home_owner" /github/home' EXIT
+          fi
+          npm run test:browser -- --project="$BROWSER" --fully-parallel --update-snapshots=none
       - uses: actions/upload-artifact@v4
         if: always()
         with:
