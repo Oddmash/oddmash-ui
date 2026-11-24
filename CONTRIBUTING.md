@@ -4,19 +4,19 @@ The product README explains what Oddmash UI is. Repository setup, local usage, a
 
 ## Local documentation
 
-Node.js 24 or later is required.
+Node.js 24 or later and the pnpm version pinned in `package.json` are required.
 
 ```sh
 git clone https://github.com/Oddmash/oddmash-ui.git
 cd oddmash-ui
-npm ci
-npm run demo
+pnpm install --frozen-lockfile
+pnpm run demo
 # http://localhost:5173
 ```
 
 ## Use from another local project
 
-React 18.3.1 and React 19 are supported peers. Install the published package with `npm install @oddmash/ui`. To test a local change in a consuming project, build an archive with `npm pack`, then install the resulting `oddmash-ui-0.3.0.tgz` in the consuming project. Import `@oddmash/ui/styles.css` once. The package is ESM-only and does not include a global reset, Tailwind, an icon package, or a CSS-in-JS runtime.
+React 18.3.1 and React 19 are supported peers. Install the published package with `npm install @oddmash/ui`. To test a local change in a consuming project, build an archive with `pnpm pack`, then install the resulting `oddmash-ui-0.3.0.tgz` in the consuming project. Import `@oddmash/ui/styles.css` once. The package is ESM-only and does not include a global reset, Tailwind, an icon package, or a CSS-in-JS runtime.
 
 The documentation site serves Geist Sans and Geist Mono from `demo/public/fonts/` under the SIL Open Font License included there. Package consumers can self-host the fonts under those family names or use the system fallbacks in the font tokens.
 
@@ -48,20 +48,20 @@ Set `data-om-theme="light"` or `data-om-theme="dark"` on the document or a subtr
 
 | Command | Purpose |
 | --- | --- |
-| `npm run tokens` | Generate CSS and TypeScript from JSON tokens |
-| `npm run tokens:check` | Reject stale output and theme mismatches |
-| `npm run typecheck` | Check TypeScript |
-| `npm run lint` | Run ESLint |
-| `npm test` | Run behavior, hydration, and token tests |
-| `npm run build` | Build ESM, declarations, and CSS |
-| `npm run test:bundle` | Verify the small Button-only bundle |
-| `npm run build:demo` | Build the documentation site against the compiled package |
-| `npm run test:browser` | Run keyboard, focus, axe, responsive, and motion checks |
-| `npm run test:a11y` | Run axe and accessibility assertions on the docs and active component states |
-| `npm run test:visual` | Compare Select and Dialog screenshots against the Linux Chromium baselines |
-| `npm run check` | Run the non-browser validation suite |
+| `pnpm run tokens` | Generate CSS and TypeScript from JSON tokens |
+| `pnpm run tokens:check` | Reject stale output and theme mismatches |
+| `pnpm run typecheck` | Check TypeScript |
+| `pnpm run lint` | Run ESLint |
+| `pnpm test` | Run behavior, hydration, and token tests |
+| `pnpm run build` | Build ESM, declarations, and CSS |
+| `pnpm run test:bundle` | Verify the small Button-only bundle |
+| `pnpm run build:demo` | Build the documentation site against the compiled package |
+| `pnpm run test:browser` | Run keyboard, focus, axe, responsive, and motion checks |
+| `pnpm run test:a11y` | Run axe and accessibility assertions on the docs and active component states |
+| `pnpm run test:visual` | Compare Select and Dialog screenshots against the Linux Chromium baselines |
+| `pnpm run check` | Run the non-browser validation suite |
 
-Run `npx playwright install chromium firefox webkit` before the browser suite when the browsers are not installed. Keep the four product README translations, language links, and visuals synchronized. Follow the [Oddmash organization contribution policy](https://github.com/Oddmash/.github/blob/main/CONTRIBUTING.md) and discuss cross-project API changes in an issue first.
+Run `pnpm exec playwright install chromium firefox webkit` before the browser suite when the browsers are not installed. Keep the four product README translations, language links, and visuals synchronized. Follow the [Oddmash organization contribution policy](https://github.com/Oddmash/.github/blob/main/CONTRIBUTING.md) and discuss cross-project API changes in an issue first.
 
 ## Previous verification
 
@@ -71,9 +71,11 @@ The initial Interaction Inspector integration was measured on a Chromium fixture
 
 CI checks React 18 and 19 with matching type packages. The browser suite covers the documentation pages in light and dark themes, 320 px layouts, axe scans, keyboard navigation, focus return, live props, copy behavior, token filtering, scoped themes, mobile navigation, dialog submission, reduced motion, and product overrides across Chromium, Firefox, and WebKit.
 
+React 19 uses the root lockfile. React 18 uses a separate temporary checkout with the four exact compatibility versions applied by `scripts/prepare-react18.mjs` and the committed `tests/compatibility/react18/pnpm-lock.yaml`. Both install with a frozen lockfile. When dependencies change, generate the React 18 manifest in a disposable checkout, update its lockfile using the pinned pnpm, and copy only that reviewed lockfile back to the compatibility fixture. Neither CI matrix job rewrites tracked dependency inputs.
+
 Each component preview has a dedicated browser test that exercises its behavior or rendered semantics before running axe in light and dark themes. CI includes failures with screenshots, traces, and visual diffs in the browser results artifact.
 
-Run visual comparisons on Linux with the version of Chromium installed by Playwright. After reviewing an intentional change against the current baselines, regenerate them on Linux with `npm run test:visual -- --update-snapshots=all` and include the changed images in the PR.
+Run visual comparisons on Linux with the version of Chromium installed by Playwright. After reviewing an intentional change against the current baselines, regenerate them on Linux with `pnpm run test:visual --update-snapshots=all` and include the changed images in the PR.
 
 Automated accessibility checks are not a WCAG certification or a substitute for manual assistive-technology testing. Publishing remains a separate owner-approved action; npm scope ownership and release permission must be confirmed before any release.
 
@@ -83,7 +85,7 @@ Register the GitHub Actions trusted publisher on the npm settings page for `@odd
 
 Update the version in `package.json` and the lockfile, merge to `main`, then publish a GitHub Release whose tag is `v` followed by the package version. The workflow validates and packages the tagged commit, then publishes the archive to npm through OIDC. Draft releases and prereleases do not publish a package.
 
-If a publish fails, use **Run workflow** on `main` and enter the existing published release tag.
+If a publish fails, use **Run workflow** on `main` and enter the existing published release tag. The retry workflow retains npm installation only for immutable historical tags that predate the pnpm migration.
 
 ## Brand and localized documentation
 
