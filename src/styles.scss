@@ -24,7 +24,7 @@
   padding: var(--om-semantic-space-xs) var(--om-semantic-space-md);
   border: var(--om-semantic-border-width) var(--om-semantic-border-style)
     var(--om-semantic-color-border);
-  border-radius: var(--om-semantic-radius-md);
+  border-radius: var(--om-semantic-radius-sm);
   font-weight: var(--om-semantic-font-weight);
   cursor: pointer;
   gap: var(--om-semantic-space-sm);
@@ -55,7 +55,6 @@
   background: var(--om-semantic-color-bg);
 }
 .om-button--sm {
-  border-radius: var(--om-semantic-radius-sm);
   min-height: var(--om-semantic-control-small);
   font-size: var(--om-semantic-font-small);
 }
@@ -65,7 +64,7 @@
   min-width: 0;
   border: var(--om-semantic-border-width) var(--om-semantic-border-style)
     var(--om-semantic-color-border);
-  border-radius: var(--om-semantic-radius-md);
+  border-radius: var(--om-semantic-radius-sm);
   padding: var(--om-semantic-space-xs) var(--om-semantic-space-sm);
   background: var(--om-semantic-color-bg);
   &::placeholder {
@@ -83,7 +82,7 @@
   padding: var(--om-semantic-space-xl);
   border: var(--om-semantic-border-width) var(--om-semantic-border-style)
     var(--om-semantic-color-border);
-  border-radius: var(--om-semantic-radius-xl);
+  border-radius: var(--om-semantic-radius-lg);
   background: var(--om-semantic-color-surface);
   border-color: var(--om-semantic-color-border-subtle);
 }
