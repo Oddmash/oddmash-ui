@@ -3,6 +3,7 @@ on:
   push:
     branches: [main]
   pull_request:
+    types: [opened, reopened, synchronize, edited, ready_for_review]
     branches: [develop, main]
   workflow_dispatch:
 
@@ -13,7 +14,11 @@ permissions:
   contents: read
 jobs:
   scope:
-    uses: Oddmash/.github/.github/workflows/ci-scope.yml@5ef0314056be10f868b9bf889b879e6d322beb1e
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: read
+    uses: Oddmash/.github/.github/workflows/ci-scope.yml@9a2077a4b0ff9188ef2cb2ab306f181a134d3110
     with:
       profile: ui
   browser-scope:
