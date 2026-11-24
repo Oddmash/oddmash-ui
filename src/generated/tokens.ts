@@ -21,6 +21,8 @@ export const tokens = {
   "radius.sm": "var(--om-semantic-radius-sm)",
   "radius.md": "var(--om-semantic-radius-md)",
   "radius.lg": "var(--om-semantic-radius-lg)",
+  "radius.xl": "var(--om-semantic-radius-xl)",
+  "radius.2xl": "var(--om-semantic-radius-2xl)",
   "radius.pill": "var(--om-semantic-radius-pill)",
   "font.family": "var(--om-semantic-font-family)",
   "font.size": "var(--om-semantic-font-size)",

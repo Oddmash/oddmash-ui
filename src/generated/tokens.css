@@ -31,9 +31,11 @@
   --om-primitive-space-16: 16px;
   --om-primitive-space-24: 24px;
   --om-primitive-space-32: 32px;
-  --om-primitive-radius-sm: 4px;
-  --om-primitive-radius-md: 6px;
-  --om-primitive-radius-lg: 8px;
+  --om-primitive-radius-sm: 6px;
+  --om-primitive-radius-md: 8px;
+  --om-primitive-radius-lg: 12px;
+  --om-primitive-radius-xl: 16px;
+  --om-primitive-radius-2xl: 24px;
   --om-primitive-radius-pill: 999px;
   --om-primitive-font-family: 'Geist Sans', 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
   --om-primitive-font-size-sm: 13px;
@@ -73,6 +75,8 @@
   --om-semantic-radius-sm: var(--om-primitive-radius-sm);
   --om-semantic-radius-md: var(--om-primitive-radius-md);
   --om-semantic-radius-lg: var(--om-primitive-radius-lg);
+  --om-semantic-radius-xl: var(--om-primitive-radius-xl);
+  --om-semantic-radius-2xl: var(--om-primitive-radius-2xl);
   --om-semantic-radius-pill: var(--om-primitive-radius-pill);
   --om-semantic-font-family: var(--om-primitive-font-family);
   --om-semantic-font-size: var(--om-primitive-font-size-md);
@@ -119,9 +123,11 @@
   --om-primitive-space-16: 16px;
   --om-primitive-space-24: 24px;
   --om-primitive-space-32: 32px;
-  --om-primitive-radius-sm: 4px;
-  --om-primitive-radius-md: 6px;
-  --om-primitive-radius-lg: 8px;
+  --om-primitive-radius-sm: 6px;
+  --om-primitive-radius-md: 8px;
+  --om-primitive-radius-lg: 12px;
+  --om-primitive-radius-xl: 16px;
+  --om-primitive-radius-2xl: 24px;
   --om-primitive-radius-pill: 999px;
   --om-primitive-font-family: 'Geist Sans', 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
   --om-primitive-font-size-sm: 13px;
@@ -161,6 +167,8 @@
   --om-semantic-radius-sm: var(--om-primitive-radius-sm);
   --om-semantic-radius-md: var(--om-primitive-radius-md);
   --om-semantic-radius-lg: var(--om-primitive-radius-lg);
+  --om-semantic-radius-xl: var(--om-primitive-radius-xl);
+  --om-semantic-radius-2xl: var(--om-primitive-radius-2xl);
   --om-semantic-radius-pill: var(--om-primitive-radius-pill);
   --om-semantic-font-family: var(--om-primitive-font-family);
   --om-semantic-font-size: var(--om-primitive-font-size-md);

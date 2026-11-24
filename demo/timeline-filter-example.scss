@@ -10,7 +10,8 @@
     gap: var(--om-semantic-space-sm) var(--om-semantic-space-lg);
   }
 
-  label {
+  label,
+  .timeline-select {
     display: flex;
     align-items: center;
     gap: var(--om-semantic-space-sm);
