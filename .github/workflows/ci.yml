@@ -50,6 +50,8 @@ jobs:
         with:
           persist-credentials: false
       - uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa
+      - name: Use a shared store for compatibility checkouts
+        run: echo "PNPM_CONFIG_STORE_DIR=$RUNNER_TEMP/oddmash-ui-pnpm-store" >> "$GITHUB_ENV"
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
           node-version: 24
@@ -68,6 +70,7 @@ jobs:
             node scripts/prepare-react18.mjs "$check_dir"
             cp "$check_dir/tests/compatibility/react18/pnpm-lock.yaml" "$check_dir/pnpm-lock.yaml"
           fi
+          test "$(pnpm store path --silent)" = "$(cd "$check_dir" && pnpm store path --silent)"
           echo "CHECK_DIR=$check_dir" >> "$GITHUB_ENV"
       - run: pnpm install --frozen-lockfile --ignore-scripts
         working-directory: ${{ env.CHECK_DIR }}
@@ -106,6 +109,8 @@ jobs:
         with:
           persist-credentials: false
       - uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa
+      - name: Use a shared store for compatibility checkouts
+        run: echo "PNPM_CONFIG_STORE_DIR=$RUNNER_TEMP/oddmash-ui-pnpm-store" >> "$GITHUB_ENV"
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
           node-version: 24
@@ -124,6 +129,7 @@ jobs:
             node scripts/prepare-react18.mjs "$check_dir"
             cp "$check_dir/tests/compatibility/react18/pnpm-lock.yaml" "$check_dir/pnpm-lock.yaml"
           fi
+          test "$(pnpm store path --silent)" = "$(cd "$check_dir" && pnpm store path --silent)"
           echo "CHECK_DIR=$check_dir" >> "$GITHUB_ENV"
       - run: pnpm install --frozen-lockfile --ignore-scripts
         working-directory: ${{ env.CHECK_DIR }}
