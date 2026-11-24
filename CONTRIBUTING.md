@@ -63,6 +63,18 @@ Set `data-om-theme="light"` or `data-om-theme="dark"` on the document or a subtr
 
 Run `npx playwright install chromium firefox webkit` before the browser suite when the browsers are not installed. Keep the four product README translations, language links, and visuals synchronized. Follow the [Oddmash organization contribution policy](https://github.com/Oddmash/.github/blob/main/CONTRIBUTING.md) and discuss cross-project API changes in an issue first.
 
+## Branches, CI, and deployment
+
+- Target `develop` for feature, fix, documentation, test, and maintenance pull requests. Consolidate tested changes in `develop` before opening a release pull request to `main`. A maintainer-authorized release hotfix is the exception.
+- The `CI` workflow checks pull requests targeting either branch. The shared scope job and stable `verify` job remain responsible for selecting and reporting required checks. Runtime changes retain the existing React matrix, browser checks, and accessibility checks.
+- Pushes to `develop` do not repeat PR CI. Pushes to `main` retain a post-merge check; superseded automatic runs on the same event and ref are canceled. Manual checks are separate.
+- CI and Pages already reuse the npm download cache keyed by the lockfile. This repository retains its existing npm lockfile until a separately verified package-manager migration.
+- GitHub Pages builds and deploys only when production inputs change on `main` (the release branch), or when a maintainer explicitly dispatches Pages on `main`. Changes limited to test or lint configuration do not redeploy the site. There are no PR or `develop` preview deployments.
+- The Pages build retains independent token, build, type, lint, and unit checks before deployment. This intentionally duplicates only the non-browser release checks so a deployment does not rely on a previous runner or artifact. Deployments remain serialized and in-flight production deployments are not canceled.
+- npm publishing remains independent of Pages. It requires a published stable GitHub Release whose tag is reachable from `main`, or an explicit retry of such a release from `main`.
+
+Do not change branch protection or bypass required checks as part of this workflow.
+
 ## Previous verification
 
 The initial Interaction Inspector integration was measured on a Chromium fixture at 1000 × 800. The initial panel screenshots matched byte for byte in that fixture. See the [before screenshot](docs/assets/inspector-before.png), [after screenshot](docs/assets/inspector-after.png), and [measured geometry and styles](docs/assets/inspector-metrics.json). The [original verification record](https://github.com/Oddmash/oddmash-ui/blob/dcc03a1/docs/VERIFICATION.md) captures the historical test and integration context.
