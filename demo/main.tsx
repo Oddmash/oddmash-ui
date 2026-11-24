@@ -7,6 +7,7 @@ import {
   type Locale,
 } from './locale';
 import { createRoot } from 'react-dom/client';
+import { SelectDropdown } from '@oddmash/ui';
 import { pages, componentIds, type PageId, type ComponentId } from './content';
 import { Arrow, ComponentPage } from './examples';
 import { Colors, Typography, TokenExplorer, Installation } from './foundations';
@@ -211,18 +212,18 @@ const App = ({ onLocale }: { onLocale: (locale: Locale) => void }) => {
               GitHub <Arrow />
             </a>
           </div>
-          <select
+          <SelectDropdown
             className="locale-select"
             aria-label={t('Language')}
             value={locale}
-            onChange={(event) => onLocale(event.target.value as Locale)}
-          >
-            {Object.entries(languages).map(([id, label]) => (
-              <option key={id} value={id} lang={id}>
-                {label}
-              </option>
-            ))}
-          </select>
+            lang={locale}
+            options={Object.entries(languages).map(([id, label]) => ({
+              value: id,
+              label,
+              lang: id,
+            }))}
+            onValueChange={(value) => onLocale(value as Locale)}
+          />
           <button
             className="icon-button theme-button"
             aria-label={t(

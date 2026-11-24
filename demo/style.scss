@@ -37,7 +37,7 @@ button {
 }
 :where(button, a, input, select, textarea, summary):focus-visible {
   outline: 2px solid var(--om-semantic-color-focus);
-  outline-offset: 3px;
+  outline-offset: -1px;
 }
 h1,
 h2,
@@ -181,10 +181,14 @@ h1:focus {
   width: 100%;
   min-width: 0;
   border: 0;
-  outline-offset: 1px;
+  outline: none;
   background: transparent;
   color: inherit;
   font-size: 13px;
+}
+.search-box:has(input:focus-visible) {
+  outline: 2px solid var(--om-semantic-color-focus);
+  outline-offset: -1px;
 }
 .search-box input::placeholder {
   color: var(--om-semantic-color-muted);

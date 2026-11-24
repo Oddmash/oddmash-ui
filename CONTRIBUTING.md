@@ -63,15 +63,24 @@ Set `data-om-theme="light"` or `data-om-theme="dark"` on the document or a subtr
 
 Run `pnpm exec playwright install chromium firefox webkit` before the browser suite when the browsers are not installed. Keep the four product README translations, language links, and visuals synchronized. Follow the [Oddmash organization contribution policy](https://github.com/Oddmash/.github/blob/main/CONTRIBUTING.md) and discuss cross-project API changes in an issue first.
 
+## Branches, CI, and deployment
+
+- Target `develop` for feature, fix, documentation, test, and maintenance PRs; target `main` for consolidated releases or authorized hotfixes.
+- PR CI checks both branches. Automatic runs on the same event and ref cancel superseded runs; manually dispatched runs remain independent.
+- The pnpm store cache is keyed by both React lockfiles; browser jobs use preinstalled browsers instead of downloading them.
+- Pushes to `develop` do not duplicate PR CI. Pushes to `main` retain full verification.
+- Pages deploys only on main when production inputs change or when manually dispatched on main. It retains its independent non-browser checks and serialized deployment.
+- npm releases retain the independent OIDC publishing workflow.
+
 ## Previous verification
 
 The initial Interaction Inspector integration was measured on a Chromium fixture at 1000 × 800. The initial panel screenshots matched byte for byte in that fixture. See the [before screenshot](docs/assets/inspector-before.png), [after screenshot](docs/assets/inspector-after.png), and [measured geometry and styles](docs/assets/inspector-metrics.json). The [original verification record](https://github.com/Oddmash/oddmash-ui/blob/dcc03a1/docs/VERIFICATION.md) captures the historical test and integration context.
 
 ## Current verification coverage
 
-CI checks React 18 and 19 with matching type packages. The browser suite covers the documentation pages in light and dark themes, 320 px layouts, axe scans, keyboard navigation, focus return, live props, copy behavior, token filtering, scoped themes, mobile navigation, dialog submission, reduced motion, and product overrides across Chromium, Firefox, and WebKit.
+CI checks React 18 and 19 with matching type packages. The organization-wide change scope skips metadata-only integration PRs. UI-specific scope skips browser checks only for integration PRs that exclusively change root-level `tests/*.test.ts` or `tests/*.test.tsx` files; unit, type, build and bundle checks remain required. Changes to shared test setup, browser tests, runtime code or unknown paths retain browser coverage. Demo-only integration PRs use React 19; other runtime changes and PRs to `main`, pushes to `main` and manual CI runs exercise both supported React versions. Browser jobs run Chromium, Firefox and WebKit independently with matching React versions. Each browser job uses the official Ubuntu Noble Playwright image matching the exact version in both pnpm lockfiles, avoiding flaky runner package-mirror installs; tests are distributed across workers within each browser. The required `verify` job checks all expected job outcomes. The browser suite covers the documentation pages in light and dark themes, 320 px layouts, axe scans, keyboard navigation, focus return, live props, copy behavior, token filtering, scoped themes, mobile navigation, dialog submission, reduced motion, and product overrides across Chromium, Firefox, and WebKit.
 
-React 19 uses the root lockfile. React 18 uses a separate temporary checkout with the four exact compatibility versions applied by `scripts/prepare-react18.mjs` and the committed `tests/compatibility/react18/pnpm-lock.yaml`. Both install with a frozen lockfile. When dependencies change, generate the React 18 manifest in a disposable checkout, update its lockfile using the pinned pnpm, and copy only that reviewed lockfile back to the compatibility fixture. Neither CI matrix job rewrites tracked dependency inputs.
+React 19 uses the root lockfile. React 18 uses a separate temporary checkout with the four exact compatibility versions applied by `scripts/prepare-react18.mjs` and the committed `tests/compatibility/react18/pnpm-lock.yaml`. Both install with a frozen lockfile. When dependencies change, generate the React 18 manifest in a disposable checkout, update its lockfile using the pinned pnpm, and copy only that reviewed lockfile back to the compatibility fixture. CI compares checksums of the prepared dependency inputs before and after installation and tests, and also verifies that the original tracked checkout remains unchanged.
 
 Each component preview has a dedicated browser test that exercises its behavior or rendered semantics before running axe in light and dark themes. CI includes failures with screenshots, traces, and visual diffs in the browser results artifact.
 

@@ -123,6 +123,11 @@ export const translations: Record<string, Translation> = {
   ],
   'Interaction views': ['상호작용 보기', '操作ビュー', '交互视图'],
   'Show alert': ['알림 표시', 'アラートを表示', '显示警告'],
+  'OK': ['확인', '確認', '确定'],
+  'Require acknowledgment of an important message.': ['중요한 메시지의 확인을 요청합니다.', '重要なメッセージの確認を求めます。', '要求确认重要消息。'],
+  'Use AlertDialog for acknowledgment and Alert for inline status.': ['확인이 필요한 경우 AlertDialog, 인라인 상태에는 Alert를 사용하세요.', '確認には AlertDialog、インラインの状態には Alert を使用します。', '使用 AlertDialog 确认消息，使用 Alert 显示行内状态。'],
+  'The modal traps focus and restores it on confirmation. Inline alerts can use role="alert".': ['모달은 포커스를 유지하고 확인 후 복원합니다. 인라인 알림에는 role="alert"를 사용할 수 있습니다.', 'モーダルはフォーカスを保持し、確認後に戻します。インライン通知には role="alert" を使えます。', '模态框限制焦点并在确认后恢复。行内警告可使用 role="alert"。'],
+  'Mount Toasts within ToastViewport before the action runs to stack notifications.': ['알림을 쌓으려면 동작 전에 ToastViewport 안에 Toast를 렌더링하세요.', '通知を重ねるには、操作前に ToastViewport 内に Toast を配置します。', '在操作前将 Toast 渲染到 ToastViewport 内以堆叠通知。'],
   'Hide alert': ['알림 숨기기', 'アラートを隠す', '隐藏警告'],
   'Recording stopped': [
     '기록이 중지되었습니다',
