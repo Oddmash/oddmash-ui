@@ -6,10 +6,10 @@ on:
       - 'src/**'
       - 'demo/**'
       - 'tokens/**'
-      - 'scripts/**'
+      - 'scripts/tokens.ts'
       - 'package.json'
       - 'package-lock.json'
-      - '*.config.*'
+      - 'tsup.config.ts'
       - 'tsconfig.json'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
