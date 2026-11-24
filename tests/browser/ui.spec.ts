@@ -319,9 +319,8 @@ test('timeline filters combine without changing the original event list', async 
   const filters = page.getByRole('group', { name: 'Timeline filters' });
   const timeline = page.getByRole('list', { name: 'Filtered event timeline' });
   await expect(timeline.getByRole('listitem')).toHaveCount(4);
-  await filters
-    .getByRole('combobox', { name: 'Event type' })
-    .selectOption('click');
+  await filters.getByRole('combobox', { name: 'Event type' }).click();
+  await filters.getByRole('option', { name: 'click' }).click();
   await expect(timeline.getByRole('listitem')).toHaveCount(2);
   await filters
     .getByRole('switch', { name: 'Selected element' })

@@ -43,6 +43,12 @@
   }
 }
 
+select.om-select option,
+select.om-select optgroup {
+  background: var(--om-semantic-color-surface);
+  color: var(--om-semantic-color-text);
+}
+
 .om-progress {
   accent-color: var(--om-semantic-color-action);
 }
