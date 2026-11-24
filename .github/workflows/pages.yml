@@ -6,7 +6,7 @@ on:
       - 'src/**'
       - 'demo/**'
       - 'tokens/**'
-      - 'scripts/tokens.ts'
+      - 'scripts/**'
       - 'package.json'
       - 'pnpm-lock.yaml'
       - 'pnpm-workspace.yaml'

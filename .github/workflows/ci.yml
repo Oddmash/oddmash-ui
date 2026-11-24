@@ -72,6 +72,9 @@ jobs:
           fi
           test "$(pnpm store path --silent)" = "$(cd "$check_dir" && pnpm store path --silent)"
           echo "CHECK_DIR=$check_dir" >> "$GITHUB_ENV"
+      - name: Record prepared dependency inputs
+        working-directory: ${{ env.CHECK_DIR }}
+        run: sha256sum package.json pnpm-lock.yaml pnpm-workspace.yaml tests/compatibility/react18/pnpm-lock.yaml > "$RUNNER_TEMP/oddmash-ui-dependency-inputs.sha256"
       - run: pnpm install --frozen-lockfile --ignore-scripts
         working-directory: ${{ env.CHECK_DIR }}
       - if: matrix.react == 19
@@ -89,6 +92,9 @@ jobs:
         working-directory: ${{ env.CHECK_DIR }}
       - run: pnpm test
         working-directory: ${{ env.CHECK_DIR }}
+      - name: Confirm prepared dependency inputs remain unchanged
+        working-directory: ${{ env.CHECK_DIR }}
+        run: sha256sum --check "$RUNNER_TEMP/oddmash-ui-dependency-inputs.sha256"
       - name: Confirm tracked dependency inputs remain unchanged
         run: git -c safe.directory="$GITHUB_WORKSPACE" diff --exit-code -- package.json pnpm-lock.yaml pnpm-workspace.yaml tests/compatibility/react18/pnpm-lock.yaml
   browser:
@@ -131,6 +137,9 @@ jobs:
           fi
           test "$(pnpm store path --silent)" = "$(cd "$check_dir" && pnpm store path --silent)"
           echo "CHECK_DIR=$check_dir" >> "$GITHUB_ENV"
+      - name: Record prepared dependency inputs
+        working-directory: ${{ env.CHECK_DIR }}
+        run: sha256sum package.json pnpm-lock.yaml pnpm-workspace.yaml tests/compatibility/react18/pnpm-lock.yaml > "$RUNNER_TEMP/oddmash-ui-dependency-inputs.sha256"
       - run: pnpm install --frozen-lockfile --ignore-scripts
         working-directory: ${{ env.CHECK_DIR }}
       - run: pnpm run build
@@ -146,6 +155,9 @@ jobs:
             trap 'chown "$container_home_owner" /github/home' EXIT
           fi
           pnpm run test:browser --project="$BROWSER" --fully-parallel --update-snapshots=none
+      - name: Confirm prepared dependency inputs remain unchanged
+        working-directory: ${{ env.CHECK_DIR }}
+        run: sha256sum --check "$RUNNER_TEMP/oddmash-ui-dependency-inputs.sha256"
       - name: Confirm tracked dependency inputs remain unchanged
         run: git -c safe.directory="$GITHUB_WORKSPACE" diff --exit-code -- package.json pnpm-lock.yaml pnpm-workspace.yaml tests/compatibility/react18/pnpm-lock.yaml
       - uses: actions/upload-artifact@v4
