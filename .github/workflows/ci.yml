@@ -21,6 +21,7 @@ jobs:
     outputs:
       full: ${{ steps.classify.outputs.full }}
       browser: ${{ steps.classify.outputs.browser }}
+      playwright: ${{ steps.playwright.outputs.version }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
@@ -32,6 +33,15 @@ jobs:
           CI_EVENT: ${{ github.event_name }}
           CI_BASE_REF: ${{ github.base_ref }}
         run: node scripts/ci-browser-scope.mjs
+      - id: playwright
+        run: |
+          node --input-type=module -e '
+            import { readFileSync, appendFileSync } from "node:fs";
+            const lock = JSON.parse(readFileSync("package-lock.json", "utf8"));
+            const version = lock.packages["node_modules/@playwright/test"].version;
+            if (!/^\d+\.\d+\.\d+$/.test(version)) throw Error("Expected a stable Playwright version");
+            appendFileSync(process.env.GITHUB_OUTPUT, `version=${version}\n`);
+          '
   quality:
     needs: [scope, browser-scope]
     if: needs.scope.outputs.runtime == 'true' || needs.browser-scope.outputs.full == 'true'
@@ -65,6 +75,9 @@ jobs:
     needs: [scope, browser-scope]
     if: (needs.scope.outputs.runtime == 'true' || needs.browser-scope.outputs.full == 'true') && needs.browser-scope.outputs.browser == 'true'
     runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v${{ needs.browser-scope.outputs.playwright }}-noble
+      options: --shm-size=1g
     timeout-minutes: 15
     strategy:
       fail-fast: false
@@ -83,15 +96,6 @@ jobs:
       - if: matrix.react == 18
         run: npm install --no-save --ignore-scripts react@18 react-dom@18 @types/react@18 @types/react-dom@18
       - run: npm run build
-      - name: Install browser and system dependencies
-        timeout-minutes: 4
-        env:
-          BROWSER: ${{ matrix.browser }}
-        run: |
-          if ! timeout --kill-after=10s 90s npx playwright install --with-deps "$BROWSER"; then
-            echo 'Browser installation failed or timed out; retrying once.'
-            timeout --kill-after=10s 90s npx playwright install --with-deps "$BROWSER"
-          fi
       - run: npm run test:browser -- --project=${{ matrix.browser }} --fully-parallel --update-snapshots=none
       - uses: actions/upload-artifact@v4
         if: always()
