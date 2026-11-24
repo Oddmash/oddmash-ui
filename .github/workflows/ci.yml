@@ -15,15 +15,42 @@ jobs:
     uses: Oddmash/.github/.github/workflows/ci-scope.yml@5ef0314056be10f868b9bf889b879e6d322beb1e
     with:
       profile: ui
-  quality:
-    needs: scope
-    if: needs.scope.outputs.runtime == 'true'
+  browser-scope:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 5
+    outputs:
+      full: ${{ steps.classify.outputs.full }}
+      browser: ${{ steps.classify.outputs.browser }}
+      playwright: ${{ steps.playwright.outputs.version }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - run: node --test scripts/ci-browser-scope.test.mjs
+      - id: classify
+        env:
+          CI_EVENT: ${{ github.event_name }}
+          CI_BASE_REF: ${{ github.base_ref }}
+        run: node scripts/ci-browser-scope.mjs
+      - id: playwright
+        run: |
+          node --input-type=module -e '
+            import { readFileSync, appendFileSync } from "node:fs";
+            const lock = JSON.parse(readFileSync("package-lock.json", "utf8"));
+            const version = lock.packages["node_modules/@playwright/test"].version;
+            if (!/^\d+\.\d+\.\d+$/.test(version)) throw Error("Expected a stable Playwright version");
+            appendFileSync(process.env.GITHUB_OUTPUT, `version=${version}\n`);
+          '
+  quality:
+    needs: [scope, browser-scope]
+    if: needs.scope.outputs.runtime == 'true' || needs.browser-scope.outputs.full == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
-        react: ${{ fromJSON(needs.scope.outputs.react18 == 'true' && '[18,19]' || '[19]') }}
+        react: ${{ fromJSON((needs.scope.outputs.react18 == 'true' || needs.browser-scope.outputs.full == 'true') && '[18,19]' || '[19]') }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
@@ -33,25 +60,60 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci --ignore-scripts
-      - run: npm run tokens:check
+      - if: matrix.react == 18
+        run: npm install --no-save --ignore-scripts react@18 react-dom@18 @types/react@18 @types/react-dom@18
+      - if: matrix.react == 19
+        run: npm run tokens:check
+      - run: npm run build
+      - if: matrix.react == 19
+        run: npm run test:bundle
+      - run: npm run typecheck
+      - if: matrix.react == 19
+        run: npm run lint
+      - run: npm test
+  browser:
+    needs: [scope, browser-scope]
+    if: (needs.scope.outputs.runtime == 'true' || needs.browser-scope.outputs.full == 'true') && needs.browser-scope.outputs.browser == 'true'
+    runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v${{ needs.browser-scope.outputs.playwright }}-noble
+      options: --shm-size=1g
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        react: ${{ fromJSON((needs.scope.outputs.react18 == 'true' || needs.browser-scope.outputs.full == 'true') && '[18,19]' || '[19]') }}
+        browser: [chromium, firefox, webkit]
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts
       - if: matrix.react == 18
         run: npm install --no-save --ignore-scripts react@18 react-dom@18 @types/react@18 @types/react-dom@18
       - run: npm run build
-      - run: npm run test:bundle
-      - run: npm run typecheck
-      - run: npm run lint
-      - run: npm test
-      - run: npm run build:demo
-      - run: npx playwright install --with-deps chromium firefox webkit
-      - run: npm run test:browser -- --update-snapshots=none
+      - name: Run browser tests
+        env:
+          BROWSER: ${{ matrix.browser }}
+        run: |
+          if [ "$BROWSER" = firefox ]; then
+            container_home_owner=$(stat -c '%u:%g' /github/home)
+            chown "$(id -u):$(id -g)" /github/home
+            trap 'chown "$container_home_owner" /github/home' EXIT
+          fi
+          npm run test:browser -- --project="$BROWSER" --fully-parallel --update-snapshots=none
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: browser-results-react-${{ matrix.react }}
+          name: browser-results-react-${{ matrix.react }}-${{ matrix.browser }}
           path: test-results/
 
   verify:
-    needs: [scope, quality]
+    needs: [scope, browser-scope, quality, browser]
     if: always()
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -59,9 +121,15 @@ jobs:
       - name: Confirm appropriate checks passed
         env:
           SCOPE_RESULT: ${{ needs.scope.result }}
-          RUN_0: ${{ needs.scope.outputs.runtime }}
-          RESULT_0: ${{ needs.quality.result }}
+          BROWSER_SCOPE_RESULT: ${{ needs.browser-scope.result }}
+          RUN_QUALITY: ${{ needs.scope.outputs.runtime == 'true' || needs.browser-scope.outputs.full == 'true' }}
+          RUN_BROWSER: ${{ (needs.scope.outputs.runtime == 'true' || needs.browser-scope.outputs.full == 'true') && needs.browser-scope.outputs.browser == 'true' }}
+          QUALITY_RESULT: ${{ needs.quality.result }}
+          BROWSER_RESULT: ${{ needs.browser.result }}
         run: |
+          set -e
           test "$SCOPE_RESULT" = success
+          test "$BROWSER_SCOPE_RESULT" = success
           verify() { case "$1:$2" in true:success|false:skipped) return 0 ;; *) return 1 ;; esac; }
-          verify "$RUN_0" "$RESULT_0"
+          verify "$RUN_QUALITY" "$QUALITY_RESULT"
+          verify "$RUN_BROWSER" "$BROWSER_RESULT"
