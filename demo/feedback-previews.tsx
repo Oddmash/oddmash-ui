@@ -1,31 +1,28 @@
 import { useId, useRef, useState, type ReactNode } from 'react';
-import { Alert, Breadcrumbs, Button, Pagination, Toast } from '@oddmash/ui';
+import { AlertDialog, Breadcrumbs, Button, Pagination, Toast, ToastViewport } from '@oddmash/ui';
 import { useLocale } from './locale';
 
 export const AlertPreview = () => {
   const { t } = useLocale();
-  const id = useId();
+  const trigger = useRef<HTMLButtonElement>(null);
   const [visible, setVisible] = useState(false);
   return (
     <>
       <Button
         variant="secondary"
-        aria-expanded={visible}
-        aria-controls={id}
-        onClick={() => setVisible(!visible)}
+        ref={trigger}
+        onClick={() => setVisible(true)}
       >
-        {t(visible ? 'Hide alert' : 'Show alert')}
+        {t('Show alert')}
       </Button>
-      <div id={id} hidden={!visible}>
-        {visible && (
-          <Alert tone="danger" role="alert">
-            <strong>{t('Recording stopped')}</strong>
-            <div>
-              {t('Reconnect the inspector to continue capturing events.')}
-            </div>
-          </Alert>
-        )}
-      </div>
+      <AlertDialog open={visible} title={t('Recording stopped')}
+        confirmLabel={t('OK')} onConfirm={() => setVisible(false)}
+        onCloseAutoFocus={(event) => {
+          event.preventDefault();
+          trigger.current?.focus();
+        }}>
+        {t('Reconnect the inspector to continue capturing events.')}
+      </AlertDialog>
     </>
   );
 };
@@ -33,23 +30,27 @@ export const AlertPreview = () => {
 export const ToastPreview = () => {
   const { t } = useLocale();
   const trigger = useRef<HTMLButtonElement>(null);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState([false, false, false]);
   return (
     <>
-      <Button ref={trigger} variant="secondary" onClick={() => setOpen(true)}>
+      <Button ref={trigger} variant="secondary" disabled={open.every(Boolean)} onClick={() => setOpen((current) => {
+        const index = current.indexOf(false);
+        return current.map((value, position) => position === index || value);
+      })}>
         {t('Show toast')}
       </Button>
-      <Toast
-        title={t('Project saved')}
-        open={open}
-        dismissLabel={t('Dismiss notification')}
-        onDismiss={() => {
-          setOpen(false);
-          trigger.current?.focus();
-        }}
-      >
-        {t('Your changes are ready.')}
-      </Toast>
+      <ToastViewport>
+        {open.map((visible, index) => (
+          <Toast key={index} title={t('Project saved')} open={visible}
+            dismissLabel={t('Dismiss notification')}
+            onDismiss={() => {
+              setOpen((current) => current.map((value, position) => position === index ? false : value));
+              requestAnimationFrame(() => trigger.current?.focus());
+            }}>
+            {t('Your changes are ready.')}
+          </Toast>
+        ))}
+      </ToastViewport>
     </>
   );
 };

@@ -115,9 +115,10 @@ const previewChecks = {
     await expect(preview.locator('details')).toHaveAttribute('open', '');
     await expect(preview.getByText('Tab', { exact: true })).toBeVisible();
   },
-  alert: async (preview) => {
+  alert: async (preview, page) => {
     await preview.getByRole('button', { name: 'Show alert' }).press('Enter');
-    await expect(preview.getByRole('alert')).toContainText('Recording stopped');
+    await expect(page.getByRole('alertdialog')).toContainText('Recording stopped');
+    await expect(page.getByRole('button', { name: 'OK' })).toBeFocused();
   },
   avatar: async (preview) => {
     await expect(preview.getByRole('img', { name: 'Sangmin Park' })).toHaveText('SP');
@@ -167,7 +168,7 @@ for (const id of componentIds.filter((id) => id !== 'dialog')) {
         await expect(preview).toBeVisible();
         await previewChecks[id](preview, page, browserName);
         const { violations } = await new AxeBuilder({ page })
-          .include('.playground .preview')
+          .include(id === 'alert' ? '.om-alert-dialog' : id === 'toast' ? '.om-toast-viewport' : '.playground .preview')
           .setLegacyMode(browserName === 'firefox')
           .analyze();
         expect(violations.map(({ id, nodes }) => ({ id, targets: nodes.map(({ target }) => target) }))).toEqual([]);

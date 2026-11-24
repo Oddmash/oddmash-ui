@@ -1,6 +1,13 @@
 import { forwardRef, type ComponentPropsWithoutRef } from 'react';
 import { cx } from './cx';
 
+export const ToastViewport = /* @__PURE__ */ forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'>>(
+  ({ className, ...props }, ref) => (
+    <div {...props} ref={ref} className={cx('om-toast-viewport', className)} />
+  ),
+);
+ToastViewport.displayName = 'ToastViewport';
+
 export type ToastProps = Omit<ComponentPropsWithoutRef<'div'>, 'title'> & {
   open: boolean;
   title: string;
@@ -28,6 +35,7 @@ export const Toast = /* @__PURE__ */ forwardRef<HTMLDivElement, ToastProps>(
         className={open ? 'om-toast' : undefined}
         data-tone={open ? tone : undefined}
       >
+        {open && <span className="om-toast-icon" aria-hidden="true">{tone === 'danger' ? '!' : '✓'}</span>}
         <div role={tone === 'danger' ? 'alert' : 'status'} aria-atomic="true">
           {open && (
             <>
