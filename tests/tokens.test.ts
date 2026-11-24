@@ -4,6 +4,19 @@ import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { it, expect } from 'vitest';
 
+it('keeps shared component geometry consistent across themes', () => {
+  const { primitive } = JSON.parse(readFileSync('tokens/primitive.json', 'utf8'));
+  expect(Object.fromEntries(Object.entries(primitive.radius).map(([name, token]) => [name, (token as { $value: { value: number } }).$value.value]))).toEqual({ xs: 4, sm: 6, md: 8, lg: 12, pill: 999 });
+
+  for (const theme of ['light', 'dark']) {
+    const { semantic } = JSON.parse(readFileSync(`tokens/semantic/${theme}.json`, 'utf8'));
+    expect(semantic.radius.detail.$value).toBe('{primitive.radius.xs}');
+    expect(semantic.radius.control.$value).toBe(semantic.radius.sm.$value);
+    expect(semantic.radius.popover.$value).toBe(semantic.radius.md.$value);
+    expect(semantic.radius.panel.$value).toBe(semantic.radius.lg.$value);
+  }
+});
+
 it('rejects stale output, broken aliases and theme drift; regenerates after JSON edits', () => {
   const cwd = mkdtempSync(join(tmpdir(), 'oddmash-tokens-'));
   const run = (...args: string[]) => spawnSync(process.execPath, ['--import', import.meta.resolve('tsx'), resolve('scripts/tokens.ts'), ...args], { cwd, encoding: 'utf8' });

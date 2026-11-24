@@ -81,6 +81,10 @@
       }
     },
     "radius": {
+      "detail": {
+        "$type": "dimension",
+        "$value": "{primitive.radius.xs}"
+      },
       "sm": {
         "$type": "dimension",
         "$value": "{primitive.radius.sm}"
@@ -96,6 +100,18 @@
       "pill": {
         "$type": "dimension",
         "$value": "{primitive.radius.pill}"
+      },
+      "control": {
+        "$type": "dimension",
+        "$value": "{primitive.radius.sm}"
+      },
+      "popover": {
+        "$type": "dimension",
+        "$value": "{primitive.radius.md}"
+      },
+      "panel": {
+        "$type": "dimension",
+        "$value": "{primitive.radius.lg}"
       }
     },
     "font": {
