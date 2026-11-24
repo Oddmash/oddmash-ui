@@ -3,7 +3,7 @@ import { useState, type ReactNode } from 'react';
 import {
   Button,
   Input,
-  SelectDropdown,
+  Select,
   Card,
   Badge,
   Tabs,
@@ -281,7 +281,7 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
             <div className="playground-controls">
               <div className="playground-control">
                 <label htmlFor="button-variant">{t('Variant')}</label>
-                <SelectDropdown
+                <Select
                   id="button-variant"
                   value={variant}
                   options={[
@@ -294,7 +294,7 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
               </div>
               <div className="playground-control">
                 <label htmlFor="button-size">{t('Size')}</label>
-                <SelectDropdown
+                <Select
                   id="button-size"
                   value={size}
                   options={[

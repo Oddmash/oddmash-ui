@@ -1,18 +1,8 @@
-import { forwardRef, type ComponentPropsWithoutRef } from 'react';
-import { cx } from './cx';
-
-export type SelectProps = ComponentPropsWithoutRef<'select'>;
-
-export const Select = /* @__PURE__ */ forwardRef<
-  HTMLSelectElement,
-  SelectProps
->(({ className, ...props }, ref) => (
-  <select {...props} ref={ref} className={cx('om-select', className)} />
-));
-Select.displayName = 'Select';
-
 export {
-  SelectDropdown,
-  type SelectDropdownOption,
-  type SelectDropdownProps,
+  Select,
+  type SelectOption,
+  type SelectProps,
+  Select as SelectDropdown,
+  type SelectOption as SelectDropdownOption,
+  type SelectProps as SelectDropdownProps,
 } from './select-dropdown';

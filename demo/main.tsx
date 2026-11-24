@@ -7,7 +7,7 @@ import {
   type Locale,
 } from './locale';
 import { createRoot } from 'react-dom/client';
-import { SelectDropdown } from '@oddmash/ui';
+import { Select } from '@oddmash/ui';
 import { pages, componentIds, type PageId, type ComponentId } from './content';
 import { Arrow, ComponentPage } from './examples';
 import { Colors, Typography, TokenExplorer, Installation } from './foundations';
@@ -212,7 +212,7 @@ const App = ({ onLocale }: { onLocale: (locale: Locale) => void }) => {
               GitHub <Arrow />
             </a>
           </div>
-          <SelectDropdown
+          <Select
             className="locale-select"
             aria-label={t('Language')}
             value={locale}

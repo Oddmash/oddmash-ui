@@ -643,11 +643,11 @@ export const translations: Record<string, Translation> = {
     '一覧から項目を選びます。',
     '从列表选择一个选项。',
   ],
-  'Use SelectDropdown for a styled single choice. Use Select with native options for native validation, optgroups, or multiple selection.':
+  'Use Select for a styled single choice. Use the HTML select element for native validation, optgroups, or multiple selection.':
     [
-      '단일 선택에는 SelectDropdown을 사용하세요. 기본 검증, 그룹, 다중 선택에는 Select를 사용합니다.',
-      '単一選択は SelectDropdown、標準の検証、グループ、複数選択は Select を使います。',
-      '单选使用 SelectDropdown，原生校验、选项分组和多选使用 Select。',
+      '단일 선택에는 Select를 사용하세요. 기본 검증, 그룹, 다중 선택에는 HTML select 요소를 사용합니다.',
+      '単一選択は Select、標準の検証、グループ、複数選択は HTML select 要素を使います。',
+      '单选使用 Select，原生校验、选项分组和多选使用 HTML select 元素。',
     ],
   'Provide a visible label. Use arrow keys to move, type to search by label, Enter to select, and Escape to dismiss.':
     [

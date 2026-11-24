@@ -9,6 +9,7 @@ import {
   Field,
   Radio,
   Select,
+  SelectDropdown,
   Switch,
   Textarea,
   Toast,
@@ -60,7 +61,7 @@ it('supports rich alert dialog descriptions without nesting block elements in a 
   expect(dialog).toHaveAccessibleDescription('Check connection.');
 });
 
-it('keeps form values, refs, and disabled fieldset behavior native', async () => {
+it('preserves form values, refs, and disabled fieldset behavior', async () => {
   const user = userEvent.setup();
   const ref = createRef<HTMLTextAreaElement>();
   let values: Record<string, FormDataEntryValue> = {};
@@ -74,13 +75,18 @@ it('keeps form values, refs, and disabled fieldset behavior native', async () =>
       <label>
         Notes <Textarea ref={ref} name="notes" />
       </label>
-      <label>
-        Environment{' '}
-        <Select name="environment" defaultValue="staging">
-          <option value="staging">Staging</option>
-          <option value="production">Production</option>
-        </Select>
-      </label>
+      <div>
+        <label htmlFor="environment">Environment</label>
+        <Select
+          id="environment"
+          name="environment"
+          defaultValue="staging"
+          options={[
+            { value: 'staging', label: 'Staging' },
+            { value: 'production', label: 'Production' },
+          ]}
+        />
+      </div>
       <label>
         <Checkbox name="focus" value="on" /> Focus
       </label>
@@ -106,7 +112,8 @@ it('keeps form values, refs, and disabled fieldset behavior native', async () =>
 
   await user.type(screen.getByLabelText('Notes'), 'Ready');
   expect(ref.current).toHaveValue('Ready');
-  await user.selectOptions(screen.getByLabelText('Environment'), 'production');
+  await user.click(screen.getByRole('combobox', { name: 'Environment' }));
+  await user.click(screen.getByRole('option', { name: 'Production' }));
   await user.click(screen.getByRole('checkbox', { name: 'Focus' }));
   await user.click(screen.getByRole('switch', { name: 'Capture' }));
   await user.click(screen.getByRole('radio', { name: 'Oldest' }));
@@ -221,4 +228,12 @@ it('exposes the dismiss button accessible name and activates once via keyboard',
   expect(customButton).toHaveFocus();
   await user.keyboard(' ');
   expect(onDismissSpace).toHaveBeenCalledTimes(1);
+});
+
+it('uses the custom component as Select and retains its compatibility alias', () => {
+  expect(SelectDropdown).toBe(Select);
+  const ref = createRef<HTMLButtonElement>();
+  render(<Select ref={ref} aria-label="Environment" options={[{ value: 'staging', label: 'Staging' }]} defaultValue="staging" />);
+  expect(ref.current).toBe(screen.getByRole('combobox', { name: 'Environment' }));
+  expect(ref.current).toHaveTextContent('Staging');
 });

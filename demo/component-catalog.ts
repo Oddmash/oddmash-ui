@@ -27,19 +27,19 @@ export const extendedComponents = {
     group: 'Forms',
     description: 'Choose from a compact list of options.',
     usage:
-      'Use SelectDropdown for a styled single choice. Use Select with native options for native validation, optgroups, or multiple selection.',
+      'Use Select for a styled single choice. Use the HTML select element for native validation, optgroups, or multiple selection.',
     accessibility:
       'Provide a visible label. Use arrow keys to move, type to search by label, Enter to select, and Escape to dismiss.',
     props: [
-      ['options', 'readonly SelectDropdownOption[]', 'Required'],
+      ['options', 'readonly SelectOption[]', 'Required'],
       ['value / defaultValue', 'string', 'None'],
       ['onValueChange', '(value: string) => void', 'None'],
       ['name', 'string', 'None'],
     ],
-    exports: 'SelectDropdown',
+    exports: 'Select',
     code: `<div>
   <label htmlFor="environment">Environment</label>
-  <SelectDropdown
+  <Select
     id="environment"
     name="environment"
     defaultValue="staging"
