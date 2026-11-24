@@ -93,6 +93,14 @@
         "$type": "dimension",
         "$value": "{primitive.radius.lg}"
       },
+      "xl": {
+        "$type": "dimension",
+        "$value": "{primitive.radius.xl}"
+      },
+      "2xl": {
+        "$type": "dimension",
+        "$value": "{primitive.radius.2xl}"
+      },
       "pill": {
         "$type": "dimension",
         "$value": "{primitive.radius.pill}"

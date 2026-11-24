@@ -319,9 +319,8 @@ test('timeline filters combine without changing the original event list', async 
   const filters = page.getByRole('group', { name: 'Timeline filters' });
   const timeline = page.getByRole('list', { name: 'Filtered event timeline' });
   await expect(timeline.getByRole('listitem')).toHaveCount(4);
-  await filters
-    .getByRole('combobox', { name: 'Event type' })
-    .selectOption('click');
+  await filters.getByRole('combobox', { name: 'Event type' }).click();
+  await filters.getByRole('option', { name: 'click' }).click();
   await expect(timeline.getByRole('listitem')).toHaveCount(2);
   await filters
     .getByRole('switch', { name: 'Selected element' })
@@ -354,6 +353,9 @@ test('custom Select navigates, skips disabled options and dismisses', async ({
   await expect(selected).toHaveCSS('font-weight', '400');
   await expect(selected).toHaveCSS('outline-style', 'none');
   await expect(active).toHaveAttribute('aria-selected', 'false');
+  await expect(active).toHaveCSS('outline-style', 'solid');
+  await expect(selected).toHaveCSS('display', 'flex');
+  expect(await selected.evaluate((option) => getComputedStyle(option, '::after').visibility)).toBe('visible');
   expect(await selected.evaluate((option) => getComputedStyle(option).backgroundColor)).not.toBe(
     await active.evaluate((option) => getComputedStyle(option).backgroundColor),
   );
@@ -369,13 +371,17 @@ test('feedback demos reveal content on demand and honor reduced motion', async (
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/#/alert');
-  const alert = page.getByRole('alert');
+  const alert = page.getByRole('alertdialog');
   await expect(alert).toHaveCount(0);
   await page.getByRole('button', { name: 'Show alert' }).click();
   await expect(alert).toContainText('Recording stopped');
   await expect(alert).toHaveCSS('animation-name', 'none');
-  await page.getByRole('button', { name: 'Hide alert' }).click();
+  await expect(alert.getByRole('button', { name: 'OK' })).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(alert).toBeVisible();
+  await alert.getByRole('button', { name: 'OK' }).press('Enter');
   await expect(alert).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Show alert' })).toBeFocused();
   await page.goto('/#/toast');
   const trigger = page.getByRole('button', { name: 'Show toast' });
   await expect(page.getByText('Project saved', { exact: true })).toHaveCount(0);
@@ -384,6 +390,13 @@ test('feedback demos reveal content on demand and honor reduced motion', async (
     'Project saved',
   );
   await expect(page.locator('.om-toast')).toHaveCSS('animation-name', 'none');
+  await trigger.click();
+  const toasts = page.locator('.om-toast');
+  await expect(toasts).toHaveCount(2);
+  const [first, second] = await Promise.all([toasts.nth(0).boundingBox(), toasts.nth(1).boundingBox()]);
+  expect(first!.y + first!.height).toBeLessThanOrEqual(second!.y);
+  await page.getByRole('button', { name: 'Dismiss notification' }).first().click();
+  await expect(toasts).toHaveCount(1);
   await page.getByRole('button', { name: 'Dismiss notification' }).click();
   await expect(trigger).toBeFocused();
   await expect(page.locator('.om-toast')).toHaveCount(0);
@@ -406,19 +419,30 @@ test('language switch translates docs and persists across reloads', async ({
 }) => {
   await page.goto('/#/colors');
   const language = page.locator('.locale-select');
-  for (const [locale, heading, palette] of [
-    ['ko', '색상', '모노크롬 팔레트'],
-    ['ja', 'カラー', 'モノクロパレット'],
-    ['zh-CN', '颜色', '单色调色板'],
-    ['en', 'Colors', 'Monochrome palette'],
+  for (const [locale, label, heading, palette] of [
+    ['ko', '한국어', '색상', '모노크롬 팔레트'],
+    ['ja', '日本語', 'カラー', 'モノクロパレット'],
+    ['zh-CN', '简体中文', '颜色', '单色调色板'],
+    ['en', 'English', 'Colors', 'Monochrome palette'],
   ]) {
-    await language.selectOption(locale);
+    await language.press('Enter');
+    await expect(language).toHaveCSS('outline-offset', '-1px');
+    const list = page.locator('.header-actions [role="listbox"]');
+    await expect(list).toBeVisible();
+    await list.getByRole('option', { name: label }).click();
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
     await expect(page.locator('#page-title')).toHaveText(heading);
     await expect(page.getByRole('heading', { name: palette })).toBeVisible();
     await page.reload();
-    await expect(language).toHaveValue(locale);
+    await expect(language).toHaveText(label);
   }
+  await page.setViewportSize({ width: 320, height: 720 });
+  await language.press('Enter');
+  await language.press('ArrowDown');
+  await language.press('Escape');
+  await expect(language).toHaveText('English');
+  await expect(language).toBeFocused();
+  await expect(language).toHaveAttribute('aria-expanded', 'false');
 });
 
 test('wide layouts center docs within the space beyond the sidebar', async ({

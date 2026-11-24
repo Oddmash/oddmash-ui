@@ -3,6 +3,7 @@
   "version": "0.3.0",
   "description": "Small, themeable React foundations for Oddmash tools.",
   "type": "module",
+  "packageManager": "pnpm@11.25.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -141,17 +142,17 @@
   "scripts": {
     "tokens": "node --import tsx scripts/tokens.ts",
     "tokens:check": "node --import tsx scripts/tokens.ts --check",
-    "build": "npm run tokens && tsup && sass --no-source-map src/styles.scss dist/styles.css && cp src/generated/tokens.css dist/tokens.css",
+    "build": "pnpm run tokens && tsup && sass --no-source-map src/styles.scss dist/styles.css && cp src/generated/tokens.css dist/tokens.css",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
     "demo": "vite --config demo/vite.config.ts",
     "build:demo": "vite build --config demo/vite.config.ts",
-    "check": "npm run tokens:check && npm run build && npm run typecheck && npm run lint && npm test && npm run test:bundle && npm run build:demo",
+    "check": "pnpm run tokens:check && pnpm run build && pnpm run typecheck && pnpm run lint && pnpm test && pnpm run test:bundle && pnpm run build:demo",
     "test:browser": "playwright test",
     "test:a11y": "playwright test --grep \"accessibility|contrast\"",
     "test:visual": "playwright test visual.spec.ts --project=chromium",
-    "prepare": "npm run build",
+    "prepare": "pnpm run build",
     "test:bundle": "node --import tsx scripts/bundle.ts"
   },
   "devDependencies": {
