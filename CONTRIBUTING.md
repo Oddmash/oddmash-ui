@@ -69,7 +69,7 @@ The initial Interaction Inspector integration was measured on a Chromium fixture
 
 ## Current verification coverage
 
-CI checks React 18 and 19 with matching type packages. The browser suite covers the documentation pages in light and dark themes, 320 px layouts, axe scans, keyboard navigation, focus return, live props, copy behavior, token filtering, scoped themes, mobile navigation, dialog submission, reduced motion, and product overrides across Chromium, Firefox, and WebKit.
+CI checks React 18 and 19 with matching type packages. The organization-wide change scope skips metadata-only integration PRs. UI-specific scope skips browser checks only for integration PRs that exclusively change root-level `tests/*.test.ts` or `tests/*.test.tsx` files; unit, type, build and bundle checks remain required. Changes to shared test setup, browser tests, runtime code or unknown paths retain browser coverage. Demo-only integration PRs use React 19; other runtime changes and PRs to `main`, pushes to `main` and manual CI runs exercise both supported React versions. Browser jobs run Chromium, Firefox and WebKit independently with matching React versions. The required `verify` job checks all expected job outcomes. The browser suite covers the documentation pages in light and dark themes, 320 px layouts, axe scans, keyboard navigation, focus return, live props, copy behavior, token filtering, scoped themes, mobile navigation, dialog submission, reduced motion, and product overrides across Chromium, Firefox, and WebKit.
 
 Each component preview has a dedicated browser test that exercises its behavior or rendered semantics before running axe in light and dark themes. CI includes failures with screenshots, traces, and visual diffs in the browser results artifact.
 
