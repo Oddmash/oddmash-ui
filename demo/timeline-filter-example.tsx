@@ -30,8 +30,8 @@ export const TimelineFilterExample = ({
   return (
     <div className="timeline-filter-example">
       <Field legend={t('Timeline filters')}>
-        <label>
-          {t('Event type')}
+        <div className="timeline-select">
+          <span>{t('Event type')}</span>
           <SelectDropdown
             aria-label={t('Event type')}
             value={eventFilter}
@@ -40,7 +40,7 @@ export const TimelineFilterExample = ({
             }
             options={[{ value: 'all', label: t('All events') }, ...eventTypes.map((type) => ({ value: type, label: type }))]}
           />
-        </label>
+        </div>
         <label>
           <Switch
             checked={selectedOnly}
