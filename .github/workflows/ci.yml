@@ -31,13 +31,14 @@ jobs:
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
-          fetch-depth: 2
+          fetch-depth: 0
           persist-credentials: false
       - run: node --test scripts/ci-browser-scope.test.mjs scripts/ci-playwright-version.test.mjs
       - id: classify
         env:
           CI_EVENT: ${{ github.event_name }}
           CI_BASE_REF: ${{ github.base_ref }}
+          CI_BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: node scripts/ci-browser-scope.mjs
       - id: playwright
         run: node scripts/ci-playwright-version.mjs
