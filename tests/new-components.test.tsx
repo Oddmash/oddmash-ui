@@ -1,7 +1,7 @@
 import { createRef } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { expect, it } from 'vitest';
+import { expect, it, vi } from 'vitest';
 import {
   Avatar,
   Checkbox,
@@ -10,6 +10,7 @@ import {
   Select,
   Switch,
   Textarea,
+  Toast,
 } from '../src';
 
 it('keeps form values, refs, and disabled fieldset behavior native', async () => {
@@ -94,4 +95,83 @@ it('shows initials during image load and when the image source fails', () => {
   fireEvent.error(image());
   expect(image()).not.toBeVisible();
   expect(avatar).toHaveTextContent('PO');
+});
+
+it('uses status live region for neutral notifications and alert for danger notifications', () => {
+  const view = render(
+    <Toast open title="Changes saved" onDismiss={() => {}}>
+      Your settings are up to date.
+    </Toast>,
+  );
+
+  const statusRegion = screen.getByRole('status');
+  expect(statusRegion).toHaveAttribute('aria-atomic', 'true');
+  expect(statusRegion).toHaveTextContent('Changes saved');
+  expect(statusRegion).toHaveTextContent('Your settings are up to date.');
+  expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+
+  view.rerender(
+    <Toast open tone="danger" title="Save failed" onDismiss={() => {}}>
+      Please check your network connection.
+    </Toast>,
+  );
+
+  const alertRegion = screen.getByRole('alert');
+  expect(alertRegion).toHaveAttribute('aria-atomic', 'true');
+  expect(alertRegion).toHaveTextContent('Save failed');
+  expect(alertRegion).toHaveTextContent('Please check your network connection.');
+  expect(screen.queryByRole('status')).not.toBeInTheDocument();
+});
+
+it('does not expose message content or a dismiss button when closed', () => {
+  render(
+    <Toast open={false} title="Hidden notice" onDismiss={() => {}}>
+      This detail should not be rendered.
+    </Toast>,
+  );
+
+  const statusRegion = screen.getByRole('status');
+  expect(statusRegion).toBeEmptyDOMElement();
+  expect(screen.queryByText('Hidden notice')).not.toBeInTheDocument();
+  expect(
+    screen.queryByText('This detail should not be rendered.'),
+  ).not.toBeInTheDocument();
+  expect(
+    screen.queryByRole('button', { name: /dismiss/i }),
+  ).not.toBeInTheDocument();
+});
+
+it('exposes the dismiss button accessible name and activates once via keyboard', async () => {
+  const user = userEvent.setup();
+  const onDismissEnter = vi.fn();
+
+  const view = render(
+    <Toast open title="Export ready" onDismiss={onDismissEnter} />,
+  );
+
+  const defaultButton = screen.getByRole('button', {
+    name: 'Dismiss notification',
+  });
+  defaultButton.focus();
+  expect(defaultButton).toHaveFocus();
+  await user.keyboard('{Enter}');
+  expect(onDismissEnter).toHaveBeenCalledTimes(1);
+
+  const onDismissSpace = vi.fn();
+  view.rerender(
+    <Toast
+      open
+      title="Export ready"
+      dismissLabel="Close export alert"
+      onDismiss={onDismissSpace}
+    />,
+  );
+
+  const customButton = screen.getByRole('button', {
+    name: 'Close export alert',
+  });
+  customButton.focus();
+  expect(customButton).toHaveFocus();
+  await user.keyboard(' ');
+  expect(onDismissSpace).toHaveBeenCalledTimes(1);
 });
