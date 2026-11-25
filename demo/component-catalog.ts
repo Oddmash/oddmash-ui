@@ -1,4 +1,7 @@
+import { notificationComponents } from './notification-catalog';
+
 export const extendedComponents = {
+  ...notificationComponents,
   "link-controls": {
     "title": "Link Controls",
     "group": "Documentation",
