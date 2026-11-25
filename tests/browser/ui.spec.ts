@@ -124,7 +124,8 @@ test('navigation, search, live props, code, tokens and mobile menu work', async 
       },
     });
   });
-  const copy = page.locator('.playground').getByRole('button', { name: 'Copy code' });
+  const copy = page.locator('.playground .om-clipboard-button');
+  await expect(copy).toHaveAccessibleName('Copy code');
   const copySize = await copy.boundingBox();
   expect(copySize?.width).toBeGreaterThanOrEqual(44);
   expect(copySize?.height).toBeGreaterThanOrEqual(44);
