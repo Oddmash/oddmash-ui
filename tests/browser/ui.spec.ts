@@ -692,3 +692,40 @@ test('toast previews keep dismissal visible in forced colors and localize the to
     await expect(page.getByRole('combobox', { name: toneLabel })).toHaveText(successLabel);
   }
 });
+
+test('toast icons and dismiss buttons align with the card center and narrow viewport insets', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/#/toast');
+  const tone = page.getByRole('combobox', { name: 'Notification tone' });
+  await tone.press('Enter');
+  await page.getByRole('option', { name: 'Error', exact: true }).click();
+  const trigger = page.getByRole('button', { name: 'Show toast' });
+  await trigger.click();
+  const card = page.locator('.om-toast-region[data-state="open"] .om-toast');
+  await expect(card).toBeVisible();
+  const centered = () => card.evaluate(el => {
+    const bounds = el.getBoundingClientRect();
+    const center = bounds.top + bounds.height / 2;
+    return [...el.querySelectorAll('.om-toast-icon, button')].every(child => {
+      const box = child.getBoundingClientRect();
+      return Math.abs(box.top + box.height / 2 - center) <= 2;
+    });
+  });
+  await expect.poll(centered).toBe(true);
+  await page.setViewportSize({ width: 320, height: 640 });
+  await expect.poll(centered).toBe(true);
+  await expect.poll(() => card.evaluate(el => {
+    const box = el.getBoundingClientRect();
+    return Math.abs(box.left - (document.documentElement.clientWidth - box.right));
+  })).toBeLessThanOrEqual(2);
+  await card.getByRole('button', { name: 'Dismiss notification' }).click();
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await tone.press('Enter');
+  await page.getByRole('option', { name: 'Loading', exact: true }).click();
+  await trigger.click();
+  await expect(card.getByRole('status')).toContainText('Saving project');
+  const loading = card.locator('[data-icon="loading"]');
+  await expect(loading).toHaveCSS('animation-name', 'none');
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await expect(loading).toHaveCSS('animation-name', 'om-spinner-turn');
+});

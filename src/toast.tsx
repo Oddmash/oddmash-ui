@@ -5,6 +5,7 @@ import {
   useRef,
   useState,
   type ComponentPropsWithoutRef,
+  type ReactNode,
 } from 'react';
 import { cx } from './cx';
 
@@ -125,14 +126,17 @@ export type ToastProps = Omit<ComponentPropsWithoutRef<'div'>, 'title'> & {
   title: string;
   onDismiss: () => void;
   dismissLabel?: string;
-  tone?: 'neutral' | 'success' | 'info' | 'warning' | 'danger' | 'error';
+  tone?: 'neutral' | 'success' | 'info' | 'warning' | 'danger' | 'error' | 'loading';
+  icon?: ReactNode;
 };
 
 const ToastIcon = ({ tone }: { tone: NonNullable<ToastProps['tone']> }) => (
-  <svg className="om-toast-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    {tone === 'success' || tone === 'neutral' ? <><circle cx="12" cy="12" r="9" /><path d="m8 12 2.5 2.5L16 9" /></>
-      : tone === 'warning' ? <><path d="M10.3 4.7a2 2 0 0 1 3.4 0l7 12.1a2 2 0 0 1-1.7 3H5a2 2 0 0 1-1.7-3z" /><path d="M12 9v4m0 3h.01" /></>
-        : <><circle cx="12" cy="12" r="9" /><path d={tone === 'info' ? 'M12 11v5m0-8h.01' : 'M12 8v5m0 3h.01'} /></>}
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" data-icon={tone}>
+    {tone === 'neutral' ? <><path d="M18 8a6 6 0 0 0-12 0c0 6-2 7-2 9h16c0-2-2-3-2-9" /><path d="M10 20h4" /></>
+      : tone === 'success' ? <><circle cx="12" cy="12" r="9" /><path d="m8 12 2.5 2.5L16 9" /></>
+        : tone === 'warning' ? <><path d="M10.3 4.7a2 2 0 0 1 3.4 0l7 12.1a2 2 0 0 1-1.7 3H5a2 2 0 0 1-1.7-3z" /><path d="M12 9v4m0 3h.01" /></>
+          : tone === 'loading' ? <><circle cx="12" cy="12" r="9" opacity=".24" /><path d="M12 3a9 9 0 0 1 9 9" /></>
+            : <><circle cx="12" cy="12" r="9" /><path d={tone === 'info' ? 'M12 11v5m0-8h.01' : 'm9 9 6 6m0-6-6 6'} /></>}
   </svg>
 );
 
@@ -144,6 +148,7 @@ export const Toast = /* @__PURE__ */ forwardRef<HTMLDivElement, ToastProps>(
       onDismiss,
       dismissLabel = 'Dismiss notification',
       tone = 'neutral',
+      icon,
       children,
       className,
       ...props
@@ -166,7 +171,11 @@ export const Toast = /* @__PURE__ */ forwardRef<HTMLDivElement, ToastProps>(
     return (
       <div {...props} ref={ref} className={cx('om-toast-region', className)} data-state={open ? 'open' : visible ? 'closing' : 'closed'}>
         <div className={visible ? 'om-toast' : undefined} data-tone={visible ? tone : undefined} data-state={open ? 'open' : 'closing'}>
-          {visible && <ToastIcon tone={tone} />}
+          {visible && icon !== null && (
+            <span className="om-toast-icon" aria-hidden="true" ref={element => { element?.setAttribute('inert', ''); }}>
+              {icon === undefined ? <ToastIcon tone={tone} /> : icon}
+            </span>
+          )}
           <div role={urgent ? 'alert' : 'status'} aria-atomic="true">
             {open && <><strong>{title}</strong>{children && <div>{children}</div>}</>}
           </div>

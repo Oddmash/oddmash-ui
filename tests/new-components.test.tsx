@@ -270,3 +270,23 @@ it('retains a usable static viewport when animation frame or media APIs are unav
     vi.unstubAllGlobals();
   }
 });
+
+it('uses distinct decorative toast icons and supports custom or omitted icons', () => {
+  const onDismiss = vi.fn();
+  const view = render(<Toast open title="Notification" onDismiss={onDismiss} />);
+  const shapes = new Set<string>();
+  for (const tone of ['neutral', 'success', 'info', 'warning', 'error', 'loading'] as const) {
+    view.rerender(<Toast open title="Notification" onDismiss={onDismiss} tone={tone} />);
+    const icon = view.container.querySelector('.om-toast-icon');
+    expect(icon).toHaveAttribute('aria-hidden', 'true');
+    expect(icon).toHaveAttribute('inert');
+    expect(icon?.querySelector('svg')).toHaveAttribute('data-icon', tone);
+    shapes.add(icon?.querySelector('svg')?.innerHTML ?? '');
+    expect(screen.getByRole(tone === 'error' ? 'alert' : 'status')).toHaveTextContent('Notification');
+  }
+  expect(shapes.size).toBe(6);
+  view.rerender(<Toast open title="Notification" onDismiss={onDismiss} icon={<svg data-testid="custom-icon" />} />);
+  expect(screen.getByTestId('custom-icon').closest('.om-toast-icon')).toHaveAttribute('aria-hidden', 'true');
+  view.rerender(<Toast open title="Notification" onDismiss={onDismiss} icon={null} />);
+  expect(view.container.querySelector('.om-toast-icon')).not.toBeInTheDocument();
+});
