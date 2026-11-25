@@ -7,6 +7,8 @@ import { checkTokenSources, findRawDesignValues } from '../scripts/token-source-
 it('rejects fixed dimensions and durations but keeps structural geometry and comments', () => {
   expect(findRawDesignValues('.x { width: 13px; animation-duration: 41ms; }')).toEqual(['13px', '41ms']);
   expect(findRawDesignValues('.x { width: 100%; padding: 0; gap: var(--om-semantic-space-sm); } /* 1px */')).toEqual([]);
+  expect(findRawDesignValues('.x { content: "160ms"; width: 100%; }')).toEqual([]);
+  expect(findRawDesignValues('.x { content: "160ms"; width: var(--size, 13px); }')).toEqual(['13px']);
 });
 
 it('checks nested SCSS and excludes only generated output', async () => {
