@@ -1,6 +1,7 @@
 import StyleDictionary from 'style-dictionary';
-import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { checkTokenSources } from './token-source-check';
 
 const check = process.argv.includes('--check');
 const output = resolve('src/generated');
@@ -48,13 +49,4 @@ for (const [file, contents] of Object.entries(files)) {
   } else await writeFile(resolve(output, file), contents);
 }
 
-if (check) {
-  const rawDesignValue = /-?(?:\d+(?:\.\d+)?|\.\d+)(?:px|rem|ms|s)\b/g;
-  for (const entry of await readdir('src', { withFileTypes: true })) {
-    if (!entry.isFile() || !entry.name.endsWith('.scss')) continue;
-    const source = await readFile(resolve('src', entry.name), 'utf8');
-    const stripped = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
-    const match = stripped.match(rawDesignValue);
-    if (match) throw new Error(`src/${entry.name}: raw design values ${[...new Set(match)].join(', ')}; use JSON tokens`);
-  }
-}
+if (check) await checkTokenSources('src');
