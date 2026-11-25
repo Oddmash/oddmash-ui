@@ -23,6 +23,8 @@
   --om-primitive-color-light-action-hover: #dedede;
   --om-primitive-color-focus-blue: #2459d3;
   --om-primitive-color-focus-blue-dark: #91afff;
+  --om-primitive-color-amber: #8a4b00;
+  --om-primitive-color-amber-light: #ffca80;
   --om-primitive-space-0: 0px;
   --om-primitive-space-2: 2px;
   --om-primitive-space-4: 4px;
@@ -62,6 +64,9 @@
   --om-semantic-color-accent-hover: var(--om-primitive-color-action-hover);
   --om-semantic-color-on-accent: var(--om-primitive-color-white);
   --om-semantic-color-danger: var(--om-primitive-color-danger);
+  --om-semantic-color-success: var(--om-primitive-color-mint);
+  --om-semantic-color-warning: var(--om-primitive-color-amber);
+  --om-semantic-color-info: var(--om-primitive-color-focus-blue);
   --om-semantic-color-focus: var(--om-primitive-color-focus-blue);
   --om-semantic-color-border-subtle: var(--om-primitive-color-soft-line);
   --om-semantic-color-action: var(--om-primitive-color-ink);
@@ -115,6 +120,8 @@
   --om-primitive-color-light-action-hover: #dedede;
   --om-primitive-color-focus-blue: #2459d3;
   --om-primitive-color-focus-blue-dark: #91afff;
+  --om-primitive-color-amber: #8a4b00;
+  --om-primitive-color-amber-light: #ffca80;
   --om-primitive-space-0: 0px;
   --om-primitive-space-2: 2px;
   --om-primitive-space-4: 4px;
@@ -154,6 +161,9 @@
   --om-semantic-color-accent-hover: var(--om-primitive-color-light-action-hover);
   --om-semantic-color-on-accent: var(--om-primitive-color-ink);
   --om-semantic-color-danger: var(--om-primitive-color-danger-dark);
+  --om-semantic-color-success: var(--om-primitive-color-pale-mint);
+  --om-semantic-color-warning: var(--om-primitive-color-amber-light);
+  --om-semantic-color-info: var(--om-primitive-color-focus-blue-dark);
   --om-semantic-color-focus: var(--om-primitive-color-focus-blue-dark);
   --om-semantic-color-border-subtle: var(--om-primitive-color-dark-soft-line);
   --om-semantic-color-action: var(--om-primitive-color-bright);

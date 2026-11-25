@@ -3,6 +3,7 @@ import { useLocale } from './locale';
 import { useState, type ReactNode } from 'react';
 import {
   Button,
+  ClipboardButton,
   Input,
   Select,
   Card,
@@ -32,27 +33,23 @@ export const Code = ({
   label?: string;
 }) => {
   const { t } = useLocale();
-  const [status, setStatus] = useState('');
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(children);
-      setStatus('Copied');
-    } catch {
-      setStatus('Select the code to copy');
-    }
-  };
   return (
     <div className="code-block">
       <div className="code-toolbar">
         <span>{label}</span>
-        <button onClick={copy}>{t('Copy code')}</button>
+        <ClipboardButton
+          text={children}
+          labels={{
+            idle: t('Copy code'),
+            pending: t('Copying code'),
+            copied: t('Copied'),
+            error: t('Select the code to copy'),
+          }}
+        />
       </div>
       <pre tabIndex={0} role="region" aria-label={`${label} ${t('code')}`}>
         <code>{children}</code>
       </pre>
-      <span className="copy-status" role="status">
-        {t(status)}
-      </span>
     </div>
   );
 };
@@ -138,6 +135,12 @@ export const Example = ({ id }: { id: ComponentId }) => {
           </Badge>
           <Badge>{t('Draft')}</Badge>
           <Badge>v{packageVersion}</Badge>
+          <Badge tone="active">{t('Running')}</Badge>
+          <Badge>{t('Waiting')}</Badge>
+          <Badge tone="success">{t('Succeeded')}</Badge>
+          <Badge tone="danger">{t('Failed')}</Badge>
+          <Badge tone="warning">{t('Attention required')}</Badge>
+          <Badge>{t('Unknown')}</Badge>
         </div>
         <p className="muted">{t('A little context. No extra noise.')}</p>
       </div>

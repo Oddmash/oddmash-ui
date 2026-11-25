@@ -32,6 +32,6 @@ Oddmash UI 是 Oddmash 产品共享的界面基础。它为小型 React 开发�
 
 ## 当前范围
 
-Oddmash UI 正处于 1.0 之前的开发阶段。npm 0.5.0 扩展了共享的文档、落地页、导航和反馈组件，继续支持 React 18.3.1 和 React 19。
+Oddmash UI 正处于 1.0 之前的开发阶段。npm 0.6.0 新增语义状态徽章、统一的范围输入样式和本地化的命令关闭操作，并改进文档导航与代码复制。继续支持 React 18.3.1 和 React 19。
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [贡献指南](../../CONTRIBUTING.md) · [MIT License](../../LICENSE)

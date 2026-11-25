@@ -146,13 +146,14 @@ export const extendedComponents = {
   'command-palette': {
     title: 'Command Palette', group: 'Navigation', description: 'Find and execute actions.',
     usage: 'Open with an explicit trigger or an opt-in Mod+K shortcut. Supply descriptive grouped results and a consumer-owned filter when needed.', accessibility: 'Use arrow keys, Enter and Escape. Provide distinct result labels and descriptions.',
-    props: [['items', 'readonly CommandPaletteItem[]', 'Required'], ['open / defaultOpen', 'boolean', 'false'], ['onOpenChange', '(open: boolean) => void', 'None'], ['shortcut', 'boolean', 'false'], ['maxResults', 'number', 'All'], ['filter', '(item, query) => boolean', 'Default matching']], exports: 'Button, CommandPalette',
+    props: [['items', 'readonly CommandPaletteItem[]', 'Required'], ['open / defaultOpen', 'boolean', 'false'], ['onOpenChange', '(open: boolean) => void', 'None'], ['shortcut', 'boolean', 'false'], ['dismissLabel', 'string', 'None'], ['maxResults', 'number', 'All'], ['filter', '(item, query) => boolean', 'Default matching']], exports: 'Button, CommandPalette',
     code: `<CommandPalette
   trigger={<Button>Commands</Button>}
   title="Commands"
   description="Choose an action"
   searchLabel="Search commands"
   emptyLabel="No commands found"
+  dismissLabel="Close commands"
   shortcut
   items={[
     { id: 'save', label: 'Save project', group: 'Project', description: 'Save current changes', onSelect: () => {} },
