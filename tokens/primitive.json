@@ -299,6 +299,24 @@
           "alpha": 1,
           "hex": "#91afff"
         }
+      },
+      "amber": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.54117647, 0.29411765, 0],
+          "alpha": 1,
+          "hex": "#8a4b00"
+        }
+      },
+      "amberLight": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [1, 0.79215686, 0.50196078],
+          "alpha": 1,
+          "hex": "#ffca80"
+        }
       }
     },
     "space": {
