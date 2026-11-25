@@ -4,6 +4,15 @@ import { componentIds, type ComponentId } from '../../demo/content';
 import { tabToAllControls } from './keyboard';
 
 const previewChecks = {
+  'clipboard-button': async (preview) => {
+    await expect(preview.getByRole('button', { name: 'Copy code' })).toBeVisible();
+    await expect(preview.getByRole('region', { name: 'Clipboard example code' })).toBeVisible();
+  },
+  'toast-provider': async (preview) => {
+    await expect(preview.getByRole('button', { name: 'Show saved notification' })).toBeVisible();
+    await expect(preview.getByRole('button', { name: 'Show error notification' })).toBeVisible();
+    await expect(preview.getByTestId('managed-toast-viewport').locator('[data-toast-id]')).toHaveCount(0);
+  },
   "link-controls": async (preview) => {
     await expect(preview.getByRole('link', { name: 'Read guide' })).toBeVisible();
     await expect(preview.getByRole('button', { name: 'Open search example' })).toHaveAttribute('type', 'button');
