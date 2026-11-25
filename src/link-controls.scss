@@ -28,20 +28,20 @@
   display: inline-grid;
   place-items: center;
   flex-shrink: 0;
-  inline-size: var(--om-platform-link-size, 44px);
-  min-block-size: var(--om-platform-link-size, 44px);
-  border: 1px solid transparent;
+  inline-size: var(--om-platform-link-size, var(--om-semantic-control-touch-target));
+  min-block-size: var(--om-platform-link-size, var(--om-semantic-control-touch-target));
+  border: var(--om-semantic-border-width) solid transparent;
   border-radius: var(--om-semantic-radius-lg);
   background: transparent;
   color: var(--om-platform-link-muted, var(--om-semantic-color-muted));
   text-decoration: none;
-  transition: color 220ms ease, border-color 220ms ease, background-color 220ms ease;
+  transition: color var(--om-semantic-duration-ms-220) ease, border-color var(--om-semantic-duration-ms-220) ease, background-color var(--om-semantic-duration-ms-220) ease;
 }
 .om-platform-link > svg {
   display: block;
-  max-inline-size: 28px;
+  max-inline-size: var(--om-semantic-dimension-px-28);
   transform-origin: center;
-  transition: transform 220ms cubic-bezier(.2,.8,.2,1);
+  transition: transform var(--om-semantic-duration-ms-220) var(--om-semantic-easing-curve-0-2-0-8-0-2-1);
 }
 .om-platform-link:focus-visible,
 .om-platform-link:active {
@@ -50,8 +50,8 @@
   background: var(--om-semantic-color-bg);
 }
 .om-platform-link:focus-visible {
-  outline: 2px solid var(--om-semantic-color-focus);
-  outline-offset: 2px;
+  outline: var(--om-semantic-focus-width) solid var(--om-semantic-color-focus);
+  outline-offset: var(--om-semantic-focus-offset);
 }
 .om-platform-link[data-platform='npm'] {
   --om-platform-link-color: var(--om-platform-link-npm-color, #cb3837);
@@ -66,7 +66,7 @@
     background: var(--om-semantic-color-bg);
   }
   .om-platform-link:hover > svg {
-    animation: om-platform-pulse var(--om-platform-link-pulse-duration, 950ms) cubic-bezier(.45,0,.55,1) 1;
+    animation: om-platform-pulse var(--om-platform-link-pulse-duration, var(--om-semantic-duration-ms-950)) var(--om-semantic-easing-curve-0-45-0-0-55-1) 1;
   }
   .om-platform-link:active > svg {
     animation: none;
@@ -86,7 +86,7 @@
   align-items: center;
   min-inline-size: 1.6em;
   padding-inline: var(--om-semantic-space-xs);
-  border: 1px solid var(--om-semantic-color-border-subtle);
+  border: var(--om-semantic-border-width) solid var(--om-semantic-color-border-subtle);
   border-radius: var(--om-semantic-radius-sm);
   background: var(--om-semantic-color-bg);
   color: var(--om-semantic-color-muted);

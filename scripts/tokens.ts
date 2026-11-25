@@ -1,6 +1,7 @@
 import StyleDictionary from 'style-dictionary';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { checkTokenSources } from './token-source-check';
 
 const check = process.argv.includes('--check');
 const output = resolve('src/generated');
@@ -27,7 +28,11 @@ for (const theme of themes) {
   const files = await dictionary.formatPlatform('css');
   products[theme] = String(files[0].output);
 }
+const primitive = JSON.parse(await readFile('tokens/primitive.json', 'utf8')).primitive;
+const compact = primitive.breakpoint.compact.$value;
+if (!Number.isFinite(compact.value) || compact.value <= 0 || compact.unit !== 'rem') throw new Error('Invalid compact breakpoint');
 const files = {
+  'breakpoints.scss': `// Generated from tokens JSON. Run pnpm run tokens.\n$compact: ${compact.value}${compact.unit};\n`,
   'tokens.css': `/* Generated from tokens JSON. Run pnpm run tokens. */
 ${products.light.trim()}
 ${products.dark.trim()}
@@ -43,3 +48,5 @@ for (const [file, contents] of Object.entries(files)) {
     if (existing !== contents) throw new Error(`${file} is stale. Run pnpm run tokens.`);
   } else await writeFile(resolve(output, file), contents);
 }
+
+if (check) await checkTokenSources('src');
