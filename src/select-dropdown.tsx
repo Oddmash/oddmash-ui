@@ -57,6 +57,7 @@ export const Select = /* @__PURE__ */ forwardRef<
     const [internal, setInternal] = useState(defaultValue);
     const [open, setOpen] = useState(false);
     const [active, setActive] = useState<number | undefined>();
+    const [keyboardActive, setKeyboardActive] = useState(false);
     const selected = options.findIndex(
       (option) => option.value === (value ?? internal),
     );
@@ -70,6 +71,7 @@ export const Select = /* @__PURE__ */ forwardRef<
     const close = () => {
       setOpen(false);
       setActive(undefined);
+      setKeyboardActive(false);
       search.current.text = '';
     };
 
@@ -82,6 +84,82 @@ export const Select = /* @__PURE__ */ forwardRef<
       };
       scope?.addEventListener('pointerdown', dismiss, true);
       return () => scope?.removeEventListener('pointerdown', dismiss, true);
+    }, [expanded]);
+
+    useEffect(() => {
+      const menu = list.current;
+      const trigger = root.current?.querySelector('button');
+      const view = menu?.ownerDocument.defaultView;
+      if (!expanded || !menu || !trigger || !view) return;
+
+      const preventScrollBleed = (event: WheelEvent) => {
+        if (
+          (event.deltaY < 0 && menu.scrollTop <= 0) ||
+          (event.deltaY > 0 && menu.scrollTop + menu.clientHeight >= menu.scrollHeight - 1)
+        ) event.preventDefault();
+      };
+      menu.addEventListener('wheel', preventScrollBleed, { passive: false });
+
+      const viewport = view.visualViewport;
+      const position = () => {
+        const anchor = trigger.getBoundingClientRect();
+        const top = viewport?.offsetTop ?? 0;
+        const left = viewport?.offsetLeft ?? 0;
+        const right = left + (viewport?.width ?? view.innerWidth);
+        const bottom = top + (viewport?.height ?? view.innerHeight);
+        if (anchor.bottom <= top || anchor.top >= bottom) {
+          close();
+          return;
+        }
+        const below = Math.max(0, bottom - anchor.bottom);
+        const above = Math.max(0, anchor.top - top);
+        const opensAbove = below < menu.scrollHeight && above > below;
+        const width = Math.min(anchor.width, right - left);
+        menu.dataset.placement = opensAbove ? 'above' : 'below';
+        menu.style.setProperty('--om-select-anchor-left', `${Math.max(left, Math.min(anchor.left, right - width))}px`);
+        menu.style.setProperty('--om-select-anchor-top', `${Math.max(top, anchor.bottom)}px`);
+        menu.style.setProperty('--om-select-anchor-bottom', `${view.innerHeight - Math.min(anchor.top, bottom)}px`);
+        menu.style.setProperty('--om-select-anchor-width', `${width}px`);
+        menu.style.setProperty('--om-select-available', `${opensAbove ? above : below}px`);
+      };
+      let positioned = false;
+      if (typeof menu.showPopover === 'function') {
+        menu.setAttribute('popover', 'manual');
+        try {
+          menu.showPopover();
+          positioned = true;
+          menu.dataset.positioned = 'true';
+          position();
+        } catch {
+          menu.removeAttribute('popover');
+        }
+      }
+      const onScroll = (event: Event) => {
+        if (event.target !== menu) position();
+      };
+      const resize = positioned && typeof ResizeObserver !== 'undefined'
+        ? new ResizeObserver(position)
+        : undefined;
+      if (positioned) {
+        view.addEventListener('resize', position);
+        view.addEventListener('scroll', onScroll, true);
+        viewport?.addEventListener('resize', position);
+        viewport?.addEventListener('scroll', position);
+        resize?.observe(trigger);
+      }
+      return () => {
+        menu.removeEventListener('wheel', preventScrollBleed);
+        if (!positioned) return;
+        resize?.disconnect();
+        view.removeEventListener('resize', position);
+        view.removeEventListener('scroll', onScroll, true);
+        viewport?.removeEventListener('resize', position);
+        viewport?.removeEventListener('scroll', position);
+        if (menu.matches(':popover-open')) menu.hidePopover();
+        menu.removeAttribute('popover');
+        delete menu.dataset.positioned;
+        delete menu.dataset.placement;
+      };
     }, [expanded]);
 
     useEffect(() => {
@@ -144,6 +222,7 @@ export const Select = /* @__PURE__ */ forwardRef<
         key === 'End'
       ) {
         event.preventDefault();
+        setKeyboardActive(true);
         const previous =
           activeIndex === undefined ? -1 : enabled.indexOf(activeIndex);
         const next =
@@ -168,6 +247,7 @@ export const Select = /* @__PURE__ */ forwardRef<
         event.preventDefault();
         if (expanded) choose(activeIndex);
         else {
+          setKeyboardActive(true);
           setActive(initial());
           setOpen(true);
         }
@@ -190,6 +270,7 @@ export const Select = /* @__PURE__ */ forwardRef<
         );
         if (match === undefined) return;
         event.preventDefault();
+        setKeyboardActive(true);
         setActive(match);
         setOpen(true);
       }
@@ -223,6 +304,7 @@ export const Select = /* @__PURE__ */ forwardRef<
             if (event.defaultPrevented || !enabled.length) return;
             if (expanded) close();
             else {
+              setKeyboardActive(false);
               setActive(initial());
               setOpen(true);
             }
@@ -255,6 +337,12 @@ export const Select = /* @__PURE__ */ forwardRef<
               aria-disabled={option.disabled || undefined}
               lang={option.lang}
               data-active={activeIndex === index || undefined}
+              data-keyboard-active={keyboardActive && activeIndex === index || undefined}
+              onPointerMove={(event) => {
+                if (option.disabled || event.pointerType === 'touch') return;
+                setKeyboardActive(false);
+                setActive(index);
+              }}
               onMouseDown={(event) => event.preventDefault()}
               onClick={() => choose(index)}
             >
