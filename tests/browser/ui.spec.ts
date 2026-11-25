@@ -655,3 +655,34 @@ test('toast handles mixed-height notifications and rapid reopen during exit', as
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
   await expect(open.last().getByRole('button', { name: 'Dismiss notification' })).toBeVisible();
 });
+
+test('toast previews keep dismissal visible in forced colors and localize the tone selector', async ({ page, browserName }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce', ...(browserName === 'chromium' ? { forcedColors: 'active' as const } : {}) });
+  await page.goto('/#/toast');
+  const trigger = page.getByRole('button', { name: 'Show toast' });
+  await trigger.click();
+  const dismiss = page.getByRole('button', { name: 'Dismiss notification' });
+  if (browserName === 'chromium') {
+    await trigger.focus();
+    await page.keyboard.press('Tab');
+    await expect(dismiss).toBeFocused();
+    await expect(dismiss).toHaveCSS('outline-style', 'solid');
+  } else {
+    await dismiss.focus();
+    await expect(dismiss).toBeFocused();
+  }
+  await dismiss.press('Enter');
+  await expect(trigger).toBeFocused();
+  const language = page.locator('.locale-select');
+  for (const [locale, label, toneLabel, successLabel] of [
+    ['ko', '한국어', '알림 상태', '성공'],
+    ['ja', '日本語', '通知の種類', '成功'],
+    ['zh-CN', '简体中文', '通知类型', '成功'],
+    ['en', 'English', 'Notification tone', 'Success'],
+  ]) {
+    await language.press('Enter');
+    await page.locator('.header-actions [role="listbox"]').getByRole('option', { name: label }).click();
+    await expect(page.locator('html')).toHaveAttribute('lang', locale);
+    await expect(page.getByRole('combobox', { name: toneLabel })).toHaveText(successLabel);
+  }
+});

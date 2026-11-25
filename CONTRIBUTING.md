@@ -40,6 +40,10 @@ demo/
 tests/
 ```
 
+## Shared component review
+
+See the [component quality review](docs/component-quality-review.md) for the latest interaction audit and verification scope. The live Toast reference is the [Toast documentation page](https://oddmash.github.io/oddmash-ui/#/toast), which uses the localized component catalog and the actual controlled Toast demo. Its state selector previews success, information, warning and error. Mount stable controlled items before the action, keep newer items last, and retain items through their closing motion. Hover or keyboard focus expands a collapsed stack; touch and reduced-motion preferences use the expanded presentation. Consumers own expiry and return focus to a remaining notification or the triggering control.
+
 ## Themes and product overrides
 
 Set `data-om-theme="light"` or `data-om-theme="dark"` on the document or a subtree. Applications own system preference and persistence. Load product overrides after the package CSS and override semantic variables rather than primitives. Shadow DOM consumers must inject the stylesheet and portal containers inside their root.

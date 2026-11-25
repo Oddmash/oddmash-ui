@@ -19,18 +19,23 @@ export const ToastViewport = /* @__PURE__ */ forwardRef<HTMLDivElement, Componen
 
     useEffect(() => {
       const viewport = root.current;
-      if (!viewport || typeof window.matchMedia !== 'function') return;
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-      const hover = window.matchMedia('(hover: hover) and (pointer: fine)');
+      const view = viewport?.ownerDocument.defaultView;
+      if (!viewport || !view || typeof view.matchMedia !== 'function' ||
+          typeof view.requestAnimationFrame !== 'function' ||
+          typeof view.cancelAnimationFrame !== 'function' ||
+          typeof view.MutationObserver !== 'function') return;
+      const browser = view;
+      const reduced = browser.matchMedia('(prefers-reduced-motion: reduce)');
+      const hover = browser.matchMedia('(hover: hover) and (pointer: fine)');
       let pointer = false;
       let focused = false;
       let frame = 0;
       const observed = new Set<Element>();
-      const resize = typeof ResizeObserver === 'undefined' ? undefined : new ResizeObserver(() => schedule());
+      const resize = typeof browser.ResizeObserver === 'undefined' ? undefined : new browser.ResizeObserver(() => schedule());
 
       const layout = () => {
         const regions = Array.from(viewport.children).filter(
-          (element): element is HTMLElement => element instanceof HTMLElement && element.classList.contains('om-toast-region'),
+          (element): element is HTMLElement => element instanceof browser.HTMLElement && element.classList.contains('om-toast-region'),
         );
         const cards = regions.flatMap(region => {
           const card = region.querySelector<HTMLElement>('.om-toast');
@@ -52,7 +57,7 @@ export const ToastViewport = /* @__PURE__ */ forwardRef<HTMLDivElement, Componen
 
         const fullHeight = active.reduce((sum, { card }) => sum + card.offsetHeight + STACK_GAP, 0) - STACK_GAP;
         const frontHeight = active.at(-1)?.card.offsetHeight ?? 0;
-        const maxHeight = window.innerHeight - 32;
+        const maxHeight = browser.innerHeight - 32;
         const expanded = reduced.matches || !hover.matches || pointer || focused || frontHeight + 2 * STACK_PEEK > maxHeight;
         const overflow = expanded && fullHeight > maxHeight;
         let offset = 0;
@@ -73,16 +78,16 @@ export const ToastViewport = /* @__PURE__ */ forwardRef<HTMLDivElement, Componen
         viewport.dataset.stackActive = String(active.length > 0);
       };
       function schedule() {
-        if (frame) cancelAnimationFrame(frame);
-        frame = requestAnimationFrame(() => { frame = 0; layout(); });
+        if (frame) browser.cancelAnimationFrame(frame);
+        frame = browser.requestAnimationFrame(() => { frame = 0; layout(); });
       }
-      const mutation = new MutationObserver(schedule);
+      const mutation = new browser.MutationObserver(schedule);
       mutation.observe(viewport, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-state'] });
       const enter = (event: PointerEvent) => { if (event.pointerType === 'mouse') { pointer = true; schedule(); } };
       const leave = () => { pointer = false; schedule(); };
       const focusIn = () => { focused = true; schedule(); };
       const focusOut = (event: FocusEvent) => {
-        focused = event.relatedTarget instanceof Node && viewport.contains(event.relatedTarget);
+        focused = event.relatedTarget instanceof browser.Node && viewport.contains(event.relatedTarget);
         schedule();
       };
       viewport.addEventListener('pointerenter', enter);
@@ -91,10 +96,10 @@ export const ToastViewport = /* @__PURE__ */ forwardRef<HTMLDivElement, Componen
       viewport.addEventListener('focusout', focusOut);
       reduced.addEventListener('change', schedule);
       hover.addEventListener('change', schedule);
-      window.addEventListener('resize', schedule);
+      browser.addEventListener('resize', schedule);
       schedule();
       return () => {
-        if (frame) cancelAnimationFrame(frame);
+        if (frame) browser.cancelAnimationFrame(frame);
         mutation.disconnect();
         resize?.disconnect();
         viewport.removeEventListener('pointerenter', enter);
@@ -103,7 +108,7 @@ export const ToastViewport = /* @__PURE__ */ forwardRef<HTMLDivElement, Componen
         viewport.removeEventListener('focusout', focusOut);
         reduced.removeEventListener('change', schedule);
         hover.removeEventListener('change', schedule);
-        window.removeEventListener('resize', schedule);
+        browser.removeEventListener('resize', schedule);
       };
     }, []);
 

@@ -256,3 +256,17 @@ it('preserves the live region through a controlled exit and announces semantic t
   view.rerender(<Toast open title="Network unavailable" onDismiss={onDismiss} tone="error" />);
   expect(screen.getByRole('alert')).toHaveTextContent('Network unavailable');
 });
+
+it('retains a usable static viewport when animation frame or media APIs are unavailable', () => {
+  vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: false })));
+  vi.stubGlobal('requestAnimationFrame', undefined);
+  vi.stubGlobal('cancelAnimationFrame', undefined);
+  try {
+    const view = render(<ToastViewport><Toast open title="Static notice" onDismiss={() => {}} /></ToastViewport>);
+    expect(screen.getByRole('status')).toHaveTextContent('Static notice');
+    expect(screen.getByRole('button', { name: 'Dismiss notification' })).toBeInTheDocument();
+    view.unmount();
+  } finally {
+    vi.unstubAllGlobals();
+  }
+});
