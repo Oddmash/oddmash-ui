@@ -25,6 +25,9 @@ for (const width of [320, 1200]) {
       expect(rect?.width).toBeGreaterThanOrEqual(44);
       expect(rect?.height).toBeGreaterThanOrEqual(44);
       await codeTab.press(tabToAllControls(browserName));
+      const expand = playground.getByRole('button', { name: 'Expand preview' });
+      await expect(expand).toBeFocused();
+      await expand.press(tabToAllControls(browserName));
       await expect(copy).toBeFocused();
       await expect(copy).toHaveCSS('outline-style', 'solid');
       await page.keyboard.press('Enter');

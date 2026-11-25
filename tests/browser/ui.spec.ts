@@ -403,7 +403,7 @@ test('feedback demos reveal content on demand and honor reduced motion', async (
     const [first, second] = await Promise.all([toasts.nth(0).boundingBox(), toasts.nth(1).boundingBox()]);
     return first!.y + first!.height <= second!.y + 1;
   }).toBe(true);
-  await page.getByRole('button', { name: 'Dismiss notification' }).first().click();
+  await page.getByRole('button', { name: 'Dismiss notification' }).first().press('Enter');
   await expect(toasts).toHaveCount(1);
   await expect(page.getByRole('button', { name: 'Dismiss notification' })).toBeFocused();
   await page.getByRole('button', { name: 'Dismiss notification' }).press('Enter');
@@ -597,9 +597,9 @@ test('toast stack expands on hover and focus, then dismisses without losing keyb
   await expect(viewport).toHaveAttribute('data-stack-expanded', 'true');
   await dismiss.first().press('Enter');
   await expect(cards).toHaveCount(2);
-  await expect(dismiss.first()).toBeFocused();
+  await expect(dismiss.last()).toBeFocused();
   await expect(viewport.locator('[data-state="closing"] .om-toast')).toHaveCount(0);
-  await dismiss.first().press('Enter');
+  await dismiss.last().press('Enter');
   await dismiss.first().press('Enter');
   await expect(trigger).toBeFocused();
   await expect(viewport.locator('.om-toast')).toHaveCount(0);
@@ -672,6 +672,7 @@ test('toast previews keep dismissal visible in forced colors and localize the to
   const trigger = page.getByRole('button', { name: 'Show toast' });
   await trigger.click();
   const dismiss = page.getByRole('button', { name: 'Dismiss notification' });
+  await expect(dismiss).toBeVisible();
   if (browserName === 'chromium') {
     await trigger.focus();
     await page.keyboard.press('Tab');
@@ -697,7 +698,7 @@ test('toast previews keep dismissal visible in forced colors and localize the to
   }
 });
 
-test('toast icons and dismiss buttons align with the card center and narrow viewport insets', async ({ page }) => {
+test('toast icons and dismiss buttons align with the card center and preview insets', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/#/toast');
   const tone = page.getByRole('combobox', { name: 'Notification tone' });
@@ -720,7 +721,8 @@ test('toast icons and dismiss buttons align with the card center and narrow view
   await expect.poll(centered).toBe(true);
   await expect.poll(() => card.evaluate(el => {
     const box = el.getBoundingClientRect();
-    return Math.abs(box.left - (document.documentElement.clientWidth - box.right));
+    const preview = el.closest('.preview')!.getBoundingClientRect();
+    return Math.abs((box.left - preview.left) - (preview.right - box.right));
   })).toBeLessThanOrEqual(2);
   await card.getByRole('button', { name: 'Dismiss notification' }).click();
   await page.setViewportSize({ width: 1280, height: 800 });

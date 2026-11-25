@@ -13,6 +13,9 @@ test('token-styled slider retains native keyboard and pointer behavior in both t
     await expect(slider).toHaveValue('320');
     await expect(slider).toHaveCSS('appearance', 'none');
     await page.locator('.view-switch').getByRole('button', { name: 'Code', exact: true }).press(tabToAllControls(browserName));
+    const expand = page.getByRole('button', { name: 'Expand preview' });
+    await expect(expand).toBeFocused();
+    await expand.press(tabToAllControls(browserName));
     await expect(slider).toBeFocused();
     await expect(slider).toHaveCSS('outline-style', 'solid');
     await slider.press('Home');

@@ -1,0 +1,89 @@
+.playground:has(.preview .om-select-dropdown) {
+  overflow: visible;
+}
+
+.playground-toolbar .om-button--icon svg {
+  inline-size: var(--om-semantic-space-lg);
+  block-size: var(--om-semantic-space-lg);
+}
+
+.om-dialog-content.preview-expanded-dialog {
+  inset: 0;
+  transform: none;
+  inline-size: 100%;
+  block-size: 100dvh;
+  max-block-size: none;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--om-semantic-color-bg);
+  &[data-state='open'] {
+    animation: none;
+  }
+}
+
+.preview-expanded-dialog .playground {
+  min-block-size: 100dvh;
+  display: flex;
+  flex-direction: column;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.preview-expanded-dialog .playground-toolbar {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--om-semantic-number-layer-2, var(--preview-control-layer));
+  border-radius: 0;
+}
+
+.preview-expanded-dialog :is(.preview, .playground > .code-block) {
+  flex: 1;
+}
+
+.preview-expanded-dialog .preview {
+  align-items: center;
+  padding-block: var(--om-semantic-space-xl);
+}
+
+.preview-toast {
+  --preview-toast-limit: var(--om-semantic-dimension-px-240, calc(10 * var(--om-semantic-space-xl)));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--om-semantic-space-lg);
+  min-block-size: calc(var(--preview-toast-limit) + var(--om-semantic-control-height) + var(--om-semantic-space-lg));
+  isolation: isolate;
+}
+
+.preview-toast-controls {
+  position: relative;
+  z-index: var(--om-semantic-number-layer-2, var(--preview-control-layer));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--om-semantic-space-sm);
+  align-items: center;
+}
+
+.preview-toast-controls .om-select-dropdown {
+  flex: 1 1 min(100%, var(--om-semantic-dimension-rem-12, calc(8 * var(--om-semantic-space-xl))));
+  min-inline-size: 0;
+}
+
+.preview-toast-controls .om-select-dropdown-trigger {
+  inline-size: 100%;
+}
+
+.preview-toast-controls .om-button:last-child {
+  margin-inline-start: auto;
+}
+
+.om-toast-viewport.preview-toast-viewport {
+  position: relative;
+  inset: auto;
+  z-index: 0;
+  inline-size: 100%;
+  max-block-size: min(var(--preview-toast-limit), calc(100dvh - 2 * var(--om-semantic-space-lg)));
+}

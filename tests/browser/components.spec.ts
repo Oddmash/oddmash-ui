@@ -49,6 +49,9 @@ const previewChecks = {
     const card = preview.getByRole('link', { name: /Usage guide/ });
     await expect(card).toHaveAttribute('href', '#/link-card');
     await page.locator('.view-switch').getByRole('button', { name: 'Code' }).press(tabToAllControls(browserName));
+    const expand = page.getByRole('button', { name: 'Expand preview' });
+    await expect(expand).toBeFocused();
+    await expand.press(tabToAllControls(browserName));
     await expect(card).toBeFocused();
     await expect(card).toHaveCSS('background-size', '100% 100%');
     await expect(card).toHaveCSS('outline-style', 'solid');
@@ -81,7 +84,7 @@ const previewChecks = {
   },
   'command-palette': async (preview, page) => {
     const trigger = preview.getByRole('button', { name: 'Commands' });
-    await page.keyboard.press('Control+k');
+    await trigger.press('Enter');
     const search = page.getByRole('combobox', { name: 'Search commands' });
     await expect(page.getByRole('group', { name: 'Project' })).toBeVisible();
     await expect(page.getByRole('option', { name: 'Save project' })).toHaveAccessibleDescription('Save current changes');
@@ -97,6 +100,9 @@ const previewChecks = {
   button: async (preview, page, browserName) => {
     const button = preview.getByRole('button', { name: 'Create project' });
     await page.locator('.view-switch').getByRole('button', { name: 'Code' }).press(tabToAllControls(browserName));
+    const expand = page.getByRole('button', { name: 'Expand preview' });
+    await expect(expand).toBeFocused();
+    await expand.press(tabToAllControls(browserName));
     await expect(button).toBeFocused();
     await expect(button).toHaveCSS('outline-style', 'solid');
     await page.keyboard.press('Enter');
