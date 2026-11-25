@@ -1,5 +1,5 @@
 import StyleDictionary from 'style-dictionary';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
 const check = process.argv.includes('--check');
@@ -27,7 +27,11 @@ for (const theme of themes) {
   const files = await dictionary.formatPlatform('css');
   products[theme] = String(files[0].output);
 }
+const primitive = JSON.parse(await readFile('tokens/primitive.json', 'utf8')).primitive;
+const compact = primitive.breakpoint.compact.$value;
+if (!Number.isFinite(compact.value) || compact.value <= 0 || compact.unit !== 'rem') throw new Error('Invalid compact breakpoint');
 const files = {
+  'breakpoints.scss': `// Generated from tokens JSON. Run pnpm run tokens.\n$compact: ${compact.value}${compact.unit};\n`,
   'tokens.css': `/* Generated from tokens JSON. Run pnpm run tokens. */
 ${products.light.trim()}
 ${products.dark.trim()}
@@ -42,4 +46,15 @@ for (const [file, contents] of Object.entries(files)) {
     const existing = await readFile(resolve(output, file), 'utf8').catch(() => '');
     if (existing !== contents) throw new Error(`${file} is stale. Run pnpm run tokens.`);
   } else await writeFile(resolve(output, file), contents);
+}
+
+if (check) {
+  const rawDesignValue = /-?(?:\d+(?:\.\d+)?|\.\d+)(?:px|rem|ms|s)\b/g;
+  for (const entry of await readdir('src', { withFileTypes: true })) {
+    if (!entry.isFile() || !entry.name.endsWith('.scss')) continue;
+    const source = await readFile(resolve('src', entry.name), 'utf8');
+    const stripped = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+    const match = stripped.match(rawDesignValue);
+    if (match) throw new Error(`src/${entry.name}: raw design values ${[...new Set(match)].join(', ')}; use JSON tokens`);
+  }
 }
