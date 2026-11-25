@@ -84,6 +84,7 @@ export const observeScrollHeader = (header: HTMLElement, {
   mutation?.observe(header, { subtree: true, childList: true, attributes: true, attributeFilter: ['open', 'aria-expanded'] });
   view.addEventListener('scroll', schedule, { passive: true });
   view.addEventListener('resize', schedule);
+  view.addEventListener('pageshow', reveal);
   header.addEventListener('focusin', reveal);
   reduced?.addEventListener('change', reveal);
   breakpoint?.addEventListener('change', reveal);
@@ -94,6 +95,7 @@ export const observeScrollHeader = (header: HTMLElement, {
     mutation?.disconnect();
     view.removeEventListener('scroll', schedule);
     view.removeEventListener('resize', schedule);
+    view.removeEventListener('pageshow', reveal);
     header.removeEventListener('focusin', reveal);
     reduced?.removeEventListener('change', reveal);
     breakpoint?.removeEventListener('change', reveal);
