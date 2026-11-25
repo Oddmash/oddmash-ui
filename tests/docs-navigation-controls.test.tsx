@@ -87,7 +87,12 @@ it('keeps native navigation links and current destination, toggling mobile contr
   expect(toggle).toHaveAttribute('aria-expanded', 'false');
   fireEvent.click(toggle);
   expect(toggle).toHaveAttribute('aria-expanded', 'true');
-  fireEvent.click(within(nav).getByRole('link', { name: 'API' }));
+  const api = within(nav).getByRole('link', { name: 'API' });
+  api.addEventListener('click', event => event.preventDefault(), { once: true });
+  fireEvent.click(api, { ctrlKey: true });
+  expect(navigate).not.toHaveBeenCalled();
+  expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  fireEvent.click(api);
   expect(navigate).toHaveBeenCalledOnce();
   expect(toggle).toHaveAttribute('aria-expanded', 'false');
   expect(toggle).toHaveFocus();
