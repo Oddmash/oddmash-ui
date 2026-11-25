@@ -2,7 +2,7 @@ import { readdir, readFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
 
 export const findRawDesignValues = (source: string) => {
-  const stripped = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+  const stripped = source.replace(/"(?:\\[\s\S]|[^"\\])*"|'(?:\\[\s\S]|[^'\\])*'|\/\*[\s\S]*?\*\/|^\s*\/\/.*$/gm, '');
   return [...new Set(stripped.match(/-?(?:\d+(?:\.\d+)?|\.\d+)(?:px|rem|ms|s)\b/g) ?? [])];
 };
 
