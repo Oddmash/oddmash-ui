@@ -88,7 +88,7 @@ export const extendedComponents = {
   <p>Learn how to use the library.</p>
   <ul><li>Install the package.</li></ul>
   <pre tabIndex={0} role="region" aria-label="Terminal code"><code>pnpm add @oddmash/ui</code></pre>
-  <ProseScroll tabIndex={0} role="region" aria-label="API reference table">
+  <ProseScroll tabIndex={0} role="region" aria-label="Example options table">
     <table>
       <thead><tr><th scope="col">Name</th><th scope="col">Type</th></tr></thead>
       <tbody><tr><td>href</td><td>string</td></tr></tbody>
