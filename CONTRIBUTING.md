@@ -61,6 +61,13 @@ Use the same primitives in React applications and static HTML without hydration.
 | SiteNav | om-site-nav | nav |
 | Prose | om-prose | article |
 | ProseScroll | om-prose-scroll | div |
+| ButtonLink | om-button om-button--link | a |
+| IconButton / IconLink | om-button om-button--icon | button / a |
+| PlatformLink / PlatformLinks | om-platform-link / om-platform-links | a / div |
+| Kbd | om-kbd | kbd |
+| DocsNavigation / TableOfContents | om-docs-navigation / om-table-of-contents | nav |
+| ScrollHeader | om-site-header om-scroll-header | header |
+| LocalePicker | om-locale-picker | div |
 
 Use the `@oddmash/ui/link-card`, `@oddmash/ui/code-block`, `@oddmash/ui/site-layout` or `@oddmash/ui/prose` subpath when importing a single family. The classes work independently of JavaScript. For example:
 
@@ -135,6 +142,16 @@ Each component preview has a dedicated browser test that exercises its behavior 
 Run visual comparisons on Linux with the version of Chromium installed by Playwright. After reviewing an intentional change against the current baselines, regenerate them on Linux with `pnpm run test:visual --update-snapshots=all` and include the changed images in the PR.
 
 Automated accessibility checks are not a WCAG certification or a substitute for manual assistive-technology testing. Publishing remains a separate owner-approved action; npm scope ownership and release permission must be confirmed before any release.
+
+## Shared navigation and feedback
+
+Use native link semantics for destinations (`ButtonLink`, `IconLink`, `PlatformLink`) and native button semantics for actions (`IconButton`). Name icon-only controls with an accessible label and pass destination URLs from the consuming product. PlatformLink renders the requested GitHub or npm mark and shares the directional interaction and pulse motion styles. Default hover color follows the theme, with a configurable npm brand accent; reduced motion disables the pulse. Both React and static HTML can use the platform classes and `data-platform` attribute.
+
+Use `ClipboardButton` for copy feedback and `copyText` for non-React enhancements. Copy only on activation, handle rejected clipboard requests, and preserve manual text selection. ToastProvider and useToast provide a managed queue, expiry, and focus restoration over the existing controlled Toast API. Set `announce={false}` on ClipboardButton if the same result is announced through a Toast.
+
+DocsNavigation accepts consumer-owned navigation groups and the current item. TableOfContents accepts a list of heading IDs and an optional content ID and scroll offset, with native anchor links, mobile disclosure and optional active-heading observation. The static-compatible `observeActiveHeading` and `observeScrollHeader` controllers can be used independently of React. Keep site routing, active navigation data, language destinations, and product-specific branding in the consumer. LocalePicker takes explicit localized options and destinations, with a native details/link fallback before hydration. ScrollHeader keeps navigation visible when focus or a menu is active and observes reduced motion.
+
+CommandPalette supports optional controlled opening, an opt-in Mod+K shortcut, groups, descriptions, consumer filters and result limits. Supply the content index or search backend in the product; this library does not fetch or index documentation itself.
 
 ## Publish a stable version
 

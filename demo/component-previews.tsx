@@ -1,3 +1,5 @@
+import { getDocumentationNavigationPreviews } from './docs-navigation-previews';
+import { ClipboardButtonPreview, ToastProviderPreview } from './notification-previews';
 import {
   AlertPreview,
   BreadcrumbPreview,
@@ -8,6 +10,12 @@ import {
 import {
   Accordion,
   LinkCard,
+  ButtonLink,
+  IconButton,
+  IconLink,
+  PlatformLink,
+  PlatformLinks,
+  Kbd,
   CodeBlock,
   CodeBlockHeader,
   CodeBlockCaption,
@@ -69,6 +77,21 @@ const CodeBlockPreview = ({ t }: { t: (text: string) => string }) => {
 export const getComponentPreviews = (
   t: (text: string) => string,
 ): Record<ExtendedComponentId, ReactNode> => ({
+  ...getDocumentationNavigationPreviews(t),
+  'clipboard-button': <ClipboardButtonPreview t={t} />,
+  'toast-provider': <ToastProviderPreview t={t} />,
+  "link-controls": (
+    <>
+      <ButtonLink href="#/link-controls">{t('Read guide')}</ButtonLink>
+      <IconButton aria-label={t('Open search example')}><span aria-hidden="true">⌕</span></IconButton>
+      <IconLink href="#/link-controls" aria-label={t('Open reference example')}><span aria-hidden="true">↗</span></IconLink>
+      <PlatformLinks role="group" aria-label={t('Platform links')}>
+        <PlatformLink platform="github" href="#/link-controls" aria-label={t('GitHub example')} />
+        <PlatformLink platform="npm" href="#/link-controls" aria-label={t('npm example')} />
+      </PlatformLinks>
+      <Kbd>Ctrl K</Kbd>
+    </>
+  ),
   'link-card': (
     <LinkCard href="#/link-card">
       <strong>{t('Usage guide')}</strong> <span className="om-link-card-arrow" aria-hidden="true">→</span>
@@ -112,7 +135,7 @@ export const getComponentPreviews = (
     </Prose>
   ),
   slider: <label>{t('Width')} <Slider min={100} max={600} defaultValue={320} /></label>,
-  'command-palette': <CommandPalette trigger={<Button>{t('Commands')}</Button>} title={t('Commands')} description={t('Choose an action')} searchLabel={t('Search commands')} emptyLabel={t('No commands found')} items={[{ id: 'save', label: t('Save project'), onSelect: () => {} }]} />,
+  'command-palette': <CommandPalette trigger={<Button>{t('Commands')}</Button>} title={t('Commands')} description={t('Choose an action')} searchLabel={t('Search commands')} emptyLabel={t('No commands found')} shortcut items={[{ id: 'save', label: t('Save project'), group: t('Project'), description: t('Save current changes'), onSelect: () => {} }, { id: 'guide', label: t('Usage guide'), group: t('Documentation'), onSelect: () => {} }]} />,
   textarea: (
     <label>
       {t('Release notes')}

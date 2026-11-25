@@ -1,6 +1,25 @@
+import { documentationNavigationTranslations } from './docs-navigation-translations';
+import { notificationTranslations } from './notification-translations';
+
 type Translation = [ko: string, ja: string, simplifiedChinese: string];
 
 export const translations: Record<string, Translation> = {
+  ...documentationNavigationTranslations,
+  ...notificationTranslations,
+  "Link Controls": ["링크 컨트롤","リンクコントロール","链接控件"],
+  "Style links, named icon controls and keyboard shortcuts without changing native behavior.": ["기본 동작을 유지하면서 링크, 이름이 있는 아이콘 컨트롤, 키보드 단축키를 꾸밉니다.","ネイティブの動作を保ったままリンク、名前付きアイコン操作、キーボードショートカットを装飾します。","在保留原生行为的同时为链接、具名图标控件和键盘快捷键提供样式。"],
+  "Use ButtonLink for navigation, IconButton for an action, and IconLink or PlatformLink for a named icon destination. Supply href and localization yourself.": ["이동에는 ButtonLink, 동작에는 IconButton, 아이콘 이동 대상에는 IconLink 또는 PlatformLink를 사용하세요. href와 번역된 이름은 직접 제공하세요.","移動には ButtonLink、操作には IconButton、アイコンの移動先には IconLink または PlatformLink を使います。href と翻訳した名前は利用側が指定します。","导航使用 ButtonLink，操作使用 IconButton，图标链接目标使用 IconLink 或 PlatformLink。由使用方提供 href 和本地化标签。"],
+  "Name each icon-only control, hide decorative icons, and use Kbd for shortcuts. Platform hover respects reduced motion.": ["아이콘 전용 컨트롤에는 접근 가능한 이름을 지정하고 장식 아이콘을 숨기며 단축키에는 Kbd를 사용하세요. 플랫폼 호버 효과는 동작 줄이기 설정을 따릅니다.","アイコンのみの操作には名前を付け、装飾アイコンを隠し、ショートカットには Kbd を使います。プラットフォームのホバー効果は動きの軽減設定に従います。","为纯图标控件提供可访问名称，隐藏装饰图标，快捷键使用 Kbd。平台悬停效果遵循减少动态效果设置。"],
+  "Read guide": ["가이드 읽기","ガイドを読む","阅读指南"],
+  "Open search example": ["검색 예제 열기","検索例を開く","打开搜索示例"],
+  "Open reference example": ["참조 예제 열기","リファレンス例を開く","打开参考示例"],
+  "Platform links": ["플랫폼 링크","プラットフォームリンク","平台链接"],
+  "GitHub example": ["GitHub 예제","GitHub の例","GitHub 示例"],
+  "npm example": ["npm 예제","npm の例","npm 示例"],
+  "Open with an explicit trigger or an opt-in Mod+K shortcut. Supply descriptive grouped results and a consumer-owned filter when needed.": ["명시적인 트리거 또는 선택적으로 Mod+K 단축키로 열 수 있습니다. 설명이 있는 그룹 결과와 필요시 자체 검색 필터를 전달하세요.","明示的なトリガー、または任意の Mod+K ショートカットで開きます。説明付きのグループ結果と必要に応じた検索フィルターを渡します。","通过明确的触发器或可选的 Mod+K 快捷键打开，传入带描述的分组结果和所需的搜索过滤器。"],
+  "Use arrow keys, Enter and Escape. Provide distinct result labels and descriptions.": ["화살표 키, Enter, Escape를 사용하세요. 명확한 결과 이름과 설명을 제공하세요.","矢印キー、Enter、Escape を使用します。明確な結果名と説明を提供します。","使用方向键、Enter 和 Escape。提供清晰的结果名称与描述。"],
+  "Save current changes": ["현재 변경사항 저장","現在の変更を保存","保存当前更改"],
+  "Project": ["프로젝트","プロジェクト","项目"],
   "Example options table": ["예제 옵션 표","オプション表の例","选项表示例"],
   "Link Card": ["링크 카드","リンクカード","链接卡片"],
   "Code Block": ["코드 블록","コードブロック","代码块"],

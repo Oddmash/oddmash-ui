@@ -1,4 +1,45 @@
+import { documentationNavigationComponents } from './docs-navigation-catalog';
+import { notificationComponents } from './notification-catalog';
+
 export const extendedComponents = {
+  ...documentationNavigationComponents,
+  ...notificationComponents,
+  "link-controls": {
+    "title": "Link Controls",
+    "group": "Documentation",
+    "description": "Style links, named icon controls and keyboard shortcuts without changing native behavior.",
+    "usage": "Use ButtonLink for navigation, IconButton for an action, and IconLink or PlatformLink for a named icon destination. Supply href and localization yourself.",
+    "accessibility": "Name each icon-only control, hide decorative icons, and use Kbd for shortcuts. Platform hover respects reduced motion.",
+    "props": [
+      [
+        "href (links)",
+        "string",
+        "Required"
+      ],
+      [
+        "aria-label / aria-labelledby (icon controls)",
+        "string",
+        "Required"
+      ],
+      [
+        "platform",
+        "github | npm",
+        "Required"
+      ],
+      [
+        "variant",
+        "primary | secondary | ghost",
+        "Native defaults"
+      ],
+      [
+        "size",
+        "sm | md",
+        "md"
+      ]
+    ],
+    "exports": "ButtonLink, IconButton, IconLink, PlatformLink, PlatformLinks, Kbd",
+    "code": "<>\n  <ButtonLink href=\"#/link-controls\">Read guide</ButtonLink>\n  <IconButton aria-label=\"Open search example\"><span aria-hidden=\"true\">⌕</span></IconButton>\n  <IconLink href=\"#/link-controls\" aria-label=\"Open reference example\"><span aria-hidden=\"true\">↗</span></IconLink>\n  <PlatformLinks role=\"group\" aria-label=\"Platform links\">\n    <PlatformLink platform=\"github\" href=\"#/link-controls\" aria-label=\"GitHub example\" />\n    <PlatformLink platform=\"npm\" href=\"#/link-controls\" aria-label=\"npm example\" />\n  </PlatformLinks>\n  <Kbd>Ctrl K</Kbd>\n</>"
+  },
   'link-card': {
     title: 'Link Card',
     group: 'Documentation',
@@ -104,9 +145,20 @@ export const extendedComponents = {
   },
   'command-palette': {
     title: 'Command Palette', group: 'Navigation', description: 'Find and execute actions.',
-    usage: 'Open with an explicit trigger.', accessibility: 'Use arrow keys, Enter and Escape.',
-    props: [['items', 'readonly CommandPaletteItem[]', 'Required']], exports: 'Button, CommandPalette',
-    code: '<CommandPalette trigger={<Button>Commands</Button>} title="Commands" description="Choose an action" searchLabel="Search commands" emptyLabel="No commands found" items={[{ id: "save", label: "Save project", onSelect: () => {} }]} />',
+    usage: 'Open with an explicit trigger or an opt-in Mod+K shortcut. Supply descriptive grouped results and a consumer-owned filter when needed.', accessibility: 'Use arrow keys, Enter and Escape. Provide distinct result labels and descriptions.',
+    props: [['items', 'readonly CommandPaletteItem[]', 'Required'], ['open / defaultOpen', 'boolean', 'false'], ['onOpenChange', '(open: boolean) => void', 'None'], ['shortcut', 'boolean', 'false'], ['maxResults', 'number', 'All'], ['filter', '(item, query) => boolean', 'Default matching']], exports: 'Button, CommandPalette',
+    code: `<CommandPalette
+  trigger={<Button>Commands</Button>}
+  title="Commands"
+  description="Choose an action"
+  searchLabel="Search commands"
+  emptyLabel="No commands found"
+  shortcut
+  items={[
+    { id: 'save', label: 'Save project', group: 'Project', description: 'Save current changes', onSelect: () => {} },
+    { id: 'guide', label: 'Usage guide', group: 'Documentation', onSelect: () => {} },
+  ]}
+/>`,
   },
   textarea: {
     title: 'Textarea',

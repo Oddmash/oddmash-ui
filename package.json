@@ -150,6 +150,34 @@
     "./prose": {
       "types": "./dist/prose.d.ts",
       "import": "./dist/prose.js"
+    },
+    "./platform-link": {
+      "types": "./dist/platform-link.d.ts",
+      "import": "./dist/platform-link.js"
+    },
+    "./kbd": {
+      "types": "./dist/kbd.d.ts",
+      "import": "./dist/kbd.js"
+    },
+    "./docs-navigation": {
+      "types": "./dist/docs-navigation.d.ts",
+      "import": "./dist/docs-navigation.js"
+    },
+    "./scroll-header": {
+      "types": "./dist/scroll-header.d.ts",
+      "import": "./dist/scroll-header.js"
+    },
+    "./locale-picker": {
+      "types": "./dist/locale-picker.d.ts",
+      "import": "./dist/locale-picker.js"
+    },
+    "./clipboard-button": {
+      "types": "./dist/clipboard-button.d.ts",
+      "import": "./dist/clipboard-button.js"
+    },
+    "./toast-provider": {
+      "types": "./dist/toast-provider.d.ts",
+      "import": "./dist/toast-provider.js"
     }
   },
   "engines": {
