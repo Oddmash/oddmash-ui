@@ -82,4 +82,23 @@ describe('DateSelect', () => {
     await act(async () => { (screen.getByTestId('form') as HTMLFormElement).reset(); });
     expect(minute).toHaveValue('55');
   });
+
+  it('starts empty month/year selections on day one and time selections on today', async () => {
+    vi.setSystemTime(new Date(2026, 0, 31, 12));
+    try {
+      const onValueChange = vi.fn();
+      const { unmount } = render(<DateSelect label="Date" minYear={2025} maxYear={2026} onValueChange={onValueChange} />);
+      await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Month' }), '4');
+      expect(onValueChange).toHaveBeenLastCalledWith('2026-04-01T00:00:00');
+      await userEvent.click(screen.getByRole('button', { name: 'Clear date and time' }));
+      await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Year' }), '2025');
+      expect(onValueChange).toHaveBeenLastCalledWith('2025-01-01T00:00:00');
+      unmount();
+      render(<DateSelect label="Date" minYear={2025} maxYear={2026} onValueChange={onValueChange} />);
+      await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Minute' }), '45');
+      expect(onValueChange).toHaveBeenLastCalledWith('2026-01-31T00:45:00');
+    } finally {
+      vi.useRealTimers();
+    }
+  });
 });
