@@ -31,7 +31,7 @@
   }
 
   &:disabled {
-    opacity: 0.5;
+    opacity: var(--om-semantic-number-opacity-0-5);
   }
 }
 
@@ -60,7 +60,7 @@ select.om-select optgroup {
 
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: var(--om-semantic-number-opacity-0-5);
   }
 }
 
@@ -70,9 +70,9 @@ select.om-select optgroup {
   display: inline-grid;
   place-items: center;
   flex: none;
-  inline-size: 1rem;
-  block-size: 1rem;
-  border: 1px solid var(--om-semantic-color-border);
+  inline-size: var(--om-semantic-dimension-rem-1);
+  block-size: var(--om-semantic-dimension-rem-1);
+  border: var(--om-semantic-border-width) solid var(--om-semantic-color-border);
   background: var(--om-semantic-color-bg);
   color: var(--om-semantic-color-on-action);
 
@@ -90,11 +90,11 @@ select.om-select optgroup {
   border-radius: var(--om-semantic-radius-sm);
 
   &:checked::before {
-    inline-size: 0.5rem;
-    block-size: 0.28rem;
-    border-inline-start: 2px solid currentColor;
-    border-block-end: 2px solid currentColor;
-    transform: translateY(-1px) rotate(-45deg);
+    inline-size: var(--om-semantic-dimension-rem-0-5);
+    block-size: var(--om-semantic-dimension-rem-0-28);
+    border-inline-start: var(--om-semantic-dimension-px-2) solid currentColor;
+    border-block-end: var(--om-semantic-dimension-px-2) solid currentColor;
+    transform: translateY(calc(-1 * var(--om-semantic-dimension-px-1))) rotate(-45deg);
   }
 
   &:indeterminate {
@@ -104,8 +104,8 @@ select.om-select optgroup {
 
   &:indeterminate::before {
     content: '';
-    inline-size: 0.5rem;
-    border-block-end: 2px solid currentColor;
+    inline-size: var(--om-semantic-dimension-rem-0-5);
+    border-block-end: var(--om-semantic-dimension-px-2) solid currentColor;
     border-inline-start: 0;
     block-size: 0;
     transform: none;
@@ -116,8 +116,8 @@ select.om-select optgroup {
   border-radius: 50%;
 
   &:checked::before {
-    inline-size: 0.375rem;
-    block-size: 0.375rem;
+    inline-size: var(--om-semantic-dimension-rem-0-375);
+    block-size: var(--om-semantic-dimension-rem-0-375);
     border-radius: 50%;
     background: currentColor;
   }
@@ -128,28 +128,28 @@ select.om-select optgroup {
   box-sizing: border-box;
   display: inline-grid;
   align-items: center;
-  width: 2.25rem;
-  height: 1.25rem;
-  padding: 2px;
-  border: 1px solid var(--om-semantic-color-border);
+  width: var(--om-semantic-dimension-rem-2-25);
+  height: var(--om-semantic-dimension-rem-1-25);
+  padding: var(--om-semantic-dimension-px-2);
+  border: var(--om-semantic-border-width) solid var(--om-semantic-color-border);
   border-radius: var(--om-semantic-radius-pill);
   background: var(--om-semantic-color-bg);
 
   &::before {
     content: '';
-    width: 0.75rem;
-    height: 0.75rem;
+    width: var(--om-semantic-dimension-rem-0-75);
+    height: var(--om-semantic-dimension-rem-0-75);
     border-radius: 50%;
     background: var(--om-semantic-color-muted);
     justify-self: start;
-    transition: transform 160ms var(--om-semantic-motion-ease), background-color 160ms ease-out;
+    transition: transform var(--om-semantic-duration-ms-160) var(--om-semantic-motion-ease), background-color var(--om-semantic-duration-ms-160) ease-out;
   }
 
   &:checked {
     background: var(--om-semantic-color-action);
 
     &::before {
-      transform: translateX(1.125rem);
+      transform: translateX(var(--om-semantic-dimension-rem-1-125));
       background: var(--om-semantic-color-on-action);
     }
   }
@@ -171,8 +171,8 @@ select.om-select optgroup {
 
 .om-alert {
   padding: var(--om-semantic-space-md);
-  border: 1px solid var(--om-semantic-color-border-subtle);
-  border-inline-start: 3px solid var(--om-semantic-color-text);
+  border: var(--om-semantic-border-width) solid var(--om-semantic-color-border-subtle);
+  border-inline-start: var(--om-semantic-dimension-px-3) solid var(--om-semantic-color-text);
   border-radius: var(--om-semantic-radius-sm);
   background: var(--om-semantic-color-surface);
 
@@ -186,10 +186,10 @@ select.om-select optgroup {
   display: inline-grid;
   place-items: center;
   flex: none;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: var(--om-semantic-dimension-rem-2-5);
+  height: var(--om-semantic-dimension-rem-2-5);
   overflow: hidden;
-  border: 1px solid var(--om-semantic-color-border-subtle);
+  border: var(--om-semantic-border-width) solid var(--om-semantic-color-border-subtle);
   border-radius: 50%;
   background: var(--om-semantic-color-surface);
   font-weight: var(--om-semantic-font-weight);
@@ -207,7 +207,7 @@ select.om-select optgroup {
   width: 100%;
   margin: var(--om-semantic-space-md) 0;
   border: 0;
-  border-block-start: 1px solid var(--om-semantic-color-border-subtle);
+  border-block-start: var(--om-semantic-border-width) solid var(--om-semantic-color-border-subtle);
 }
 
 .om-skeleton {
@@ -221,18 +221,18 @@ select.om-select optgroup {
 .om-spinner {
   display: inline-block;
   box-sizing: border-box;
-  width: 1.125rem;
-  height: 1.125rem;
-  border: 2px solid var(--om-semantic-color-border-subtle);
+  width: var(--om-semantic-dimension-rem-1-125);
+  height: var(--om-semantic-dimension-rem-1-125);
+  border: var(--om-semantic-dimension-px-2) solid var(--om-semantic-color-border-subtle);
   border-block-start-color: var(--om-semantic-color-text);
   border-radius: 50%;
-  animation: om-spinner-turn 0.75s linear infinite;
+  animation: om-spinner-turn var(--om-semantic-duration-ms-750) linear infinite;
 }
 
 .om-spinner-label {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  width: var(--om-semantic-dimension-px-1);
+  height: var(--om-semantic-dimension-px-1);
   padding: 0;
   overflow: hidden;
   clip-path: inset(50%);
@@ -248,11 +248,11 @@ select.om-select optgroup {
 .om-progress {
   display: block;
   width: 100%;
-  height: 0.75rem;
+  height: var(--om-semantic-dimension-rem-0-75);
 }
 
 .om-accordion {
-  border-block-end: 1px solid var(--om-semantic-color-border-subtle);
+  border-block-end: var(--om-semantic-border-width) solid var(--om-semantic-color-border-subtle);
 
   > summary {
     padding: var(--om-semantic-space-md) var(--om-semantic-space-xs);
@@ -298,7 +298,7 @@ select.om-select optgroup {
   }
 
   :is(th, td) {
-    border-block-end: 1px solid var(--om-semantic-color-border-subtle);
+    border-block-end: var(--om-semantic-border-width) solid var(--om-semantic-color-border-subtle);
   }
 
   thead {
@@ -321,7 +321,7 @@ select.om-select optgroup {
 
   > li + li {
     padding-inline-start: var(--om-semantic-space-sm);
-    border-inline-start: 1px solid var(--om-semantic-color-border);
+    border-inline-start: var(--om-semantic-border-width) solid var(--om-semantic-color-border);
   }
 }
 
@@ -337,7 +337,7 @@ select.om-select optgroup {
   min-width: var(--om-semantic-control-height);
   min-height: var(--om-semantic-control-height);
   padding-inline: var(--om-semantic-space-sm);
-  border: 1px solid var(--om-semantic-color-border-subtle);
+  border: var(--om-semantic-border-width) solid var(--om-semantic-color-border-subtle);
   border-radius: var(--om-semantic-radius-sm);
   background: var(--om-semantic-color-surface);
   color: inherit;
@@ -353,7 +353,7 @@ select.om-select optgroup {
 
 .om-empty-state {
   padding: var(--om-semantic-space-xl);
-  border: 1px dashed var(--om-semantic-color-border);
+  border: var(--om-semantic-border-width) dashed var(--om-semantic-color-border);
   border-radius: var(--om-semantic-radius-md);
   text-align: center;
 }
@@ -366,8 +366,8 @@ select.om-select optgroup {
   .om-breadcrumbs a,
   .om-pagination > :is(a, button)
 ):focus-visible {
-  outline: 2px solid var(--om-semantic-color-focus);
-  outline-offset: -1px;
+  outline: var(--om-semantic-focus-width) solid var(--om-semantic-color-focus);
+  outline-offset: calc(-1 * var(--om-semantic-dimension-px-1));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -390,7 +390,7 @@ select.om-select optgroup {
   }
 
   .om-pagination > [aria-current='page'] {
-    outline: 2px solid Highlight;
+    outline: var(--om-semantic-focus-width) solid Highlight;
   }
 }
 
@@ -400,14 +400,14 @@ select.om-select optgroup {
 
   > [role='listbox'] {
     position: absolute;
-    z-index: 2;
-    inset: calc(100% + 4px) 0 auto;
-    max-block-size: 12rem;
+    z-index: var(--om-semantic-number-layer-2);
+    inset: calc(100% + var(--om-semantic-dimension-px-4)) 0 auto;
+    max-block-size: var(--om-semantic-dimension-rem-12);
     margin: 0;
     padding: var(--om-semantic-space-xs);
     overflow: auto;
     list-style: none;
-    border: 1px solid var(--om-semantic-color-border);
+    border: var(--om-semantic-border-width) solid var(--om-semantic-color-border);
     border-radius: var(--om-semantic-radius-md);
     background: var(--om-semantic-color-surface);
     box-shadow: var(--om-semantic-shadow);
@@ -431,8 +431,8 @@ select.om-select optgroup {
       flex: none;
       inline-size: 0.6em;
       block-size: 0.35em;
-      border-inline-start: 2px solid currentColor;
-      border-block-end: 2px solid currentColor;
+      border-inline-start: var(--om-semantic-dimension-px-2) solid currentColor;
+      border-block-end: var(--om-semantic-dimension-px-2) solid currentColor;
       transform: rotate(-45deg);
       visibility: hidden;
     }
@@ -456,8 +456,8 @@ select.om-select optgroup {
 
     &[data-active] {
       background: color-mix(in srgb, var(--om-semantic-color-text) 18%, var(--om-semantic-color-surface));
-      outline: 2px solid var(--om-semantic-color-focus);
-      outline-offset: -2px;
+      outline: var(--om-semantic-focus-width) solid var(--om-semantic-color-focus);
+      outline-offset: calc(-1 * var(--om-semantic-dimension-px-2));
     }
   }
 }
@@ -472,8 +472,8 @@ select.om-select optgroup {
 
     &[data-active],
     &:hover:not([aria-disabled='true']) {
-      outline: 1px solid Highlight;
-      outline-offset: -1px;
+      outline: var(--om-semantic-dimension-px-1) solid Highlight;
+      outline-offset: calc(-1 * var(--om-semantic-dimension-px-1));
     }
 
     &[aria-selected='true'][data-active],
@@ -497,25 +497,25 @@ select.om-select optgroup {
     inline-size: 0.4em;
     block-size: 0.4em;
     margin-inline: 0.2em;
-    border-inline-end: 1px solid currentColor;
-    border-block-end: 1px solid currentColor;
+    border-inline-end: var(--om-semantic-border-width) solid currentColor;
+    border-block-end: var(--om-semantic-border-width) solid currentColor;
     transform: rotate(45deg);
   }
 }
 
 .om-toast-region {
   position: fixed;
-  z-index: 900;
+  z-index: var(--om-semantic-number-layer-900);
   inset: auto var(--om-semantic-space-lg) var(--om-semantic-space-lg) auto;
-  inline-size: min(22rem, calc(100% - 2 * var(--om-semantic-space-lg)));
+  inline-size: min(var(--om-semantic-dimension-rem-22), calc(100% - 2 * var(--om-semantic-space-lg)));
   pointer-events: none;
 }
 
 .om-toast-viewport {
   position: fixed;
-  z-index: 900;
+  z-index: var(--om-semantic-number-layer-900);
   inset: auto var(--om-semantic-space-lg) var(--om-semantic-space-lg) auto;
-  inline-size: min(22rem, calc(100% - 2 * var(--om-semantic-space-lg)));
+  inline-size: min(var(--om-semantic-dimension-rem-22), calc(100% - 2 * var(--om-semantic-space-lg)));
   max-block-size: calc(100dvh - 2 * var(--om-semantic-space-lg));
   display: flex;
   flex-direction: column;
@@ -538,15 +538,15 @@ select.om-select optgroup {
     display: block;
     overflow: visible;
     block-size: var(--om-toast-stack-height, 0);
-    transition: block-size 240ms cubic-bezier(.22, .8, .3, 1);
+    transition: block-size var(--om-semantic-duration-ms-240) var(--om-semantic-easing-curve-0-22-0-8-0-3-1);
 
     > .om-toast-region {
       position: absolute;
       inset: auto 0 0;
       z-index: var(--om-toast-layer, 0);
-      transform: translateY(calc(-1 * var(--om-toast-offset, 0px))) scale(var(--om-toast-scale, 1));
+      transform: translateY(calc(-1 * var(--om-toast-offset, var(--om-semantic-dimension-px-0)))) scale(var(--om-toast-scale, 1));
       transform-origin: center bottom;
-      transition: transform 240ms cubic-bezier(.22, .8, .3, 1), opacity 180ms ease-out;
+      transition: transform var(--om-semantic-duration-ms-240) var(--om-semantic-easing-curve-0-22-0-8-0-3-1), opacity var(--om-semantic-duration-ms-180) ease-out;
     }
 
     > .om-toast-region[data-stack-back='true'][data-state='open'] {
@@ -573,7 +573,7 @@ select.om-select optgroup {
   align-items: center;
   gap: var(--om-semantic-space-sm);
   padding: var(--om-semantic-space-md) var(--om-semantic-space-lg);
-  border: 1px solid var(--om-semantic-color-border);
+  border: var(--om-semantic-border-width) solid var(--om-semantic-color-border);
   border-radius: var(--om-semantic-radius-lg);
   background: var(--om-semantic-color-surface);
   color: var(--om-semantic-color-text);
@@ -587,8 +587,8 @@ select.om-select optgroup {
 
   .om-toast-icon {
     flex: none;
-    inline-size: 20px;
-    block-size: 20px;
+    inline-size: var(--om-semantic-dimension-px-20);
+    block-size: var(--om-semantic-dimension-px-20);
     display: grid;
     place-items: center;
     > svg { inline-size: 100%; block-size: 100%; }
@@ -598,15 +598,15 @@ select.om-select optgroup {
     flex: 1;
     min-inline-size: 0;
 
-    > strong { font-weight: 600; }
-    > div { color: var(--om-semantic-color-muted); font-size: var(--om-semantic-font-small); margin-block-start: 2px; }
+    > strong { font-weight: var(--om-semantic-number-weight-600); }
+    > div { color: var(--om-semantic-color-muted); font-size: var(--om-semantic-font-small); margin-block-start: var(--om-semantic-dimension-px-2); }
   }
 
   > button, > .om-toast-close-placeholder {
     box-sizing: border-box;
     flex: none;
-    inline-size: 28px;
-    block-size: 28px;
+    inline-size: var(--om-semantic-dimension-px-28);
+    block-size: var(--om-semantic-dimension-px-28);
   }
 
   > .om-toast-progress {
@@ -632,39 +632,39 @@ select.om-select optgroup {
   > button {
     display: grid;
     place-items: center;
-    margin-inline-end: -5px;
+    margin-inline-end: calc(-1 * var(--om-semantic-dimension-px-5));
     padding: 0;
-    border: 1px solid transparent;
+    border: var(--om-semantic-border-width) solid transparent;
     border-radius: var(--om-semantic-radius-sm);
     background: transparent;
     color: var(--om-semantic-color-muted);
     cursor: pointer;
-    transition: background-color 120ms ease-out, color 120ms ease-out;
+    transition: background-color var(--om-semantic-duration-ms-120) ease-out, color var(--om-semantic-duration-ms-120) ease-out;
 
-    > svg { inline-size: 16px; block-size: 16px; }
+    > svg { inline-size: var(--om-semantic-dimension-px-16); block-size: var(--om-semantic-dimension-px-16); }
     &:hover { background: var(--om-semantic-color-bg); color: var(--om-semantic-color-text); }
-    &:focus-visible { outline: 2px solid var(--om-semantic-color-focus); outline-offset: -1px; }
+    &:focus-visible { outline: var(--om-semantic-focus-width) solid var(--om-semantic-color-focus); outline-offset: calc(-1 * var(--om-semantic-dimension-px-1)); }
   }
 
   &[data-state='closing'] {
     pointer-events: none;
-    > [role] { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); }
-    > .om-toast-close-placeholder { margin-inline-end: -5px; }
+    > [role] { position: absolute; inline-size: var(--om-semantic-dimension-px-1); block-size: var(--om-semantic-dimension-px-1); overflow: hidden; clip-path: inset(50%); }
+    > .om-toast-close-placeholder { margin-inline-end: calc(-1 * var(--om-semantic-dimension-px-5)); }
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .om-toast[data-state='open'] [data-icon='loading'] { animation: om-spinner-turn .9s linear infinite; }
-  .om-toast[data-state='open'] { animation: om-toast-in 240ms cubic-bezier(.22, .8, .3, 1) both; }
-  .om-toast[data-state='closing'] { animation: om-toast-out 220ms cubic-bezier(.4, 0, .2, 1) both; }
+  .om-toast[data-state='open'] [data-icon='loading'] { animation: om-spinner-turn var(--om-semantic-duration-ms-900) linear infinite; }
+  .om-toast[data-state='open'] { animation: om-toast-in var(--om-semantic-duration-ms-240) var(--om-semantic-easing-curve-0-22-0-8-0-3-1) both; }
+  .om-toast[data-state='closing'] { animation: om-toast-out var(--om-semantic-duration-ms-220) var(--om-semantic-easing-curve-0-4-0-0-2-1) both; }
 
   @keyframes om-toast-in {
-    from { opacity: 0; transform: translateY(12px) scale(.97); }
+    from { opacity: 0; transform: translateY(var(--om-semantic-dimension-px-12)) scale(.97); }
     to { opacity: 1; transform: translateY(0) scale(1); }
   }
   @keyframes om-toast-out {
     from { opacity: 1; transform: translateY(0) scale(1); }
-    to { opacity: 0; transform: translateY(8px) scale(.97); }
+    to { opacity: 0; transform: translateY(var(--om-semantic-dimension-px-8)) scale(.97); }
   }
 }
 
@@ -682,7 +682,7 @@ select.om-select optgroup {
 }
 
 .om-dialog-content.om-alert-dialog {
-  width: min(360px, calc(100vw - 32px));
+  width: min(var(--om-semantic-dimension-px-360), calc(100vw - var(--om-semantic-dimension-px-32)));
 }
 
 .om-alert-dialog h2 {
@@ -716,16 +716,16 @@ select.om-select optgroup {
   }
 
   @keyframes om-enter {
-    from { translate: 0 5px; }
+    from { translate: 0 var(--om-semantic-dimension-px-5); }
     to { translate: 0 0; }
   }
 }
 
-.om-switch:dir(rtl):checked::before { transform: translateX(-1.125rem); }
+.om-switch:dir(rtl):checked::before { transform: translateX(calc(-1 * var(--om-semantic-dimension-rem-1-125))); }
 :is(.om-checkbox, .om-radio, .om-switch):not(:disabled):hover { border-color: var(--om-semantic-color-muted); }
 .om-pagination > :is(a, button) { box-sizing: border-box; cursor: pointer; }
 .om-pagination > :is(a, button):not(:disabled):not([aria-current='page']):hover { background: var(--om-semantic-color-bg); border-color: var(--om-semantic-color-border); }
-.om-pagination > button:disabled { opacity: .5; cursor: not-allowed; }
+.om-pagination > button:disabled { opacity: var(--om-semantic-number-opacity-0-5); cursor: not-allowed; }
 .om-breadcrumbs button {
   border: 0;
   padding: var(--om-semantic-space-xs);
@@ -736,17 +736,17 @@ select.om-select optgroup {
   cursor: pointer;
 }
 .om-breadcrumbs button:hover:not(:disabled) { background: var(--om-semantic-color-surface); }
-.om-breadcrumbs button:focus-visible { outline: 2px solid var(--om-semantic-color-focus); outline-offset: -1px; }
-.om-breadcrumbs button[aria-current='page'] { font-weight: 600; }
-.om-breadcrumbs button:disabled { opacity: .5; cursor: not-allowed; }
+.om-breadcrumbs button:focus-visible { outline: var(--om-semantic-focus-width) solid var(--om-semantic-color-focus); outline-offset: calc(-1 * var(--om-semantic-dimension-px-1)); }
+.om-breadcrumbs button[aria-current='page'] { font-weight: var(--om-semantic-number-weight-600); }
+.om-breadcrumbs button:disabled { opacity: var(--om-semantic-number-opacity-0-5); cursor: not-allowed; }
 .om-accordion > summary:hover { background: var(--om-semantic-color-surface); }
 .om-progress { border: 0; border-radius: var(--om-semantic-radius-pill); overflow: hidden; }
 @media (prefers-reduced-motion: no-preference) {
   :is(.om-checkbox, .om-radio, .om-switch, .om-pagination > :is(a, button), .om-breadcrumbs button, .om-accordion > summary) {
-    transition: background-color 140ms var(--om-semantic-motion-ease), border-color 140ms var(--om-semantic-motion-ease), color 140ms var(--om-semantic-motion-ease);
+    transition: background-color var(--om-semantic-duration-ms-140) var(--om-semantic-motion-ease), border-color var(--om-semantic-duration-ms-140) var(--om-semantic-motion-ease), color var(--om-semantic-duration-ms-140) var(--om-semantic-motion-ease);
   }
-  .om-skeleton { animation: om-skeleton-pulse 1.6s ease-in-out 2 alternate; }
-  @keyframes om-skeleton-pulse { from { opacity: .65; } to { opacity: 1; } }
+  .om-skeleton { animation: om-skeleton-pulse var(--om-semantic-duration-ms-1600) ease-in-out 2 alternate; }
+  @keyframes om-skeleton-pulse { from { opacity: var(--om-semantic-number-opacity-0-65); } to { opacity: 1; } }
 }
 @media (prefers-reduced-motion: reduce) {
   .om-switch::before { transition: none; }

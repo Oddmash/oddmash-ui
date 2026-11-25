@@ -1,3 +1,4 @@
+@use 'generated/breakpoints' as bp;
 .om-docs-navigation,
 .om-table-of-contents {
   box-sizing: border-box;
@@ -23,7 +24,7 @@
 .om-docs-links,
 .om-toc-links {
   display: grid;
-  gap: 2px;
+  gap: var(--om-semantic-dimension-px-2);
   list-style: none;
   padding: 0;
   margin: 0;
@@ -35,9 +36,9 @@
 .om-locale-options span {
   box-sizing: border-box;
   display: block;
-  min-block-size: 32px;
+  min-block-size: var(--om-semantic-dimension-px-32);
   padding: var(--om-semantic-space-xs) var(--om-semantic-space-sm);
-  border-inline-start: 2px solid transparent;
+  border-inline-start: var(--om-semantic-dimension-px-2) solid transparent;
   border-radius: var(--om-semantic-radius-sm);
   color: inherit;
   text-decoration: none;
@@ -58,7 +59,7 @@
 .om-docs-navigation .om-docs-toggle,
 .om-table-of-contents .om-docs-toggle { display: none; }
 
-@media (max-width: 48rem) {
+@media (max-width: bp.$compact) {
   :is(.om-docs-navigation, .om-table-of-contents)[data-enhanced='true'][data-collapsible='true'] .om-docs-toggle {
     display: flex;
     justify-content: space-between;
@@ -126,8 +127,8 @@
 
 :is(.om-docs-links, .om-toc-links, .om-locale-options) a:focus-visible,
 .om-locale-fallback summary:focus-visible {
-  outline: 2px solid var(--om-semantic-color-focus);
-  outline-offset: 2px;
+  outline: var(--om-semantic-focus-width) solid var(--om-semantic-color-focus);
+  outline-offset: var(--om-semantic-focus-offset);
 }
 
 @media (hover: hover) and (pointer: fine) {
