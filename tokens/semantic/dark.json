@@ -194,6 +194,10 @@
           "value": 28,
           "unit": "px"
         }
+      },
+      "touch-target": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-44}"
       }
     },
     "overlay": {
@@ -206,6 +210,236 @@
           0
         ],
         "alpha": 0.5
+      }
+    },
+    "dimension": {
+      "px-2": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-2}"
+      },
+      "px-1": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-1}"
+      },
+      "px-440": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-440}"
+      },
+      "px-32": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-32}"
+      },
+      "px-3": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-3}"
+      },
+      "px-480": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-480}"
+      },
+      "px-240": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-240}"
+      },
+      "rem-1": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.rem-1}"
+      },
+      "rem-0-5": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.rem-0-5}"
+      },
+      "rem-0-28": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.rem-0-28}"
+      },
+      "rem-0-375": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.rem-0-375}"
+      },
+      "rem-2-25": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.rem-2-25}"
+      },
+      "rem-1-25": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.rem-1-25}"
+      },
+      "rem-0-75": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.rem-0-75}"
+      },
+      "rem-1-125": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.rem-1-125}"
+      },
+      "rem-2-5": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.rem-2-5}"
+      },
+      "px-4": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-4}"
+      },
+      "rem-12": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.rem-12}"
+      },
+      "rem-22": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.rem-22}"
+      },
+      "px-0": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-0}"
+      },
+      "px-20": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-20}"
+      },
+      "px-28": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-28}"
+      },
+      "px-5": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-5}"
+      },
+      "px-16": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-16}"
+      },
+      "px-12": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-12}"
+      },
+      "px-8": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-8}"
+      },
+      "px-360": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-360}"
+      },
+      "rem-72": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.rem-72}"
+      },
+      "px-48": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-48}"
+      },
+      "rem-4": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.rem-4}"
+      },
+      "px-44": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-44}"
+      }
+    },
+    "duration": {
+      "ms-160": {
+        "$type": "duration",
+        "$value": "{primitive.duration.ms-160}"
+      },
+      "ms-750": {
+        "$type": "duration",
+        "$value": "{primitive.duration.ms-750}"
+      },
+      "ms-240": {
+        "$type": "duration",
+        "$value": "{primitive.duration.ms-240}"
+      },
+      "ms-180": {
+        "$type": "duration",
+        "$value": "{primitive.duration.ms-180}"
+      },
+      "ms-120": {
+        "$type": "duration",
+        "$value": "{primitive.duration.ms-120}"
+      },
+      "ms-900": {
+        "$type": "duration",
+        "$value": "{primitive.duration.ms-900}"
+      },
+      "ms-220": {
+        "$type": "duration",
+        "$value": "{primitive.duration.ms-220}"
+      },
+      "ms-140": {
+        "$type": "duration",
+        "$value": "{primitive.duration.ms-140}"
+      },
+      "ms-1600": {
+        "$type": "duration",
+        "$value": "{primitive.duration.ms-1600}"
+      },
+      "ms-950": {
+        "$type": "duration",
+        "$value": "{primitive.duration.ms-950}"
+      }
+    },
+    "number": {
+      "opacity-0-5": {
+        "$type": "number",
+        "$value": "{primitive.number.opacity-0-5}"
+      },
+      "layer-1000": {
+        "$type": "number",
+        "$value": "{primitive.number.layer-1000}"
+      },
+      "layer-1001": {
+        "$type": "number",
+        "$value": "{primitive.number.layer-1001}"
+      },
+      "weight-650": {
+        "$type": "number",
+        "$value": "{primitive.number.weight-650}"
+      },
+      "layer-2": {
+        "$type": "number",
+        "$value": "{primitive.number.layer-2}"
+      },
+      "layer-900": {
+        "$type": "number",
+        "$value": "{primitive.number.layer-900}"
+      },
+      "weight-600": {
+        "$type": "number",
+        "$value": "{primitive.number.weight-600}"
+      },
+      "opacity-0-65": {
+        "$type": "number",
+        "$value": "{primitive.number.opacity-0-65}"
+      }
+    },
+    "easing": {
+      "curve-0-22-0-8-0-3-1": {
+        "$type": "cubicBezier",
+        "$value": "{primitive.easing.curve-0-22-0-8-0-3-1}"
+      },
+      "curve-0-4-0-0-2-1": {
+        "$type": "cubicBezier",
+        "$value": "{primitive.easing.curve-0-4-0-0-2-1}"
+      },
+      "curve-0-2-0-8-0-2-1": {
+        "$type": "cubicBezier",
+        "$value": "{primitive.easing.curve-0-2-0-8-0-2-1}"
+      },
+      "curve-0-45-0-0-55-1": {
+        "$type": "cubicBezier",
+        "$value": "{primitive.easing.curve-0-45-0-0-55-1}"
+      }
+    },
+    "focus": {
+      "width": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-2}"
+      },
+      "offset": {
+        "$type": "dimension",
+        "$value": "{primitive.dimension.px-2}"
       }
     }
   }
