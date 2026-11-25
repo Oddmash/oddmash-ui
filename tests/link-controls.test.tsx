@@ -1,4 +1,4 @@
-import { createRef } from 'react';
+import { createRef, type FormEvent, type MouseEvent } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -10,7 +10,7 @@ import { PlatformLink, PlatformLinks } from '../src/platform-link';
 it('preserves native link props, ref, target and the current-page contract', async () => {
   const ref = createRef<HTMLAnchorElement>();
   const user = userEvent.setup();
-  const handleClick = vi.fn((event: React.MouseEvent<HTMLAnchorElement>) => event.preventDefault());
+  const handleClick = vi.fn((event: MouseEvent<HTMLAnchorElement>) => event.preventDefault());
   render(
     <ButtonLink ref={ref} href="/docs/example" className="consumer-link" style={{ paddingInline: 8 }}
       variant="secondary" size="sm" target="_blank" rel="noopener" aria-current="page" onClick={handleClick}>
@@ -35,7 +35,7 @@ it('keeps icon controls named, native and keyboard operable without implicit for
   const buttonRef = createRef<HTMLButtonElement>();
   const linkRef = createRef<HTMLAnchorElement>();
   const onClick = vi.fn();
-  const onSubmit = vi.fn((event: React.FormEvent<HTMLFormElement>) => event.preventDefault());
+  const onSubmit = vi.fn((event: FormEvent<HTMLFormElement>) => event.preventDefault());
   const user = userEvent.setup();
   render(
     <form onSubmit={onSubmit}>
@@ -61,7 +61,7 @@ it('keeps icon controls named, native and keyboard operable without implicit for
   expect(link).toHaveAttribute('href', '#reference');
   await user.tab();
   expect(button).toHaveFocus();
-  await user.keyboard('{Space}');
+  await user.keyboard(' ');
   await user.keyboard('{Enter}');
   expect(onClick).toHaveBeenCalledTimes(2);
   expect(onSubmit).not.toHaveBeenCalled();
