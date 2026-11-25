@@ -444,11 +444,6 @@ export const translations: Record<string, Translation> = {
       'tokens/primitive.json とテーマのトークンを編集します。src/generated は自動生成されます。DTCG の型、値、エイリアスを使います。',
       '编辑 tokens/primitive.json 和主题令牌。src/generated 由工具自动生成。使用 DTCG 类型、值和别名。',
     ],
-  'npm v0.3.0 includes all 24 component families, including Toast.': [
-    'npm v0.3.0에는 Toast를 포함한 24개 컴포넌트 계열이 모두 들어 있습니다.',
-    'npm v0.3.0 には Toast を含む 24 種類のコンポーネントが含まれます。',
-    'npm v0.3.0 包含全部 24 类组件，包括 Toast。',
-  ],
   'See published versions on': [
     '게시된 버전 확인:',
     '公開バージョンを確認:',

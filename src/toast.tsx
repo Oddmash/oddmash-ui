@@ -63,8 +63,11 @@ export const ToastViewport = /* @__PURE__ */ forwardRef<HTMLDivElement, Componen
         let offset = 0;
         active.slice().reverse().forEach(({ region, card }, index) => {
           const depth = Math.min(index, 2);
-          region.style.setProperty('--om-toast-offset', `${expanded ? offset : depth * STACK_PEEK}px`);
-          region.style.setProperty('--om-toast-scale', String(expanded ? 1 : 1 - depth * .045));
+          const scale = expanded ? 1 : 1 - depth * .045;
+          const collapsedHeight = Math.min(card.offsetHeight, frontHeight) * scale;
+          const collapsedOffset = depth === 0 ? 0 : frontHeight + depth * STACK_PEEK - collapsedHeight;
+          region.style.setProperty('--om-toast-offset', `${expanded ? offset : collapsedOffset}px`);
+          region.style.setProperty('--om-toast-scale', String(scale));
           region.style.setProperty('--om-toast-layer', String(active.length - index));
           region.style.setProperty('--om-toast-front-height', `${frontHeight}px`);
           region.dataset.stackBack = String(!expanded && index > 0);
