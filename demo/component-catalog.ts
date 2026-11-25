@@ -1,6 +1,8 @@
+import { documentationNavigationComponents } from './docs-navigation-catalog';
 import { notificationComponents } from './notification-catalog';
 
 export const extendedComponents = {
+  ...documentationNavigationComponents,
   ...notificationComponents,
   "link-controls": {
     "title": "Link Controls",
