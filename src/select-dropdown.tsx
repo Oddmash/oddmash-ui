@@ -126,6 +126,13 @@ export const Select = /* @__PURE__ */ forwardRef<
       if (typeof menu.showPopover === 'function') {
         menu.setAttribute('popover', 'manual');
         try {
+          const anchor = trigger.getBoundingClientRect();
+          const viewportTop = viewport?.offsetTop ?? 0;
+          const viewportBottom = viewportTop + (viewport?.height ?? view.innerHeight);
+          if (
+            trigger.matches(':focus') &&
+            (anchor.bottom <= viewportTop || anchor.top >= viewportBottom)
+          ) trigger.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' });
           menu.showPopover();
           positioned = true;
           menu.dataset.positioned = 'true';
