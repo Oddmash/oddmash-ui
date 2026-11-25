@@ -1,5 +1,5 @@
 import { createRef } from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, it, vi } from 'vitest';
 import {
@@ -9,6 +9,7 @@ import {
   Field,
   Radio,
   Select,
+  SelectDropdown,
   Switch,
   Textarea,
   Toast,
@@ -60,7 +61,7 @@ it('supports rich alert dialog descriptions without nesting block elements in a 
   expect(dialog).toHaveAccessibleDescription('Check connection.');
 });
 
-it('keeps form values, refs, and disabled fieldset behavior native', async () => {
+it('preserves form values, refs, and disabled fieldset behavior', async () => {
   const user = userEvent.setup();
   const ref = createRef<HTMLTextAreaElement>();
   let values: Record<string, FormDataEntryValue> = {};
@@ -74,13 +75,18 @@ it('keeps form values, refs, and disabled fieldset behavior native', async () =>
       <label>
         Notes <Textarea ref={ref} name="notes" />
       </label>
-      <label>
-        Environment{' '}
-        <Select name="environment" defaultValue="staging">
-          <option value="staging">Staging</option>
-          <option value="production">Production</option>
-        </Select>
-      </label>
+      <div>
+        <label htmlFor="environment">Environment</label>
+        <Select
+          id="environment"
+          name="environment"
+          defaultValue="staging"
+          options={[
+            { value: 'staging', label: 'Staging' },
+            { value: 'production', label: 'Production' },
+          ]}
+        />
+      </div>
       <label>
         <Checkbox name="focus" value="on" /> Focus
       </label>
@@ -106,7 +112,8 @@ it('keeps form values, refs, and disabled fieldset behavior native', async () =>
 
   await user.type(screen.getByLabelText('Notes'), 'Ready');
   expect(ref.current).toHaveValue('Ready');
-  await user.selectOptions(screen.getByLabelText('Environment'), 'production');
+  await user.click(screen.getByRole('combobox', { name: 'Environment' }));
+  await user.click(screen.getByRole('option', { name: 'Production' }));
   await user.click(screen.getByRole('checkbox', { name: 'Focus' }));
   await user.click(screen.getByRole('switch', { name: 'Capture' }));
   await user.click(screen.getByRole('radio', { name: 'Oldest' }));
@@ -221,4 +228,45 @@ it('exposes the dismiss button accessible name and activates once via keyboard',
   expect(customButton).toHaveFocus();
   await user.keyboard(' ');
   expect(onDismissSpace).toHaveBeenCalledTimes(1);
+});
+
+it('uses the custom component as Select and retains its compatibility alias', () => {
+  expect(SelectDropdown).toBe(Select);
+  const ref = createRef<HTMLButtonElement>();
+  render(<Select ref={ref} aria-label="Environment" options={[{ value: 'staging', label: 'Staging' }]} defaultValue="staging" />);
+  expect(ref.current).toBe(screen.getByRole('combobox', { name: 'Environment' }));
+  expect(ref.current).toHaveTextContent('Staging');
+});
+
+it('preserves the live region through a controlled exit and announces semantic tones', async () => {
+  const onDismiss = vi.fn();
+  const view = render(<Toast open={false} title="Saved" onDismiss={onDismiss} tone="success" />);
+  const region = screen.getByRole('status');
+  expect(region).toBeEmptyDOMElement();
+  view.rerender(<Toast open title="Saved" onDismiss={onDismiss} tone="success" />);
+  expect(screen.getByRole('status')).toBe(region);
+  expect(region).toHaveTextContent('Saved');
+  view.rerender(<Toast open={false} title="Saved" onDismiss={onDismiss} tone="success" />);
+  expect(region).toBeEmptyDOMElement();
+  expect(screen.queryByRole('button', { name: 'Dismiss notification' })).not.toBeInTheDocument();
+  const exit = view.container.querySelector('.om-toast-exit-copy');
+  expect(exit).toHaveAttribute('aria-hidden', 'true');
+  expect(exit).toHaveAttribute('inert');
+  await waitFor(() => expect(screen.queryByText('Saved')).not.toBeInTheDocument());
+  view.rerender(<Toast open title="Network unavailable" onDismiss={onDismiss} tone="error" />);
+  expect(screen.getByRole('alert')).toHaveTextContent('Network unavailable');
+});
+
+it('retains a usable static viewport when animation frame or media APIs are unavailable', () => {
+  vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: false })));
+  vi.stubGlobal('requestAnimationFrame', undefined);
+  vi.stubGlobal('cancelAnimationFrame', undefined);
+  try {
+    const view = render(<ToastViewport><Toast open title="Static notice" onDismiss={() => {}} /></ToastViewport>);
+    expect(screen.getByRole('status')).toHaveTextContent('Static notice');
+    expect(screen.getByRole('button', { name: 'Dismiss notification' })).toBeInTheDocument();
+    view.unmount();
+  } finally {
+    vi.unstubAllGlobals();
+  }
 });

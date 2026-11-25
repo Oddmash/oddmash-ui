@@ -31,6 +31,6 @@ Oddmash UI 是 Oddmash 产品共享的界面基础。它为小型 React 开发�
 
 ## 当前范围
 
-Oddmash UI 正处于 1.0 之前的开发阶段。npm 0.3.0 提供 24 类组件，其中包括 Toast。
+Oddmash UI 正处于 1.0 之前的开发阶段。npm 0.4.0 提供 24 类组件，其中包括 Toast。
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [贡献指南](../../CONTRIBUTING.md) · [MIT License](../../LICENSE)

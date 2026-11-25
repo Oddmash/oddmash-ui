@@ -16,7 +16,7 @@ pnpm run demo
 
 ## Use from another local project
 
-React 18.3.1 and React 19 are supported peers. Install the published package with `npm install @oddmash/ui`. To test a local change in a consuming project, build an archive with `pnpm pack`, then install the resulting `oddmash-ui-0.3.0.tgz` in the consuming project. Import `@oddmash/ui/styles.css` once. The package is ESM-only and does not include a global reset, Tailwind, an icon package, or a CSS-in-JS runtime.
+React 18.3.1 and React 19 are supported peers. Install the published package with `npm install @oddmash/ui`. To test a local change in a consuming project, build an archive with `pnpm pack`, then install the resulting `oddmash-ui-0.4.0.tgz` in the consuming project. Import `@oddmash/ui/styles.css` once. The package is ESM-only and does not include a global reset, Tailwind, an icon package, or a CSS-in-JS runtime.
 
 The documentation site serves Geist Sans and Geist Mono from `demo/public/fonts/` under the SIL Open Font License included there. Package consumers can self-host the fonts under those family names or use the system fallbacks in the font tokens.
 
@@ -39,6 +39,10 @@ src/
 demo/
 tests/
 ```
+
+## Shared component review
+
+See the [component quality review](docs/component-quality-review.md) for the latest interaction audit and verification scope. The live Toast reference is the [Toast documentation page](https://oddmash.github.io/oddmash-ui/#/toast), which uses the localized component catalog and the actual controlled Toast demo. Its state selector previews success, information, warning and error. Mount stable controlled items before the action, keep newer items last, and retain items through their closing motion. Hover or keyboard focus expands a collapsed stack; touch and reduced-motion preferences use the expanded presentation. Consumers own expiry and return focus to a remaining notification or the triggering control.
 
 ## Themes and product overrides
 
@@ -105,3 +109,39 @@ English is the source copy for the docs. Keep Korean, Japanese, and Simplified C
 ## Public contribution language
 
 Write issue and pull request titles, bodies, public review discussions, commit messages, and changelog entries in English. Use the shared English issue and PR templates from [Oddmash](https://github.com/Oddmash/.github/blob/main/CONTRIBUTING.md). Preserve existing product documentation localization and provide translation help when needed.
+
+## Submitting a pull request
+
+Target `develop` for ordinary contributions. Follow the [organization contribution policy](https://github.com/Oddmash/.github/blob/main/CONTRIBUTING.md) and use the shared template even if GitHub does not prefill it.
+
+
+### Example: a small test-only PR targeting develop
+
+Use the [shared PR template](https://github.com/Oddmash/.github/blob/main/PULL_REQUEST_TEMPLATE.md). Keep all five headings exactly as shown, in order, and replace the example issue number and verification details with your own. Do not claim checks you did not run.
+
+```markdown
+## Related issue
+
+Refs #123
+
+## Summary
+
+- Add focused accessibility tests for an existing component.
+
+## Verification
+
+- List the actual test command and result here.
+- Note any checks not run and why.
+
+## Product and design impact
+
+Test-only coverage; no runtime or visual changes.
+
+## Permissions and data
+
+None.
+```
+
+Use `Refs #123` when targeting `develop` or doing partial work. Use `Closes #123` only when the completed work merges into the default branch. The reference belongs under Related issue.
+
+If CI reports a failure in `scope / scope` at **Validate contribution metadata**, inspect its log for missing headings or issue references and edit the PR description. This is separate from test failures. Editing the description triggers a new CI run in repositories using the current shared workflow. For external forks, a maintainer may need to approve the new workflow run before checks execute.

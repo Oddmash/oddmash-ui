@@ -9,18 +9,18 @@ import {
 } from 'react';
 import { cx } from './cx';
 
-export type SelectDropdownOption = {
+export type SelectOption = {
   value: string;
   label: string;
   disabled?: boolean;
   lang?: string;
 };
 
-export type SelectDropdownProps = Omit<
+export type SelectProps = Omit<
   ComponentPropsWithoutRef<'button'>,
   'children' | 'type' | 'value' | 'defaultValue' | 'onChange' | 'name' | 'role'
 > & {
-  options: readonly SelectDropdownOption[];
+  options: readonly SelectOption[];
   name?: string;
   value?: string;
   defaultValue?: string;
@@ -28,9 +28,9 @@ export type SelectDropdownProps = Omit<
   onValueChange?: (value: string) => void;
 };
 
-export const SelectDropdown = /* @__PURE__ */ forwardRef<
+export const Select = /* @__PURE__ */ forwardRef<
   HTMLButtonElement,
-  SelectDropdownProps
+  SelectProps
 >(
   (
     {
@@ -266,4 +266,4 @@ export const SelectDropdown = /* @__PURE__ */ forwardRef<
     );
   },
 );
-SelectDropdown.displayName = 'SelectDropdown';
+Select.displayName = 'Select';
