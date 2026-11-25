@@ -244,6 +244,10 @@
 .om-command-list [role='option'] { padding: var(--om-semantic-space-sm); border-radius: var(--om-semantic-radius-sm); cursor: pointer; }
 .om-command-list [aria-selected='true'] { background: var(--om-semantic-color-action); color: var(--om-semantic-color-on-action); }
 .om-command-list [aria-disabled='true'] { opacity: .5; cursor: not-allowed; }
+.om-command-group { display: grid; gap: var(--om-semantic-space-xs); min-inline-size: 0; }
+.om-command-group-label { padding: var(--om-semantic-space-xs) var(--om-semantic-space-sm); color: var(--om-semantic-color-muted); font-size: var(--om-semantic-font-small); font-weight: 650; overflow-wrap: anywhere; }
+.om-command-label, .om-command-description { display: block; min-inline-size: 0; overflow-wrap: anywhere; }
+.om-command-description { font-size: var(--om-semantic-font-small); margin-block-start: 2px; }
 
 .om-input:not(:disabled):not([aria-invalid='true']):not(:user-invalid):hover,
 .om-textarea:not(:disabled):not([aria-invalid='true']):not(:user-invalid):hover,
