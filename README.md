@@ -32,6 +32,6 @@ Oddmash UI is for focused tools such as Interaction Inspector: products that nee
 
 ## Current scope
 
-Oddmash UI is under active pre-1.0 development. Version 0.7.0 centralizes component dimensions, motion and interaction values in JSON, improves Select keyboard and pointer feedback, and adds managed Toast countdowns. The documentation introduces system theme selection, modal search and expandable previews. React 18.3.1 and React 19 remain supported.
+Oddmash UI is under active pre-1.0 development. Version 0.8.0 adds DateSelect, an accessible date-and-time form control with second precision, timezone-free local ISO values, native selection, and shared theme styling. React 18.3.1 and React 19 remain supported.
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [Contributor guide](CONTRIBUTING.md) · [MIT License](LICENSE)
