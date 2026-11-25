@@ -124,10 +124,13 @@ test('navigation, search, live props, code, tokens and mobile menu work', async 
       },
     });
   });
-  await page
-    .locator('.playground')
-    .getByRole('button', { name: 'Copy code' })
-    .click();
+  const copy = page.locator('.playground .om-clipboard-button');
+  await expect(copy).toHaveAccessibleName('Copy code');
+  const copySize = await copy.boundingBox();
+  expect(copySize?.width).toBeGreaterThanOrEqual(44);
+  expect(copySize?.height).toBeGreaterThanOrEqual(44);
+  await copy.press('Enter');
+  await expect(copy).toBeFocused();
   await expect(page.locator('.playground [role="status"]')).toHaveText(
     'Copied',
   );

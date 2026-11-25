@@ -161,16 +161,16 @@ export const details: Record<
   },
   badge: {
     usage:
-      'Describe status or category in a few words. Reserve the accent tone for a state that deserves attention.',
+      'Describe status or category in a few words. Use semantic tones for meaningful operational states and neutral for unknown or ordinary categories.',
     accessibility:
       'Always include meaningful text; color alone should not communicate status. Badge is non-interactive. Use a button for an action.',
     props: [
-      ['tone', 'neutral | accent', 'neutral'],
+      ['tone', 'neutral | accent | success | warning | danger | error | info | active', 'neutral'],
       ['children', 'ReactNode', 'None'],
       ['className', 'string', 'None'],
       ['ref', 'HTMLSpanElement', 'None'],
     ],
-    code: `<Badge>Draft</Badge>\n<Badge tone="accent">Active</Badge>\n<Badge>v${packageVersion}</Badge>`,
+    code: `<Badge>Draft</Badge>\n<Badge tone="accent">Active</Badge>\n<Badge tone="active">Running</Badge>\n<Badge>Waiting</Badge>\n<Badge tone="success">Succeeded</Badge>\n<Badge tone="danger">Failed</Badge>\n<Badge tone="warning">Attention required</Badge>\n<Badge>Unknown</Badge>\n<Badge>v${packageVersion}</Badge>`,
   },
   tabs: {
     usage:

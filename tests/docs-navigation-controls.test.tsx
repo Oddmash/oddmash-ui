@@ -110,7 +110,7 @@ it('renders encoded section anchors and supports consumer-controlled active stat
   expect(within(nav).getByRole('link', { name: 'Install' })).not.toHaveAttribute('aria-current');
 });
 
-it('observes active headings, hashes, resize and the final heading at the bottom', () => {
+it('observes active headings and uses the reading line at the bottom', () => {
   const fixture = scrollFixture();
   const initial = window.location.hash;
   const content = document.createElement('article');
@@ -138,6 +138,18 @@ it('observes active headings, hashes, resize and the final heading at the bottom
     window.dispatchEvent(new Event('hashchange'));
     expect(update).toHaveBeenLastCalledWith('setup');
     lastRect.mockReturnValue(geometry(400));
+    fixture.scroll(1400);
+    expect(update).toHaveBeenLastCalledWith('setup');
+    lastRect.mockReturnValue(geometry(65));
+    fixture.scroll(1400);
+    expect(update).toHaveBeenLastCalledWith('setup');
+    lastRect.mockReturnValue(geometry(64));
+    fixture.scroll(1400);
+    expect(update).toHaveBeenLastCalledWith('설치');
+    lastRect.mockReturnValue(geometry(65));
+    fixture.scroll(1400);
+    expect(update).toHaveBeenLastCalledWith('setup');
+    lastRect.mockReturnValue(geometry(63));
     fixture.scroll(1400);
     expect(update).toHaveBeenLastCalledWith('설치');
     stop();

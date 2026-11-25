@@ -25,3 +25,35 @@ it('filters commands, skips disabled items and selects with keyboard', async () 
   await user.keyboard('{Escape}');
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 });
+
+it('offers an optional localized dismiss action while preserving search autofocus and trigger restoration', async () => {
+  const user = userEvent.setup();
+  const action = vi.fn();
+  const props = { trigger: <Button>Commands</Button>, title: 'Commands', description: 'Choose an action', searchLabel: 'Search commands', emptyLabel: 'No commands found', items: [{ id: 'save', label: 'Save project', onSelect: action }] };
+  const { rerender } = render(<CommandPalette {...props} />);
+  const trigger = screen.getByRole('button', { name: 'Commands' });
+  await user.click(trigger);
+  expect(screen.queryByRole('button', { name: '닫기' })).not.toBeInTheDocument();
+  await user.keyboard('{Escape}');
+  rerender(<CommandPalette {...props} dismissLabel="닫기" />);
+  await user.click(trigger);
+  expect(screen.getByRole('combobox')).toHaveFocus();
+  await user.tab();
+  expect(screen.getByRole('button', { name: '닫기' })).toHaveFocus();
+  await user.keyboard('{Enter}');
+  expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  expect(trigger).toHaveFocus();
+  expect(action).not.toHaveBeenCalled();
+});
+
+it('keeps pointer result selection with the dismiss control enabled', async () => {
+  const user = userEvent.setup();
+  const action = vi.fn();
+  render(<CommandPalette trigger={<Button>Commands</Button>} title="Commands" description="Choose an action" searchLabel="Search commands" emptyLabel="No commands found" dismissLabel="Close commands" items={[{ id: 'save', label: 'Save project', onSelect: action }]} />);
+  const trigger = screen.getByRole('button', { name: 'Commands' });
+  await user.click(trigger);
+  await user.click(screen.getByRole('option', { name: 'Save project' }));
+  expect(action).toHaveBeenCalledOnce();
+  expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  expect(trigger).toHaveFocus();
+});

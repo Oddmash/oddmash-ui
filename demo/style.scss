@@ -717,20 +717,18 @@ h1:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 12px;
   font:
     10px var(--om-semantic-font-mono-family);
   color: var(--om-semantic-color-muted);
 }
-.code-toolbar button {
-  border: 0;
-  background: transparent;
-  font-size: 10px;
-  padding: 4px;
-  color: var(--om-semantic-color-text);
-}
-.code-toolbar button:hover {
-  text-decoration: underline;
+.code-toolbar .om-clipboard-button {
+  min-block-size: 44px;
+  min-inline-size: 44px;
+  max-inline-size: 100%;
+  overflow-wrap: anywhere;
+  margin-inline-start: auto;
 }
 .code-block pre {
   font:
@@ -743,15 +741,6 @@ h1:focus {
   padding: 22px;
   tab-size: 2;
   color: var(--om-semantic-color-text);
-}
-.copy-status {
-  display: block;
-  font-size: 11px;
-  color: var(--om-semantic-color-accent);
-  padding: 0 16px;
-}
-.copy-status:not(:empty) {
-  padding-bottom: 10px;
 }
 .site-footer {
   display: flex;
