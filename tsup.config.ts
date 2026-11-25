@@ -24,6 +24,7 @@ export default defineConfig({
     tokens: 'src/generated/tokens.ts',
     textarea: 'src/textarea.tsx',
     select: 'src/select.tsx',
+    'date-select': 'src/date-select.tsx',
     checkbox: 'src/checkbox.tsx',
     radio: 'src/radio.tsx',
     switch: 'src/switch.tsx',
