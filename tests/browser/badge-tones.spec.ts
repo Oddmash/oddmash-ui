@@ -1,13 +1,12 @@
 import { expect, test } from '@playwright/test';
+import { chooseDocsTheme } from './docs-test-helpers';
 
 test('semantic badges are distinct, visible and fit narrow layouts in both themes', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 800 });
   await page.goto('/#/badge');
   for (const theme of ['light', 'dark']) {
-    if (theme === 'dark') {
-      await page.reload();
-      await page.getByRole('button', { name: 'Switch to dark theme' }).click();
-    }
+    if (theme === 'dark') await page.reload();
+    await chooseDocsTheme(page, theme === 'dark' ? 'Dark' : 'Light');
     const preview = page.locator('.playground .preview');
     for (const text of ['Running', 'Waiting', 'Succeeded', 'Failed', 'Attention required', 'Unknown']) {
       await expect(preview.getByText(text, { exact: true })).toBeVisible();

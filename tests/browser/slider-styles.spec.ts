@@ -1,14 +1,13 @@
 import { expect, test } from '@playwright/test';
+import { chooseDocsTheme } from './docs-test-helpers';
 import { tabToAllControls } from './keyboard';
 
 test('token-styled slider retains native keyboard and pointer behavior in both themes', async ({ page, browserName }) => {
   await page.setViewportSize({ width: 320, height: 800 });
   await page.goto('/#/slider');
   for (const theme of ['light', 'dark']) {
-    if (theme === 'dark') {
-      await page.reload();
-      await page.getByRole('button', { name: 'Switch to dark theme' }).click();
-    }
+    if (theme === 'dark') await page.reload();
+    await chooseDocsTheme(page, theme === 'dark' ? 'Dark' : 'Light');
     const slider = page.getByRole('slider', { name: 'Width' });
     await expect(slider).toHaveValue('320');
     await expect(slider).toHaveCSS('appearance', 'none');

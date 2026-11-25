@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { chooseDocsTheme } from './docs-test-helpers';
 import AxeBuilder from '@axe-core/playwright';
 import { pages } from '../../demo/content';
 import { packageVersion, packageMinorVersion } from '../../demo/package-links';
@@ -12,8 +13,7 @@ for (const theme of ['light', 'dark']) {
     test.setTimeout(75_000);
     await page.goto('/');
     await expect(page.locator('.version-label')).toHaveText(`v${packageMinorVersion}`);
-    if (theme === 'dark')
-      await page.getByRole('button', { name: 'Switch to dark theme' }).click();
+    await chooseDocsTheme(page, theme === 'dark' ? 'Dark' : 'Light');
     await expect(page.locator('html')).toHaveAttribute('data-om-theme', theme);
     for (const { id } of pages) {
       await page.goto(`/#/${id}`);
@@ -43,8 +43,7 @@ for (const theme of ['light', 'dark']) {
     browserName,
   }) => {
     await page.goto('/#/dialog');
-    if (theme === 'dark')
-      await page.getByRole('button', { name: 'Switch to dark theme' }).click();
+    await chooseDocsTheme(page, theme === 'dark' ? 'Dark' : 'Light');
     await page.getByRole('button', { name: 'Edit project' }).click();
     await expect(page.getByRole('dialog')).toBeVisible();
     await expect(page.locator('#dialog-name')).toBeFocused();
@@ -87,12 +86,15 @@ test('navigation, search, live props, code, tokens and mobile menu work', async 
     name: 'Documentation',
     exact: true,
   });
-  await page
-    .getByRole('textbox', { name: 'Search documentation' })
-    .fill('button');
-  await expect(navigation.getByRole('link')).toHaveCount(2);
-  await expect(navigation.getByRole('link', { name: 'Clipboard Button', exact: true })).toBeVisible();
-  await navigation.getByRole('link', { name: 'Button', exact: true }).click();
+  const searchTrigger = page.getByRole('button', { name: 'Search documentation' });
+  await searchTrigger.click();
+  const searchDialog = page.getByRole('dialog', { name: 'Search documentation' });
+  const search = searchDialog.getByRole('combobox', { name: 'Search documentation' });
+  await expect(search).toBeFocused();
+  await search.fill('button');
+  await expect(searchDialog.getByRole('option', { name: 'Clipboard Button', exact: true })).toBeVisible();
+  await searchDialog.getByRole('option', { name: 'Button', exact: true }).click();
+  await expect(searchDialog).toBeHidden();
   await expect(page.locator('#page-title')).toHaveText('Button');
   await page.getByRole('combobox', { name: 'Variant', exact: true }).click();
   await page.getByRole('option', { name: 'secondary', exact: true }).click();
@@ -176,11 +178,12 @@ test('navigation, search, live props, code, tokens and mobile menu work', async 
   await expect(page.locator('#page-title')).toHaveText('Tokens');
   await page.setViewportSize({ width: 375, height: 812 });
   await expect(navigation).toBeHidden();
-  await page
-    .getByRole('textbox', { name: 'Search documentation' })
-    .fill('dialog');
-  await expect(navigation.getByRole('link')).toHaveCount(1);
+  await searchTrigger.click();
+  await search.fill('dialog');
+  await expect(searchDialog.getByRole('option', { name: 'Dialog', exact: true })).toBeVisible();
   await page.keyboard.press('Escape');
+  await expect(searchDialog).toBeHidden();
+  await expect(searchTrigger).toBeFocused();
   await expect(navigation).toBeHidden();
   await page.getByRole('button', { name: 'Toggle navigation' }).click();
   await navigation.getByRole('link', { name: 'Dialog', exact: true }).click();
@@ -207,7 +210,7 @@ test('navigation, search, live props, code, tokens and mobile menu work', async 
 
 test('nested themes and project overrides stay scoped', async ({ page }) => {
   await page.goto('/#/input');
-  await page.getByRole('button', { name: 'Switch to dark theme' }).click();
+  await chooseDocsTheme(page, 'Dark');
   await page.locator('.preview').evaluate((preview) => {
     preview.setAttribute('data-om-theme', 'light');
     (preview as HTMLElement).style.setProperty(
@@ -436,7 +439,7 @@ test('language switch translates docs and persists across reloads', async ({
   ]) {
     await language.press('Enter');
     await expect(language).toHaveCSS('outline-offset', '-1px');
-    const list = page.locator('.header-actions [role="listbox"]');
+    const list = page.getByRole('listbox');
     await expect(list).toBeVisible();
     await list.getByRole('option', { name: label }).click();
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
@@ -556,7 +559,7 @@ test('overview exposes a working demo and primary documentation links', async ({
   await lab.getByLabel('Project name', { exact: true }).fill('Demo project');
   await lab.getByRole('button', { name: 'Save project' }).click();
   await expect(lab.getByRole('status')).toHaveText('Saved Demo project');
-  await page.getByRole('button', { name: 'Switch to dark theme' }).click();
+  await chooseDocsTheme(page, 'Dark');
   await page.screenshot({ path: testInfo.outputPath('landing-dark.png'), fullPage: true, animations: 'disabled' });
   await page.setViewportSize({ width: 320, height: 780 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -654,7 +657,7 @@ test('toast handles mixed-height notifications and rapid reopen during exit', as
   await expect(open).toHaveCount(3);
   await expect(viewport.locator('.om-toast-region[data-state="closing"]')).toHaveCount(0);
   await expect(open.last().getByRole('alert')).toContainText('Save failed');
-  await page.getByRole('button', { name: 'Switch to dark theme' }).click();
+  await chooseDocsTheme(page, 'Dark');
   await page.mouse.move(0, 0);
   await expect(viewport).toHaveAttribute('data-stack-expanded', 'false');
   await page.screenshot({ path: testInfo.outputPath('toast-collapsed-dark.png'), animations: 'disabled' });
@@ -692,7 +695,7 @@ test('toast previews keep dismissal visible in forced colors and localize the to
     ['en', 'English', 'Notification tone', 'Success'],
   ]) {
     await language.press('Enter');
-    await page.locator('.header-actions [role="listbox"]').getByRole('option', { name: label }).click();
+    await page.getByRole('listbox').getByRole('option', { name: label }).click();
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
     await expect(page.getByRole('combobox', { name: toneLabel })).toHaveText(successLabel);
   }

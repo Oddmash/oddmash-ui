@@ -1,4 +1,5 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
+import { chooseDocsTheme } from './docs-test-helpers';
 import AxeBuilder from '@axe-core/playwright';
 import { componentIds, type ComponentId } from '../../demo/content';
 import { tabToAllControls } from './keyboard';
@@ -239,10 +240,8 @@ for (const id of componentIds.filter((id) => id !== 'dialog')) {
     const preview = page.locator('.playground .preview');
     for (const theme of ['light', 'dark']) {
       await test.step(theme, async () => {
-        if (theme === 'dark') {
-          await page.reload();
-          await page.getByRole('button', { name: 'Switch to dark theme' }).click();
-        }
+        if (theme === 'dark') await page.reload();
+        await chooseDocsTheme(page, theme === 'dark' ? 'Dark' : 'Light');
         await expect(preview).toBeVisible();
         await previewChecks[id](preview, page, browserName);
         const { violations } = await new AxeBuilder({ page })
