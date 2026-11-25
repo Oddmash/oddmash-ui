@@ -16,7 +16,7 @@ pnpm run demo
 
 ## Use from another local project
 
-React 18.3.1 and React 19 are supported peers. Install the published package with `npm install @oddmash/ui`. To test a local change in a consuming project, build an archive with `pnpm pack`, then install the resulting `oddmash-ui-0.4.1.tgz` in the consuming project. Import `@oddmash/ui/styles.css` once. The package is ESM-only and does not include a global reset, Tailwind, an icon package, or a CSS-in-JS runtime.
+React 18.3.1 and React 19 are supported peers. Install the published package with `npm install @oddmash/ui`. To test a local change in a consuming project, build an archive with `pnpm pack`, then install the resulting `oddmash-ui-0.5.0.tgz` in the consuming project. Import `@oddmash/ui/styles.css` once. The package is ESM-only and does not include a global reset, Tailwind, an icon package, or a CSS-in-JS runtime.
 
 The documentation site serves Geist Sans and Geist Mono from `demo/public/fonts/` under the SIL Open Font License included there. Package consumers can self-host the fonts under those family names or use the system fallbacks in the font tokens.
 
@@ -43,6 +43,57 @@ tests/
 ## Shared component review
 
 See the [component quality review](docs/component-quality-review.md) for the latest interaction audit and verification scope. The live Toast reference is the [Toast documentation page](https://oddmash.github.io/oddmash-ui/#/toast), which uses the localized component catalog and the actual controlled Toast demo. Its state selector previews success, information, warning and error. Mount stable controlled items before the action, keep newer items last, and retain items through their closing motion. Hover or keyboard focus expands a collapsed stack; touch and reduced-motion preferences use the expanded presentation. Consumers own expiry and return focus to a remaining notification or the triggering control.
+
+## Documentation primitives
+
+Use the same primitives in React applications and static HTML without hydration. Load `@oddmash/ui/styles.css` in the same way as other components. The classes below map directly to exported React wrappers, and all wrappers forward native props and refs.
+
+| React API | Static HTML class | Typical element |
+| --- | --- | --- |
+| LinkCard | om-link-card | a |
+| CodeBlock | om-code-block | div or figure |
+| CodeBlockHeader | om-code-block-header | div |
+| CodeBlockCaption | om-code-block-caption | span |
+| CodeBlockContent | om-code-block-content | pre |
+| CodeBlockCopy | om-code-block-copy | button |
+| SiteHeader / SiteHeaderInner | om-site-header / om-site-header-inner | header / div |
+| SiteFooter / SiteFooterInner | om-site-footer / om-site-footer-inner | footer / div |
+| SiteNav | om-site-nav | nav |
+| Prose | om-prose | article |
+| ProseScroll | om-prose-scroll | div |
+| ButtonLink | om-button om-button--link | a |
+| IconButton / IconLink | om-button om-button--icon | button / a |
+| PlatformLink / PlatformLinks | om-platform-link / om-platform-links | a / div |
+| Kbd | om-kbd | kbd |
+| DocsNavigation / TableOfContents | om-docs-navigation / om-table-of-contents | nav |
+| ScrollHeader | om-site-header om-scroll-header | header |
+| LocalePicker | om-locale-picker | div |
+
+Use the `@oddmash/ui/link-card`, `@oddmash/ui/code-block`, `@oddmash/ui/site-layout` or `@oddmash/ui/prose` subpath when importing a single family. The classes work independently of JavaScript. For example:
+
+```html
+<a class="om-link-card" href="/guide">
+  <strong>Usage guide</strong>
+  <span class="om-link-card-arrow" aria-hidden="true">→</span>
+  <p>Learn how to use the library.</p>
+</a>
+
+<div class="om-code-block">
+  <div class="om-code-block-header">
+    <span class="om-code-block-caption">Terminal</span>
+    <button class="om-code-block-copy" type="button">Copy code</button>
+  </div>
+  <pre class="om-code-block-content" tabindex="0" role="region" aria-label="Terminal code"><code>pnpm add @oddmash/ui</code></pre>
+</div>
+```
+
+LinkCard uses a left-to-right background fill that never changes layout. Override `--om-link-card-fill` for a subtle product-specific tint. Reduced motion uses the final state immediately and preserves keyboard focus.
+
+CodeBlock does not parse or highlight code. Preserve the renderer's syntax markup and whitespace; add a caption and copy button only when needed. The consumer handles clipboard permissions, copy result, and localized feedback, such as an existing Toast. Use `--om-code-block-background`, `--om-code-block-text` and `--om-code-block-muted` for product-specific code themes. Supply a label and focusable region when code scrolling is needed.
+
+SiteHeader and SiteFooter are layout primitives, not a menu or router. Compose the native nav with labelled landmarks and real links. Products own responsive navigation choices, logo, active routes, sticky or auto-hide behavior and theme selection. Override `--om-site-max-width`, `--om-site-gutter`, `--om-site-header-height` and `--om-site-nav-gap` for the layout.
+
+Prose styles rendered, trusted content rather than converting Markdown to HTML. Preserve native document structure and locale. The default measure is 75ch; override `--om-prose-measure` and `--om-prose-link` as needed. For wide tables, keep the native table inside a named, focusable ProseScroll region. Existing language-aware line break engines can still operate on the rendered text.
 
 ## Themes and product overrides
 
@@ -91,6 +142,16 @@ Each component preview has a dedicated browser test that exercises its behavior 
 Run visual comparisons on Linux with the version of Chromium installed by Playwright. After reviewing an intentional change against the current baselines, regenerate them on Linux with `pnpm run test:visual --update-snapshots=all` and include the changed images in the PR.
 
 Automated accessibility checks are not a WCAG certification or a substitute for manual assistive-technology testing. Publishing remains a separate owner-approved action; npm scope ownership and release permission must be confirmed before any release.
+
+## Shared navigation and feedback
+
+Use native link semantics for destinations (`ButtonLink`, `IconLink`, `PlatformLink`) and native button semantics for actions (`IconButton`). Name icon-only controls with an accessible label and pass destination URLs from the consuming product. PlatformLink renders the requested GitHub or npm mark and shares the directional interaction and pulse motion styles. Default hover color follows the theme, with a configurable npm brand accent; reduced motion disables the pulse. Both React and static HTML can use the platform classes and `data-platform` attribute.
+
+Use `ClipboardButton` for copy feedback and `copyText` for non-React enhancements. Copy only on activation, handle rejected clipboard requests, and preserve manual text selection. ToastProvider and useToast provide a managed queue, expiry, and focus restoration over the existing controlled Toast API. Set `announce={false}` on ClipboardButton if the same result is announced through a Toast.
+
+DocsNavigation accepts consumer-owned navigation groups and the current item. TableOfContents accepts a list of heading IDs and an optional content ID and scroll offset, with native anchor links, mobile disclosure and optional active-heading observation. The static-compatible `observeActiveHeading` and `observeScrollHeader` controllers can be used independently of React. Keep site routing, active navigation data, language destinations, and product-specific branding in the consumer. LocalePicker takes explicit localized options and destinations, with a native details/link fallback before hydration. ScrollHeader keeps navigation visible when focus or a menu is active and observes reduced motion.
+
+CommandPalette supports optional controlled opening, an opt-in Mod+K shortcut, groups, descriptions, consumer filters and result limits. Supply the content index or search backend in the product; this library does not fetch or index documentation itself.
 
 ## Publish a stable version
 

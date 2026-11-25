@@ -16,6 +16,7 @@ Oddmash UI 是 Oddmash 产品共享的界面基础。它为小型 React 开发�
 - 可应用于整个应用或局部区域的浅色与深色主题
 - 包含实时示例、API 指南、无障碍说明和令牌浏览器的文档站点
 - 在由组件组合而成的开发者工具界面中查看焦点、按键和点击事件的 Interaction Lab
+- 链接卡片、代码示例、网站导航、已渲染 Markdown、平台及图标链接、复制反馈、通知管理、语言选择、滚动方向页眉和分组搜索组件及静态 HTML 类契约
 
 ## 适合谁
 
@@ -31,6 +32,6 @@ Oddmash UI 是 Oddmash 产品共享的界面基础。它为小型 React 开发�
 
 ## 当前范围
 
-Oddmash UI 正处于 1.0 之前的开发阶段。npm 0.4.1 提供 24 类组件，其中包括 Toast。
+Oddmash UI 正处于 1.0 之前的开发阶段。npm 0.5.0 扩展了共享的文档、落地页、导航和反馈组件，继续支持 React 18.3.1 和 React 19。
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [贡献指南](../../CONTRIBUTING.md) · [MIT License](../../LICENSE)

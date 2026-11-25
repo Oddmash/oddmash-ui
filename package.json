@@ -1,6 +1,6 @@
 {
   "name": "@oddmash/ui",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Small, themeable React foundations for Oddmash tools.",
   "type": "module",
   "packageManager": "pnpm@11.25.0",
@@ -134,6 +134,50 @@
     "./command-palette": {
       "types": "./dist/command-palette.d.ts",
       "import": "./dist/command-palette.js"
+    },
+    "./link-card": {
+      "types": "./dist/link-card.d.ts",
+      "import": "./dist/link-card.js"
+    },
+    "./code-block": {
+      "types": "./dist/code-block.d.ts",
+      "import": "./dist/code-block.js"
+    },
+    "./site-layout": {
+      "types": "./dist/site-layout.d.ts",
+      "import": "./dist/site-layout.js"
+    },
+    "./prose": {
+      "types": "./dist/prose.d.ts",
+      "import": "./dist/prose.js"
+    },
+    "./platform-link": {
+      "types": "./dist/platform-link.d.ts",
+      "import": "./dist/platform-link.js"
+    },
+    "./kbd": {
+      "types": "./dist/kbd.d.ts",
+      "import": "./dist/kbd.js"
+    },
+    "./docs-navigation": {
+      "types": "./dist/docs-navigation.d.ts",
+      "import": "./dist/docs-navigation.js"
+    },
+    "./scroll-header": {
+      "types": "./dist/scroll-header.d.ts",
+      "import": "./dist/scroll-header.js"
+    },
+    "./locale-picker": {
+      "types": "./dist/locale-picker.d.ts",
+      "import": "./dist/locale-picker.js"
+    },
+    "./clipboard-button": {
+      "types": "./dist/clipboard-button.d.ts",
+      "import": "./dist/clipboard-button.js"
+    },
+    "./toast-provider": {
+      "types": "./dist/toast-provider.d.ts",
+      "import": "./dist/toast-provider.js"
     }
   },
   "engines": {

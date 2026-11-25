@@ -4,6 +4,76 @@ import { componentIds, type ComponentId } from '../../demo/content';
 import { tabToAllControls } from './keyboard';
 
 const previewChecks = {
+  'docs-navigation': async (preview) => {
+    const nav = preview.getByRole('navigation', { name: 'Documentation navigation example' });
+    await expect(nav).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Usage guide' })).toHaveAttribute('aria-current', 'page');
+  },
+  'table-of-contents': async (preview) => {
+    const nav = preview.getByRole('navigation', { name: 'On this page' });
+    await expect(nav.getByRole('link', { name: 'Installation' })).toHaveAttribute('href', '#om-toc-demo-setup');
+    await expect(preview.locator('#om-toc-demo-setup')).toBeVisible();
+  },
+  'scroll-header': async (preview) => {
+    const header = preview.locator('.om-scroll-header');
+    await expect(header).toHaveAttribute('data-om-scroll-hidden', 'false');
+    const lock = header.getByRole('button', { name: 'Keep header visible' });
+    await lock.click();
+    await expect(lock).toHaveAttribute('aria-pressed', 'true');
+  },
+  'locale-picker': async (preview) => {
+    const trigger = preview.getByRole('combobox', { name: 'Language' });
+    await expect(trigger).toHaveText('English');
+    await trigger.press('Enter');
+    await trigger.press('ArrowDown');
+    await trigger.press('Enter');
+    await expect(trigger).toHaveText('한국어');
+  },
+  'clipboard-button': async (preview) => {
+    await expect(preview.getByRole('button', { name: 'Copy code' })).toBeVisible();
+    await expect(preview.getByRole('region', { name: 'Clipboard example code' })).toBeVisible();
+  },
+  'toast-provider': async (preview) => {
+    await expect(preview.getByRole('button', { name: 'Show saved notification' })).toBeVisible();
+    await expect(preview.getByRole('button', { name: 'Show error notification' })).toBeVisible();
+    await expect(preview.getByTestId('managed-toast-viewport').locator('[data-toast-id]')).toHaveCount(0);
+  },
+  "link-controls": async (preview) => {
+    await expect(preview.getByRole('link', { name: 'Read guide' })).toBeVisible();
+    await expect(preview.getByRole('button', { name: 'Open search example' })).toHaveAttribute('type', 'button');
+    await expect(preview.getByRole('link', { name: 'GitHub example' })).toHaveAttribute('href', '#/link-controls');
+    await expect(preview.getByRole('link', { name: 'npm example' })).toBeVisible();
+    await expect(preview.locator('kbd')).toHaveText('Ctrl K');
+  },
+  'link-card': async (preview, page, browserName) => {
+    const card = preview.getByRole('link', { name: /Usage guide/ });
+    await expect(card).toHaveAttribute('href', '#/link-card');
+    await page.locator('.view-switch').getByRole('button', { name: 'Code' }).press(tabToAllControls(browserName));
+    await expect(card).toBeFocused();
+    await expect(card).toHaveCSS('background-size', '100% 100%');
+    await expect(card).toHaveCSS('outline-style', 'solid');
+    await expect(card).toHaveCSS('transition-duration', '0s');
+    await expect(card.locator('.om-link-card-arrow')).toHaveCSS('transform', 'none');
+  },
+  'code-block': async (preview) => {
+    await expect(preview.getByRole('button', { name: 'Copy code' })).toHaveAttribute('type', 'button');
+    const code = preview.getByRole('region', { name: 'Terminal code' });
+    await expect(code).toHaveText('pnpm add @oddmash/ui');
+    await expect(code).toHaveCSS('white-space', 'pre');
+    await expect(code).toHaveAttribute('tabindex', '0');
+  },
+  'site-layout': async (preview) => {
+    await expect(preview.locator('header.om-site-header')).toBeVisible();
+    await expect(preview.locator('footer.om-site-footer')).toBeVisible();
+    await expect(preview.getByRole('navigation', { name: 'Header navigation example' }).getByRole('link', { name: 'Docs' })).toHaveAttribute('aria-current', 'page');
+    await expect(preview.getByRole('navigation', { name: 'Footer navigation example' })).toBeVisible();
+  },
+  prose: async (preview) => {
+    await expect(preview.getByRole('article')).toBeVisible();
+    await expect(preview.getByRole('heading', { name: 'Usage guide' })).toBeVisible();
+    await expect(preview.getByRole('table')).toBeVisible();
+    await expect(preview.getByRole('columnheader', { name: 'Name' })).toHaveAttribute('scope', 'col');
+  },
   slider: async (preview) => {
     const slider = preview.getByRole('slider', { name: 'Width' });
     await slider.press('ArrowRight');
@@ -11,8 +81,10 @@ const previewChecks = {
   },
   'command-palette': async (preview, page) => {
     const trigger = preview.getByRole('button', { name: 'Commands' });
-    await trigger.click();
+    await page.keyboard.press('Control+k');
     const search = page.getByRole('combobox', { name: 'Search commands' });
+    await expect(page.getByRole('group', { name: 'Project' })).toBeVisible();
+    await expect(page.getByRole('option', { name: 'Save project' })).toHaveAccessibleDescription('Save current changes');
     await expect(search).toBeFocused();
     await search.fill('missing');
     await expect(page.getByRole('status').filter({ hasText: 'No commands found' })).toBeVisible();
