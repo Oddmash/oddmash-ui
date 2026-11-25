@@ -1,4 +1,40 @@
 export const extendedComponents = {
+  "link-controls": {
+    "title": "Link Controls",
+    "group": "Documentation",
+    "description": "Style links, named icon controls and keyboard shortcuts without changing native behavior.",
+    "usage": "Use ButtonLink for navigation, IconButton for an action, and IconLink or PlatformLink for a named icon destination. Supply href and localization yourself.",
+    "accessibility": "Name each icon-only control, hide decorative icons, and use Kbd for shortcuts. Platform hover respects reduced motion.",
+    "props": [
+      [
+        "href (links)",
+        "string",
+        "Required"
+      ],
+      [
+        "aria-label / aria-labelledby (icon controls)",
+        "string",
+        "Required"
+      ],
+      [
+        "platform",
+        "github | npm",
+        "Required"
+      ],
+      [
+        "variant",
+        "primary | secondary | ghost",
+        "Native defaults"
+      ],
+      [
+        "size",
+        "sm | md",
+        "md"
+      ]
+    ],
+    "exports": "ButtonLink, IconButton, IconLink, PlatformLink, PlatformLinks, Kbd",
+    "code": "<>\n  <ButtonLink href=\"#/link-controls\">Read guide</ButtonLink>\n  <IconButton aria-label=\"Open search example\"><span aria-hidden=\"true\">⌕</span></IconButton>\n  <IconLink href=\"#/link-controls\" aria-label=\"Open reference example\"><span aria-hidden=\"true\">↗</span></IconLink>\n  <PlatformLinks role=\"group\" aria-label=\"Platform links\">\n    <PlatformLink platform=\"github\" href=\"#/link-controls\" aria-label=\"GitHub example\" />\n    <PlatformLink platform=\"npm\" href=\"#/link-controls\" aria-label=\"npm example\" />\n  </PlatformLinks>\n  <Kbd>Ctrl K</Kbd>\n</>"
+  },
   'link-card': {
     title: 'Link Card',
     group: 'Documentation',
