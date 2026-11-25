@@ -602,3 +602,56 @@ test('toast stack expands on hover and focus, then dismisses without losing keyb
   await expect(cards).toHaveCount(1);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
 });
+
+test('toast handles mixed-height notifications and rapid reopen during exit', async ({ page }, testInfo) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.setViewportSize({ width: 1100, height: 800 });
+  await page.goto('/#/toast');
+  const trigger = page.getByRole('button', { name: 'Show toast' });
+  const tone = page.getByRole('combobox', { name: 'Notification tone' });
+  const viewport = page.locator('.om-toast-viewport');
+  const open = viewport.locator('.om-toast-region[data-state="open"]');
+  const choose = async (label: string) => {
+    await tone.click();
+    await page.getByRole('option', { name: label, exact: true }).click();
+  };
+  await trigger.click();
+  await choose('Error');
+  await trigger.click();
+  await choose('Information');
+  await trigger.click();
+  await page.mouse.move(0, 0);
+  await expect(open).toHaveCount(3);
+  await expect(viewport).toHaveAttribute('data-stack-expanded', 'false');
+  await expect(open.nth(1).locator('.om-toast')).toHaveAttribute('data-tone', 'error');
+  await expect(open.nth(1).getByRole('alert')).toContainText('Save failed');
+  await expect.poll(async () => {
+    const height = await open.nth(1).locator('.om-toast').evaluate(el => el.getBoundingClientRect().height);
+    const short = await open.first().locator('.om-toast').evaluate(el => el.getBoundingClientRect().height);
+    return height > short;
+  }).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath('toast-collapsed-light.png'), animations: 'disabled' });
+  await open.last().hover();
+  await expect(viewport).toHaveAttribute('data-stack-expanded', 'true');
+  await expect.poll(async () => {
+    const [a, b, c] = await Promise.all([open.nth(0).boundingBox(), open.nth(1).boundingBox(), open.nth(2).boundingBox()]);
+    return !!a && !!b && !!c && a.y + a.height <= b.y + 1 && b.y + b.height <= c.y + 1;
+  }).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath('toast-expanded-light.png'), animations: 'disabled' });
+  await open.nth(1).getByRole('button', { name: 'Dismiss notification' }).press('Enter');
+  await expect(open).toHaveCount(2);
+  await trigger.click();
+  await expect(open).toHaveCount(3);
+  await expect(viewport.locator('.om-toast-region[data-state="closing"]')).toHaveCount(0);
+  await expect(open.last().getByRole('status')).toContainText('Export ready');
+  await page.getByRole('button', { name: 'Switch to dark theme' }).click();
+  await page.mouse.move(0, 0);
+  await expect(viewport).toHaveAttribute('data-stack-expanded', 'false');
+  await page.screenshot({ path: testInfo.outputPath('toast-collapsed-dark.png'), animations: 'disabled' });
+  await page.setViewportSize({ width: 320, height: 220 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(viewport).toHaveAttribute('data-stack-expanded', 'true');
+  await expect(viewport).toHaveAttribute('data-stack-overflow', 'true');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+  await expect(open.last().getByRole('button', { name: 'Dismiss notification' })).toBeVisible();
+});

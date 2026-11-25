@@ -136,19 +136,28 @@ export const RecordingNotice = () => {
       ['dismissLabel', 'string', 'Dismiss notification'],
       ['tone', 'neutral | success | info | warning | danger | error', 'neutral'],
     ],
-    exports: 'Button, Toast, ToastViewport',
+    exports: 'Button, Select, Toast, ToastViewport',
     code: `import { useRef, useState } from 'react';
 
+const toastMessages = {
+  success: { label: 'Success', title: 'Project saved', description: 'Your changes are ready.' },
+  info: { label: 'Information', title: 'Export ready', description: 'Your export is available in the project history.' },
+  warning: { label: 'Warning', title: 'Connection interrupted', description: 'Your changes are preserved locally. Reconnect before continuing.' },
+  error: { label: 'Error', title: 'Save failed', description: 'Your changes could not be synchronized. Check your network connection and retry when you are ready.' },
+} as const;
+
+type PreviewTone = keyof typeof toastMessages;
+
 export const SaveNotice = () => {
-  const [notices, setNotices] = useState([0, 1, 2].map(id => ({ id, open: false })));
   const trigger = useRef<HTMLButtonElement>(null);
   const viewport = useRef<HTMLDivElement>(null);
-
+  const [tone, setTone] = useState<PreviewTone>('success');
+  const [notices, setNotices] = useState([0, 1, 2].map(id => ({ id, open: false, tone: 'success' as PreviewTone })));
+  const options = (Object.keys(toastMessages) as PreviewTone[]).map(value => ({ value, label: toastMessages[value].label }));
   const show = () => setNotices(current => {
     const next = current.find(notice => !notice.open);
-    return next ? [...current.filter(notice => notice.id !== next.id), { ...next, open: true }] : current;
+    return next ? [...current.filter(notice => notice.id !== next.id), { ...next, open: true, tone }] : current;
   });
-
   const dismiss = (id: number) => {
     const visible = notices.filter(notice => notice.open);
     const index = visible.findIndex(notice => notice.id === id);
@@ -159,13 +168,20 @@ export const SaveNotice = () => {
       (button || trigger.current)?.focus();
     });
   };
-
   return (
     <>
-      <Button ref={trigger} disabled={notices.every(notice => notice.open)} onClick={show}>Show toast</Button>
+      <Select aria-label={'Notification tone'} options={options} value={tone} onValueChange={value => {
+        if (Object.hasOwn(toastMessages, value)) setTone(value as PreviewTone);
+      }} />
+      <Button ref={trigger} variant="secondary" disabled={notices.every(notice => notice.open)} onClick={show}>
+        {'Show toast'}
+      </Button>
       <ToastViewport ref={viewport}>
         {notices.map(notice => (
-          <Toast key={notice.id} data-toast-id={notice.id} open={notice.open} title="Project saved" tone="success" onDismiss={() => dismiss(notice.id)}>Your changes are ready.</Toast>
+          <Toast key={notice.id} data-toast-id={notice.id} title={toastMessages[notice.tone].title} open={notice.open} tone={notice.tone}
+            dismissLabel={'Dismiss notification'} onDismiss={() => dismiss(notice.id)}>
+            {toastMessages[notice.tone].description}
+          </Toast>
         ))}
       </ToastViewport>
     </>

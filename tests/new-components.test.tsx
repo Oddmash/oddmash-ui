@@ -249,6 +249,9 @@ it('preserves the live region through a controlled exit and announces semantic t
   view.rerender(<Toast open={false} title="Saved" onDismiss={onDismiss} tone="success" />);
   expect(region).toBeEmptyDOMElement();
   expect(screen.queryByRole('button', { name: 'Dismiss notification' })).not.toBeInTheDocument();
+  const exit = view.container.querySelector('.om-toast-exit-copy');
+  expect(exit).toHaveAttribute('aria-hidden', 'true');
+  expect(exit).toHaveAttribute('inert');
   await waitFor(() => expect(screen.queryByText('Saved')).not.toBeInTheDocument());
   view.rerender(<Toast open title="Network unavailable" onDismiss={onDismiss} tone="error" />);
   expect(screen.getByRole('alert')).toHaveTextContent('Network unavailable');
