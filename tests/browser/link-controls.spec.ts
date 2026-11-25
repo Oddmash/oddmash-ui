@@ -8,6 +8,7 @@ test('platform links preserve the hover pulse, touch target and keyboard focus',
   const npm = preview.getByRole('link', { name: 'npm example' });
   await expect(github).toHaveAttribute('href', '#/link-controls');
   await expect(npm).toHaveAttribute('href', '#/link-controls');
+  await github.scrollIntoViewIfNeeded();
   const dimensions = await github.boundingBox();
   expect(dimensions?.width).toBeGreaterThanOrEqual(44);
   expect(dimensions?.height).toBeGreaterThanOrEqual(44);
