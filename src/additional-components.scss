@@ -141,13 +141,15 @@ select.om-select optgroup {
     height: 0.75rem;
     border-radius: 50%;
     background: var(--om-semantic-color-muted);
+    justify-self: start;
+    transition: transform 160ms var(--om-semantic-motion-ease), background-color 160ms ease-out;
   }
 
   &:checked {
     background: var(--om-semantic-color-action);
 
     &::before {
-      justify-self: end;
+      transform: translateX(1.125rem);
       background: var(--om-semantic-color-on-action);
     }
   }
@@ -527,19 +529,50 @@ select.om-select optgroup {
     flex: none;
   }
 
-  > .om-toast-region:not(:has(.om-toast)) {
+  > .om-toast-region[data-state='closed'] {
     block-size: 0;
     margin-block-end: calc(-1 * var(--om-semantic-space-sm));
+  }
+
+  &[data-stack-ready='true']:not([data-stack-overflow='true']) {
+    display: block;
+    overflow: visible;
+    block-size: var(--om-toast-stack-height, 0);
+    transition: block-size 240ms cubic-bezier(.22, .8, .3, 1);
+
+    > .om-toast-region {
+      position: absolute;
+      inset: auto 0 0;
+      z-index: var(--om-toast-layer, 0);
+      transform: translateY(calc(-1 * var(--om-toast-offset, 0px))) scale(var(--om-toast-scale, 1));
+      transform-origin: center bottom;
+      transition: transform 240ms cubic-bezier(.22, .8, .3, 1), opacity 180ms ease-out;
+    }
+
+    > .om-toast-region[data-stack-back='true'][data-state='open'] {
+      max-block-size: var(--om-toast-front-height);
+      overflow: clip;
+    }
+
+    > .om-toast-region[data-stack-hidden='true'][data-state='open'] {
+      opacity: 0;
+      .om-toast { pointer-events: none; }
+    }
+  }
+
+  &[data-stack-active='true'][data-stack-expanded='true'] {
+    pointer-events: auto;
   }
 }
 
 .om-toast {
+  box-sizing: border-box;
   pointer-events: auto;
+  position: relative;
   display: flex;
-  align-items: start;
-  gap: var(--om-semantic-space-md);
-  justify-content: space-between;
-  padding: var(--om-semantic-space-md);
+  align-items: flex-start;
+  gap: var(--om-semantic-space-sm);
+  padding: var(--om-semantic-space-md) var(--om-semantic-space-lg);
   border: 1px solid var(--om-semantic-color-border);
   border-radius: var(--om-semantic-radius-lg);
   background: var(--om-semantic-color-surface);
@@ -548,46 +581,77 @@ select.om-select optgroup {
   font: var(--om-semantic-font-size) / var(--om-semantic-font-line) var(--om-semantic-font-family);
   overflow-wrap: anywhere;
 
-  &[data-tone='danger'] {
+  &[data-tone='danger'], &[data-tone='error'] {
     .om-toast-icon { color: var(--om-semantic-color-danger); }
   }
 
   .om-toast-icon {
     flex: none;
-    display: grid;
-    place-items: center;
-    inline-size: 24px;
-    block-size: 24px;
-    border: 1px solid var(--om-semantic-color-border-subtle);
-    border-radius: var(--om-semantic-radius-pill);
+    inline-size: 20px;
+    block-size: 20px;
+    margin-block-start: 2px;
   }
 
-  > [role] {
+  > [role], > .om-toast-exit-copy {
     flex: 1;
     min-inline-size: 0;
+
+    > strong { font-weight: 600; }
+    > div { color: var(--om-semantic-color-muted); font-size: var(--om-semantic-font-small); margin-block-start: 2px; }
   }
 
-  > [role] > div {
-    color: var(--om-semantic-color-muted);
-    font-size: var(--om-semantic-font-small);
+  > button, > .om-toast-close-placeholder {
+    box-sizing: border-box;
+    flex: none;
+    inline-size: 28px;
+    block-size: 28px;
   }
 
   > button {
-    flex: none;
-    width: 28px;
-    height: 28px;
+    display: grid;
+    place-items: center;
+    margin: -3px -5px -3px 0;
+    padding: 0;
     border: 1px solid transparent;
     border-radius: var(--om-semantic-radius-sm);
     background: transparent;
-    color: inherit;
-    font: inherit;
+    color: var(--om-semantic-color-muted);
     cursor: pointer;
+    transition: background-color 120ms ease-out, color 120ms ease-out;
 
-    &:focus-visible {
-      outline: 2px solid var(--om-semantic-color-focus);
-      outline-offset: -1px;
-    }
+    > svg { inline-size: 16px; block-size: 16px; }
+    &:hover { background: var(--om-semantic-color-bg); color: var(--om-semantic-color-text); }
+    &:focus-visible { outline: 2px solid var(--om-semantic-color-focus); outline-offset: -1px; }
   }
+
+  &[data-state='closing'] {
+    pointer-events: none;
+    > [role] { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); }
+    > .om-toast-close-placeholder { margin: -3px -5px -3px 0; }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .om-toast[data-state='open'] { animation: om-toast-in 240ms cubic-bezier(.22, .8, .3, 1) both; }
+  .om-toast[data-state='closing'] { animation: om-toast-out 220ms cubic-bezier(.4, 0, .2, 1) both; }
+
+  @keyframes om-toast-in {
+    from { opacity: 0; transform: translateY(12px) scale(.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes om-toast-out {
+    from { opacity: 1; transform: translateY(0) scale(1); }
+    to { opacity: 0; transform: translateY(8px) scale(.97); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .om-toast-viewport, .om-toast-viewport > .om-toast-region, .om-toast > button { transition: none !important; }
+}
+
+@media (forced-colors: active) {
+  .om-toast { border-color: CanvasText; }
+  .om-toast > button { border-color: ButtonText; color: ButtonText; }
 }
 
 .om-dialog-content.om-alert-dialog {
@@ -611,7 +675,7 @@ select.om-select optgroup {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .om-toast, .om-alert[role='alert'] {
+  .om-alert[role='alert'] {
     animation: om-enter var(--om-semantic-motion-duration) var(--om-semantic-motion-ease) both;
   }
 
@@ -628,4 +692,35 @@ select.om-select optgroup {
     from { translate: 0 5px; }
     to { translate: 0 0; }
   }
+}
+
+.om-switch:dir(rtl):checked::before { transform: translateX(-1.125rem); }
+:is(.om-checkbox, .om-radio, .om-switch):not(:disabled):hover { border-color: var(--om-semantic-color-muted); }
+.om-pagination > :is(a, button) { box-sizing: border-box; cursor: pointer; }
+.om-pagination > :is(a, button):not(:disabled):not([aria-current='page']):hover { background: var(--om-semantic-color-bg); border-color: var(--om-semantic-color-border); }
+.om-pagination > button:disabled { opacity: .5; cursor: not-allowed; }
+.om-breadcrumbs button {
+  border: 0;
+  padding: var(--om-semantic-space-xs);
+  border-radius: var(--om-semantic-radius-sm);
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.om-breadcrumbs button:hover:not(:disabled) { background: var(--om-semantic-color-surface); }
+.om-breadcrumbs button:focus-visible { outline: 2px solid var(--om-semantic-color-focus); outline-offset: -1px; }
+.om-breadcrumbs button[aria-current='page'] { font-weight: 600; }
+.om-breadcrumbs button:disabled { opacity: .5; cursor: not-allowed; }
+.om-accordion > summary:hover { background: var(--om-semantic-color-surface); }
+.om-progress { border: 0; border-radius: var(--om-semantic-radius-pill); overflow: hidden; }
+@media (prefers-reduced-motion: no-preference) {
+  :is(.om-checkbox, .om-radio, .om-switch, .om-pagination > :is(a, button), .om-breadcrumbs button, .om-accordion > summary) {
+    transition: background-color 140ms var(--om-semantic-motion-ease), border-color 140ms var(--om-semantic-motion-ease), color 140ms var(--om-semantic-motion-ease);
+  }
+  .om-skeleton { animation: om-skeleton-pulse 1.6s ease-in-out 2 alternate; }
+  @keyframes om-skeleton-pulse { from { opacity: .65; } to { opacity: 1; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .om-switch::before { transition: none; }
 }

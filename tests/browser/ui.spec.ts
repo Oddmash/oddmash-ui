@@ -393,11 +393,14 @@ test('feedback demos reveal content on demand and honor reduced motion', async (
   await trigger.click();
   const toasts = page.locator('.om-toast');
   await expect(toasts).toHaveCount(2);
-  const [first, second] = await Promise.all([toasts.nth(0).boundingBox(), toasts.nth(1).boundingBox()]);
-  expect(first!.y + first!.height).toBeLessThanOrEqual(second!.y);
+  await expect.poll(async () => {
+    const [first, second] = await Promise.all([toasts.nth(0).boundingBox(), toasts.nth(1).boundingBox()]);
+    return first!.y + first!.height <= second!.y + 1;
+  }).toBe(true);
   await page.getByRole('button', { name: 'Dismiss notification' }).first().click();
   await expect(toasts).toHaveCount(1);
-  await page.getByRole('button', { name: 'Dismiss notification' }).click();
+  await expect(page.getByRole('button', { name: 'Dismiss notification' })).toBeFocused();
+  await page.getByRole('button', { name: 'Dismiss notification' }).press('Enter');
   await expect(trigger).toBeFocused();
   await expect(page.locator('.om-toast')).toHaveCount(0);
 });
@@ -556,4 +559,130 @@ test('overview exposes a working demo and primary documentation links', async ({
   await expect(page.locator('#page-title')).toHaveText('Button');
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.screenshot({ path: testInfo.outputPath('component-docs.png'), fullPage: true, animations: 'disabled' });
+});
+
+test('toast stack expands on hover and focus, then dismisses without losing keyboard position', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.setViewportSize({ width: 1100, height: 800 });
+  await page.goto('/#/toast');
+  const trigger = page.getByRole('button', { name: 'Show toast' });
+  const viewport = page.locator('.om-toast-viewport');
+  const cards = viewport.locator('.om-toast-region[data-state="open"]');
+  const dismiss = viewport.getByRole('button', { name: 'Dismiss notification' });
+  await trigger.click();
+  await expect(cards).toHaveCount(1);
+  await expect(cards.locator('.om-toast')).toHaveCSS('animation-name', 'om-toast-in');
+  await trigger.click();
+  await trigger.click();
+  await page.mouse.move(0, 0);
+  await expect(cards).toHaveCount(3);
+  await expect(viewport).toHaveAttribute('data-stack-expanded', 'false');
+  await expect(cards.nth(0)).toHaveAttribute('data-stack-back', 'true');
+  await expect(cards.nth(2)).toHaveAttribute('data-stack-back', 'false');
+  await cards.last().hover();
+  await expect(viewport).toHaveAttribute('data-stack-expanded', 'true');
+  await expect.poll(async () => {
+    const first = await cards.first().boundingBox();
+    const last = await cards.last().boundingBox();
+    return !!first && !!last && first.y + first.height <= last.y;
+  }).toBe(true);
+  await page.mouse.move(0, 0);
+  await dismiss.first().focus();
+  await expect(viewport).toHaveAttribute('data-stack-expanded', 'true');
+  await dismiss.first().press('Enter');
+  await expect(cards).toHaveCount(2);
+  await expect(dismiss.first()).toBeFocused();
+  await expect(viewport.locator('[data-state="closing"] .om-toast')).toHaveCount(0);
+  await dismiss.first().press('Enter');
+  await dismiss.first().press('Enter');
+  await expect(trigger).toBeFocused();
+  await expect(viewport.locator('.om-toast')).toHaveCount(0);
+  await page.setViewportSize({ width: 320, height: 640 });
+  await trigger.click();
+  await expect(cards).toHaveCount(1);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+});
+
+test('toast handles mixed-height notifications and rapid reopen during exit', async ({ page }, testInfo) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.setViewportSize({ width: 1100, height: 800 });
+  await page.goto('/#/toast');
+  const trigger = page.getByRole('button', { name: 'Show toast' });
+  const tone = page.getByRole('combobox', { name: 'Notification tone' });
+  const viewport = page.locator('.om-toast-viewport');
+  const open = viewport.locator('.om-toast-region[data-state="open"]');
+  const choose = async (label: string) => {
+    await tone.click();
+    await page.getByRole('option', { name: label, exact: true }).click();
+  };
+  await trigger.click();
+  await choose('Error');
+  await trigger.click();
+  await choose('Information');
+  await trigger.click();
+  await page.mouse.move(0, 0);
+  await expect(open).toHaveCount(3);
+  await expect(viewport).toHaveAttribute('data-stack-expanded', 'false');
+  await expect(open.nth(1).locator('.om-toast')).toHaveAttribute('data-tone', 'error');
+  await expect(open.nth(1).getByRole('alert')).toContainText('Save failed');
+  await expect.poll(async () => {
+    const height = await open.nth(1).locator('.om-toast').evaluate(el => el.getBoundingClientRect().height);
+    const short = await open.first().locator('.om-toast').evaluate(el => el.getBoundingClientRect().height);
+    return height > short;
+  }).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath('toast-collapsed-light.png'), animations: 'disabled' });
+  await open.last().hover();
+  await expect(viewport).toHaveAttribute('data-stack-expanded', 'true');
+  await expect.poll(async () => {
+    const [a, b, c] = await Promise.all([open.nth(0).boundingBox(), open.nth(1).boundingBox(), open.nth(2).boundingBox()]);
+    return !!a && !!b && !!c && a.y + a.height <= b.y + 1 && b.y + b.height <= c.y + 1;
+  }).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath('toast-expanded-light.png'), animations: 'disabled' });
+  await open.nth(1).getByRole('button', { name: 'Dismiss notification' }).press('Enter');
+  await expect(open).toHaveCount(2);
+  await trigger.click();
+  await expect(open).toHaveCount(3);
+  await expect(viewport.locator('.om-toast-region[data-state="closing"]')).toHaveCount(0);
+  await expect(open.last().getByRole('status')).toContainText('Export ready');
+  await page.getByRole('button', { name: 'Switch to dark theme' }).click();
+  await page.mouse.move(0, 0);
+  await expect(viewport).toHaveAttribute('data-stack-expanded', 'false');
+  await page.screenshot({ path: testInfo.outputPath('toast-collapsed-dark.png'), animations: 'disabled' });
+  await page.setViewportSize({ width: 320, height: 220 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(viewport).toHaveAttribute('data-stack-expanded', 'true');
+  await expect(viewport).toHaveAttribute('data-stack-overflow', 'true');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+  await expect(open.last().getByRole('button', { name: 'Dismiss notification' })).toBeVisible();
+});
+
+test('toast previews keep dismissal visible in forced colors and localize the tone selector', async ({ page, browserName }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce', ...(browserName === 'chromium' ? { forcedColors: 'active' as const } : {}) });
+  await page.goto('/#/toast');
+  const trigger = page.getByRole('button', { name: 'Show toast' });
+  await trigger.click();
+  const dismiss = page.getByRole('button', { name: 'Dismiss notification' });
+  if (browserName === 'chromium') {
+    await trigger.focus();
+    await page.keyboard.press('Tab');
+    await expect(dismiss).toBeFocused();
+    await expect(dismiss).toHaveCSS('outline-style', 'solid');
+  } else {
+    await dismiss.focus();
+    await expect(dismiss).toBeFocused();
+  }
+  await dismiss.press('Enter');
+  await expect(trigger).toBeFocused();
+  const language = page.locator('.locale-select');
+  for (const [locale, label, toneLabel, successLabel] of [
+    ['ko', '한국어', '알림 상태', '성공'],
+    ['ja', '日本語', '通知の種類', '成功'],
+    ['zh-CN', '简体中文', '通知类型', '成功'],
+    ['en', 'English', 'Notification tone', 'Success'],
+  ]) {
+    await language.press('Enter');
+    await page.locator('.header-actions [role="listbox"]').getByRole('option', { name: label }).click();
+    await expect(page.locator('html')).toHaveAttribute('lang', locale);
+    await expect(page.getByRole('combobox', { name: toneLabel })).toHaveText(successLabel);
+  }
 });

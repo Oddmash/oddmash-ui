@@ -1,5 +1,5 @@
 import { createRef } from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, it, vi } from 'vitest';
 import {
@@ -236,4 +236,37 @@ it('uses the custom component as Select and retains its compatibility alias', ()
   render(<Select ref={ref} aria-label="Environment" options={[{ value: 'staging', label: 'Staging' }]} defaultValue="staging" />);
   expect(ref.current).toBe(screen.getByRole('combobox', { name: 'Environment' }));
   expect(ref.current).toHaveTextContent('Staging');
+});
+
+it('preserves the live region through a controlled exit and announces semantic tones', async () => {
+  const onDismiss = vi.fn();
+  const view = render(<Toast open={false} title="Saved" onDismiss={onDismiss} tone="success" />);
+  const region = screen.getByRole('status');
+  expect(region).toBeEmptyDOMElement();
+  view.rerender(<Toast open title="Saved" onDismiss={onDismiss} tone="success" />);
+  expect(screen.getByRole('status')).toBe(region);
+  expect(region).toHaveTextContent('Saved');
+  view.rerender(<Toast open={false} title="Saved" onDismiss={onDismiss} tone="success" />);
+  expect(region).toBeEmptyDOMElement();
+  expect(screen.queryByRole('button', { name: 'Dismiss notification' })).not.toBeInTheDocument();
+  const exit = view.container.querySelector('.om-toast-exit-copy');
+  expect(exit).toHaveAttribute('aria-hidden', 'true');
+  expect(exit).toHaveAttribute('inert');
+  await waitFor(() => expect(screen.queryByText('Saved')).not.toBeInTheDocument());
+  view.rerender(<Toast open title="Network unavailable" onDismiss={onDismiss} tone="error" />);
+  expect(screen.getByRole('alert')).toHaveTextContent('Network unavailable');
+});
+
+it('retains a usable static viewport when animation frame or media APIs are unavailable', () => {
+  vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: false })));
+  vi.stubGlobal('requestAnimationFrame', undefined);
+  vi.stubGlobal('cancelAnimationFrame', undefined);
+  try {
+    const view = render(<ToastViewport><Toast open title="Static notice" onDismiss={() => {}} /></ToastViewport>);
+    expect(screen.getByRole('status')).toHaveTextContent('Static notice');
+    expect(screen.getByRole('button', { name: 'Dismiss notification' })).toBeInTheDocument();
+    view.unmount();
+  } finally {
+    vi.unstubAllGlobals();
+  }
 });
