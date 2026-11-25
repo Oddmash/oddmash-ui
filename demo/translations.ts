@@ -1,8 +1,10 @@
+import { documentationNavigationTranslations } from './docs-navigation-translations';
 import { notificationTranslations } from './notification-translations';
 
 type Translation = [ko: string, ja: string, simplifiedChinese: string];
 
 export const translations: Record<string, Translation> = {
+  ...documentationNavigationTranslations,
   ...notificationTranslations,
   "Link Controls": ["링크 컨트롤","リンクコントロール","链接控件"],
   "Style links, named icon controls and keyboard shortcuts without changing native behavior.": ["기본 동작을 유지하면서 링크, 이름이 있는 아이콘 컨트롤, 키보드 단축키를 꾸밉니다.","ネイティブの動作を保ったままリンク、名前付きアイコン操作、キーボードショートカットを装飾します。","在保留原生行为的同时为链接、具名图标控件和键盘快捷键提供样式。"],
