@@ -1,5 +1,5 @@
 import { createRef, useState } from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { DateSelect } from '../src';
@@ -63,7 +63,23 @@ describe('DateSelect', () => {
     render(<form data-testid="form"><DateSelect label="Date" defaultValue="2026-01-01T00:00:00" /></form>);
     const minute = screen.getByRole('combobox', { name: 'Minute' });
     await userEvent.selectOptions(minute, '55');
-    fireEvent.reset(screen.getByTestId('form'));
+    await act(async () => { (screen.getByTestId('form') as HTMLFormElement).reset(); });
     expect(minute).toHaveValue('0');
+  });
+
+  it('keeps a controlled date after a native form reset', async () => {
+    render(<form data-testid="form"><DateSelect label="Date" value="2026-05-09T08:07:06" /></form>);
+    const form = screen.getByTestId('form') as HTMLFormElement;
+    await act(async () => form.reset());
+    expect(screen.getByRole('combobox', { name: 'Year' })).toHaveValue('2026');
+    expect(screen.getByRole('combobox', { name: 'Minute' })).toHaveValue('7');
+  });
+
+  it('does not reset when the form cancels the reset event', async () => {
+    render(<form data-testid="form" onReset={event => event.preventDefault()}><DateSelect label="Date" defaultValue="2026-01-01T00:00:00" /></form>);
+    const minute = screen.getByRole('combobox', { name: 'Minute' });
+    await userEvent.selectOptions(minute, '55');
+    await act(async () => { (screen.getByTestId('form') as HTMLFormElement).reset(); });
+    expect(minute).toHaveValue('55');
   });
 });
