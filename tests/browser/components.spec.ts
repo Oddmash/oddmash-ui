@@ -4,6 +4,31 @@ import { componentIds, type ComponentId } from '../../demo/content';
 import { tabToAllControls } from './keyboard';
 
 const previewChecks = {
+  'docs-navigation': async (preview) => {
+    const nav = preview.getByRole('navigation', { name: 'Documentation navigation example' });
+    await expect(nav).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Usage guide' })).toHaveAttribute('aria-current', 'page');
+  },
+  'table-of-contents': async (preview) => {
+    const nav = preview.getByRole('navigation', { name: 'On this page' });
+    await expect(nav.getByRole('link', { name: 'Installation' })).toHaveAttribute('href', '#om-toc-demo-setup');
+    await expect(preview.locator('#om-toc-demo-setup')).toBeVisible();
+  },
+  'scroll-header': async (preview) => {
+    const header = preview.locator('.om-scroll-header');
+    await expect(header).toHaveAttribute('data-om-scroll-hidden', 'false');
+    const lock = header.getByRole('button', { name: 'Keep header visible' });
+    await lock.click();
+    await expect(lock).toHaveAttribute('aria-pressed', 'true');
+  },
+  'locale-picker': async (preview) => {
+    const trigger = preview.getByRole('combobox', { name: 'Language' });
+    await expect(trigger).toHaveText('English');
+    await trigger.press('Enter');
+    await trigger.press('ArrowDown');
+    await trigger.press('Enter');
+    await expect(trigger).toHaveText('한국어');
+  },
   'clipboard-button': async (preview) => {
     await expect(preview.getByRole('button', { name: 'Copy code' })).toBeVisible();
     await expect(preview.getByRole('region', { name: 'Clipboard example code' })).toBeVisible();
