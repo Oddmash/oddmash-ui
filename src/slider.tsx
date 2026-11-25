@@ -40,7 +40,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(({ className, on
       ref={inputRef}
       type="range"
       className={cx('om-slider', className)}
-      style={{ '--om-slider-progress': progress(props.value ?? props.defaultValue, props.min, props.max), ...style } as CSSProperties}
+      style={{ ...style, '--om-slider-progress': progress(props.value ?? props.defaultValue, props.min, props.max) } as CSSProperties}
       onInput={event => {
         if (props.value == null) syncProgress(event.currentTarget);
         onInput?.(event);
