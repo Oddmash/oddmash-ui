@@ -43,8 +43,9 @@ export const PreviewFrame = ({ children, view, onViewChange }: {
         }}
         onEscapeKeyDown={(event) => {
           const active = document.activeElement;
-          if (active?.getAttribute('role') === 'combobox' && active.getAttribute('aria-expanded') === 'true') {
+          if (active instanceof HTMLButtonElement && active.matches('.om-select-dropdown-trigger[aria-expanded="true"]')) {
             event.preventDefault();
+            active.click();
           }
         }}
       >
