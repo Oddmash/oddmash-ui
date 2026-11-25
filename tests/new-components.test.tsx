@@ -8,6 +8,7 @@ import {
   Field,
   Radio,
   Select,
+  Spinner,
   Switch,
   Textarea,
 } from '../src';
@@ -94,4 +95,20 @@ it('shows initials during image load and when the image source fails', () => {
   fireEvent.error(image());
   expect(image()).not.toBeVisible();
   expect(avatar).toHaveTextContent('PO');
+});
+it('exposes a labelled spinner as an accessible status', () => {
+  render(<Spinner label="Loading results" />);
+
+  const spinner = screen.getByRole('status');
+
+  expect(spinner).toHaveTextContent('Loading results');
+});
+
+it('hides an unlabelled decorative spinner from assistive technology', () => {
+  const { container } = render(<Spinner />);
+
+  expect(container.querySelector('.om-spinner'))
+    .toHaveAttribute('aria-hidden', 'true');
+
+  expect(screen.queryByRole('status')).not.toBeInTheDocument();
 });
