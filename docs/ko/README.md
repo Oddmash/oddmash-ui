@@ -31,6 +31,6 @@ Interaction Inspector처럼 명확한 조작과 안정적인 동작이 필요하
 
 ## 현재 범위
 
-Oddmash UI는 1.0 이전 단계에서 개발 중입니다. npm 0.4.0은 Toast를 포함해 24개 컴포넌트 계열을 제공합니다.
+Oddmash UI는 1.0 이전 단계에서 개발 중입니다. npm 0.4.1은 Toast를 포함해 24개 컴포넌트 계열을 제공합니다.
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [기여 안내](../../CONTRIBUTING.md) · [MIT 라이선스](../../LICENSE)

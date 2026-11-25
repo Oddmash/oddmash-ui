@@ -31,6 +31,6 @@ Interaction Inspector のように、明確な操作と信頼できる挙動が�
 
 ## 現在の範囲
 
-Oddmash UI は 1.0 前の段階で開発中です。npm 0.4.0 では、Toast を含む 24 種類のコンポーネントを提供します。
+Oddmash UI は 1.0 前の段階で開発中です。npm 0.4.1 では、Toast を含む 24 種類のコンポーネントを提供します。
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [コントリビューターガイド](../../CONTRIBUTING.md) · [MIT License](../../LICENSE)
