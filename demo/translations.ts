@@ -407,6 +407,12 @@ export const translations: Record<string, Translation> = {
   ],
   'Updated just now': ['방금 업데이트됨', 'たった今更新', '刚刚更新'],
   Draft: ['초안', '下書き', '草稿'],
+  Running: ['실행 중', '実行中', '正在运行'],
+  Waiting: ['대기 중', '待機中', '等待中'],
+  Succeeded: ['성공', '成功', '成功'],
+  Failed: ['실패', '失敗', '失败'],
+  'Attention required': ['확인 필요', '確認が必要', '需要关注'],
+  Unknown: ['알 수 없음', '不明', '未知'],
   'A little context. No extra noise.': [
     '필요한 맥락만 간단히 표시합니다.',
     '必要な情報だけを簡潔に表示します。',
@@ -639,11 +645,11 @@ export const translations: Record<string, Translation> = {
     '状態や分類を示します。',
     '标记状态或分类。',
   ],
-  'Describe status or category in a few words. Reserve the accent tone for a state that deserves attention.':
+  'Describe status or category in a few words. Use semantic tones for meaningful operational states and neutral for unknown or ordinary categories.':
     [
-      '중요한 상태에 강조 변형을 사용하세요.',
-      '重要な状態に強調スタイルを使います。',
-      '仅在重要状态使用强调样式。',
+      '상태나 분류를 짧게 표현하세요. 의미 있는 운영 상태에는 의미 기반 색상을, 알 수 없거나 일반적인 분류에는 neutral을 사용하세요.',
+      '状態や分類を短く示します。意味のある運用状態にはセマンティックな色調を、不明または通常の分類には neutral を使います。',
+      '简短描述状态或分类。对有意义的运行状态使用语义色调，对未知或普通分类使用 neutral。',
     ],
   'Always include meaningful text; color alone should not communicate status. Badge is non-interactive. Use a button for an action.':
     [

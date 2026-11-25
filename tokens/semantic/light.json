@@ -37,6 +37,18 @@
         "$type": "color",
         "$value": "{primitive.color.danger}"
       },
+      "success": {
+        "$type": "color",
+        "$value": "{primitive.color.mint}"
+      },
+      "warning": {
+        "$type": "color",
+        "$value": "{primitive.color.amber}"
+      },
+      "info": {
+        "$type": "color",
+        "$value": "{primitive.color.focusBlue}"
+      },
       "focus": {
         "$type": "color",
         "$value": "{primitive.color.focusBlue}"

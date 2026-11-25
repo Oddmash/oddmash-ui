@@ -102,6 +102,9 @@
   background: var(--om-semantic-color-bg);
   font-size: var(--om-semantic-font-small);
   font-weight: var(--om-semantic-font-weight);
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  overflow-wrap: anywhere;
 }
 .om-badge--accent {
   color: var(--om-semantic-color-accent);
@@ -115,6 +118,18 @@
     var(--om-semantic-color-accent) 25%,
     var(--om-semantic-color-surface)
   );
+}
+.om-badge--success { --om-badge-state-color: var(--om-semantic-color-success); }
+.om-badge--warning { --om-badge-state-color: var(--om-semantic-color-warning); }
+.om-badge--danger, .om-badge--error { --om-badge-state-color: var(--om-semantic-color-danger); }
+.om-badge--info, .om-badge--active { --om-badge-state-color: var(--om-semantic-color-info); }
+:is(.om-badge--success, .om-badge--warning, .om-badge--danger, .om-badge--error, .om-badge--info, .om-badge--active) {
+  color: var(--om-badge-state-color);
+  background: color-mix(in srgb, var(--om-badge-state-color) 9%, var(--om-semantic-color-surface));
+  border-color: color-mix(in srgb, var(--om-badge-state-color) 25%, var(--om-semantic-color-surface));
+}
+@media (forced-colors: active) {
+  .om-badge { color: CanvasText; background: Canvas; border-color: CanvasText; }
 }
 .om-tabs-list {
   display: flex;
