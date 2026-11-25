@@ -641,6 +641,26 @@ select.om-select {
     block-size: 28px;
   }
 
+  > .om-toast-progress {
+    position: absolute;
+    inset-inline: var(--om-semantic-space-lg);
+    inset-block-end: var(--om-semantic-space-xs);
+    block-size: calc(2 * var(--om-semantic-border-width));
+    border-radius: var(--om-semantic-radius-sm);
+    background: var(--om-semantic-color-border);
+    overflow: hidden;
+    pointer-events: none;
+
+    > span {
+      display: block;
+      block-size: 100%;
+      background: var(--om-semantic-color-muted);
+      transform-origin: left center;
+    }
+
+    &:dir(rtl) > span { transform-origin: right center; }
+  }
+
   > button {
     display: grid;
     place-items: center;
@@ -687,6 +707,10 @@ select.om-select {
 @media (forced-colors: active) {
   .om-toast { border-color: CanvasText; }
   .om-toast > button { border-color: ButtonText; color: ButtonText; }
+  .om-toast > .om-toast-progress {
+    border: var(--om-semantic-border-width) solid CanvasText;
+    > span { background: Highlight; }
+  }
 }
 
 .om-dialog-content.om-alert-dialog {
