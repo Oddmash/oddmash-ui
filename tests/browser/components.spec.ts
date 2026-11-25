@@ -94,7 +94,7 @@ const previewChecks = {
     await expect(grid).toHaveAttribute('aria-pressed', 'true');
     await expect(grid).toHaveAttribute('tabindex', '0');
     await expect(views.getByRole('button', { name: 'Compact view' })).toBeDisabled();
-    await page.locator('.view-switch').getByRole('button', { name: 'Code' }).press(tabToAllControls(browserName));
+    await page.getByRole('button', { name: 'Expand preview' }).press(tabToAllControls(browserName));
     await expect(grid).toBeFocused();
     await expect(grid).toHaveCSS('outline-style', 'solid');
     await page.keyboard.press('ArrowRight');
