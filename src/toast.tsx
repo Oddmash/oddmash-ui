@@ -33,6 +33,7 @@ export const ToastViewport = /* @__PURE__ */ forwardRef<HTMLDivElement, Componen
       let frame = 0;
       const observed = new Set<Element>();
       const resize = typeof browser.ResizeObserver === 'undefined' ? undefined : new browser.ResizeObserver(() => schedule());
+      resize?.observe(viewport);
 
       const layout = () => {
         const regions = Array.from(viewport.children).filter(
@@ -58,7 +59,10 @@ export const ToastViewport = /* @__PURE__ */ forwardRef<HTMLDivElement, Componen
 
         const fullHeight = active.reduce((sum, { card }) => sum + card.offsetHeight + STACK_GAP, 0) - STACK_GAP;
         const frontHeight = active.at(-1)?.card.offsetHeight ?? 0;
-        const maxHeight = browser.innerHeight - 32;
+        const blockLimit = browser.getComputedStyle(viewport).maxBlockSize;
+        const maxHeight = /^\d+(?:\.\d+)?px$/.test(blockLimit)
+          ? Math.min(browser.innerHeight - 32, Number.parseFloat(blockLimit))
+          : browser.innerHeight - 32;
         const expanded = reduced.matches || !hover.matches || pointer || focused || frontHeight + 2 * STACK_PEEK > maxHeight;
         const overflow = expanded && fullHeight > maxHeight;
         let offset = 0;
@@ -128,6 +132,7 @@ export type ToastProps = Omit<ComponentPropsWithoutRef<'div'>, 'title'> & {
   dismissLabel?: string;
   tone?: 'neutral' | 'success' | 'info' | 'warning' | 'danger' | 'error' | 'loading';
   icon?: ReactNode;
+  progress?: number;
 };
 
 const ToastIcon = ({ tone }: { tone: NonNullable<ToastProps['tone']> }) => (
@@ -149,6 +154,7 @@ export const Toast = /* @__PURE__ */ forwardRef<HTMLDivElement, ToastProps>(
       dismissLabel = 'Dismiss notification',
       tone = 'neutral',
       icon,
+      progress,
       children,
       className,
       ...props
@@ -168,6 +174,7 @@ export const Toast = /* @__PURE__ */ forwardRef<HTMLDivElement, ToastProps>(
 
     const visible = open || present;
     const urgent = tone === 'danger' || tone === 'error';
+    const fraction = progress !== undefined && Number.isFinite(progress) ? Math.min(1, Math.max(0, progress)) : undefined;
     return (
       <div {...props} ref={ref} className={cx('om-toast-region', className)} data-state={open ? 'open' : visible ? 'closing' : 'closed'}>
         <div className={visible ? 'om-toast' : undefined} data-tone={visible ? tone : undefined} data-state={open ? 'open' : 'closing'}>
@@ -184,6 +191,11 @@ export const Toast = /* @__PURE__ */ forwardRef<HTMLDivElement, ToastProps>(
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="m6 6 12 12M18 6 6 18" /></svg>
           </button>}
           {!open && visible && <span aria-hidden="true" className="om-toast-close-placeholder" />}
+          {visible && fraction !== undefined && (
+            <span className="om-toast-progress" aria-hidden="true">
+              <span style={{ transform: `scaleX(var(--om-toast-remaining, ${fraction}))` }} />
+            </span>
+          )}
         </div>
       </div>
     );
