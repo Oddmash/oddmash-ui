@@ -10,7 +10,7 @@ export const translations: Record<string, Translation> = {
   ...previewTranslations,
   'Date Select': ['날짜 선택', '日時選択', '日期时间选择'],
   'Select a date and time through seconds.': ['초 단위까지 날짜와 시간을 선택합니다.', '秒単位まで日時を選択します。', '选择精确到秒的日期和时间。'],
-  'Use a timezone-free local ISO value. An empty selection starts at today at midnight on the first edit. The consumer owns timezone conversion.': ['시간대가 없는 로컬 ISO 값을 사용하세요. 비어 있으면 첫 수정 시 오늘 자정에서 시작합니다. 시간대 변환은 사용하는 제품에서 담당합니다.', 'タイムゾーンなしのローカル ISO 値を使用します。空の場合は最初の編集時に今日の午前0時から始まります。タイムゾーン変換は利用側が行います。', '使用不含时区的本地 ISO 值。首次编辑空值时从当天零点开始。时区转换由使用方处理。'],
+  'Use a timezone-free local ISO value. An empty selection starts at today at midnight, or day one when selecting a month or year first. The consumer owns timezone conversion.': ['시간대가 없는 로컬 ISO 값을 사용하세요. 비어 있으면 오늘 자정에서 시작하며, 월이나 연도를 먼저 선택하면 1일부터 시작합니다. 시간대 변환은 사용하는 제품에서 담당합니다.', 'タイムゾーンなしのローカル ISO 値を使用します。空の場合は今日の午前0時から始まり、月や年を最初に選択した場合は1日になります。タイムゾーン変換は利用側が行います。', '使用不含时区的本地 ISO 值。空值从当天零点开始，先选择月份或年份时从1日开始。时区转换由使用方处理。'],
   'Each native select has a visible label. The group has a legend and supports keyboard and touch selection. Use required to prevent clearing.': ['각 기본 셀렉트에 표시되는 레이블이 있습니다. 그룹 이름이 있으며 키보드 및 터치 선택을 지원합니다. required로 지우기를 방지할 수 있습니다.', '各ネイティブ選択欄に表示ラベルがあります。グループには名前があり、キーボードとタッチ操作に対応します。required でクリアを防止します。', '每个原生选择框都有可见标签。分组具有名称，支持键盘和触屏选择。使用 required 可禁止清除。'],
   'Date and time': ['날짜 및 시간', '日時', '日期和时间'],
   Year: ['연도', '年', '年'],
