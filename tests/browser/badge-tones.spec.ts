@@ -29,3 +29,37 @@ test('semantic badges retain visible labels and boundaries in forced colors', as
   await expect(badge).toBeVisible();
   await expect(badge).toHaveCSS('border-style', 'solid');
 });
+
+test('tone aliases preserve computed styles and localized docs expose operational labels', async ({ page }) => {
+  await page.goto('/#/badge');
+  const language = page.locator('.locale-select');
+  const preview = page.locator('.playground .preview');
+  for (const [locale, label, running, waiting, succeeded, failed, warning, unknown] of [
+    ['ko', '한국어', '실행 중', '대기 중', '성공', '실패', '확인 필요', '알 수 없음'],
+    ['ja', '日本語', '実行中', '待機中', '成功', '失敗', '確認が必要', '不明'],
+    ['zh-CN', '简体中文', '正在运行', '等待中', '成功', '失败', '需要关注', '未知'],
+    ['en', 'English', 'Running', 'Waiting', 'Succeeded', 'Failed', 'Attention required', 'Unknown'],
+  ]) {
+    await language.press('Enter');
+    await page.locator('.header-actions [role="listbox"]').getByRole('option', { name: label }).click();
+    await expect(page.locator('html')).toHaveAttribute('lang', locale);
+    for (const text of [running, waiting, succeeded, failed, warning, unknown]) {
+      await expect(preview.getByText(text, { exact: true })).toBeVisible();
+    }
+  }
+  for (const [tone, alias] of [['active', 'info'], ['danger', 'error']]) {
+    const badge = preview.locator(`.om-badge--${tone}`);
+    const styles = await badge.evaluate((element, { tone, alias }) => {
+      const read = () => {
+        const css = getComputedStyle(element);
+        return [css.color, css.backgroundColor, css.borderColor];
+      };
+      const original = read();
+      element.classList.replace(`om-badge--${tone}`, `om-badge--${alias}`);
+      const aliased = read();
+      element.classList.replace(`om-badge--${alias}`, `om-badge--${tone}`);
+      return { original, aliased };
+    }, { tone, alias });
+    expect(styles.aliased).toEqual(styles.original);
+  }
+});
