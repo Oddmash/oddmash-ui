@@ -32,6 +32,6 @@ Oddmash UI is for focused tools such as Interaction Inspector: products that nee
 
 ## Current scope
 
-Oddmash UI is under active pre-1.0 development. Version 0.5.0 expands the shared library with documentation, landing, navigation and feedback components. React 18.3.1 and React 19 remain supported.
+Oddmash UI is under active pre-1.0 development. Version 0.6.0 adds semantic state badges, consistent native range styling and an optional localized command dismiss action alongside improvements to documentation navigation and code copying. React 18.3.1 and React 19 remain supported.
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [Contributor guide](CONTRIBUTING.md) · [MIT License](LICENSE)
