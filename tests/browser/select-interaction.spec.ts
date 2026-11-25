@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+test.use({ reducedMotion: 'reduce' });
+
 test('select separates pointer feedback from keyboard focus and keeps its menu in the viewport', async ({ page }) => {
   await page.setViewportSize({ width: 900, height: 360 });
   await page.goto('/#/select');
