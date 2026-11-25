@@ -507,7 +507,7 @@ select.om-select optgroup {
   position: fixed;
   z-index: 900;
   inset: auto var(--om-semantic-space-lg) var(--om-semantic-space-lg) auto;
-  inline-size: min(22rem, calc(100vw - 2 * var(--om-semantic-space-lg)));
+  inline-size: min(22rem, calc(100% - 2 * var(--om-semantic-space-lg)));
   pointer-events: none;
 }
 
@@ -515,7 +515,7 @@ select.om-select optgroup {
   position: fixed;
   z-index: 900;
   inset: auto var(--om-semantic-space-lg) var(--om-semantic-space-lg) auto;
-  inline-size: min(22rem, calc(100vw - 2 * var(--om-semantic-space-lg)));
+  inline-size: min(22rem, calc(100% - 2 * var(--om-semantic-space-lg)));
   max-block-size: calc(100dvh - 2 * var(--om-semantic-space-lg));
   display: flex;
   flex-direction: column;
@@ -570,7 +570,7 @@ select.om-select optgroup {
   pointer-events: auto;
   position: relative;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--om-semantic-space-sm);
   padding: var(--om-semantic-space-md) var(--om-semantic-space-lg);
   border: 1px solid var(--om-semantic-color-border);
@@ -589,7 +589,9 @@ select.om-select optgroup {
     flex: none;
     inline-size: 20px;
     block-size: 20px;
-    margin-block-start: 2px;
+    display: grid;
+    place-items: center;
+    > svg { inline-size: 100%; block-size: 100%; }
   }
 
   > [role], > .om-toast-exit-copy {
@@ -610,7 +612,7 @@ select.om-select optgroup {
   > button {
     display: grid;
     place-items: center;
-    margin: -3px -5px -3px 0;
+    margin-inline-end: -5px;
     padding: 0;
     border: 1px solid transparent;
     border-radius: var(--om-semantic-radius-sm);
@@ -627,11 +629,12 @@ select.om-select optgroup {
   &[data-state='closing'] {
     pointer-events: none;
     > [role] { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); }
-    > .om-toast-close-placeholder { margin: -3px -5px -3px 0; }
+    > .om-toast-close-placeholder { margin-inline-end: -5px; }
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  .om-toast[data-state='open'] [data-icon='loading'] { animation: om-spinner-turn .9s linear infinite; }
   .om-toast[data-state='open'] { animation: om-toast-in 240ms cubic-bezier(.22, .8, .3, 1) both; }
   .om-toast[data-state='closing'] { animation: om-toast-out 220ms cubic-bezier(.4, 0, .2, 1) both; }
 

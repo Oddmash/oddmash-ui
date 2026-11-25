@@ -28,6 +28,8 @@ export const AlertPreview = () => {
 };
 
 const toastMessages = {
+  neutral: { label: 'Notice', title: 'Project updated', description: 'The project has a new update.' },
+  loading: { label: 'Loading', title: 'Saving project', description: 'Your changes are being synchronized.' },
   success: { label: 'Success', title: 'Project saved', description: 'Your changes are ready.' },
   info: { label: 'Information', title: 'Export ready', description: 'Your export is available in the project history.' },
   warning: { label: 'Warning', title: 'Connection interrupted', description: 'Your changes are preserved locally. Reconnect before continuing.' },
