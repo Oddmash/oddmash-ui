@@ -100,11 +100,11 @@ export const CommandPalette = ({
   };
 
   const renderOption = (item: CommandPaletteItem) => (
-    <div key={item.id} id={optionId(item)} role="option" aria-selected={selected?.id === item.id} aria-disabled={item.disabled || undefined}
+    <div key={item.id} id={optionId(item)} role="option" aria-label={item.label} aria-describedby={item.description ? `${optionId(item)}-description` : undefined} aria-selected={selected?.id === item.id} aria-disabled={item.disabled || undefined}
       onPointerMove={() => { if (!item.disabled) setActive(item.id); }}
       onMouseDown={event => event.preventDefault()} onClick={() => select(item)}>
       <span className="om-command-label">{item.label}</span>
-      {item.description && <span className="om-command-description">{item.description}</span>}
+      {item.description && <span id={`${optionId(item)}-description`} className="om-command-description">{item.description}</span>}
     </div>
   );
 
@@ -116,6 +116,7 @@ export const CommandPalette = ({
         <DialogDescription>{description}</DialogDescription>
         <Input role="combobox" aria-label={searchLabel} aria-autocomplete="list" aria-expanded="true" aria-controls={id} aria-activedescendant={selected ? optionId(selected) : undefined}
           value={query} onChange={event => { setQuery(event.target.value); setActive(null); }} onKeyDown={event => {
+            if (event.nativeEvent.isComposing) return;
             if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
               event.preventDefault();
               if (!available.length) return;
