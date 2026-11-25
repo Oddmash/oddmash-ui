@@ -17,7 +17,9 @@
   border: 0;
   border-radius: 0;
   background: var(--om-semantic-color-bg);
-  animation: none;
+  &[data-state='open'] {
+    animation: none;
+  }
 }
 
 .preview-expanded-dialog .playground {

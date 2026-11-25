@@ -11,6 +11,7 @@ test('fullscreen keeps the current preview, supports nested controls and restore
   await expect(dialog).toBeVisible();
   const close = dialog.getByRole('button', { name: 'Exit fullscreen preview' });
   await expect(close).toBeFocused();
+  await expect(dialog).toHaveCSS('animation-name', 'none');
   const box = await dialog.boundingBox();
   expect(box).toMatchObject({ x: 0, y: 0, width: 320, height: 700 });
   await trigger.press('Enter');

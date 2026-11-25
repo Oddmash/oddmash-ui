@@ -672,6 +672,7 @@ test('toast previews keep dismissal visible in forced colors and localize the to
   const trigger = page.getByRole('button', { name: 'Show toast' });
   await trigger.click();
   const dismiss = page.getByRole('button', { name: 'Dismiss notification' });
+  await expect(dismiss).toBeVisible();
   if (browserName === 'chromium') {
     await trigger.focus();
     await page.keyboard.press('Tab');

@@ -84,7 +84,7 @@ const previewChecks = {
   },
   'command-palette': async (preview, page) => {
     const trigger = preview.getByRole('button', { name: 'Commands' });
-    await page.keyboard.press('Control+k');
+    await trigger.press('Enter');
     const search = page.getByRole('combobox', { name: 'Search commands' });
     await expect(page.getByRole('group', { name: 'Project' })).toBeVisible();
     await expect(page.getByRole('option', { name: 'Save project' })).toHaveAccessibleDescription('Save current changes');
