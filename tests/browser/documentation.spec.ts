@@ -63,6 +63,8 @@ test('static classes contain long code and wide tables at 320px without a global
   const code = preview.getByRole('region', { name: 'Long code' });
   const table = preview.getByRole('region', { name: 'Wide table' });
   await expect(code).toHaveCSS('white-space', 'pre');
+  await expect(code).toHaveCSS('margin-top', '0px');
+  await expect(code).toHaveCSS('margin-bottom', '0px');
   expect(await code.evaluate((element) => element.scrollWidth > element.clientWidth)).toBe(true);
   expect(await table.evaluate((element) => element.scrollWidth > element.clientWidth)).toBe(true);
   await expect(table.getByRole('table')).toBeVisible();
