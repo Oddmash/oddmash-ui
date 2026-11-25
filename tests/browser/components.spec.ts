@@ -1,4 +1,5 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
+import { chooseDocsTheme } from './docs-test-helpers';
 import AxeBuilder from '@axe-core/playwright';
 import { componentIds, type ComponentId } from '../../demo/content';
 import { tabToAllControls } from './keyboard';
@@ -49,6 +50,9 @@ const previewChecks = {
     const card = preview.getByRole('link', { name: /Usage guide/ });
     await expect(card).toHaveAttribute('href', '#/link-card');
     await page.locator('.view-switch').getByRole('button', { name: 'Code' }).press(tabToAllControls(browserName));
+    const expand = page.getByRole('button', { name: 'Expand preview' });
+    await expect(expand).toBeFocused();
+    await expand.press(tabToAllControls(browserName));
     await expect(card).toBeFocused();
     await expect(card).toHaveCSS('background-size', '100% 100%');
     await expect(card).toHaveCSS('outline-style', 'solid');
@@ -81,7 +85,7 @@ const previewChecks = {
   },
   'command-palette': async (preview, page) => {
     const trigger = preview.getByRole('button', { name: 'Commands' });
-    await page.keyboard.press('Control+k');
+    await trigger.press('Enter');
     const search = page.getByRole('combobox', { name: 'Search commands' });
     await expect(page.getByRole('group', { name: 'Project' })).toBeVisible();
     await expect(page.getByRole('option', { name: 'Save project' })).toHaveAccessibleDescription('Save current changes');
@@ -97,6 +101,9 @@ const previewChecks = {
   button: async (preview, page, browserName) => {
     const button = preview.getByRole('button', { name: 'Create project' });
     await page.locator('.view-switch').getByRole('button', { name: 'Code' }).press(tabToAllControls(browserName));
+    const expand = page.getByRole('button', { name: 'Expand preview' });
+    await expect(expand).toBeFocused();
+    await expand.press(tabToAllControls(browserName));
     await expect(button).toBeFocused();
     await expect(button).toHaveCSS('outline-style', 'solid');
     await page.keyboard.press('Enter');
@@ -233,10 +240,8 @@ for (const id of componentIds.filter((id) => id !== 'dialog')) {
     const preview = page.locator('.playground .preview');
     for (const theme of ['light', 'dark']) {
       await test.step(theme, async () => {
-        if (theme === 'dark') {
-          await page.reload();
-          await page.getByRole('button', { name: 'Switch to dark theme' }).click();
-        }
+        if (theme === 'dark') await page.reload();
+        await chooseDocsTheme(page, theme === 'dark' ? 'Dark' : 'Light');
         await expect(preview).toBeVisible();
         await previewChecks[id](preview, page, browserName);
         const { violations } = await new AxeBuilder({ page })

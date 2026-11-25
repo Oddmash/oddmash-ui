@@ -1,0 +1,73 @@
+.site-header .docs-search-trigger {
+  display: flex;
+  flex: 1 1 var(--docs-search-preferred-width);
+  justify-content: flex-start;
+  max-inline-size: var(--docs-search-max-width);
+  min-inline-size: 0;
+  height: var(--om-semantic-control-height);
+  padding-inline: var(--om-semantic-space-sm);
+  gap: var(--om-semantic-space-sm);
+  border-radius: var(--om-semantic-radius-sm);
+  color: var(--om-semantic-color-muted);
+  font-weight: var(--om-primitive-font-weight-normal);
+}
+
+.docs-search-trigger svg {
+  flex: none;
+  inline-size: var(--om-semantic-space-lg);
+  block-size: var(--om-semantic-space-lg);
+}
+
+.docs-search-trigger > span {
+  min-inline-size: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.docs-search-trigger kbd {
+  margin-inline-start: auto;
+}
+
+.docs-app .header-actions {
+  gap: var(--om-semantic-space-sm);
+}
+
+.docs-app .header-package-links {
+  flex-wrap: nowrap;
+  gap: var(--om-semantic-space-xs);
+}
+
+.theme-select {
+  inline-size: var(--docs-header-control-width);
+  min-block-size: var(--om-semantic-control-height);
+  font-size: var(--om-semantic-font-small);
+}
+
+.sidebar {
+  overscroll-behavior-y: contain;
+  scroll-padding-block: var(--om-semantic-space-md);
+}
+
+@media (max-width: 760px) {
+  .site-header .docs-search-trigger {
+    flex: 1 1 var(--docs-search-compact-width);
+    inline-size: auto;
+    max-inline-size: none;
+  }
+
+  .docs-app .header-package-links {
+    display: flex;
+    order: 3;
+  }
+
+  .docs-app .header-actions {
+    gap: var(--om-semantic-space-xs);
+  }
+}
+
+@media (max-width: 460px) {
+  .site-header .wordmark strong {
+    display: none;
+  }
+}

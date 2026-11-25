@@ -1,6 +1,7 @@
 import { useId, useRef, useState, type ReactNode } from 'react';
-import { AlertDialog, Breadcrumbs, Button, Pagination, Select, Toast, ToastViewport } from '@oddmash/ui';
+import { AlertDialog, Breadcrumbs, Button, Pagination, Select, ToastProvider, useToast } from '@oddmash/ui';
 import { useLocale } from './locale';
+import previewTokens from './preview-tokens.json';
 
 export const AlertPreview = () => {
   const { t } = useLocale();
@@ -38,44 +39,39 @@ const toastMessages = {
 
 type PreviewTone = keyof typeof toastMessages;
 
-export const ToastPreview = () => {
+const ToastPreviewControls = () => {
   const { t } = useLocale();
   const trigger = useRef<HTMLButtonElement>(null);
-  const viewport = useRef<HTMLDivElement>(null);
+  const { showToast } = useToast();
   const [tone, setTone] = useState<PreviewTone>('success');
-  const [notices, setNotices] = useState([0, 1, 2].map(id => ({ id, open: false, tone: 'success' as PreviewTone })));
   const options = (Object.keys(toastMessages) as PreviewTone[]).map(value => ({ value, label: t(toastMessages[value].label) }));
-  const show = () => setNotices(current => {
-    const next = current.find(notice => !notice.open);
-    return next ? [...current.filter(notice => notice.id !== next.id), { ...next, open: true, tone }] : current;
+  const show = () => showToast({
+    title: t(toastMessages[tone].title),
+    description: t(toastMessages[tone].description),
+    tone,
+    duration: tone === 'neutral' || tone === 'success' || tone === 'info' ? previewTokens.toastDuration : null,
+    restoreFocusTo: trigger.current,
   });
-  const dismiss = (id: number) => {
-    const visible = notices.filter(notice => notice.open);
-    const index = visible.findIndex(notice => notice.id === id);
-    const next = visible[index + 1] ?? visible[index - 1];
-    setNotices(current => current.map(notice => notice.id === id ? { ...notice, open: false } : notice));
-    requestAnimationFrame(() => {
-      const button = next && viewport.current?.querySelector<HTMLButtonElement>(`[data-toast-id="${next.id}"][data-state="open"] button`);
-      (button || trigger.current)?.focus();
-    });
-  };
   return (
-    <>
+    <div className="preview-toast-controls">
       <Select aria-label={t('Notification tone')} options={options} value={tone} onValueChange={value => {
         if (Object.hasOwn(toastMessages, value)) setTone(value as PreviewTone);
       }} />
-      <Button ref={trigger} variant="secondary" disabled={notices.every(notice => notice.open)} onClick={show}>
+      <Button ref={trigger} variant="secondary" onClick={show}>
         {t('Show toast')}
       </Button>
-      <ToastViewport ref={viewport}>
-        {notices.map(notice => (
-          <Toast key={notice.id} data-toast-id={notice.id} title={t(toastMessages[notice.tone].title)} open={notice.open} tone={notice.tone}
-            dismissLabel={t('Dismiss notification')} onDismiss={() => dismiss(notice.id)}>
-            {t(toastMessages[notice.tone].description)}
-          </Toast>
-        ))}
-      </ToastViewport>
-    </>
+    </div>
+  );
+};
+
+export const ToastPreview = () => {
+  const { t } = useLocale();
+  return (
+    <div className="preview-toast">
+      <ToastProvider className="preview-toast-viewport" maxVisible={3} dismissLabel={t('Dismiss notification')}>
+        <ToastPreviewControls />
+      </ToastProvider>
+    </div>
   );
 };
 
