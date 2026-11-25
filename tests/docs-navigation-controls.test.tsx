@@ -140,7 +140,16 @@ it('observes active headings and uses the reading line at the bottom', () => {
     lastRect.mockReturnValue(geometry(400));
     fixture.scroll(1400);
     expect(update).toHaveBeenLastCalledWith('setup');
-    lastRect.mockReturnValue(geometry(60));
+    lastRect.mockReturnValue(geometry(65));
+    fixture.scroll(1400);
+    expect(update).toHaveBeenLastCalledWith('setup');
+    lastRect.mockReturnValue(geometry(64));
+    fixture.scroll(1400);
+    expect(update).toHaveBeenLastCalledWith('설치');
+    lastRect.mockReturnValue(geometry(65));
+    fixture.scroll(1400);
+    expect(update).toHaveBeenLastCalledWith('setup');
+    lastRect.mockReturnValue(geometry(63));
     fixture.scroll(1400);
     expect(update).toHaveBeenLastCalledWith('설치');
     stop();
