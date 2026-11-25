@@ -1,6 +1,8 @@
 @use 'generated/tokens.css';
 @use 'additional-components';
 @use 'documentation';
+@use 'link-controls';
+@use 'docs-navigation';
 
 .om-button,
 .om-input,
