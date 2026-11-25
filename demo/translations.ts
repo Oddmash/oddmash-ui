@@ -1,6 +1,10 @@
 type Translation = [ko: string, ja: string, simplifiedChinese: string];
 
 export const translations: Record<string, Translation> = {
+  "Open with an explicit trigger or an opt-in Mod+K shortcut. Supply descriptive grouped results and a consumer-owned filter when needed.": ["명시적인 트리거 또는 선택적으로 Mod+K 단축키로 열 수 있습니다. 설명이 있는 그룹 결과와 필요시 자체 검색 필터를 전달하세요.","明示的なトリガー、または任意の Mod+K ショートカットで開きます。説明付きのグループ結果と必要に応じた検索フィルターを渡します。","通过明确的触发器或可选的 Mod+K 快捷键打开，传入带描述的分组结果和所需的搜索过滤器。"],
+  "Use arrow keys, Enter and Escape. Provide distinct result labels and descriptions.": ["화살표 키, Enter, Escape를 사용하세요. 명확한 결과 이름과 설명을 제공하세요.","矢印キー、Enter、Escape を使用します。明確な結果名と説明を提供します。","使用方向键、Enter 和 Escape。提供清晰的结果名称与描述。"],
+  "Save current changes": ["현재 변경사항 저장","現在の変更を保存","保存当前更改"],
+  "Project": ["프로젝트","プロジェクト","项目"],
   "Example options table": ["예제 옵션 표","オプション表の例","选项表示例"],
   "Link Card": ["링크 카드","リンクカード","链接卡片"],
   "Code Block": ["코드 블록","コードブロック","代码块"],
