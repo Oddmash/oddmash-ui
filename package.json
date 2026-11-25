@@ -63,6 +63,10 @@
       "types": "./dist/select.d.ts",
       "import": "./dist/select.js"
     },
+    "./date-select": {
+      "types": "./dist/date-select.d.ts",
+      "import": "./dist/date-select.js"
+    },
     "./checkbox": {
       "types": "./dist/checkbox.d.ts",
       "import": "./dist/checkbox.js"
