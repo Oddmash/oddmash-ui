@@ -1,3 +1,4 @@
+import { ClipboardButtonPreview, ToastProviderPreview } from './notification-previews';
 import {
   AlertPreview,
   BreadcrumbPreview,
@@ -75,6 +76,8 @@ const CodeBlockPreview = ({ t }: { t: (text: string) => string }) => {
 export const getComponentPreviews = (
   t: (text: string) => string,
 ): Record<ExtendedComponentId, ReactNode> => ({
+  'clipboard-button': <ClipboardButtonPreview t={t} />,
+  'toast-provider': <ToastProviderPreview t={t} />,
   "link-controls": (
     <>
       <ButtonLink href="#/link-controls">{t('Read guide')}</ButtonLink>
