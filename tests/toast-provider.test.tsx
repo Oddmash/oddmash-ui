@@ -4,6 +4,7 @@ import { renderToString } from 'react-dom/server';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { ToastProvider, useToast } from '../src/toast-provider';
+import { Toast, ToastViewport } from '../src/toast';
 
 const Controls = () => {
   const { showToast } = useToast();
@@ -12,6 +13,7 @@ const Controls = () => {
       <button onClick={() => showToast({ title: 'First', duration: 1000, dismissLabel: 'Dismiss first' })}>First notice</button>
       <button onClick={() => showToast({ title: 'Second', tone: 'error', dismissLabel: 'Dismiss second' })}>Second notice</button>
       <button onClick={() => showToast({ title: 'Third', duration: null, dismissLabel: 'Dismiss third' })}>Third notice</button>
+      <button onClick={() => showToast({ title: 'Long', duration: 3000, dismissLabel: 'Dismiss long' })}>Long notice</button>
     </>
   );
 };
@@ -24,6 +26,17 @@ const activate = (name: string) => {
   const button = screen.getByRole('button', { name });
   act(() => { button.focus(); fireEvent.click(button); });
   return button;
+};
+
+const remainingFraction = (container: HTMLElement) => {
+  const region = container.querySelector<HTMLElement>('[data-toast-id][data-state="open"]');
+  return Number(region?.style.getPropertyValue('--om-toast-remaining'));
+};
+
+const mousePointer = (target: HTMLElement, type: 'pointerover' | 'pointerout') => {
+  const event = new MouseEvent(type, { bubbles: true });
+  Object.defineProperty(event, 'pointerType', { value: 'mouse' });
+  fireEvent(target, event);
 };
 
 beforeEach(() => {
@@ -74,13 +87,16 @@ it('bounds the visible stack, queues distinct IDs and removes a dismissed contro
 });
 
 it('pauses remaining expiry while the viewport has keyboard focus and restores focus after the final manual dismissal', async () => {
-  render(<ToastProvider><Controls /></ToastProvider>);
+  const { container } = render(<ToastProvider><Controls /></ToastProvider>);
   const trigger = activate('First notice');
   await advance(32);
   await advance(600);
   const close = screen.getByRole('button', { name: 'Dismiss first' });
   act(() => close.focus());
+  const paused = remainingFraction(container);
+  expect(paused).toBeCloseTo(0.4);
   await advance(5000);
+  expect(remainingFraction(container)).toBe(paused);
   expect(close).toHaveFocus();
   act(() => trigger.focus());
   await advance(399);
@@ -93,6 +109,81 @@ it('pauses remaining expiry while the viewport has keyboard focus and restores f
   const secondClose = screen.getByRole('button', { name: 'Dismiss second' });
   act(() => { secondClose.focus(); fireEvent.click(secondClose); });
   expect(secondTrigger).toHaveFocus();
+});
+
+it('shows remaining auto-dismiss time and freezes the same remaining fraction on hover until mouse leave', async () => {
+  const { container } = render(<ToastProvider><Controls /></ToastProvider>);
+  activate('First notice');
+  await advance(32);
+  const viewport = container.querySelector<HTMLElement>('.om-toast-viewport')!;
+  const track = container.querySelector('.om-toast-progress')!;
+  expect(track).toHaveAttribute('aria-hidden', 'true');
+  expect(remainingFraction(container)).toBe(1);
+  await advance(320);
+  expect(remainingFraction(container)).toBeCloseTo(0.68);
+  mousePointer(viewport, 'pointerover');
+  const paused = remainingFraction(container);
+  await advance(5000);
+  expect(remainingFraction(container)).toBe(paused);
+  expect(screen.getByRole('button', { name: 'Dismiss first' })).toBeInTheDocument();
+  mousePointer(viewport, 'pointerout');
+  await advance(320);
+  expect(remainingFraction(container)).toBeCloseTo(0.36);
+  await advance(361);
+  expect(screen.queryByRole('button', { name: 'Dismiss first' })).not.toBeInTheDocument();
+  expect(container.querySelector<HTMLElement>('[data-state="closing"][data-toast-id]')?.style.getPropertyValue('--om-toast-remaining')).toBe('0');
+});
+
+it('keeps persistent notifications free of countdowns and starts queued countdowns only when admitted', async () => {
+  const { container } = render(<ToastProvider maxVisible={1}><Controls /></ToastProvider>);
+  activate('Second notice');
+  activate('First notice');
+  await advance(32);
+  expect(container.querySelector('.om-toast-progress')).not.toBeInTheDocument();
+  await advance(5000);
+  fireEvent.click(screen.getByRole('button', { name: 'Dismiss second' }));
+  await advance(250);
+  await advance(32);
+  expect(container.querySelector('.om-toast-progress')).toBeInTheDocument();
+  expect(remainingFraction(container)).toBe(1);
+});
+
+it('updates reduced-motion countdowns without frame animation and supports controlled decorative progress', async () => {
+  vi.stubGlobal('matchMedia', (query: string) => ({
+    matches: query.includes('prefers-reduced-motion'),
+    addEventListener: () => {},
+    removeEventListener: () => {},
+  }));
+  const { container } = render(<ToastProvider><Controls /></ToastProvider>);
+  activate('Long notice');
+  await advance(32);
+  await advance(500);
+  expect(remainingFraction(container)).toBe(1);
+  await advance(500);
+  expect(remainingFraction(container)).toBeCloseTo(2 / 3);
+  const controlled = vi.fn();
+  const view = render(<Toast open title="Standalone" onDismiss={controlled} progress={0.25} />);
+  expect(view.container.querySelector<HTMLElement>('.om-toast-progress > span')?.style.transform).toContain('0.25');
+  await advance(5000);
+  expect(controlled).not.toHaveBeenCalled();
+  expect(screen.getByText('Standalone')).toBeInTheDocument();
+});
+
+it('measures an explicitly bounded toast viewport independently of browser height', async () => {
+  vi.stubGlobal('matchMedia', () => ({ matches: true, addEventListener: () => {}, removeEventListener: () => {} }));
+  const height = vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(80);
+  try {
+    const { container } = render(
+      <ToastViewport style={{ maxBlockSize: '120px' }}>
+        <Toast open title="First" onDismiss={() => {}} />
+        <Toast open title="Second" onDismiss={() => {}} />
+      </ToastViewport>,
+    );
+    await advance(32);
+    expect(container.querySelector('.om-toast-viewport')).toHaveAttribute('data-stack-overflow', 'true');
+  } finally {
+    height.mockRestore();
+  }
 });
 
 it('keeps reduced-motion removal immediate and clears pending callbacks on unmount', async () => {
