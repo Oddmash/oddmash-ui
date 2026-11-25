@@ -8,6 +8,12 @@ import {
 import {
   Accordion,
   LinkCard,
+  ButtonLink,
+  IconButton,
+  IconLink,
+  PlatformLink,
+  PlatformLinks,
+  Kbd,
   CodeBlock,
   CodeBlockHeader,
   CodeBlockCaption,
@@ -69,6 +75,18 @@ const CodeBlockPreview = ({ t }: { t: (text: string) => string }) => {
 export const getComponentPreviews = (
   t: (text: string) => string,
 ): Record<ExtendedComponentId, ReactNode> => ({
+  "link-controls": (
+    <>
+      <ButtonLink href="#/link-controls">{t('Read guide')}</ButtonLink>
+      <IconButton aria-label={t('Open search example')}><span aria-hidden="true">⌕</span></IconButton>
+      <IconLink href="#/link-controls" aria-label={t('Open reference example')}><span aria-hidden="true">↗</span></IconLink>
+      <PlatformLinks role="group" aria-label={t('Platform links')}>
+        <PlatformLink platform="github" href="#/link-controls" aria-label={t('GitHub example')} />
+        <PlatformLink platform="npm" href="#/link-controls" aria-label={t('npm example')} />
+      </PlatformLinks>
+      <Kbd>Ctrl K</Kbd>
+    </>
+  ),
   'link-card': (
     <LinkCard href="#/link-card">
       <strong>{t('Usage guide')}</strong> <span className="om-link-card-arrow" aria-hidden="true">→</span>
