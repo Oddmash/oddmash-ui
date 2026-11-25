@@ -45,3 +45,15 @@ it('offers an optional localized dismiss action while preserving search autofocu
   expect(trigger).toHaveFocus();
   expect(action).not.toHaveBeenCalled();
 });
+
+it('keeps pointer result selection with the dismiss control enabled', async () => {
+  const user = userEvent.setup();
+  const action = vi.fn();
+  render(<CommandPalette trigger={<Button>Commands</Button>} title="Commands" description="Choose an action" searchLabel="Search commands" emptyLabel="No commands found" dismissLabel="Close commands" items={[{ id: 'save', label: 'Save project', onSelect: action }]} />);
+  const trigger = screen.getByRole('button', { name: 'Commands' });
+  await user.click(trigger);
+  await user.click(screen.getByRole('option', { name: 'Save project' }));
+  expect(action).toHaveBeenCalledOnce();
+  expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  expect(trigger).toHaveFocus();
+});
