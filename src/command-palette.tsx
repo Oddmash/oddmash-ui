@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useId, useMemo, useState, type ReactNode } from 'react';
-import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from './dialog';
+import { Button } from './button';
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from './dialog';
 import { Input } from './input';
 
 export type CommandPaletteItem = {
@@ -17,6 +18,7 @@ export type CommandPaletteProps = {
   description: string;
   searchLabel: string;
   emptyLabel: string;
+  dismissLabel?: string;
   items: readonly CommandPaletteItem[];
   theme?: 'light' | 'dark';
   container?: HTMLElement | null;
@@ -32,7 +34,7 @@ const defaultFilter = (item: CommandPaletteItem, query: string) =>
   [item.label, item.description, item.group, ...(item.keywords ?? [])].join(' ').toLocaleLowerCase().includes(query.toLocaleLowerCase());
 
 export const CommandPalette = ({
-  trigger, title, description, searchLabel, emptyLabel, items, theme, container,
+  trigger, title, description, searchLabel, emptyLabel, dismissLabel, items, theme, container,
   open: controlledOpen, defaultOpen = false, onOpenChange, shortcut = false, maxResults, filter = defaultFilter,
 }: CommandPaletteProps) => {
   const [internalOpen, setInternalOpen] = useState(defaultOpen);
@@ -136,6 +138,11 @@ export const CommandPalette = ({
           ) : group.entries.map(renderOption))}
         </div>
         {!list.length && <p role="status">{emptyLabel}</p>}
+        {dismissLabel && (
+          <DialogClose asChild>
+            <Button variant="secondary" className="om-command-dismiss">{dismissLabel}</Button>
+          </DialogClose>
+        )}
       </DialogContent>
     </Dialog>
   );
