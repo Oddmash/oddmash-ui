@@ -29,10 +29,11 @@ it('groups descriptive search results and preserves keyboard selection order', a
   await user.keyboard('{ArrowDown}');
   expect(screen.getByRole('option', { name: 'Getting started' })).toHaveAttribute('aria-selected', 'true');
   await user.keyboard('{ArrowDown}');
-  expect(screen.getByRole('option', { name: /Runtime Public methods/ })).toHaveAttribute('aria-selected', 'true');
+  expect(screen.getByRole('option', { name: 'Runtime' })).toHaveAttribute('aria-selected', 'true');
+  expect(screen.getByRole('option', { name: 'Runtime' })).toHaveAccessibleDescription('Public methods');
   await user.type(search, 'framework');
   expect(screen.getAllByRole('option')).toHaveLength(1);
-  expect(screen.getByRole('option', { name: /Introduction Learn the framework/ })).toHaveAttribute('aria-selected', 'true');
+  expect(screen.getByRole('option', { name: 'Introduction' })).toHaveAttribute('aria-selected', 'true');
   await user.keyboard('{Enter}');
   expect(select).toHaveBeenCalledTimes(1);
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
