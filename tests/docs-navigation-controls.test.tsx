@@ -191,6 +191,10 @@ it('hides on downward scroll, reveals on upward scroll, focus, open controls and
     button.setAttribute('aria-expanded', 'false');
     fixture.scroll(300);
     expect(header.dataset.omScrollHidden).toBe('true');
+    window.dispatchEvent(new Event('pageshow'));
+    expect(header.dataset.omScrollHidden).toBe('false');
+    fixture.scroll(350);
+    expect(header.dataset.omScrollHidden).toBe('true');
     fixture.scroll(0);
     expect(header.dataset.omScrollHidden).toBe('false');
     stop();
