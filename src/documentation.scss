@@ -180,7 +180,7 @@
 .om-prose :where(h3) { font-size: 1.25em; }
 .om-prose > :first-child { margin-block-start: 0; }
 .om-prose > :last-child { margin-block-end: 0; }
-.om-prose :where(p, ul, ol, blockquote, dl, table, pre) {
+.om-prose :where(p, ul, ol, blockquote, dl, table, pre:not(.om-code-block-content)) {
   margin-block: 1em;
 }
 .om-prose :where(ul, ol) { padding-inline-start: 1.5em; }
