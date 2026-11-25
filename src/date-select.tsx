@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef, useState, type ComponentPropsWithoutRef, type ReactNode } from 'react';
+import { forwardRef, useEffect, useReducer, useRef, useState, type ComponentPropsWithoutRef, type ReactNode } from 'react';
 import { Button } from './button';
 import { cx } from './cx';
 
@@ -45,17 +45,23 @@ export const DateSelect = forwardRef<HTMLFieldSetElement, DateSelectProps>(({
 }, ref) => {
   if (!Number.isInteger(minYear) || !Number.isInteger(maxYear) || minYear < 1 || maxYear > 9999 || minYear > maxYear) throw new RangeError('DateSelect requires an ordered year range from 1 to 9999.');
   const [internalValue, setInternalValue] = useState(defaultValue);
+  const [, refresh] = useReducer((revision: number) => revision + 1, 0);
   const yearControl = useRef<HTMLSelectElement>(null);
   const parsed = parse(value ?? internalValue, minYear, maxYear);
   const fieldLabels = { ...defaultLabels, ...labels };
 
   useEffect(() => {
     const owner = yearControl.current?.form;
-    const reset = () => {
-      if (value === undefined) setInternalValue(defaultValue);
+    let active = true;
+    const reset = (event: Event) => {
+      queueMicrotask(() => {
+        if (!active || event.defaultPrevented) return;
+        if (value === undefined) setInternalValue(defaultValue);
+        refresh();
+      });
     };
     owner?.addEventListener('reset', reset);
-    return () => owner?.removeEventListener('reset', reset);
+    return () => { active = false; owner?.removeEventListener('reset', reset); };
   }, [defaultValue, form, value]);
 
   const update = (next: string) => {
