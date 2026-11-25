@@ -119,6 +119,17 @@ const previewChecks = {
     await expect(bold).toHaveAttribute('aria-pressed', 'false');
     await expect(italic).toHaveAttribute('aria-pressed', 'true');
   },
+  'date-select': async (preview) => {
+    const group = preview.getByRole('group', { name: 'Date and time' });
+    await expect(group.getByRole('combobox')).toHaveCount(6);
+    const seconds = group.getByRole('combobox', { name: 'Second' });
+    await expect(seconds).toHaveValue('42');
+    await seconds.selectOption('59');
+    await expect(seconds).toHaveValue('59');
+    await group.getByRole('button', { name: 'Clear date and time' }).click();
+    await expect(group.getByRole('combobox', { name: 'Year' })).toBeFocused();
+    await expect(seconds).toHaveValue('');
+  },
   'command-palette': async (preview, page) => {
     const trigger = preview.getByRole('button', { name: 'Commands' });
     await trigger.press('Enter');

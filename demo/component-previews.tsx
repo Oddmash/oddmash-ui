@@ -40,6 +40,7 @@ import {
   Progress,
   Radio,
   Select,
+  DateSelect,
   Separator,
   Skeleton,
   Spinner,
@@ -177,6 +178,7 @@ export const getComponentPreviews = (
       />
     </div>
   ),
+  'date-select': <DateSelect label={t('Date and time')} defaultValue="2026-11-25T14:30:42" labels={{year: t('Year'), month: t('Month'), day: t('Day'), hour: t('Hour'), minute: t('Minute'), second: t('Second'), clear: t('Clear date and time')}} />,
   checkbox: (
     <label className="example-choice">
       <Checkbox name="events" value="keyboard" defaultChecked />{' '}

@@ -6,6 +6,7 @@ export * from './tabs';
 export * from './dialog';
 export * from './textarea';
 export * from './select';
+export * from './date-select';
 export * from './checkbox';
 export * from './radio';
 export * from './switch';

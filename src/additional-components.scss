@@ -57,6 +57,42 @@ select.om-select {
   }
 }
 
+.om-date-select {
+  box-sizing: border-box;
+  display: grid;
+  gap: var(--om-semantic-space-sm);
+  inline-size: 100%;
+  min-inline-size: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  color: var(--om-semantic-color-text);
+  font: var(--om-semantic-font-size) / var(--om-semantic-font-line) var(--om-semantic-font-family);
+
+  legend {
+    padding: 0;
+    margin-block-end: var(--om-semantic-space-sm);
+    font-weight: var(--om-semantic-font-weight);
+  }
+
+  &-parts {
+    display: grid;
+    gap: var(--om-semantic-space-sm);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--om-semantic-dimension-rem-4) + var(--om-semantic-space-lg))), 1fr));
+  }
+
+  &-parts label {
+    display: grid;
+    gap: var(--om-semantic-space-xs);
+    min-inline-size: 0;
+    font-size: var(--om-semantic-font-small);
+    color: var(--om-semantic-color-text);
+    overflow-wrap: anywhere;
+  }
+
+  &-clear { justify-self: end; }
+}
+
 .om-progress {
   accent-color: var(--om-semantic-color-action);
 }
