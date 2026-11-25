@@ -139,12 +139,6 @@ export const observeActiveHeading = (
     frame = undefined;
     if (disposed) return;
     const sections = headings();
-    const bottom = view.scrollY > 0 &&
-      view.scrollY + view.innerHeight >= doc.documentElement.scrollHeight - 2;
-    if (bottom) {
-      publish(sections.at(-1)?.id);
-      return;
-    }
     const current = sections.slice().reverse().find(heading => {
       const margin = Number.parseFloat(view.getComputedStyle(heading).scrollMarginTop) || 0;
       return heading.getBoundingClientRect().top <= Math.max(offset, margin) + 24;
