@@ -171,6 +171,14 @@ export const extendedComponents = {
     exports: 'Textarea',
     code: '<label>Release notes\n  <Textarea rows={3} placeholder="Describe what changed" />\n</label>',
   },
+  'date-select': {
+    title: 'Date Select', group: 'Forms', description: 'Select a date and time through seconds.',
+    usage: 'Use a timezone-free local ISO value. An empty selection starts at today at midnight on the first edit. The consumer owns timezone conversion.',
+    accessibility: 'Each native select has a visible label. The group has a legend and supports keyboard and touch selection. Use required to prevent clearing.',
+    props: [['label', 'ReactNode', 'Required'], ['labels', 'Partial<DateSelectLabels>', 'English'], ['value / defaultValue', 'string', 'Empty'], ['onValueChange', '(value: string) => void', 'None'], ['minYear / maxYear', 'number', '1900 / 2100'], ['required', 'boolean', 'false'], ['name', 'string', 'None']],
+    exports: 'DateSelect',
+    code: '<DateSelect label="Date and time" defaultValue="2026-11-25T14:30:42" />',
+  },
   select: {
     title: 'Select',
     group: 'Forms',
