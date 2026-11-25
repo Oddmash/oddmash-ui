@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { chooseDocsTheme } from './docs-test-helpers';
 import { tabToAllControls } from './keyboard';
 
 for (const width of [320, 1200]) {
@@ -12,10 +13,8 @@ for (const width of [320, 1200]) {
     });
     await page.goto('/#/button');
     for (const theme of ['light', 'dark']) {
-      if (theme === 'dark') {
-        await page.reload();
-        await page.getByRole('button', { name: 'Switch to dark theme' }).click();
-      }
+      if (theme === 'dark') await page.reload();
+      await chooseDocsTheme(page, theme === 'dark' ? 'Dark' : 'Light');
       const playground = page.locator('.playground');
       const codeTab = playground.getByRole('button', { name: 'Code', exact: true });
       await codeTab.click();
