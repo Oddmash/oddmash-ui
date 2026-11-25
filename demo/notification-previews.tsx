@@ -37,7 +37,9 @@ const ManagedToastControls = ({ t }: Translator) => {
 };
 
 export const ToastProviderPreview = ({ t }: Translator) => (
-  <ToastProvider maxVisible={2} dismissLabel={t('Dismiss notification')} data-testid="managed-toast-viewport">
-    <ManagedToastControls t={t} />
-  </ToastProvider>
+  <div className="preview-toast">
+    <ToastProvider className="preview-toast-viewport" maxVisible={2} dismissLabel={t('Dismiss notification')} data-testid="managed-toast-viewport">
+      <ManagedToastControls t={t} />
+    </ToastProvider>
+  </div>
 );

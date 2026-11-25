@@ -23,6 +23,7 @@ import {
 import { details, type ComponentId } from './content';
 import { getComponentPreviews } from './component-previews';
 import type { ExtendedComponentId } from './component-catalog';
+import { PreviewFrame } from './preview-frame';
 
 export const Arrow = () => <span aria-hidden="true">↗</span>;
 export const Code = ({
@@ -245,23 +246,7 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
         <div className="section-title">
           <h2 id="playground-heading">{t('Playground')}</h2>
         </div>
-        <div className="playground">
-          <div className="playground-toolbar">
-            <div className="view-switch">
-              <button
-                aria-pressed={view === 'preview'}
-                onClick={() => setView('preview')}
-              >
-                {t('Preview')}
-              </button>
-              <button
-                aria-pressed={view === 'code'}
-                onClick={() => setView('code')}
-              >
-                {t('Code')}
-              </button>
-            </div>
-          </div>
+        <PreviewFrame view={view} onViewChange={setView}>
           {view === 'preview' ? (
             <Preview>
               {id === 'button' ? (
@@ -318,7 +303,7 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
               </label>
             </div>
           )}
-        </div>
+        </PreviewFrame>
       </section>
       <section className="doc-section" id="usage">
         <h2>{t('Usage')}</h2>

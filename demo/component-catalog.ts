@@ -275,7 +275,7 @@ export const RecordingNotice = () => {
     group: 'Feedback',
     description: 'Confirm a completed action in a dismissible notification.',
     usage:
-      'Mount Toasts within ToastViewport before the action runs to stack notifications. Keep newer items last; hover or focus expands the stack.',
+      'Mount controlled Toasts within ToastViewport to stack notifications. For automatically expiring notifications with a countdown, use ToastProvider and set duration when needed. Hover or focus pauses expiry.',
     accessibility:
       'Use neutral, success, info, warning or loading for polite updates and danger or error for urgent errors. Keep the dismiss button available and restore focus to the next notification or trigger. Custom icons are decorative; use null to hide the icon.',
     props: [
@@ -285,8 +285,9 @@ export const RecordingNotice = () => {
       ['dismissLabel', 'string', 'Dismiss notification'],
       ['tone', 'neutral | success | info | warning | danger | error | loading', 'neutral'],
       ['icon', 'ReactNode', 'Tone icon; null hides it'],
+      ['progress', 'number (0–1)', 'None'],
     ],
-    exports: 'Button, Select, Toast, ToastViewport',
+    exports: 'Button, Select, ToastProvider, useToast',
     code: `import { useRef, useState } from 'react';
 
 const toastMessages = {
@@ -300,45 +301,37 @@ const toastMessages = {
 
 type PreviewTone = keyof typeof toastMessages;
 
-export const SaveNotice = () => {
+const NoticeControls = () => {
   const trigger = useRef<HTMLButtonElement>(null);
-  const viewport = useRef<HTMLDivElement>(null);
+  const { showToast } = useToast();
   const [tone, setTone] = useState<PreviewTone>('success');
-  const [notices, setNotices] = useState([0, 1, 2].map(id => ({ id, open: false, tone: 'success' as PreviewTone })));
   const options = (Object.keys(toastMessages) as PreviewTone[]).map(value => ({ value, label: toastMessages[value].label }));
-  const show = () => setNotices(current => {
-    const next = current.find(notice => !notice.open);
-    return next ? [...current.filter(notice => notice.id !== next.id), { ...next, open: true, tone }] : current;
+  const show = () => showToast({
+    title: toastMessages[tone].title,
+    description: toastMessages[tone].description,
+    tone,
+    duration: tone === 'neutral' || tone === 'success' || tone === 'info' ? 10000 : null,
+    restoreFocusTo: trigger.current,
   });
-  const dismiss = (id: number) => {
-    const visible = notices.filter(notice => notice.open);
-    const index = visible.findIndex(notice => notice.id === id);
-    const next = visible[index + 1] ?? visible[index - 1];
-    setNotices(current => current.map(notice => notice.id === id ? { ...notice, open: false } : notice));
-    requestAnimationFrame(() => {
-      const button = next && viewport.current?.querySelector<HTMLButtonElement>('[data-toast-id="' + next.id + '"][data-state="open"] button');
-      (button || trigger.current)?.focus();
-    });
-  };
   return (
-    <>
+    <div className="preview-toast-controls">
       <Select aria-label={'Notification tone'} options={options} value={tone} onValueChange={value => {
         if (Object.hasOwn(toastMessages, value)) setTone(value as PreviewTone);
       }} />
-      <Button ref={trigger} variant="secondary" disabled={notices.every(notice => notice.open)} onClick={show}>
+      <Button ref={trigger} variant="secondary" onClick={show}>
         {'Show toast'}
       </Button>
-      <ToastViewport ref={viewport}>
-        {notices.map(notice => (
-          <Toast key={notice.id} data-toast-id={notice.id} title={toastMessages[notice.tone].title} open={notice.open} tone={notice.tone}
-            dismissLabel={'Dismiss notification'} onDismiss={() => dismiss(notice.id)}>
-            {toastMessages[notice.tone].description}
-          </Toast>
-        ))}
-      </ToastViewport>
-    </>
+    </div>
   );
-};`,
+};
+
+export const SaveNotice = () => (
+  <div className="preview-toast">
+    <ToastProvider className="preview-toast-viewport" maxVisible={3}>
+      <NoticeControls />
+    </ToastProvider>
+  </div>
+);`,
   },
   progress: {
     title: 'Progress',
