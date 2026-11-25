@@ -32,6 +32,6 @@ Interaction Inspector처럼 명확한 조작과 안정적인 동작이 필요하
 
 ## 현재 범위
 
-Oddmash UI는 1.0 이전 단계에서 개발 중입니다. npm 0.7.0에서는 컴포넌트 크기, 모션, 상호작용 값을 JSON으로 통합하고 Select의 키보드·마우스 피드백 및 Toast 남은 시간 표시를 개선했습니다. 문서에서 시스템 테마, 검색 모달, 전체 화면 프리뷰를 제공합니다. React 18.3.1 및 React 19를 계속 지원합니다.
+Oddmash UI는 1.0 이전 단계에서 개발 중입니다. npm 0.8.0에는 초 단위까지 선택하고 시간대가 없는 로컬 ISO 값을 사용하는 접근성 높은 날짜·시간 폼 컨트롤 DateSelect가 추가되었습니다. 기본 선택 기능과 공통 테마 스타일을 제공하며 React 18.3.1 및 React 19를 계속 지원합니다.
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [기여 안내](../../CONTRIBUTING.md) · [MIT 라이선스](../../LICENSE)
