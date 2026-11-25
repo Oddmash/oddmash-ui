@@ -80,6 +80,7 @@
 
 .om-scroll-header[data-om-scroll-hidden='true']:not(:focus-within) {
   transform: translateY(-100%);
+  pointer-events: none;
 }
 
 .om-locale-picker {
