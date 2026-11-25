@@ -200,13 +200,13 @@ const App = ({ onLocale }: { onLocale: (locale: Locale) => void }) => {
         </a>
         <CommandPalette
           trigger={
-            <Button variant="secondary" className="search-box docs-search-trigger" aria-label={t('Search documentation')}>
+            <Button variant="secondary" className="search-box docs-search-trigger" aria-keyshortcuts="Control+K Meta+K">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true" focusable="false">
                 <circle cx="11" cy="11" r="7" />
                 <path d="m16 16 4 4" />
               </svg>
               <span>{t('Search documentation')}</span>
-              <Kbd aria-hidden="true">{/(Mac|iPhone|iPad)/.test(navigator.userAgent) ? '⌘ K' : 'Ctrl K'}</Kbd>
+              <Kbd>{/(Mac|iPhone|iPad)/.test(navigator.userAgent) ? '⌘ K' : 'Ctrl K'}</Kbd>
             </Button>
           }
           title={t('Search documentation')}
