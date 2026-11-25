@@ -93,6 +93,7 @@ export const DocsNavigation = forwardRef<HTMLElement, DocsNavigationProps>(({
                 <li key={item.id}>
                   <a href={item.href} aria-current={item.id === currentId ? 'page' : undefined}
                     onClick={event => {
+                      if (!isOrdinaryClick(event)) return;
                       onNavigate?.(item, event);
                       disclosure.close(event);
                     }}>
@@ -257,6 +258,7 @@ export const TableOfContents = forwardRef<HTMLElement, TableOfContentsProps>(({
             <a href={'#' + encodeURIComponent(heading.id)}
               aria-current={heading.id === currentId ? 'location' : undefined}
               onClick={event => {
+                if (!isOrdinaryClick(event)) return;
                 onNavigate?.(heading, event);
                 disclosure.close(event, event.currentTarget.ownerDocument.getElementById(heading.id));
               }}>
