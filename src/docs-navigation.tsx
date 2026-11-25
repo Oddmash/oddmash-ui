@@ -219,6 +219,7 @@ export type TableOfContentsProps = Omit<ComponentPropsWithoutRef<'nav'>, 'childr
   contentId?: string;
   offset?: number;
   activeId?: string | null;
+  onNavigate?: (heading: TocHeading, event: MouseEvent<HTMLAnchorElement>) => void;
 };
 
 export const TableOfContents = forwardRef<HTMLElement, TableOfContentsProps>(({
@@ -229,6 +230,7 @@ export const TableOfContents = forwardRef<HTMLElement, TableOfContentsProps>(({
   contentId,
   offset,
   activeId,
+  onNavigate,
   className,
   ...props
 }, ref) => {
@@ -254,7 +256,10 @@ export const TableOfContents = forwardRef<HTMLElement, TableOfContentsProps>(({
           <li key={heading.id} data-level={heading.level ?? 2}>
             <a href={'#' + encodeURIComponent(heading.id)}
               aria-current={heading.id === currentId ? 'location' : undefined}
-              onClick={event => disclosure.close(event, event.currentTarget.ownerDocument.getElementById(heading.id))}>
+              onClick={event => {
+                onNavigate?.(heading, event);
+                disclosure.close(event, event.currentTarget.ownerDocument.getElementById(heading.id));
+              }}>
               {heading.label}
             </a>
           </li>
