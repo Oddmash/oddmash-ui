@@ -154,7 +154,6 @@ export const extendedComponents = {
   searchLabel="Search commands"
   emptyLabel="No commands found"
   dismissLabel="Close commands"
-  shortcut
   items={[
     { id: 'save', label: 'Save project', group: 'Project', description: 'Save current changes', onSelect: () => {} },
     { id: 'guide', label: 'Usage guide', group: 'Documentation', onSelect: () => {} },
