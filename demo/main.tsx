@@ -7,7 +7,7 @@ import {
   type Locale,
 } from './locale';
 import { createRoot } from 'react-dom/client';
-import { Select } from '@oddmash/ui';
+import { Button, CommandPalette, Kbd, PlatformLink, PlatformLinks, Select } from '@oddmash/ui';
 import { pages, componentIds, type PageId, type ComponentId } from './content';
 import { Arrow, ComponentPage } from './examples';
 import { Colors, Typography, TokenExplorer, Installation } from './foundations';
@@ -16,22 +16,17 @@ import './fonts.scss';
 import './style.scss';
 import './interaction-lab.scss';
 import './brand.scss';
+import './docs-shell.scss';
 import InteractionLab from './interaction-lab';
 import { TimelineFilters } from './timeline-filters';
 import { npmPackageUrl, repositoryUrl, packageMinorVersion } from './package-links';
+import { readThemePreference, readSystemTheme, themeOptions, type ThemePreference } from './theme';
 
 const navigationGroups = [...new Set(pages.map((page) => page.group))];
 
 const readPage = (): PageId => {
   const candidate = location.hash.slice(2);
   return pages.find((page) => page.id === candidate)?.id ?? 'overview';
-};
-const readTheme = (): 'light' | 'dark' => {
-  try {
-    return localStorage.getItem('om-docs-theme') === 'dark' ? 'dark' : 'light';
-  } catch {
-    return 'light';
-  }
 };
 const Overview = () => {
   const { t } = useLocale();
@@ -99,43 +94,54 @@ const Overview = () => {
 const App = ({ onLocale }: { onLocale: (locale: Locale) => void }) => {
   const { locale, t } = useLocale();
   const [page, setPage] = useState<PageId>(readPage);
-  const [theme, setTheme] = useState<'light' | 'dark'>(readTheme);
-  const [query, setQuery] = useState('');
+  const [themePreference, setThemePreference] = useState<ThemePreference>(readThemePreference);
+  const [systemTheme, setSystemTheme] = useState(readSystemTheme);
+  const theme = themePreference === 'system' ? systemTheme : themePreference;
   const [menu, setMenu] = useState(false);
-  const search = useRef<HTMLInputElement>(null);
   const menuToggle = useRef<HTMLButtonElement>(null);
   const sidebar = useRef<HTMLElement>(null);
   const main = useRef<HTMLElement>(null);
   useLayoutEffect(() => {
-    main.current?.querySelector<HTMLElement>('h1')?.focus();
+    main.current?.querySelector<HTMLElement>('h1')?.focus({ preventScroll: true });
   }, [page]);
+  useLayoutEffect(() => {
+    const container = sidebar.current;
+    const active = container?.querySelector<HTMLElement>('a[aria-current="page"]');
+    if (!container || !active || !container.clientHeight) return;
+    const viewport = container.getBoundingClientRect();
+    const item = active.getBoundingClientRect();
+    if (item.top < viewport.top) container.scrollTop -= viewport.top - item.top;
+    else if (item.bottom > viewport.bottom) container.scrollTop += item.bottom - viewport.bottom;
+  }, [page, menu, locale]);
   useEffect(() => {
     const navigate = () => {
       setPage(readPage());
       setMenu(false);
-      setQuery('');
       window.scrollTo(0, 0);
     };
     window.addEventListener('hashchange', navigate);
     return () => window.removeEventListener('hashchange', navigate);
   }, []);
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.documentElement.dataset.omTheme = theme;
     document.documentElement.style.colorScheme = theme;
     try {
-      localStorage.setItem('om-docs-theme', theme);
+      localStorage.setItem('om-docs-theme', themePreference);
     } catch {
-      /* Storage is optional. */
+      return;
     }
-  }, [theme]);
+  }, [theme, themePreference]);
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const sync = () => setSystemTheme(media.matches ? 'dark' : 'light');
+    sync();
+    media.addEventListener('change', sync);
+    return () => media.removeEventListener('change', sync);
+  }, []);
   useEffect(() => {
     const shortcut = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
-        event.preventDefault();
-        setMenu(true);
-        requestAnimationFrame(() => search.current?.focus());
-      }
       if (
+        !event.defaultPrevented &&
         event.key === 'Escape' &&
         (sidebar.current?.contains(document.activeElement) ||
           document.activeElement === menuToggle.current) &&
@@ -143,10 +149,6 @@ const App = ({ onLocale }: { onLocale: (locale: Locale) => void }) => {
       ) {
         setMenu(false);
         menuToggle.current.focus();
-      }
-      if (event.key === 'Escape' && document.activeElement === search.current) {
-        setMenu(false);
-        setQuery('');
       }
     };
     document.addEventListener('keydown', shortcut);
@@ -156,11 +158,18 @@ const App = ({ onLocale }: { onLocale: (locale: Locale) => void }) => {
   useEffect(() => {
     document.title = `${t(current.title)} | Oddmash UI`;
   }, [current.title, t]);
-  const filtered = pages.filter((item) =>
-    `${t(item.title)} ${t(item.group)} ${item.title} ${item.group}`
-      .toLowerCase()
-      .includes(query.toLowerCase()),
-  );
+  const searchItems = pages.map((item) => ({
+    id: item.id,
+    label: t(item.title),
+    group: t(item.group),
+    description: t(item.description),
+    keywords: [item.id, item.title, item.group, item.description],
+    onSelect: () => {
+      setMenu(false);
+      if (page === item.id) main.current?.querySelector<HTMLElement>('h1')?.focus({ preventScroll: true });
+      else location.hash = `/${item.id}`;
+    },
+  }));
   const component = componentIds.includes(page as ComponentId);
   return (
     <div className="docs-app">
@@ -183,35 +192,29 @@ const App = ({ onLocale }: { onLocale: (locale: Locale) => void }) => {
           <img className="brand-logo" src="./oddmash-logo.png" alt="" />
           <strong>Oddmash UI</strong>
         </a>
-        <div className="search-box">
-          <span aria-hidden="true">⌕</span>
-          <label className="sr-only" htmlFor="nav-search">
-            {t('Search documentation')}
-          </label>
-          <input
-            id="nav-search"
-            ref={search}
-            placeholder={t('Search docs…')}
-            aria-controls="docs-sidebar"
-            onFocus={() => setMenu(true)}
-            value={query}
-            onChange={(event) => {
-              setQuery(event.target.value);
-              setMenu(true);
-            }}
-          />
-          <kbd>⌘ K</kbd>
-        </div>
+        <CommandPalette
+          trigger={
+            <Button variant="secondary" className="search-box docs-search-trigger" aria-label={t('Search documentation')}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true" focusable="false">
+                <circle cx="11" cy="11" r="7" />
+                <path d="m16 16 4 4" />
+              </svg>
+              <span>{t('Search docs…')}</span>
+              <Kbd aria-hidden="true">{/(Mac|iPhone|iPad)/.test(navigator.userAgent) ? '⌘ K' : 'Ctrl K'}</Kbd>
+            </Button>
+          }
+          title={t('Search documentation')}
+          description={t('Choose a documentation page')}
+          searchLabel={t('Search documentation')}
+          emptyLabel={t('No pages found.')}
+          dismissLabel={t('Close search')}
+          items={searchItems}
+          theme={theme}
+          shortcut
+          onOpenChange={(open) => { if (open) setMenu(false); }}
+        />
         <div className="header-actions">
           <span className="version-label">v{packageMinorVersion}</span>
-          <div className="header-package-links">
-            <a href={npmPackageUrl}>
-              npm <Arrow />
-            </a>
-            <a href={repositoryUrl}>
-              GitHub <Arrow />
-            </a>
-          </div>
           <Select
             className="locale-select"
             aria-label={t('Language')}
@@ -224,17 +227,13 @@ const App = ({ onLocale }: { onLocale: (locale: Locale) => void }) => {
             }))}
             onValueChange={(value) => onLocale(value as Locale)}
           />
-          <button
-            className="icon-button theme-button"
-            aria-label={t(
-              theme === 'light'
-                ? 'Switch to dark theme'
-                : 'Switch to light theme',
-            )}
-            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-          >
-            <span aria-hidden="true">{theme === 'light' ? '◐' : '☼'}</span>
-          </button>
+          <Select
+            className="theme-select"
+            aria-label={t('Theme')}
+            value={themePreference}
+            options={themeOptions.map(({ value, label }) => ({ value, label: t(label) }))}
+            onValueChange={(value) => setThemePreference(value as ThemePreference)}
+          />
           <button
             ref={menuToggle}
             className="icon-button menu-toggle"
@@ -246,6 +245,10 @@ const App = ({ onLocale }: { onLocale: (locale: Locale) => void }) => {
             ☰
           </button>
         </div>
+        <PlatformLinks className="header-package-links" role="group" aria-label={t('Platform links')}>
+          <PlatformLink platform="github" href={repositoryUrl} aria-label="GitHub" title="GitHub" />
+          <PlatformLink platform="npm" href={npmPackageUrl} aria-label="npm" title="npm" />
+        </PlatformLinks>
       </header>
       <aside
         ref={sidebar}
@@ -253,36 +256,25 @@ const App = ({ onLocale }: { onLocale: (locale: Locale) => void }) => {
         className={`sidebar ${menu ? 'is-open' : ''}`}
       >
         <nav aria-label={t('Documentation')}>
-          {navigationGroups.map(
-            (group) =>
-              filtered.some((item) => item.group === group) && (
-                <div className="nav-group" key={group}>
-                  <h2>{t(group)}</h2>
-                  {filtered
-                    .filter((item) => item.group === group)
-                    .map((item) => (
-                      <a
-                        key={item.id}
-                        href={`#/${item.id}`}
-                        aria-current={page === item.id ? 'page' : undefined}
-                        onClick={() => {
-                          if (page !== item.id) return;
-                          setMenu(false);
-                          setQuery('');
-                          main.current?.querySelector('h1')?.focus();
-                        }}
-                      >
-                        <span>{t(item.title)}</span>
-                      </a>
-                    ))}
-                </div>
-              ),
-          )}
-          {!filtered.length && (
-            <p className="nav-empty" role="status">
-              {t('No pages found.')}
-            </p>
-          )}
+          {navigationGroups.map((group) => (
+            <div className="nav-group" key={group}>
+              <h2>{t(group)}</h2>
+              {pages.filter((item) => item.group === group).map((item) => (
+                <a
+                  key={item.id}
+                  href={`#/${item.id}`}
+                  aria-current={page === item.id ? 'page' : undefined}
+                  onClick={() => {
+                    if (page !== item.id) return;
+                    setMenu(false);
+                    main.current?.querySelector('h1')?.focus({ preventScroll: true });
+                  }}
+                >
+                  <span>{t(item.title)}</span>
+                </a>
+              ))}
+            </div>
+          ))}
         </nav>
       </aside>
       <main
