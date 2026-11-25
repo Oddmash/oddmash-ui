@@ -1,3 +1,4 @@
+import { getDocumentationNavigationPreviews } from './docs-navigation-previews';
 import { ClipboardButtonPreview, ToastProviderPreview } from './notification-previews';
 import {
   AlertPreview,
@@ -76,6 +77,7 @@ const CodeBlockPreview = ({ t }: { t: (text: string) => string }) => {
 export const getComponentPreviews = (
   t: (text: string) => string,
 ): Record<ExtendedComponentId, ReactNode> => ({
+  ...getDocumentationNavigationPreviews(t),
   'clipboard-button': <ClipboardButtonPreview t={t} />,
   'toast-provider': <ToastProviderPreview t={t} />,
   "link-controls": (
