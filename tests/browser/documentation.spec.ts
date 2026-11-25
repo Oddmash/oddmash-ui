@@ -6,7 +6,7 @@ test('link card sweeps left to right without layout shift', async ({ page }) => 
   await page.mouse.move(0, 0);
   const card = page.locator('.playground .preview .om-link-card');
   await expect(card).toHaveCSS('background-size', '0% 100%');
-  await expect(card).toHaveCSS('background-position-x', '0%');
+  await expect(card).toHaveCSS('background-position-x', /^0(?:px|%)$/);
   await expect(card).toHaveCSS('background-repeat', 'no-repeat');
   await expect(card).toHaveCSS('transition-property', 'background-size');
   await card.scrollIntoViewIfNeeded();
