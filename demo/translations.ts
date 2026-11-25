@@ -1,6 +1,7 @@
 type Translation = [ko: string, ja: string, simplifiedChinese: string];
 
 export const translations: Record<string, Translation> = {
+  "Example options table": ["예제 옵션 표","オプション表の例","选项表示例"],
   "Link Card": ["링크 카드","リンクカード","链接卡片"],
   "Code Block": ["코드 블록","コードブロック","代码块"],
   "Site Layout": ["사이트 레이아웃","サイトレイアウト","网站布局"],
