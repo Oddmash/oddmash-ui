@@ -134,6 +134,22 @@
     "./command-palette": {
       "types": "./dist/command-palette.d.ts",
       "import": "./dist/command-palette.js"
+    },
+    "./link-card": {
+      "types": "./dist/link-card.d.ts",
+      "import": "./dist/link-card.js"
+    },
+    "./code-block": {
+      "types": "./dist/code-block.d.ts",
+      "import": "./dist/code-block.js"
+    },
+    "./site-layout": {
+      "types": "./dist/site-layout.d.ts",
+      "import": "./dist/site-layout.js"
+    },
+    "./prose": {
+      "types": "./dist/prose.d.ts",
+      "import": "./dist/prose.js"
     }
   },
   "engines": {

@@ -7,6 +7,19 @@ import {
 } from './feedback-previews';
 import {
   Accordion,
+  LinkCard,
+  CodeBlock,
+  CodeBlockHeader,
+  CodeBlockCaption,
+  CodeBlockContent,
+  CodeBlockCopy,
+  SiteHeader,
+  SiteHeaderInner,
+  SiteFooter,
+  SiteFooterInner,
+  SiteNav,
+  Prose,
+  ProseScroll,
   Avatar,
   Button,
   CommandPalette,
@@ -25,11 +38,79 @@ import {
   Textarea,
 } from '@oddmash/ui';
 import type { ExtendedComponentId } from './component-catalog';
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
+
+const CodeBlockPreview = ({ t }: { t: (text: string) => string }) => {
+  const code = 'pnpm add @oddmash/ui';
+  const [status, setStatus] = useState('');
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setStatus('Copied');
+    } catch {
+      setStatus('Select the code to copy');
+    }
+  };
+
+  return (
+    <CodeBlock>
+      <CodeBlockHeader>
+        <CodeBlockCaption>{t('Terminal')}</CodeBlockCaption>
+        <CodeBlockCopy onClick={copy}>{t('Copy code')}</CodeBlockCopy>
+      </CodeBlockHeader>
+      <CodeBlockContent tabIndex={0} role="region" aria-label={t('Terminal code')}>
+        <code>{code}</code>
+      </CodeBlockContent>
+      <span role="status">{t(status)}</span>
+    </CodeBlock>
+  );
+};
 
 export const getComponentPreviews = (
   t: (text: string) => string,
 ): Record<ExtendedComponentId, ReactNode> => ({
+  'link-card': (
+    <LinkCard href="#/link-card">
+      <strong>{t('Usage guide')}</strong> <span className="om-link-card-arrow" aria-hidden="true">→</span>
+      <p>{t('Learn how to use the library.')}</p>
+    </LinkCard>
+  ),
+  'code-block': <CodeBlockPreview t={t} />,
+  'site-layout': (
+    <>
+      <SiteHeader>
+        <SiteHeaderInner>
+          <strong>Oddmash</strong>
+          <SiteNav aria-label={t('Header navigation example')}>
+            <a href="#/site-layout" aria-current="page">{t('Docs')}</a>
+            <a href="#/site-layout">{t('Examples')}</a>
+          </SiteNav>
+        </SiteHeaderInner>
+      </SiteHeader>
+      <SiteFooter>
+        <SiteFooterInner>
+          <span>{t('Open source')}</span>
+          <SiteNav aria-label={t('Footer navigation example')}>
+            <a href="#/site-layout">{t('Docs')}</a>
+          </SiteNav>
+        </SiteFooterInner>
+      </SiteFooter>
+    </>
+  ),
+  prose: (
+    <Prose>
+      <h3>{t('Usage guide')}</h3>
+      <p>{t('Learn how to use the library.')}</p>
+      <ul><li>{t('Install the package.')}</li></ul>
+      <pre tabIndex={0} role="region" aria-label={t('Terminal code')}><code>pnpm add @oddmash/ui</code></pre>
+      <ProseScroll tabIndex={0} role="region" aria-label={t('Example options table')}>
+        <table>
+          <thead><tr><th scope="col">{t('Name')}</th><th scope="col">{t('Type')}</th></tr></thead>
+          <tbody><tr><td>href</td><td>string</td></tr></tbody>
+        </table>
+      </ProseScroll>
+    </Prose>
+  ),
   slider: <label>{t('Width')} <Slider min={100} max={600} defaultValue={320} /></label>,
   'command-palette': <CommandPalette trigger={<Button>{t('Commands')}</Button>} title={t('Commands')} description={t('Choose an action')} searchLabel={t('Search commands')} emptyLabel={t('No commands found')} items={[{ id: 'save', label: t('Save project'), onSelect: () => {} }]} />,
   textarea: (

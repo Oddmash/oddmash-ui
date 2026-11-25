@@ -1,4 +1,101 @@
 export const extendedComponents = {
+  'link-card': {
+    title: 'Link Card',
+    group: 'Documentation',
+    description: 'Present a document or destination as a single link.',
+    usage: 'Use LinkCard for a single destination. The same om-link-card class works in static HTML, and om-link-card-arrow is optional.',
+    accessibility: 'Keep the destination clear, avoid nested controls and hide decorative arrows. Focus remains visible and the fill respects reduced motion.',
+    props: [['href', 'string', 'Native anchor'], ['className', 'string', 'None']],
+    exports: 'LinkCard',
+    code: `<LinkCard href="#/link-card">
+  <strong>Usage guide</strong> <span className="om-link-card-arrow" aria-hidden="true">→</span>
+  <p>Learn how to use the library.</p>
+</LinkCard>`,
+  },
+  'code-block': {
+    title: 'Code Block',
+    group: 'Documentation',
+    description: 'Display readable code with an optional caption and action.',
+    usage: 'Compose CodeBlock with CodeBlockHeader, CodeBlockCaption and CodeBlockContent. CodeBlockCopy is a native button; the consumer owns copying and feedback.',
+    accessibility: 'Label copy actions and announce the result. A named, focusable code region lets keyboard users scroll long lines. Preserve whitespace and syntax markup.',
+    props: [['children', 'ReactNode', 'None'], ['tabIndex (Content)', 'number', 'Native default'], ['onClick (Copy)', 'MouseEventHandler', 'None'], ['type (Copy)', 'button | submit | reset', 'button']],
+    exports: 'CodeBlock, CodeBlockHeader, CodeBlockCaption, CodeBlockContent, CodeBlockCopy',
+    reactImports: ['useState'],
+    code: `const Example = () => {
+  const code = 'pnpm add @oddmash/ui';
+  const [status, setStatus] = useState('');
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setStatus('Copied');
+    } catch {
+      setStatus('Select the code to copy');
+    }
+  };
+
+  return (
+    <CodeBlock>
+      <CodeBlockHeader>
+        <CodeBlockCaption>Terminal</CodeBlockCaption>
+        <CodeBlockCopy onClick={copy}>Copy code</CodeBlockCopy>
+      </CodeBlockHeader>
+      <CodeBlockContent tabIndex={0} role="region" aria-label="Terminal code">
+        <code>{code}</code>
+      </CodeBlockContent>
+      <span role="status">{status}</span>
+    </CodeBlock>
+  );
+};`,
+  },
+  'site-layout': {
+    title: 'Site Layout',
+    group: 'Documentation',
+    description: 'Compose neutral headers, footers and navigation landmarks.',
+    usage: 'Combine SiteHeader or SiteFooter with their Inner wrapper and SiteNav. Branding, responsive navigation choices and sticky behavior stay with the product.',
+    accessibility: 'Keep native header, footer and nav semantics. Name each navigation landmark when there is more than one, and mark the current link with aria-current.',
+    props: [['children', 'ReactNode', 'None'], ['aria-label (SiteNav)', 'string', 'None'], ['className', 'string', 'None']],
+    exports: 'SiteHeader, SiteHeaderInner, SiteFooter, SiteFooterInner, SiteNav',
+    code: `<>
+  <SiteHeader>
+    <SiteHeaderInner>
+      <strong>Oddmash</strong>
+      <SiteNav aria-label="Header navigation example">
+        <a href="#/site-layout" aria-current="page">Docs</a>
+        <a href="#/site-layout">Examples</a>
+      </SiteNav>
+    </SiteHeaderInner>
+  </SiteHeader>
+  <SiteFooter>
+    <SiteFooterInner>
+      <span>Open source</span>
+      <SiteNav aria-label="Footer navigation example">
+        <a href="#/site-layout">Docs</a>
+      </SiteNav>
+    </SiteFooterInner>
+  </SiteFooter>
+</>`,
+  },
+  prose: {
+    title: 'Prose',
+    group: 'Documentation',
+    description: 'Style rendered Markdown without choosing a parser.',
+    usage: 'Wrap trusted rendered article markup with Prose or the om-prose class. Use ProseScroll around wide tables. The Markdown renderer remains a consumer choice.',
+    accessibility: 'Preserve native headings, lists, tables and links. Use the document language and label focusable scroll regions. Code preserves whitespace.',
+    props: [['children', 'ReactNode', 'None'], ['lang', 'string', 'Inherited'], ['className', 'string', 'None']],
+    exports: 'Prose, ProseScroll',
+    code: `<Prose>
+  <h3>Usage guide</h3>
+  <p>Learn how to use the library.</p>
+  <ul><li>Install the package.</li></ul>
+  <pre tabIndex={0} role="region" aria-label="Terminal code"><code>pnpm add @oddmash/ui</code></pre>
+  <ProseScroll tabIndex={0} role="region" aria-label="Example options table">
+    <table>
+      <thead><tr><th scope="col">Name</th><th scope="col">Type</th></tr></thead>
+      <tbody><tr><td>href</td><td>string</td></tr></tbody>
+    </table>
+  </ProseScroll>
+</Prose>`,
+  },
   slider: {
     title: 'Slider', group: 'Forms', description: 'Adjust a numeric value.',
     usage: 'Use a visible label and native range limits.', accessibility: 'Arrow keys adjust the value.',

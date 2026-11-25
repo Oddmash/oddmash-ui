@@ -44,6 +44,50 @@ tests/
 
 See the [component quality review](docs/component-quality-review.md) for the latest interaction audit and verification scope. The live Toast reference is the [Toast documentation page](https://oddmash.github.io/oddmash-ui/#/toast), which uses the localized component catalog and the actual controlled Toast demo. Its state selector previews success, information, warning and error. Mount stable controlled items before the action, keep newer items last, and retain items through their closing motion. Hover or keyboard focus expands a collapsed stack; touch and reduced-motion preferences use the expanded presentation. Consumers own expiry and return focus to a remaining notification or the triggering control.
 
+## Documentation primitives
+
+Use the same primitives in React applications and static HTML without hydration. Load `@oddmash/ui/styles.css` in the same way as other components. The classes below map directly to exported React wrappers, and all wrappers forward native props and refs.
+
+| React API | Static HTML class | Typical element |
+| --- | --- | --- |
+| LinkCard | om-link-card | a |
+| CodeBlock | om-code-block | div or figure |
+| CodeBlockHeader | om-code-block-header | div |
+| CodeBlockCaption | om-code-block-caption | span |
+| CodeBlockContent | om-code-block-content | pre |
+| CodeBlockCopy | om-code-block-copy | button |
+| SiteHeader / SiteHeaderInner | om-site-header / om-site-header-inner | header / div |
+| SiteFooter / SiteFooterInner | om-site-footer / om-site-footer-inner | footer / div |
+| SiteNav | om-site-nav | nav |
+| Prose | om-prose | article |
+| ProseScroll | om-prose-scroll | div |
+
+Use the `@oddmash/ui/link-card`, `@oddmash/ui/code-block`, `@oddmash/ui/site-layout` or `@oddmash/ui/prose` subpath when importing a single family. The classes work independently of JavaScript. For example:
+
+```html
+<a class="om-link-card" href="/guide">
+  <strong>Usage guide</strong>
+  <span class="om-link-card-arrow" aria-hidden="true">→</span>
+  <p>Learn how to use the library.</p>
+</a>
+
+<div class="om-code-block">
+  <div class="om-code-block-header">
+    <span class="om-code-block-caption">Terminal</span>
+    <button class="om-code-block-copy" type="button">Copy code</button>
+  </div>
+  <pre class="om-code-block-content" tabindex="0" role="region" aria-label="Terminal code"><code>pnpm add @oddmash/ui</code></pre>
+</div>
+```
+
+LinkCard uses a left-to-right background fill that never changes layout. Override `--om-link-card-fill` for a subtle product-specific tint. Reduced motion uses the final state immediately and preserves keyboard focus.
+
+CodeBlock does not parse or highlight code. Preserve the renderer's syntax markup and whitespace; add a caption and copy button only when needed. The consumer handles clipboard permissions, copy result, and localized feedback, such as an existing Toast. Use `--om-code-block-background`, `--om-code-block-text` and `--om-code-block-muted` for product-specific code themes. Supply a label and focusable region when code scrolling is needed.
+
+SiteHeader and SiteFooter are layout primitives, not a menu or router. Compose the native nav with labelled landmarks and real links. Products own responsive navigation choices, logo, active routes, sticky or auto-hide behavior and theme selection. Override `--om-site-max-width`, `--om-site-gutter`, `--om-site-header-height` and `--om-site-nav-gap` for the layout.
+
+Prose styles rendered, trusted content rather than converting Markdown to HTML. Preserve native document structure and locale. The default measure is 75ch; override `--om-prose-measure` and `--om-prose-link` as needed. For wide tables, keep the native table inside a named, focusable ProseScroll region. Existing language-aware line break engines can still operate on the rendered text.
+
 ## Themes and product overrides
 
 Set `data-om-theme="light"` or `data-om-theme="dark"` on the document or a subtree. Applications own system preference and persistence. Load product overrides after the package CSS and override semantic variables rather than primitives. Shadow DOM consumers must inject the stylesheet and portal containers inside their root.

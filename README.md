@@ -16,6 +16,7 @@ Oddmash UI is the shared interface foundation for Oddmash products. It gives sma
 - Light and dark themes that can be applied to a whole app or a single subtree.
 - A documentation site with live examples, API guidance, accessibility notes, and a token explorer.
 - An Interaction Lab that shows how the components work together in a developer-tool interface.
+- Documentation primitives for linked cards, code examples, site navigation and rendered Markdown, available in the source tree for the next release.
 
 ## Who it is for
 
