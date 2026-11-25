@@ -229,6 +229,7 @@ export const translations: Record<string, Translation> = {
   Type: ['타입', '型', '类型'],
   Default: ['기본값', '既定値', '默认值'],
   Accessibility: ['접근성', 'アクセシビリティ', '无障碍'],
+  'Close commands': ['명령 닫기', 'コマンドを閉じる', '关闭命令'],
   'Copy code': ['코드 복사', 'コードをコピー', '复制代码'],
   Copied: ['복사했습니다', 'コピーしました', '已复制'],
   'Select the code to copy': [
