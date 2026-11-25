@@ -39,7 +39,7 @@ Use this workflow for substantive work in `Oddmash/oddmash-ui`. Treat the packag
 - Keep Button's default `type="button"` behavior and retain keyboard, focus, disabled, reduced-motion, and forced-colors behavior.
 - For Tabs and Dialog, preserve the underlying Radix controlled and uncontrolled APIs, keyboard behavior, focus trapping, restoration, and explicit portal-container support.
 - Use Select for a styled single choice. Use the HTML select element for native validation, optgroups, or multi-select. Retain the SelectDropdown alias for existing consumers. Check keyboard navigation, type-ahead, cancellation, disabled options, and focus.
-- Keep Toast controlled and render its live region before the message appears. Use polite status for confirmations and alert for urgent errors. Keep dismissal available and return focus in the caller when appropriate.
+- Keep Toast controlled and render its live region before the message appears. Use polite status for confirmations and alert for urgent errors. Keep dismissal available, restore focus to a remaining notification or the trigger, and follow the [shared feedback motion guidance](https://github.com/Oddmash/oddmash-skills/blob/main/skills/oddmash-motion-feedback/SKILL.md) for entry, exit, stack reflow, pointer and keyboard expansion, reduced motion, and overflow. A single notification screenshot is not evidence of stack quality.
 - Update `src/index.ts`, `package.json` subpaths, `tsup.config.ts` entries, declarations, tests, examples, and documentation together when the public API changes.
 - Avoid adding a runtime dependency or component family solely for completeness. Explain the demonstrated consumer need and bundle impact.
 

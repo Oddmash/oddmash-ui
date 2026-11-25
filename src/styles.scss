@@ -28,8 +28,10 @@
   font-weight: var(--om-semantic-font-weight);
   cursor: pointer;
   gap: var(--om-semantic-space-sm);
-  transition: opacity var(--om-semantic-motion-duration)
-    var(--om-semantic-motion-ease);
+  transition: background-color var(--om-semantic-motion-duration) var(--om-semantic-motion-ease),
+    border-color var(--om-semantic-motion-duration) var(--om-semantic-motion-ease),
+    color var(--om-semantic-motion-duration) var(--om-semantic-motion-ease),
+    opacity var(--om-semantic-motion-duration) var(--om-semantic-motion-ease);
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -241,3 +243,12 @@
 .om-command-list [role='option'] { padding: var(--om-semantic-space-sm); border-radius: var(--om-semantic-radius-sm); cursor: pointer; }
 .om-command-list [aria-selected='true'] { background: var(--om-semantic-color-action); color: var(--om-semantic-color-on-action); }
 .om-command-list [aria-disabled='true'] { opacity: .5; cursor: not-allowed; }
+
+.om-input:not(:disabled):not([aria-invalid='true']):not(:user-invalid):hover,
+.om-textarea:not(:disabled):not([aria-invalid='true']):not(:user-invalid):hover,
+.om-select-dropdown-trigger:not(:disabled):not([aria-invalid='true']):not(:user-invalid):hover {
+  border-color: var(--om-semantic-color-muted);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .om-button:active:not(:disabled) { transform: translateY(1px); }
+}

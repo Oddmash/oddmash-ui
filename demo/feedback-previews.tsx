@@ -30,23 +30,31 @@ export const AlertPreview = () => {
 export const ToastPreview = () => {
   const { t } = useLocale();
   const trigger = useRef<HTMLButtonElement>(null);
-  const [open, setOpen] = useState([false, false, false]);
+  const viewport = useRef<HTMLDivElement>(null);
+  const [notices, setNotices] = useState([0, 1, 2].map(id => ({ id, open: false })));
+  const show = () => setNotices(current => {
+    const next = current.find(notice => !notice.open);
+    return next ? [...current.filter(notice => notice.id !== next.id), { ...next, open: true }] : current;
+  });
+  const dismiss = (id: number) => {
+    const visible = notices.filter(notice => notice.open);
+    const index = visible.findIndex(notice => notice.id === id);
+    const next = visible[index + 1] ?? visible[index - 1];
+    setNotices(current => current.map(notice => notice.id === id ? { ...notice, open: false } : notice));
+    requestAnimationFrame(() => {
+      const button = next && viewport.current?.querySelector<HTMLButtonElement>(`[data-toast-id="${next.id}"][data-state="open"] button`);
+      (button || trigger.current)?.focus();
+    });
+  };
   return (
     <>
-      <Button ref={trigger} variant="secondary" disabled={open.every(Boolean)} onClick={() => setOpen((current) => {
-        const index = current.indexOf(false);
-        return current.map((value, position) => position === index || value);
-      })}>
+      <Button ref={trigger} variant="secondary" disabled={notices.every(notice => notice.open)} onClick={show}>
         {t('Show toast')}
       </Button>
-      <ToastViewport>
-        {open.map((visible, index) => (
-          <Toast key={index} title={t('Project saved')} open={visible}
-            dismissLabel={t('Dismiss notification')}
-            onDismiss={() => {
-              setOpen((current) => current.map((value, position) => position === index ? false : value));
-              requestAnimationFrame(() => trigger.current?.focus());
-            }}>
+      <ToastViewport ref={viewport}>
+        {notices.map(notice => (
+          <Toast key={notice.id} data-toast-id={notice.id} title={t('Project saved')} open={notice.open} tone="success"
+            dismissLabel={t('Dismiss notification')} onDismiss={() => dismiss(notice.id)}>
             {t('Your changes are ready.')}
           </Toast>
         ))}

@@ -393,11 +393,14 @@ test('feedback demos reveal content on demand and honor reduced motion', async (
   await trigger.click();
   const toasts = page.locator('.om-toast');
   await expect(toasts).toHaveCount(2);
-  const [first, second] = await Promise.all([toasts.nth(0).boundingBox(), toasts.nth(1).boundingBox()]);
-  expect(first!.y + first!.height).toBeLessThanOrEqual(second!.y);
+  await expect.poll(async () => {
+    const [first, second] = await Promise.all([toasts.nth(0).boundingBox(), toasts.nth(1).boundingBox()]);
+    return first!.y + first!.height <= second!.y + 1;
+  }).toBe(true);
   await page.getByRole('button', { name: 'Dismiss notification' }).first().click();
   await expect(toasts).toHaveCount(1);
-  await page.getByRole('button', { name: 'Dismiss notification' }).click();
+  await expect(page.getByRole('button', { name: 'Dismiss notification' })).toBeFocused();
+  await page.getByRole('button', { name: 'Dismiss notification' }).press('Enter');
   await expect(trigger).toBeFocused();
   await expect(page.locator('.om-toast')).toHaveCount(0);
 });
@@ -556,4 +559,46 @@ test('overview exposes a working demo and primary documentation links', async ({
   await expect(page.locator('#page-title')).toHaveText('Button');
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.screenshot({ path: testInfo.outputPath('component-docs.png'), fullPage: true, animations: 'disabled' });
+});
+
+test('toast stack expands on hover and focus, then dismisses without losing keyboard position', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.setViewportSize({ width: 1100, height: 800 });
+  await page.goto('/#/toast');
+  const trigger = page.getByRole('button', { name: 'Show toast' });
+  const viewport = page.locator('.om-toast-viewport');
+  const cards = viewport.locator('.om-toast-region[data-state="open"]');
+  const dismiss = viewport.getByRole('button', { name: 'Dismiss notification' });
+  await trigger.click();
+  await expect(cards).toHaveCount(1);
+  await expect(cards.locator('.om-toast')).toHaveCSS('animation-name', 'om-toast-in');
+  await trigger.click();
+  await trigger.click();
+  await page.mouse.move(0, 0);
+  await expect(cards).toHaveCount(3);
+  await expect(viewport).toHaveAttribute('data-stack-expanded', 'false');
+  await expect(cards.nth(0)).toHaveAttribute('data-stack-back', 'true');
+  await expect(cards.nth(2)).toHaveAttribute('data-stack-back', 'false');
+  await cards.last().hover();
+  await expect(viewport).toHaveAttribute('data-stack-expanded', 'true');
+  await expect.poll(async () => {
+    const first = await cards.first().boundingBox();
+    const last = await cards.last().boundingBox();
+    return !!first && !!last && first.y + first.height <= last.y;
+  }).toBe(true);
+  await page.mouse.move(0, 0);
+  await dismiss.first().focus();
+  await expect(viewport).toHaveAttribute('data-stack-expanded', 'true');
+  await dismiss.first().press('Enter');
+  await expect(cards).toHaveCount(2);
+  await expect(dismiss.first()).toBeFocused();
+  await expect(viewport.locator('[data-state="closing"] .om-toast')).toHaveCount(0);
+  await dismiss.first().press('Enter');
+  await dismiss.first().press('Enter');
+  await expect(trigger).toBeFocused();
+  await expect(viewport.locator('.om-toast')).toHaveCount(0);
+  await page.setViewportSize({ width: 320, height: 640 });
+  await trigger.click();
+  await expect(cards).toHaveCount(1);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
 });

@@ -1,5 +1,5 @@
 import { createRef } from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, it, vi } from 'vitest';
 import {
@@ -236,4 +236,20 @@ it('uses the custom component as Select and retains its compatibility alias', ()
   render(<Select ref={ref} aria-label="Environment" options={[{ value: 'staging', label: 'Staging' }]} defaultValue="staging" />);
   expect(ref.current).toBe(screen.getByRole('combobox', { name: 'Environment' }));
   expect(ref.current).toHaveTextContent('Staging');
+});
+
+it('preserves the live region through a controlled exit and announces semantic tones', async () => {
+  const onDismiss = vi.fn();
+  const view = render(<Toast open={false} title="Saved" onDismiss={onDismiss} tone="success" />);
+  const region = screen.getByRole('status');
+  expect(region).toBeEmptyDOMElement();
+  view.rerender(<Toast open title="Saved" onDismiss={onDismiss} tone="success" />);
+  expect(screen.getByRole('status')).toBe(region);
+  expect(region).toHaveTextContent('Saved');
+  view.rerender(<Toast open={false} title="Saved" onDismiss={onDismiss} tone="success" />);
+  expect(region).toBeEmptyDOMElement();
+  expect(screen.queryByRole('button', { name: 'Dismiss notification' })).not.toBeInTheDocument();
+  await waitFor(() => expect(screen.queryByText('Saved')).not.toBeInTheDocument());
+  view.rerender(<Toast open title="Network unavailable" onDismiss={onDismiss} tone="error" />);
+  expect(screen.getByRole('alert')).toHaveTextContent('Network unavailable');
 });

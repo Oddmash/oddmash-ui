@@ -126,32 +126,46 @@ export const RecordingNotice = () => {
     group: 'Feedback',
     description: 'Confirm a completed action in a dismissible notification.',
     usage:
-      'Mount Toasts within ToastViewport before the action runs to stack notifications.',
+      'Mount Toasts within ToastViewport before the action runs to stack notifications. Keep newer items last; hover or focus expands the stack.',
     accessibility:
-      'Use neutral for confirmations and danger for urgent errors. Keep the dismiss button available and restore focus when it is used.',
+      'Use neutral, success, info or warning for polite updates and danger or error for urgent errors. Keep the dismiss button available and restore focus to the next notification or trigger.',
     props: [
       ['open', 'boolean', 'Required'],
       ['title', 'string', 'Required'],
       ['onDismiss', '() => void', 'Required'],
       ['dismissLabel', 'string', 'Dismiss notification'],
-      ['tone', 'neutral | danger', 'neutral'],
+      ['tone', 'neutral | success | info | warning | danger | error', 'neutral'],
     ],
     exports: 'Button, Toast, ToastViewport',
     code: `import { useRef, useState } from 'react';
 
 export const SaveNotice = () => {
-  const [open, setOpen] = useState([false, false, false]);
+  const [notices, setNotices] = useState([0, 1, 2].map(id => ({ id, open: false })));
   const trigger = useRef<HTMLButtonElement>(null);
+  const viewport = useRef<HTMLDivElement>(null);
+
+  const show = () => setNotices(current => {
+    const next = current.find(notice => !notice.open);
+    return next ? [...current.filter(notice => notice.id !== next.id), { ...next, open: true }] : current;
+  });
+
+  const dismiss = (id: number) => {
+    const visible = notices.filter(notice => notice.open);
+    const index = visible.findIndex(notice => notice.id === id);
+    const next = visible[index + 1] ?? visible[index - 1];
+    setNotices(current => current.map(notice => notice.id === id ? { ...notice, open: false } : notice));
+    requestAnimationFrame(() => {
+      const button = next && viewport.current?.querySelector<HTMLButtonElement>('[data-toast-id="' + next.id + '"][data-state="open"] button');
+      (button || trigger.current)?.focus();
+    });
+  };
 
   return (
     <>
-      <Button ref={trigger} disabled={open.every(Boolean)} onClick={() => setOpen(current => current.map((value, index) => value || index === current.indexOf(false)))}>Show toast</Button>
-      <ToastViewport>
-        {open.map((visible, index) => (
-          <Toast key={index} open={visible} title="Project saved" onDismiss={() => {
-            setOpen(current => current.map((value, position) => position === index ? false : value));
-            requestAnimationFrame(() => trigger.current?.focus());
-          }}>Your changes are ready.</Toast>
+      <Button ref={trigger} disabled={notices.every(notice => notice.open)} onClick={show}>Show toast</Button>
+      <ToastViewport ref={viewport}>
+        {notices.map(notice => (
+          <Toast key={notice.id} data-toast-id={notice.id} open={notice.open} title="Project saved" tone="success" onDismiss={() => dismiss(notice.id)}>Your changes are ready.</Toast>
         ))}
       </ToastViewport>
     </>
