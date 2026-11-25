@@ -73,7 +73,7 @@ export const DateSelect = forwardRef<HTMLFieldSetElement, DateSelectProps>(({
     if (disabled) return;
     const now = new Date();
     const current = parsed ?? {
-      year: Math.min(maxYear, Math.max(minYear, now.getFullYear())), month: now.getMonth() + 1, day: now.getDate(), hour: 0, minute: 0, second: 0,
+      year: Math.min(maxYear, Math.max(minYear, now.getFullYear())), month: now.getMonth() + 1, day: part === 'month' || part === 'year' ? 1 : now.getDate(), hour: 0, minute: 0, second: 0,
     };
     const updated = { ...current, [part]: next };
     updated.day = Math.min(updated.day, daysInMonth(updated.year, updated.month));
@@ -96,7 +96,7 @@ export const DateSelect = forwardRef<HTMLFieldSetElement, DateSelectProps>(({
       </label>)}
     </div>
     {name && <input type="hidden" name={name} form={form} value={parsed ? format(parsed) : ''} />}
-    {!required && <Button className="om-date-select-clear" variant="ghost" size="sm" disabled={!parsed || disabled} onClick={() => { update(''); yearControl.current?.focus(); }}>{fieldLabels.clear}</Button>}
+    {!required && <Button type="button" className="om-date-select-clear" variant="ghost" size="sm" disabled={!parsed || disabled} onClick={() => { update(''); yearControl.current?.focus(); }}>{fieldLabels.clear}</Button>}
   </fieldset>;
 });
 DateSelect.displayName = 'DateSelect';
