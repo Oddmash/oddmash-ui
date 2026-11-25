@@ -49,6 +49,14 @@ select.om-select optgroup {
   color: var(--om-semantic-color-text);
 }
 
+select.om-select {
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
 .om-progress {
   accent-color: var(--om-semantic-color-action);
 }
@@ -399,13 +407,16 @@ select.om-select optgroup {
   min-inline-size: 0;
 
   > [role='listbox'] {
+    --om-select-menu-height: 12rem;
     position: absolute;
     z-index: 2;
     inset: calc(100% + 4px) 0 auto;
-    max-block-size: 12rem;
+    max-block-size: var(--om-select-menu-height);
+    box-sizing: border-box;
     margin: 0;
     padding: var(--om-semantic-space-xs);
     overflow: auto;
+    overscroll-behavior: contain;
     list-style: none;
     border: 1px solid var(--om-semantic-color-border);
     border-radius: var(--om-semantic-radius-md);
@@ -413,6 +424,17 @@ select.om-select optgroup {
     box-shadow: var(--om-semantic-shadow);
     color: var(--om-semantic-color-text);
     font: var(--om-semantic-font-size) / var(--om-semantic-font-line) var(--om-semantic-font-family);
+
+    &[data-positioned] {
+      position: fixed;
+      inset: calc(var(--om-select-anchor-top) + var(--om-semantic-space-xs)) auto auto var(--om-select-anchor-left);
+      inline-size: var(--om-select-anchor-width);
+      max-block-size: max(0%, min(var(--om-select-menu-height), calc(var(--om-select-available) - var(--om-semantic-space-xs))));
+
+      &[data-placement='above'] {
+        inset-block: auto calc(var(--om-select-anchor-bottom) + var(--om-semantic-space-xs));
+      }
+    }
   }
 
   > [role='listbox'] > [role='option'] {
@@ -451,13 +473,17 @@ select.om-select optgroup {
     }
 
     &:hover:not([aria-disabled='true']) {
-      background: color-mix(in srgb, var(--om-semantic-color-text) 18%, var(--om-semantic-color-surface));
+      background: color-mix(in srgb, var(--om-semantic-color-text) 6%, var(--om-semantic-color-surface));
     }
 
-    &[data-active] {
-      background: color-mix(in srgb, var(--om-semantic-color-text) 18%, var(--om-semantic-color-surface));
-      outline: 2px solid var(--om-semantic-color-focus);
-      outline-offset: -2px;
+    &[aria-selected='true']:hover:not([aria-disabled='true']) {
+      background: color-mix(in srgb, var(--om-semantic-color-text) 14%, var(--om-semantic-color-surface));
+    }
+
+    &[data-keyboard-active] {
+      background: color-mix(in srgb, var(--om-semantic-color-focus) 12%, var(--om-semantic-color-surface));
+      outline: var(--om-semantic-border-width) solid var(--om-semantic-color-focus);
+      outline-offset: calc(-1 * var(--om-semantic-border-width));
     }
   }
 }
@@ -470,13 +496,13 @@ select.om-select optgroup {
       color: HighlightText;
     }
 
-    &[data-active],
+    &[data-keyboard-active],
     &:hover:not([aria-disabled='true']) {
       outline: 1px solid Highlight;
       outline-offset: -1px;
     }
 
-    &[aria-selected='true'][data-active],
+    &[aria-selected='true'][data-keyboard-active],
     &[aria-selected='true']:hover {
       outline-color: HighlightText;
     }
@@ -490,6 +516,12 @@ select.om-select optgroup {
   gap: var(--om-semantic-space-sm);
   text-align: start;
   overflow-wrap: anywhere;
+  cursor: pointer;
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    cursor: not-allowed;
+  }
 
   &::after {
     content: '';
