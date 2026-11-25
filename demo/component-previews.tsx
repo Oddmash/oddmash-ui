@@ -112,7 +112,7 @@ export const getComponentPreviews = (
     </Prose>
   ),
   slider: <label>{t('Width')} <Slider min={100} max={600} defaultValue={320} /></label>,
-  'command-palette': <CommandPalette trigger={<Button>{t('Commands')}</Button>} title={t('Commands')} description={t('Choose an action')} searchLabel={t('Search commands')} emptyLabel={t('No commands found')} items={[{ id: 'save', label: t('Save project'), onSelect: () => {} }]} />,
+  'command-palette': <CommandPalette trigger={<Button>{t('Commands')}</Button>} title={t('Commands')} description={t('Choose an action')} searchLabel={t('Search commands')} emptyLabel={t('No commands found')} shortcut items={[{ id: 'save', label: t('Save project'), group: t('Project'), description: t('Save current changes'), onSelect: () => {} }, { id: 'guide', label: t('Usage guide'), group: t('Documentation'), onSelect: () => {} }]} />,
   textarea: (
     <label>
       {t('Release notes')}
