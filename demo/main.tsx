@@ -18,7 +18,7 @@ import './interaction-lab.scss';
 import './brand.scss';
 import InteractionLab from './interaction-lab';
 import { TimelineFilters } from './timeline-filters';
-import { npmPackageUrl, repositoryUrl } from './package-links';
+import { npmPackageUrl, repositoryUrl, packageMinorVersion } from './package-links';
 
 const navigationGroups = [...new Set(pages.map((page) => page.group))];
 
@@ -203,7 +203,7 @@ const App = ({ onLocale }: { onLocale: (locale: Locale) => void }) => {
           <kbd>⌘ K</kbd>
         </div>
         <div className="header-actions">
-          <span className="version-label">v0.3</span>
+          <span className="version-label">v{packageMinorVersion}</span>
           <div className="header-package-links">
             <a href={npmPackageUrl}>
               npm <Arrow />
@@ -354,7 +354,7 @@ const App = ({ onLocale }: { onLocale: (locale: Locale) => void }) => {
         <footer className="site-footer">
           <span>
             <img className="footer-logo" src="./oddmash-logo.png" alt="" />
-            Oddmash UI <span className="muted">· v0.3</span>
+            Oddmash UI <span className="muted">· v{packageMinorVersion}</span>
           </span>
           <a href="https://github.com/Oddmash/oddmash-ui/blob/main/CONTRIBUTING.md">
             {t('Contribute to the system')} <Arrow />

@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { pages } from '../../demo/content';
+import { packageVersion, packageMinorVersion } from '../../demo/package-links';
 import { tabToAllControls } from './keyboard';
 
 for (const theme of ['light', 'dark']) {
@@ -10,6 +11,7 @@ for (const theme of ['light', 'dark']) {
   }) => {
     test.setTimeout(75_000);
     await page.goto('/');
+    await expect(page.locator('.version-label')).toHaveText(`v${packageMinorVersion}`);
     if (theme === 'dark')
       await page.getByRole('button', { name: 'Switch to dark theme' }).click();
     await expect(page.locator('html')).toHaveAttribute('data-om-theme', theme);
@@ -270,7 +272,7 @@ test('installation links distinguish the published package from source', async (
     content.getByRole('link', { name: 'GitHub repository' }),
   ).toHaveAttribute('href', 'https://github.com/Oddmash/oddmash-ui');
   await expect(
-    content.getByText('npm install @oddmash/ui@0.3.0', { exact: true }),
+    content.getByText(`npm install @oddmash/ui@${packageVersion}`, { exact: true }),
   ).toBeVisible();
 });
 
