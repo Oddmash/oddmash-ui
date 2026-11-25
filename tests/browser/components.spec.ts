@@ -4,6 +4,13 @@ import { componentIds, type ComponentId } from '../../demo/content';
 import { tabToAllControls } from './keyboard';
 
 const previewChecks = {
+  "link-controls": async (preview) => {
+    await expect(preview.getByRole('link', { name: 'Read guide' })).toBeVisible();
+    await expect(preview.getByRole('button', { name: 'Open search example' })).toHaveAttribute('type', 'button');
+    await expect(preview.getByRole('link', { name: 'GitHub example' })).toHaveAttribute('href', '#/link-controls');
+    await expect(preview.getByRole('link', { name: 'npm example' })).toBeVisible();
+    await expect(preview.locator('kbd')).toHaveText('Ctrl K');
+  },
   'link-card': async (preview, page, browserName) => {
     const card = preview.getByRole('link', { name: /Usage guide/ });
     await expect(card).toHaveAttribute('href', '#/link-card');
@@ -40,8 +47,10 @@ const previewChecks = {
   },
   'command-palette': async (preview, page) => {
     const trigger = preview.getByRole('button', { name: 'Commands' });
-    await trigger.click();
+    await page.keyboard.press('Control+k');
     const search = page.getByRole('combobox', { name: 'Search commands' });
+    await expect(page.getByRole('group', { name: 'Project' })).toBeVisible();
+    await expect(page.getByRole('option', { name: 'Save project' })).toHaveAccessibleDescription('Save current changes');
     await expect(search).toBeFocused();
     await search.fill('missing');
     await expect(page.getByRole('status').filter({ hasText: 'No commands found' })).toBeVisible();
