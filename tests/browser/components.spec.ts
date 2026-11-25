@@ -4,6 +4,35 @@ import { componentIds, type ComponentId } from '../../demo/content';
 import { tabToAllControls } from './keyboard';
 
 const previewChecks = {
+  'link-card': async (preview, page, browserName) => {
+    const card = preview.getByRole('link', { name: /Usage guide/ });
+    await expect(card).toHaveAttribute('href', '#/link-card');
+    await page.locator('.view-switch').getByRole('button', { name: 'Code' }).press(tabToAllControls(browserName));
+    await expect(card).toBeFocused();
+    await expect(card).toHaveCSS('background-size', '100% 100%');
+    await expect(card).toHaveCSS('outline-style', 'solid');
+    await expect(card).toHaveCSS('transition-duration', '0s');
+    await expect(card.locator('.om-link-card-arrow')).toHaveCSS('transform', 'none');
+  },
+  'code-block': async (preview) => {
+    await expect(preview.getByRole('button', { name: 'Copy code' })).toHaveAttribute('type', 'button');
+    const code = preview.getByRole('region', { name: 'Terminal code' });
+    await expect(code).toHaveText('pnpm add @oddmash/ui');
+    await expect(code).toHaveCSS('white-space', 'pre');
+    await expect(code).toHaveAttribute('tabindex', '0');
+  },
+  'site-layout': async (preview) => {
+    await expect(preview.locator('header.om-site-header')).toBeVisible();
+    await expect(preview.locator('footer.om-site-footer')).toBeVisible();
+    await expect(preview.getByRole('navigation', { name: 'Header navigation example' }).getByRole('link', { name: 'Docs' })).toHaveAttribute('aria-current', 'page');
+    await expect(preview.getByRole('navigation', { name: 'Footer navigation example' })).toBeVisible();
+  },
+  prose: async (preview) => {
+    await expect(preview.getByRole('article')).toBeVisible();
+    await expect(preview.getByRole('heading', { name: 'Usage guide' })).toBeVisible();
+    await expect(preview.getByRole('table')).toBeVisible();
+    await expect(preview.getByRole('columnheader', { name: 'Name' })).toHaveAttribute('scope', 'col');
+  },
   slider: async (preview) => {
     const slider = preview.getByRole('slider', { name: 'Width' });
     await slider.press('ArrowRight');
