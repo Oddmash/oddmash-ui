@@ -1,3 +1,4 @@
+import { packageVersion } from './package-links';
 import { useLocale } from './locale';
 import { useState, type ReactNode } from 'react';
 import {
@@ -136,7 +137,7 @@ export const Example = ({ id }: { id: ComponentId }) => {
             {t('Active')}
           </Badge>
           <Badge>{t('Draft')}</Badge>
-          <Badge>v0.3.0</Badge>
+          <Badge>v{packageVersion}</Badge>
         </div>
         <p className="muted">{t('A little context. No extra noise.')}</p>
       </div>

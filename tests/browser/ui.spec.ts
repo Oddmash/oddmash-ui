@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { pages } from '../../demo/content';
+import { packageVersion, packageMinorVersion } from '../../demo/package-links';
 import { tabToAllControls } from './keyboard';
 
 for (const theme of ['light', 'dark']) {
@@ -10,6 +11,7 @@ for (const theme of ['light', 'dark']) {
   }) => {
     test.setTimeout(75_000);
     await page.goto('/');
+    await expect(page.locator('.version-label')).toHaveText(`v${packageMinorVersion}`);
     if (theme === 'dark')
       await page.getByRole('button', { name: 'Switch to dark theme' }).click();
     await expect(page.locator('html')).toHaveAttribute('data-om-theme', theme);
@@ -270,7 +272,7 @@ test('installation links distinguish the published package from source', async (
     content.getByRole('link', { name: 'GitHub repository' }),
   ).toHaveAttribute('href', 'https://github.com/Oddmash/oddmash-ui');
   await expect(
-    content.getByText('npm install @oddmash/ui@0.3.0', { exact: true }),
+    content.getByText(`npm install @oddmash/ui@${packageVersion}`, { exact: true }),
   ).toBeVisible();
 });
 
@@ -616,19 +618,23 @@ test('toast handles mixed-height notifications and rapid reopen during exit', as
     await page.getByRole('option', { name: label, exact: true }).click();
   };
   await trigger.click();
-  await choose('Error');
-  await trigger.click();
   await choose('Information');
+  await trigger.click();
+  await choose('Error');
   await trigger.click();
   await page.mouse.move(0, 0);
   await expect(open).toHaveCount(3);
   await expect(viewport).toHaveAttribute('data-stack-expanded', 'false');
-  await expect(open.nth(1).locator('.om-toast')).toHaveAttribute('data-tone', 'error');
-  await expect(open.nth(1).getByRole('alert')).toContainText('Save failed');
+  await expect(open.last().locator('.om-toast')).toHaveAttribute('data-tone', 'error');
+  await expect(open.last().getByRole('alert')).toContainText('Save failed');
   await expect.poll(async () => {
-    const height = await open.nth(1).locator('.om-toast').evaluate(el => el.getBoundingClientRect().height);
+    const height = await open.last().locator('.om-toast').evaluate(el => el.getBoundingClientRect().height);
     const short = await open.first().locator('.om-toast').evaluate(el => el.getBoundingClientRect().height);
     return height > short;
+  }).toBe(true);
+  await expect.poll(async () => {
+    const boxes = await Promise.all([open.nth(0).boundingBox(), open.nth(1).boundingBox(), open.nth(2).boundingBox()]);
+    return boxes.every(Boolean) && boxes[0]!.y <= boxes[1]!.y - 8 && boxes[1]!.y <= boxes[2]!.y - 8;
   }).toBe(true);
   await page.screenshot({ path: testInfo.outputPath('toast-collapsed-light.png'), animations: 'disabled' });
   await open.last().hover();
@@ -643,7 +649,7 @@ test('toast handles mixed-height notifications and rapid reopen during exit', as
   await trigger.click();
   await expect(open).toHaveCount(3);
   await expect(viewport.locator('.om-toast-region[data-state="closing"]')).toHaveCount(0);
-  await expect(open.last().getByRole('status')).toContainText('Export ready');
+  await expect(open.last().getByRole('alert')).toContainText('Save failed');
   await page.getByRole('button', { name: 'Switch to dark theme' }).click();
   await page.mouse.move(0, 0);
   await expect(viewport).toHaveAttribute('data-stack-expanded', 'false');
