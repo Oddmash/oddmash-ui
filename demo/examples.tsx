@@ -138,6 +138,12 @@ export const Example = ({ id }: { id: ComponentId }) => {
           </Badge>
           <Badge>{t('Draft')}</Badge>
           <Badge>v{packageVersion}</Badge>
+          <Badge tone="active">{t('Running')}</Badge>
+          <Badge>{t('Waiting')}</Badge>
+          <Badge tone="success">{t('Succeeded')}</Badge>
+          <Badge tone="danger">{t('Failed')}</Badge>
+          <Badge tone="warning">{t('Attention required')}</Badge>
+          <Badge>{t('Unknown')}</Badge>
         </div>
         <p className="muted">{t('A little context. No extra noise.')}</p>
       </div>
