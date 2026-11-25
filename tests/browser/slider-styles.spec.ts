@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
+import { tabToAllControls } from './keyboard';
 
-test('token-styled slider retains native keyboard and pointer behavior in both themes', async ({ page }) => {
+test('token-styled slider retains native keyboard and pointer behavior in both themes', async ({ page, browserName }) => {
   await page.setViewportSize({ width: 320, height: 800 });
   await page.goto('/#/slider');
   for (const theme of ['light', 'dark']) {
@@ -11,13 +12,15 @@ test('token-styled slider retains native keyboard and pointer behavior in both t
     const slider = page.getByRole('slider', { name: 'Width' });
     await expect(slider).toHaveValue('320');
     await expect(slider).toHaveCSS('appearance', 'none');
+    await page.locator('.view-switch').getByRole('button', { name: 'Code', exact: true }).press(tabToAllControls(browserName));
+    await expect(slider).toBeFocused();
+    await expect(slider).toHaveCSS('outline-style', 'solid');
     await slider.press('Home');
     await expect(slider).toHaveValue('100');
     await expect(slider).toHaveCSS('--om-slider-progress', '0%');
     await slider.press('End');
     await expect(slider).toHaveValue('600');
     await expect(slider).toHaveCSS('--om-slider-progress', '100%');
-    await expect(slider).toHaveCSS('outline-style', 'solid');
     await slider.press('ArrowLeft');
     await expect(slider).toHaveValue('599');
     const box = await slider.boundingBox();
