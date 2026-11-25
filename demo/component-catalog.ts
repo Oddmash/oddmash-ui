@@ -173,7 +173,7 @@ export const extendedComponents = {
   },
   'date-select': {
     title: 'Date Select', group: 'Forms', description: 'Select a date and time through seconds.',
-    usage: 'Use a timezone-free local ISO value. An empty selection starts at today at midnight on the first edit. The consumer owns timezone conversion.',
+    usage: 'Use a timezone-free local ISO value. An empty selection starts at today at midnight, or day one when selecting a month or year first. The consumer owns timezone conversion.',
     accessibility: 'Each native select has a visible label. The group has a legend and supports keyboard and touch selection. Use required to prevent clearing.',
     props: [['label', 'ReactNode', 'Required'], ['labels', 'Partial<DateSelectLabels>', 'English'], ['value / defaultValue', 'string', 'Empty'], ['onValueChange', '(value: string) => void', 'None'], ['minYear / maxYear', 'number', '1900 / 2100'], ['required', 'boolean', 'false'], ['name', 'string', 'None']],
     exports: 'DateSelect',
