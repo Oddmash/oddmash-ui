@@ -103,7 +103,7 @@ export const getComponentPreviews = (
       <p>{t('Learn how to use the library.')}</p>
       <ul><li>{t('Install the package.')}</li></ul>
       <pre tabIndex={0} role="region" aria-label={t('Terminal code')}><code>pnpm add @oddmash/ui</code></pre>
-      <ProseScroll tabIndex={0} role="region" aria-label={t('API reference table')}>
+      <ProseScroll tabIndex={0} role="region" aria-label={t('Example options table')}>
         <table>
           <thead><tr><th scope="col">{t('Name')}</th><th scope="col">{t('Type')}</th></tr></thead>
           <tbody><tr><td>href</td><td>string</td></tr></tbody>
