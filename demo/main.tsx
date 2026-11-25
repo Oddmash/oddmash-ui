@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
 import {
   languages,
   LocaleProvider,
@@ -21,6 +21,7 @@ import InteractionLab from './interaction-lab';
 import { TimelineFilters } from './timeline-filters';
 import { npmPackageUrl, repositoryUrl, packageMinorVersion } from './package-links';
 import { readThemePreference, readSystemTheme, themeOptions, type ThemePreference } from './theme';
+import docsShellTokens from './docs-shell-tokens.json';
 
 const navigationGroups = [...new Set(pages.map((page) => page.group))];
 
@@ -172,7 +173,12 @@ const App = ({ onLocale }: { onLocale: (locale: Locale) => void }) => {
   }));
   const component = componentIds.includes(page as ComponentId);
   return (
-    <div className="docs-app">
+    <div className="docs-app" style={{
+      '--docs-header-control-width': docsShellTokens.headerControlWidth,
+      '--docs-search-max-width': docsShellTokens.searchMaxWidth,
+      '--docs-search-preferred-width': docsShellTokens.searchPreferredWidth,
+      '--docs-search-compact-width': docsShellTokens.searchCompactWidth,
+    } as CSSProperties}>
       <a
         className="skip-link"
         href="#main-content"
