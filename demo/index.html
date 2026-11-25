@@ -10,12 +10,13 @@
     <link rel="icon" type="image/png" href="./oddmash-logo.png" />
     <title>Oddmash UI | Design system</title>
     <script>
-      try {
-        const theme =
-          localStorage.getItem('om-docs-theme') === 'dark' ? 'dark' : 'light';
-        document.documentElement.dataset.omTheme = theme;
-        document.documentElement.style.colorScheme = theme;
-      } catch {}
+      let preference;
+      try { preference = localStorage.getItem('om-docs-theme'); } catch {}
+      const theme = preference === 'light' || preference === 'dark'
+        ? preference
+        : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.omTheme = theme;
+      document.documentElement.style.colorScheme = theme;
     </script>
   </head>
   <body>

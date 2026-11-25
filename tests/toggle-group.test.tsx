@@ -213,3 +213,43 @@ it('hydrates the pressed state and establishes one tab stop', async () => {
     await act(async () => root?.unmount());
   }
 });
+
+it('can be entered with Tab after an initially hidden parent is revealed', async () => {
+  const user = userEvent.setup();
+  const group = (hidden: boolean) => (
+    <>
+      <button>Before</button>
+      <div hidden={hidden}>
+        <ToggleGroup type="single">
+          <ToggleGroupItem value="grid">Grid</ToggleGroupItem>
+        </ToggleGroup>
+      </div>
+    </>
+  );
+  const { rerender } = render(group(true));
+  await user.tab();
+  expect(screen.getByRole('button', { name: 'Before' })).toHaveFocus();
+  rerender(group(false));
+  await user.tab();
+  expect(screen.getByRole('button', { name: 'Grid' })).toHaveFocus();
+});
+
+it('reverses horizontal arrow navigation in RTL without changing selection', async () => {
+  const user = userEvent.setup();
+  const onValueChange = vi.fn();
+  render(
+    <ToggleGroup type="single" dir="rtl" style={{ direction: 'rtl' }} defaultValue="a" onValueChange={onValueChange}>
+      <ToggleGroupItem value="a">A</ToggleGroupItem>
+      <ToggleGroupItem value="b" disabled>B</ToggleGroupItem>
+      <ToggleGroupItem value="c">C</ToggleGroupItem>
+      <ToggleGroupItem value="d">D</ToggleGroupItem>
+    </ToggleGroup>,
+  );
+  await user.tab();
+  await user.keyboard('{ArrowLeft}');
+  expect(screen.getByRole('button', { name: 'C' })).toHaveFocus();
+  await user.keyboard('{ArrowRight}{ArrowRight}');
+  expect(screen.getByRole('button', { name: 'D' })).toHaveFocus();
+  expect(screen.getByRole('button', { name: 'A' })).toHaveAttribute('aria-pressed', 'true');
+  expect(onValueChange).not.toHaveBeenCalled();
+});

@@ -16,7 +16,7 @@ pnpm run demo
 
 ## Use from another local project
 
-React 18.3.1 and React 19 are supported peers. Install the published package with `npm install @oddmash/ui`. To test a local change in a consuming project, build an archive with `pnpm pack`, then install the resulting `oddmash-ui-0.5.0.tgz` in the consuming project. Import `@oddmash/ui/styles.css` once. The package is ESM-only and does not include a global reset, Tailwind, an icon package, or a CSS-in-JS runtime.
+React 18.3.1 and React 19 are supported peers. Install the published package with `npm install @oddmash/ui`. To test a local change in a consuming project, build an archive with `pnpm pack`, then install the resulting `oddmash-ui-0.7.0.tgz` in the consuming project. Import `@oddmash/ui/styles.css` once. The package is ESM-only and does not include a global reset, Tailwind, an icon package, or a CSS-in-JS runtime.
 
 The documentation site serves Geist Sans and Geist Mono from `demo/public/fonts/` under the SIL Open Font License included there. Package consumers can self-host the fonts under those family names or use the system fallbacks in the font tokens.
 
@@ -42,7 +42,7 @@ tests/
 
 ## Shared component review
 
-See the [component quality review](docs/component-quality-review.md) for the latest interaction audit and verification scope. The live Toast reference is the [Toast documentation page](https://oddmash.github.io/oddmash-ui/#/toast), which uses the localized component catalog and the actual controlled Toast demo. Its state selector previews success, information, warning and error. Mount stable controlled items before the action, keep newer items last, and retain items through their closing motion. Hover or keyboard focus expands a collapsed stack; touch and reduced-motion preferences use the expanded presentation. Consumers own expiry and return focus to a remaining notification or the triggering control.
+See the [component quality review](docs/component-quality-review.md) for the latest interaction audit and verification scope. The live Toast reference is the [Toast documentation page](https://oddmash.github.io/oddmash-ui/#/toast), which uses the localized component catalog. Mount stable controlled items before the action, keep newer items last, and retain items through their closing motion. Hover or keyboard focus expands a collapsed stack; touch and reduced-motion preferences use the expanded presentation. Controlled Toast consumers own expiry and return focus to a remaining notification or the triggering control. The optional `progress` prop accepts a remaining fraction from zero to one for decorative display, without starting a timer. ToastProvider supplies countdowns for finite durations automatically, pauses both the timer and indicator while its viewport is hovered or focused, and omits them for persistent notifications. Reduced-motion preferences use discrete countdown updates rather than per-frame animation.
 
 ## Documentation primitives
 

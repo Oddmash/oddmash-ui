@@ -46,7 +46,11 @@ const ToggleGroupContext = /* @__PURE__ */ createContext<{
 
 function enabledItems(group: HTMLDivElement) {
   return Array.from(group.querySelectorAll<HTMLButtonElement>('button[data-om-toggle-item]:enabled'))
-    .filter(item => item.closest('[data-om-toggle-group]') === group && !item.closest('[hidden]'));
+    .filter(item => {
+      const hidden = item.closest('[hidden]');
+      return item.closest('[data-om-toggle-group]') === group
+        && (!hidden || hidden === group || !group.contains(hidden));
+    });
 }
 
 export const ToggleGroup = /* @__PURE__ */ forwardRef<HTMLDivElement, ToggleGroupProps>(

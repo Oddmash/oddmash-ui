@@ -43,8 +43,8 @@
   }
 
   &:focus-visible {
-    outline: 2px solid var(--om-semantic-color-focus);
-    outline-offset: 2px;
+    outline: var(--om-semantic-focus-width) solid var(--om-semantic-color-focus);
+    outline-offset: var(--om-semantic-focus-offset);
   }
 
   &:disabled {
@@ -57,8 +57,8 @@
   .om-toggle-group-item[aria-pressed='true'] {
     border-color: Highlight;
     border-style: double;
-    border-width: 3px;
+    border-width: calc(var(--om-semantic-border-width) + var(--om-semantic-focus-width));
     // Preserve the normal button dimensions with the thicker pressed border.
-    padding: calc(var(--om-semantic-space-xs) - 2px) calc(var(--om-semantic-space-md) - 2px);
+    padding: calc(var(--om-semantic-space-xs) - var(--om-semantic-focus-width)) calc(var(--om-semantic-space-md) - var(--om-semantic-focus-width));
   }
 }

@@ -1,11 +1,13 @@
 import { documentationNavigationTranslations } from './docs-navigation-translations';
 import { notificationTranslations } from './notification-translations';
+import { previewTranslations } from './preview-translations';
 
 type Translation = [ko: string, ja: string, simplifiedChinese: string];
 
 export const translations: Record<string, Translation> = {
   ...documentationNavigationTranslations,
   ...notificationTranslations,
+  ...previewTranslations,
   "Link Controls": ["링크 컨트롤","リンクコントロール","链接控件"],
   "Style links, named icon controls and keyboard shortcuts without changing native behavior.": ["기본 동작을 유지하면서 링크, 이름이 있는 아이콘 컨트롤, 키보드 단축키를 꾸밉니다.","ネイティブの動作を保ったままリンク、名前付きアイコン操作、キーボードショートカットを装飾します。","在保留原生行为的同时为链接、具名图标控件和键盘快捷键提供样式。"],
   "Use ButtonLink for navigation, IconButton for an action, and IconLink or PlatformLink for a named icon destination. Supply href and localization yourself.": ["이동에는 ButtonLink, 동작에는 IconButton, 아이콘 이동 대상에는 IconLink 또는 PlatformLink를 사용하세요. href와 번역된 이름은 직접 제공하세요.","移動には ButtonLink、操作には IconButton、アイコンの移動先には IconLink または PlatformLink を使います。href と翻訳した名前は利用側が指定します。","导航使用 ButtonLink，操作使用 IconButton，图标链接目标使用 IconLink 或 PlatformLink。由使用方提供 href 和本地化标签。"],
@@ -50,15 +52,15 @@ export const translations: Record<string, Translation> = {
   "Name": ["이름","名前","名称"],
   'Toggle Group': ['토글 그룹', 'トグルグループ', '切换按钮组'],
   'Group toggle buttons for related settings.': ['관련 설정을 토글 버튼으로 묶습니다.', '関連する設定をトグルボタンのグループにまとめます。', '将相关设置的切换按钮组合在一起。'],
-  'Use single mode for a view choice and multiple mode for independent options. Empty selection is null in single mode and [] in multiple mode.': [
-    '보기 선택에는 단일 모드를, 독립 옵션에는 다중 모드를 사용하세요. 선택이 없으면 단일 모드는 null, 다중 모드는 []입니다.',
-    '表示形式の選択には単一モード、独立したオプションには複数モードを使います。未選択時の値は単一モードでは null、複数モードでは [] です。',
-    '选择视图时使用单选模式，独立选项使用多选模式。无选中项时，单选模式的值为 null，多选模式的值为 []。',
+  'Use single mode for a view choice and multiple mode for independent options. Empty selection is null in single mode and [] in multiple mode. Item values must be unique within each group.': [
+    '보기 선택에는 단일 모드를, 독립 옵션에는 다중 모드를 사용하세요. 선택이 없으면 단일 모드는 null, 다중 모드는 []입니다. 각 그룹의 항목 값은 서로 달라야 합니다.',
+    '表示形式の選択には単一モード、独立したオプションには複数モードを使います。未選択時の値は単一モードでは null、複数モードでは [] です。各グループ内で項目の値は一意にしてください。',
+    '选择视图时使用单选模式，独立选项使用多选模式。无选中项时，单选模式的值为 null，多选模式的值为 []。同一组内的项目值必须唯一。',
   ],
-  'Name the group and icon-only buttons. Tab enters the group once. Arrow keys wrap and skip disabled buttons, Home and End move to the edges, and Space or Enter toggles the focused button.': [
-    '그룹과 아이콘 전용 버튼에 접근 가능한 이름을 지정하세요. Tab 키로 그룹에 한 번 들어갑니다. 방향키는 비활성 버튼을 건너뛰고 처음과 끝을 순환하며, Home과 End는 양끝으로 이동합니다. Space 또는 Enter로 포커스된 버튼을 토글합니다.',
-    'グループとアイコンのみのボタンに名前を付けます。Tab でグループに入り、矢印キーで無効なボタンを飛ばしながら循環します。Home と End で先頭と末尾へ移動し、Space または Enter でフォーカス中のボタンを切り替えます。',
-    '为按钮组和纯图标按钮提供可访问名称。按 Tab 可一次进入按钮组。方向键循环移动并跳过禁用按钮，Home 和 End 跳到首尾，按空格键或 Enter 切换当前聚焦的按钮。',
+  'Name the group and icon-only buttons. Tab enters the group once. Use Left and Right in horizontal groups, and Up and Down in vertical groups. Navigation wraps and skips disabled buttons. Home and End move to the edges. Space or Enter toggles the focused button.': [
+    '그룹과 아이콘 전용 버튼에 접근 가능한 이름을 지정하세요. Tab 키로 그룹에 한 번 들어갑니다. 가로 그룹에서는 왼쪽과 오른쪽 방향키, 세로 그룹에서는 위쪽과 아래쪽 방향키를 사용합니다. 이동 시 비활성 버튼을 건너뛰고 처음과 끝을 순환하며, Home과 End는 양끝으로 이동합니다. Space 또는 Enter로 포커스된 버튼을 토글합니다.',
+    'グループとアイコンのみのボタンに名前を付けます。Tab でグループに入り、横向きのグループでは左右キー、縦向きでは上下キーを使います。無効なボタンを飛ばしながら循環します。Home と End で先頭と末尾へ移動し、Space または Enter でフォーカス中のボタンを切り替えます。',
+    '为按钮组和纯图标按钮提供可访问名称。按 Tab 可一次进入按钮组。横向组使用左右方向键，纵向组使用上下方向键。导航会循环移动并跳过禁用按钮，Home 和 End 跳到首尾，按空格键或 Enter 切换当前聚焦的按钮。',
   ],
   'View mode': ['보기 모드', '表示モード', '视图模式'],
   'Grid view': ['격자 보기', 'グリッド表示', '网格视图'],

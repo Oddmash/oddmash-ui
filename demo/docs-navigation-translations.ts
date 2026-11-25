@@ -1,4 +1,8 @@
 export const documentationNavigationTranslations: Record<string, [string, string, string]> = {
+  'Theme': ['테마', 'テーマ', '主题'],
+  'System': ['시스템', 'システム', '系统'],
+  'Choose a documentation page': ['문서 페이지를 선택하세요.', 'ドキュメントページを選択してください。', '选择文档页面。'],
+  'Close search': ['검색 닫기', '検索を閉じる', '关闭搜索'],
   'Docs Navigation': ['문서 탐색', 'ドキュメントナビゲーション', '文档导航'],
   'Table of Contents': ['목차', '目次', '目录'],
   'Scroll Header': ['스크롤 헤더', 'スクロールヘッダー', '滚动页眉'],
