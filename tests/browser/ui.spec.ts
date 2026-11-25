@@ -90,7 +90,8 @@ test('navigation, search, live props, code, tokens and mobile menu work', async 
   await page
     .getByRole('textbox', { name: 'Search documentation' })
     .fill('button');
-  await expect(navigation.getByRole('link')).toHaveCount(1);
+  await expect(navigation.getByRole('link')).toHaveCount(2);
+  await expect(navigation.getByRole('link', { name: 'Clipboard Button', exact: true })).toBeVisible();
   await navigation.getByRole('link', { name: 'Button', exact: true }).click();
   await expect(page.locator('#page-title')).toHaveText('Button');
   await page.getByRole('combobox', { name: 'Variant', exact: true }).click();
