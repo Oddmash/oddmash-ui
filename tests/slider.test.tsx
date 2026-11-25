@@ -1,4 +1,4 @@
-import { createRef } from 'react';
+import { createRef, type CSSProperties } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { renderToString } from 'react-dom/server';
 import { expect, it, vi } from 'vitest';
@@ -35,4 +35,17 @@ it('uses controlled values and updated limits for the visual fill', () => {
 
 it('renders deterministic initial progress without the DOM', () => {
   expect(renderToString(<Slider min={0} max={100} defaultValue={25} />)).toContain('--om-slider-progress:25%');
+});
+
+it('keeps the private fill variable authoritative without overriding ordinary consumer styles', () => {
+  const style = { color: 'red', '--om-slider-progress': '0%' } as CSSProperties;
+  const { rerender } = render(<Slider aria-label="Width" min={0} max={100} defaultValue={75} style={style} />);
+  const input = screen.getByRole<HTMLInputElement>('slider');
+  expect(filled(input)).toBe('75%');
+  expect(input.style.color).toBe('red');
+  fireEvent.input(input, { target: { value: '50' } });
+  expect(filled(input)).toBe('50%');
+  rerender(<Slider aria-label="Width" min={0} max={100} defaultValue={75} style={style} />);
+  expect(filled(input)).toBe('50%');
+  expect(renderToString(<Slider min={0} max={100} defaultValue={75} style={style} />)).toContain('--om-slider-progress:75%');
 });
