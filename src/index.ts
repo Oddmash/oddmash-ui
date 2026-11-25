@@ -24,6 +24,7 @@ export * from './empty-state';
 export { tokens, type TokenName } from './generated/tokens';
 export * from './toast';
 export * from './slider';
+export * from './toggle-group';
 export * from './command-palette';
 export * from './link-card';
 export * from './code-block';

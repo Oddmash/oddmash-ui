@@ -127,6 +127,10 @@
       "types": "./dist/toast.d.ts",
       "import": "./dist/toast.js"
     },
+    "./toggle-group": {
+      "types": "./dist/toggle-group.d.ts",
+      "import": "./dist/toggle-group.js"
+    },
     "./slider": {
       "types": "./dist/slider.d.ts",
       "import": "./dist/slider.js"

@@ -143,6 +143,39 @@ export const extendedComponents = {
     props: [['min / max / step', 'number', 'Native defaults']], exports: 'Slider',
     code: '<label>Width <Slider min={100} max={600} defaultValue={320} /></label>',
   },
+  'toggle-group': {
+    title: 'Toggle Group',
+    group: 'Forms',
+    description: 'Group toggle buttons for related settings.',
+    usage: 'Use single mode for a view choice and multiple mode for independent options. Empty selection is null in single mode and [] in multiple mode.',
+    accessibility: 'Name the group and icon-only buttons. Tab enters the group once. Arrow keys wrap and skip disabled buttons, Home and End move to the edges, and Space or Enter toggles the focused button.',
+    props: [
+      ['type', 'single | multiple', 'Required'],
+      ['value / defaultValue (group)', 'string | null (single), readonly string[] (multiple)', 'null / []'],
+      ['onValueChange', '(value: string | null) => void (single), (value: string[]) => void (multiple)', 'None'],
+      ['orientation', 'horizontal | vertical', 'horizontal'],
+      ['disabled (group or item)', 'boolean', 'false'],
+      ['value (item)', 'string', 'Required'],
+    ],
+    exports: 'ToggleGroup, ToggleGroupItem',
+    reactImports: ['useState'],
+    code: `const Example = () => {
+  const [view, setView] = useState<string | null>('grid');
+  return (
+    <>
+      <ToggleGroup aria-label="View mode" type="single" value={view} onValueChange={setView}>
+        <ToggleGroupItem value="grid">Grid view</ToggleGroupItem>
+        <ToggleGroupItem value="compact" disabled>Compact view</ToggleGroupItem>
+        <ToggleGroupItem value="list">List view</ToggleGroupItem>
+      </ToggleGroup>
+      <ToggleGroup aria-label="Text formatting" type="multiple" defaultValue={['bold']}>
+        <ToggleGroupItem value="bold">Bold</ToggleGroupItem>
+        <ToggleGroupItem value="italic">Italic</ToggleGroupItem>
+      </ToggleGroup>
+    </>
+  );
+};`,
+  },
   'command-palette': {
     title: 'Command Palette', group: 'Navigation', description: 'Find and execute actions.',
     usage: 'Open with an explicit trigger or an opt-in Mod+K shortcut. Supply descriptive grouped results and a consumer-owned filter when needed.', accessibility: 'Use arrow keys, Enter and Escape. Provide distinct result labels and descriptions.',
