@@ -243,6 +243,7 @@
   outline-offset: -1px;
 }
 .om-command-palette { max-height: min(70vh, 480px); overflow: auto; }
+.om-command-dismiss { margin-block-start: var(--om-semantic-space-md); }
 .om-command-list { display: grid; gap: var(--om-semantic-space-xs); margin-top: var(--om-semantic-space-sm); max-height: 240px; overflow: auto; }
 .om-command-list [role='option'] { padding: var(--om-semantic-space-sm); border-radius: var(--om-semantic-radius-sm); cursor: pointer; }
 .om-command-list [aria-selected='true'] { background: var(--om-semantic-color-action); color: var(--om-semantic-color-on-action); }
