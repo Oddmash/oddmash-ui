@@ -32,6 +32,6 @@ Interaction Inspector のように、明確な操作と信頼できる挙動が�
 
 ## 現在の範囲
 
-Oddmash UI は 1.0 前の段階で開発中です。npm 0.5.0 では、ドキュメント、ランディング、ナビゲーション、フィードバックの構成要素を拡充しました。React 18.3.1 と React 19 の対応は継続しています。
+Oddmash UI は 1.0 前の段階で開発中です。npm 0.6.0 では、セマンティックなステータスバッジ、一貫した範囲入力の表示、多言語のコマンド終了操作を追加し、ドキュメントのナビゲーションとコードコピーを改善しました。React 18.3.1 と React 19 の対応は継続しています。
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [コントリビューターガイド](../../CONTRIBUTING.md) · [MIT License](../../LICENSE)
