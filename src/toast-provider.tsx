@@ -112,20 +112,47 @@ const ManagedToast = ({ entry, paused, dismissLabel, register, open, dismiss, ex
   }, [id, phase, open]);
 
   useEffect(() => {
-    if (phase !== 'open' || paused || remaining.current === null) return;
-    const view = root.current?.ownerDocument.defaultView;
-    if (!view) return;
+    const node = root.current;
+    const view = node?.ownerDocument.defaultView;
+    const duration = entry.duration;
+    if (phase !== 'open' || !node || !view || duration === null || remaining.current === null) return;
     const time = remaining.current;
+    const updateProgress = (value: number) => {
+      node.style.setProperty('--om-toast-remaining', String(Math.min(1, Math.max(0, value / duration))));
+    };
+    updateProgress(time);
+    if (paused) return;
     const started = Date.now();
+    const reduced = typeof view.matchMedia === 'function' ? view.matchMedia('(prefers-reduced-motion: reduce)') : undefined;
+    const getRemaining = () => Math.max(0, time - (Date.now() - started));
+    let frame: number | undefined;
+    let progressTimeout: number | undefined;
+    const update = () => {
+      const value = getRemaining();
+      updateProgress(value);
+      if (value > 0) schedule();
+    };
+    const schedule = () => {
+      if (!reduced?.matches && typeof view.requestAnimationFrame === 'function' && typeof view.cancelAnimationFrame === 'function') {
+        frame = view.requestAnimationFrame(update);
+      } else {
+        progressTimeout = view.setTimeout(update, Math.min(1000, getRemaining()));
+      }
+    };
+    schedule();
     const timeout = view.setTimeout(() => {
       remaining.current = 0;
+      updateProgress(0);
       dismiss(id);
     }, time);
     return () => {
       view.clearTimeout(timeout);
-      remaining.current = Math.max(0, time - (Date.now() - started));
+      if (frame !== undefined) view.cancelAnimationFrame(frame);
+      if (progressTimeout !== undefined) view.clearTimeout(progressTimeout);
+      remaining.current = getRemaining();
+      updateProgress(remaining.current);
     };
-  }, [id, phase, paused, dismiss]);
+  }, [id, phase, paused, dismiss, entry.duration]);
 
   useEffect(() => {
     if (phase !== 'closing') return;
@@ -155,6 +182,7 @@ const ManagedToast = ({ entry, paused, dismissLabel, register, open, dismiss, ex
       title={options.title}
       tone={options.tone}
       icon={options.icon}
+      progress={entry.duration === null ? undefined : 1}
       dismissLabel={options.dismissLabel ?? dismissLabel}
       onDismiss={() => dismiss(id)}
       data-toast-id={id}
