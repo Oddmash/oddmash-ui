@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, it } from 'vitest';
-import { Tooltip } from '../src/tooltip';
+import { Tooltip, mountTooltip } from '../src/tooltip';
 
 it('retains link semantics, describes the trigger and dismisses on Escape', async () => {
   const user = userEvent.setup();
@@ -26,4 +26,27 @@ it('keeps the tooltip open while hovering its content and hides after leaving', 
   expect(panel).toBeVisible();
   await user.unhover(panel);
   await waitFor(() => expect(panel).not.toBeVisible());
+});
+
+it('retains focus and updated content across fresh child JSX', async () => {
+  const user = userEvent.setup();
+  const view = render(<Tooltip content="Original"><button>Reference</button></Tooltip>);
+  await user.tab();
+  const trigger = screen.getByRole('button', { name: 'Reference' });
+  expect(screen.getByRole('tooltip')).toHaveTextContent('Original');
+  view.rerender(<Tooltip content="Updated"><button>Reference</button></Tooltip>);
+  expect(trigger).toHaveFocus();
+  expect(screen.getByRole('tooltip')).toHaveTextContent('Updated');
+  expect(trigger).toHaveAccessibleDescription('Updated');
+});
+
+it('removes only its own description during teardown', () => {
+  const view = render(<><input aria-describedby="hint" /><span id="hint">Hint</span><span id="validation">Validation error</span><span id="tip" hidden>Tooltip</span></>);
+  const trigger = screen.getByRole('textbox');
+  const panel = view.container.querySelector<HTMLElement>('#tip')!;
+  const controller = mountTooltip(trigger, panel);
+  trigger.setAttribute('aria-describedby', 'hint validation tip');
+  controller.destroy();
+  expect(trigger).toHaveAttribute('aria-describedby', 'hint validation');
+  expect(trigger).toHaveAccessibleDescription('Hint Validation error');
 });
