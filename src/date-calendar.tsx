@@ -137,7 +137,7 @@ export const DateCalendar = forwardRef<HTMLDivElement, DateCalendarProps>(({
         </td>;
       })}</tr>)}</tbody>
     </table>
-    <Button size="sm" variant="ghost" disabled={disabled || !today || !isSelectable(today)} onClick={() => { if (today) select(today); }}>{strings.today}</Button>
+    <Button className="om-date-calendar-today" size="sm" variant="ghost" disabled={disabled || !today || !isSelectable(today)} onClick={() => { if (today) select(today); }}>{strings.today}</Button>
   </div>;
 });
 DateCalendar.displayName = 'DateCalendar';
