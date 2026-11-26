@@ -32,6 +32,6 @@ Oddmash UI 是 Oddmash 产品共享的界面基础。它为小型 React 开发�
 
 ## 当前范围
 
-Oddmash UI 正处于 1.0 之前的开发阶段。npm 0.8.0 新增无障碍日期时间控件 DateSelect，支持精确到秒的选择、无时区的本地 ISO 值、原生选择以及共享主题样式。继续支持 React 18.3.1 和 React 19。
+Oddmash UI 正处于 1.0 之前的开发阶段。npm 0.9.0 新增 DateCalendar、DatePicker 和 DateRangePicker，支持无障碍日历浏览、日期与月份选择，以及精确到秒且可独立编辑的日期时间范围。兼容现有 DateSelect，所有日期值均不含时区。继续支持 React 18.3.1 和 React 19。
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [贡献指南](../../CONTRIBUTING.md) · [MIT License](../../LICENSE)
