@@ -1,5 +1,7 @@
 # Oddmash UI working agreements
 
+Follow the [Oddmash concurrent work claims](https://github.com/Oddmash/.github/blob/main/AGENTS.md#concurrent-work-claims) and organization collaboration rules before implementation, review, CI retries, or merges.
+
 Follow the [Oddmash review follow-up guidance](https://github.com/Oddmash/.github/blob/main/docs/AI-CODE-REVIEW.md#following-up-on-review-findings) when addressing review comments.
 
 Oddmash UI is an evolving pre-1.0 package. Use the current visuals and APIs as the baseline for incremental changes.
