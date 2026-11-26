@@ -94,6 +94,40 @@ const previewChecks = {
     await expect(group.getByRole('combobox', { name: 'Year' })).toBeFocused();
     await expect(seconds).toHaveValue('');
   },
+  'date-calendar': async (preview) => {
+    const grid = preview.getByRole('grid', { name: 'November 2026' });
+    const selected = grid.getByRole('button', { name: 'Tuesday, November 17, 2026' });
+    await selected.press('ArrowRight');
+    const next = grid.getByRole('button', { name: 'Wednesday, November 18, 2026' });
+    await expect(next).toBeFocused();
+    await next.press('Enter');
+    await expect(next).toHaveAttribute('data-selected', 'true');
+    await preview.getByRole('button', { name: 'Next month' }).click();
+    await expect(preview.getByRole('grid', { name: 'December 2026' })).toBeVisible();
+  },
+  'date-picker': async (preview) => {
+    const trigger = preview.getByRole('button', { name: 'Calendar' });
+    await trigger.click();
+    await expect(preview.getByRole('grid', { name: 'November 2026' })).toBeVisible();
+    await preview.getByRole('button', { name: 'Tuesday, November 24, 2026' }).click();
+    await expect(trigger).toBeFocused();
+    await expect(preview.getByRole('combobox', { name: 'Day' })).toHaveValue('24');
+    await expect(preview.getByRole('combobox', { name: 'Second' })).toHaveValue('42');
+    await trigger.click();
+    await expect(preview.getByRole('grid')).toBeVisible();
+  },
+  'date-range-picker': async (preview) => {
+    const start = preview.getByRole('group', { name: 'Start date' });
+    const end = preview.getByRole('group', { name: 'End date' });
+    await start.getByRole('combobox', { name: 'Day' }).selectOption('30');
+    await expect(preview.getByRole('status')).toHaveText('End date must not precede start date.');
+    await expect(end.getByRole('combobox', { name: 'Day' })).toHaveValue('25');
+    await start.getByRole('button', { name: 'Clear date and time' }).click();
+    await expect(start.getByRole('combobox', { name: 'Year' })).toHaveValue('');
+    await expect(end.getByRole('combobox', { name: 'Second' })).toHaveValue('59');
+    await end.getByRole('button', { name: 'Calendar' }).click();
+    await expect(end.getByRole('grid', { name: 'November 2026' })).toBeVisible();
+  },
   'command-palette': async (preview, page) => {
     const trigger = preview.getByRole('button', { name: 'Commands' });
     await trigger.press('Enter');
@@ -244,6 +278,25 @@ const previewChecks = {
 } satisfies Record<Exclude<ComponentId, 'dialog'>, (preview: Locator, page: Page, browserName: string) => Promise<void>>;
 
 test.use({ reducedMotion: 'reduce' });
+
+test('date range calendar fits narrow screens in each documentation language', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 800 });
+  await page.goto('/#/date-range-picker');
+  const preview = page.locator('.playground .preview');
+  await preview.getByRole('group', { name: 'Start date' }).getByRole('button', { name: 'Calendar' }).click();
+  const calendar = preview.locator('.om-date-calendar');
+  await expect(calendar).toBeVisible();
+  for (const locale of ['en', 'ko', 'ja', 'zh-CN']) {
+    await page.evaluate(language => localStorage.setItem('om-docs-locale', language), locale);
+    await page.reload();
+    await preview.locator('.om-date-picker-actions button[aria-expanded]').first().click();
+    await expect(calendar).toBeVisible();
+    await expect(calendar.locator('th').first()).toHaveCSS('white-space', 'nowrap');
+    await expect(calendar.locator('th').first()).toHaveCSS('padding-inline-start', '0px');
+    expect(await calendar.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+    expect(await preview.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+  }
+});
 
 for (const id of componentIds.filter((id) => id !== 'dialog')) {
   test(`${id}: real component and active-state accessibility`, async ({ page, browserName }) => {

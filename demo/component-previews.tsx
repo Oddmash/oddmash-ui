@@ -39,6 +39,9 @@ import {
   Radio,
   Select,
   DateSelect,
+  DateCalendar,
+  DatePicker,
+  DateRangePicker,
   Separator,
   Skeleton,
   Spinner,
@@ -48,6 +51,12 @@ import {
 } from '@oddmash/ui';
 import type { ExtendedComponentId } from './component-catalog';
 import { useState, type ReactNode } from 'react';
+import type { Locale } from './locale';
+
+const pickerLabels = (t: (text: string) => string, withTime = false) => ({
+  year: t('Year'), month: t('Month'), day: t('Day'), hour: t('Hour'), minute: t('Minute'), second: t('Second'),
+  clear: t(withTime ? 'Clear date and time' : 'Clear date'), calendar: t('Calendar'), previousMonth: t('Previous month'), nextMonth: t('Next month'), today: t('Today'),
+});
 
 const CodeBlockPreview = ({ t }: { t: (text: string) => string }) => {
   const code = 'pnpm add @oddmash/ui';
@@ -77,6 +86,7 @@ const CodeBlockPreview = ({ t }: { t: (text: string) => string }) => {
 
 export const getComponentPreviews = (
   t: (text: string) => string,
+  locale: Locale,
 ): Record<ExtendedComponentId, ReactNode> => ({
   ...getDocumentationNavigationPreviews(t),
   'clipboard-button': <ClipboardButtonPreview t={t} />,
@@ -158,6 +168,9 @@ export const getComponentPreviews = (
     </div>
   ),
   'date-select': <DateSelect label={t('Date and time')} defaultValue="2026-11-25T14:30:42" labels={{year: t('Year'), month: t('Month'), day: t('Day'), hour: t('Hour'), minute: t('Minute'), second: t('Second'), clear: t('Clear date and time')}} />,
+  'date-calendar': <DateCalendar locale={locale} labels={pickerLabels(t)} defaultValue="2026-11-17" />,
+  'date-picker': <DatePicker label={t('Date and time')} mode="date-time" locale={locale} labels={pickerLabels(t, true)} defaultValue="2026-11-25T14:30:42" />,
+  'date-range-picker': <DateRangePicker label={t('Date range')} startLabel={t('Start date')} endLabel={t('End date')} locale={locale} labels={pickerLabels(t, true)} withTime defaultValue={{ start: '2026-11-01T00:00:00', end: '2026-11-25T23:59:59' }} invalidMessage={t('End date must not precede start date.')} />,
   checkbox: (
     <label className="example-choice">
       <Checkbox name="events" value="keyboard" defaultChecked />{' '}
