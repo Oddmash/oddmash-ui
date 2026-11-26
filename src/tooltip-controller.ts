@@ -103,7 +103,8 @@ export const mountTooltip = (trigger: HTMLElement, tooltip: HTMLElement): Toolti
   trigger.addEventListener('focusin', () => { focused = true; dismissed = false; show(); }, { signal });
   trigger.addEventListener('focusout', () => { focused = false; scheduleHide(); }, { signal });
   doc.addEventListener('pointermove', (event) => {
-    if (!active || hoveringTrigger || hoveringTooltip || focused || bridgeContains(event)) return;
+    if (!active || hoveringTrigger || hoveringTooltip || focused) return;
+    if (bridgeContains(event)) { view.clearTimeout(timer); return; }
     const target = event.target;
     if (target instanceof Node && (trigger.contains(target) || tooltip.contains(target))) return;
     hide();
