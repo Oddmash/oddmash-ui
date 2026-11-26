@@ -5,9 +5,18 @@ import { previewTranslations } from './preview-translations';
 type Translation = [ko: string, ja: string, simplifiedChinese: string];
 
 export const translations: Record<string, Translation> = {
+  'Static HTML tooltip': ['정적 HTML 툴팁', '静的 HTML ツールチップ', '静态 HTML 工具提示'],
+  'Load the package stylesheet. In a package-aware build, import the controller, attach it to the native trigger and hidden panel, and call destroy before removing or replacing the elements.': ['패키지 스타일을 불러오세요. 패키지를 해석하는 빌드에서 컨트롤러를 가져와 기본 트리거와 숨겨진 패널에 연결하고 요소를 제거하거나 교체하기 전에 destroy를 호출하세요.', 'パッケージのスタイルシートを読み込んでください。パッケージ対応のビルドでコントローラーをインポートし、ネイティブのトリガーと非表示のパネルに接続します。要素を削除または置換する前に destroy を呼び出します。', '加载包的样式表。在支持包解析的构建中导入控制器，将其连接到原生触发器和隐藏面板，并在移除或替换元素之前调用 destroy。'],
+  'Component reference': ['컴포넌트 참고 문서', 'コンポーネントリファレンス', '组件参考'],
   ...documentationNavigationTranslations,
   ...notificationTranslations,
   ...previewTranslations,
+  Tooltip: ['툴팁', 'ツールチップ', '工具提示'],
+  'Reveal a short description on hover or focus.': ['호버하거나 포커스하면 간단한 설명을 표시합니다.', 'ホバーまたはフォーカスで短い説明を表示します。', '悬停或聚焦时显示简短说明。'],
+  'Keep essential information in the page and use a tooltip for a short supplementary description.': ['필수 정보는 페이지에 남기고 툴팁은 간단한 보충 설명에 사용합니다.', '必要な情報はページに残し、補足説明にツールチップを使用します。', '在页面中保留必要信息，工具提示仅提供简短补充说明。'],
+  'Show on hover and keyboard focus; Escape dismisses it without changing focus.': ['호버와 키보드 포커스로 표시하며 Escape로 포커스 이동 없이 닫습니다.', 'ホバーとキーボードフォーカスで表示し、Escape でフォーカスを変えずに閉じます。', '悬停和键盘聚焦时显示，按 Escape 关闭而不改变焦点。'],
+  'Open the original reference': ['원본 참고 자료를 엽니다.', '元の参考資料を開きます。', '打开原始参考资料。'],
+  Reference: ['참고 자료', '参考資料', '参考资料'],
   'Date Select': ['날짜 선택', '日時選択', '日期时间选择'],
   'Select a date and time through seconds.': ['초 단위까지 날짜와 시간을 선택합니다.', '秒単位まで日時を選択します。', '选择精确到秒的日期和时间。'],
   'Use a timezone-free local ISO value. An empty selection starts at today at midnight, or day one when selecting a month or year first. The consumer owns timezone conversion.': ['시간대가 없는 로컬 ISO 값을 사용하세요. 비어 있으면 오늘 자정에서 시작하며, 월이나 연도를 먼저 선택하면 1일부터 시작합니다. 시간대 변환은 사용하는 제품에서 담당합니다.', 'タイムゾーンなしのローカル ISO 値を使用します。空の場合は今日の午前0時から始まり、月や年を最初に選択した場合は1日になります。タイムゾーン変換は利用側が行います。', '使用不含时区的本地 ISO 值。空值从当天零点开始，先选择月份或年份时从1日开始。时区转换由使用方处理。'],

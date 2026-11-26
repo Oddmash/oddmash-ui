@@ -1,8 +1,10 @@
+import { staticTooltipHeading, staticTooltipUsage, staticTooltipCode } from './tooltip-static-example';
 import { packageVersion } from './package-links';
 import { useLocale } from './locale';
 import { useState, type ReactNode } from 'react';
 import {
   Button,
+  Tooltip,
   ClipboardButton,
   Input,
   Select,
@@ -74,6 +76,7 @@ export const Example = ({ id }: { id: ComponentId }) => {
       </div>
     );
   }
+  if (id === 'tooltip') return <Tooltip content={t('Open the original reference')}><Button variant="secondary">{t('Reference')}</Button></Tooltip>;
   if (id === 'button')
     return (
       <div className="example-stack">
@@ -348,6 +351,7 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
           </table>
         </div>
       </section>
+      {id === "tooltip" && <section className="doc-section" id="static-tooltip"><h2>{t(staticTooltipHeading)}</h2><p className="body-copy">{t(staticTooltipUsage)}</p><Code>{staticTooltipCode}</Code></section>}
       <section className="doc-section" id="accessibility">
         <h2>{t('Accessibility')}</h2>
         <p className="body-copy">{t(info.accessibility)}</p>

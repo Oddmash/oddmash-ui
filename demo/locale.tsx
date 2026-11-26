@@ -42,6 +42,8 @@ export const useLocale = () => useContext(LocaleContext);
 
 export const readLocale = (): Locale => {
   try {
+    const requested = new URLSearchParams(window.location.search).get('lang');
+    if (requested && Object.hasOwn(languages, requested)) return requested as Locale;
     const stored = localStorage.getItem('om-docs-locale');
     if (stored && Object.hasOwn(languages, stored)) return stored as Locale;
   } catch {

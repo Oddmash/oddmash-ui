@@ -16,7 +16,7 @@ pnpm run demo
 
 ## Use from another local project
 
-React 18.3.1 and React 19 are supported peers. Install the published package with `npm install @oddmash/ui`. To test a local change in a consuming project, build an archive with `pnpm pack`, then install the resulting `oddmash-ui-0.10.0.tgz` in the consuming project. Import `@oddmash/ui/styles.css` once. The package is ESM-only and does not include a global reset, Tailwind, an icon package, or a CSS-in-JS runtime.
+React 18.3.1 and React 19 are supported peers. Install the published package with `npm install @oddmash/ui`. To test a local change in a consuming project, build an archive with `pnpm pack`, then install the resulting `oddmash-ui-0.11.0.tgz` in the consuming project. Import `@oddmash/ui/styles.css` once. The package is ESM-only and does not include a global reset, Tailwind, an icon package, or a CSS-in-JS runtime.
 
 The documentation site serves Geist Sans and Geist Mono from `demo/public/fonts/` under the SIL Open Font License included there. Package consumers can self-host the fonts under those family names or use the system fallbacks in the font tokens.
 
@@ -98,6 +98,19 @@ CodeBlock does not parse or highlight code. Preserve the renderer's syntax marku
 SiteHeader and SiteFooter are layout primitives, not a menu or router. Compose the native nav with labelled landmarks and real links. Products own responsive navigation choices, logo, active routes, sticky or auto-hide behavior and theme selection. Override `--om-site-max-width`, `--om-site-gutter`, `--om-site-header-height` and `--om-site-nav-gap` for the layout.
 
 Prose styles rendered, trusted content rather than converting Markdown to HTML. Preserve native document structure and locale. The default measure is 75ch; override `--om-prose-measure` and `--om-prose-link` as needed. For wide tables, keep the native table inside a named, focusable ProseScroll region. Existing language-aware line break engines can still operate on the rendered text.
+
+## Tooltip
+
+Use `Tooltip` from `@oddmash/ui/tooltip` with a single native interactive child and short, non-interactive content. Hover and keyboard focus reveal the description, Escape dismisses it, and the trigger retains its native action. For static HTML, give an existing trigger and a hidden `.om-tooltip` element to `mountTooltip` from `@oddmash/ui/tooltip-controller`; dispose its controller before replacing the page. The package stylesheet supplies the visual treatment. Keep essential information in the page as well because touch users may not hover.
+
+```tsx
+<Tooltip content="Open the original reference"><a href="/guide">Guide</a></Tooltip>
+```
+
+```ts
+const tooltip = mountTooltip(trigger, panel);
+tooltip.destroy();
+```
 
 ## Themes and product overrides
 

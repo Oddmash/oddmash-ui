@@ -5,6 +5,16 @@ import { componentIds, type ComponentId } from '../../demo/content';
 import { tabToAllControls } from './keyboard';
 
 const previewChecks = {
+  tooltip: async (preview, page) => {
+    const trigger = preview.getByRole('button', { name: 'Reference' });
+    await trigger.hover();
+    await expect(page.getByRole('tooltip')).toHaveText('Open the original reference');
+    await trigger.focus();
+    await trigger.press('Escape');
+    await expect(page.getByRole('tooltip')).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+    await expect(trigger).toHaveAccessibleDescription('Open the original reference');
+  },
   'docs-navigation': async (preview) => {
     const nav = preview.getByRole('navigation', { name: 'Documentation navigation example' });
     await expect(nav).toBeVisible();

@@ -72,6 +72,7 @@ export const pages = [
     group: 'Components',
     description: 'Open a modal for editing or confirmation.',
   },
+  { id: 'tooltip', title: 'Tooltip', group: 'Components', description: 'Reveal a short description on hover or focus.' },
   ...extendedComponentIds.map((id) => {
     const { title, group, description } = extendedComponents[id];
     return { id, title, group, description };
@@ -98,6 +99,7 @@ export type ComponentId =
   | 'badge'
   | 'tabs'
   | 'dialog'
+  | 'tooltip'
   | ExtendedComponentId;
 export const componentIds: ComponentId[] = [
   'button',
@@ -106,6 +108,7 @@ export const componentIds: ComponentId[] = [
   'badge',
   'tabs',
   'dialog',
+  'tooltip',
   ...extendedComponentIds,
 ];
 export const details: Record<
@@ -120,6 +123,12 @@ export const details: Record<
   }
 > = {
   ...extendedComponents,
+  tooltip: {
+    usage: 'Keep essential information in the page and use a tooltip for a short supplementary description.',
+    accessibility: 'Show on hover and keyboard focus; Escape dismisses it without changing focus.',
+    props: [['content', 'ReactNode', 'Required'], ['children', 'ReactElement', 'Required']],
+    code: '<Tooltip content="Open the original reference"><Button>Reference</Button></Tooltip>',
+  },
   button: {
     usage:
       'Use one primary action per section. Secondary actions sit alongside it; ghost buttons keep repeated utility actions light.',

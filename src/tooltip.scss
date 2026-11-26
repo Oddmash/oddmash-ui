@@ -1,0 +1,24 @@
+.om-tooltip-anchor { display: inline; }
+.om-tooltip {
+  position: fixed;
+  inset: auto;
+  z-index: var(--om-semantic-number-layer-1001);
+  box-sizing: border-box;
+  inline-size: max-content;
+  max-inline-size: min(calc(100vw - var(--om-semantic-space-lg) * 2), var(--om-semantic-dimension-rem-22));
+  max-block-size: calc(100dvh - var(--om-semantic-space-lg) * 2);
+  overflow: auto;
+  margin: 0;
+  padding: var(--om-semantic-space-sm) var(--om-semantic-space-md);
+  border: var(--om-semantic-border-width) solid var(--om-semantic-color-border);
+  border-radius: var(--om-semantic-radius-md);
+  background: var(--om-semantic-color-surface);
+  color: var(--om-semantic-color-text);
+  box-shadow: var(--om-semantic-shadow);
+  font: var(--om-semantic-font-small) / var(--om-semantic-font-line) var(--om-semantic-font-family);
+  text-align: start;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+.om-tooltip[hidden] { display: none; }
