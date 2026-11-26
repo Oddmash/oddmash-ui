@@ -32,6 +32,6 @@ Interaction Inspector처럼 명확한 조작과 안정적인 동작이 필요하
 
 ## 현재 범위
 
-Oddmash UI는 1.0 이전 단계에서 개발 중입니다. npm 0.11.0에는 React Tooltip과 정적 HTML에서 사용할 수 있는 프레임워크 독립 DOM 컨트롤러가 추가되었습니다. 기존 컴포넌트와 호환되며 React 18.3.1 및 React 19를 계속 지원합니다.
+Oddmash UI는 1.0 이전 단계에서 개발 중입니다. npm 0.11.0에는 접근성을 지원하는 React Tooltip과 정적 HTML에서 사용할 수 있는 프레임워크 독립 DOM 컨트롤러가 추가되었습니다. 기존 컴포넌트와 호환되며 React 18.3.1 및 React 19를 계속 지원합니다.
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [기여 안내](../../CONTRIBUTING.md) · [MIT 라이선스](../../LICENSE)
