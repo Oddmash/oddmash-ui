@@ -38,3 +38,12 @@ it('resolves generated development reference requests without falling back to th
   expect(resolveReferenceAsset('/reference/style.css')?.body).toContain('outline:var(--reference-focusWidth)');
   expect(resolveReferenceAsset('/sitemap.xml')?.type).toBe('application/xml');
 });
+
+it('includes static controller setup and disposal in every localized Tooltip reference', () => {
+  const files = createReferencePages();
+  for (const locale of ['en', 'ko', 'ja', 'zh-CN']) {
+    const doc = new DOMParser().parseFromString(files[`reference/${locale}/tooltip/index.html`], 'text/html');
+    expect(doc.querySelector('main')?.textContent).toContain('@oddmash/ui/tooltip-controller');
+    expect(doc.querySelector('main')?.textContent).toContain('controller.destroy()');
+  }
+});
