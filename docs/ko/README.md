@@ -32,6 +32,6 @@ Interaction Inspector처럼 명확한 조작과 안정적인 동작이 필요하
 
 ## 현재 범위
 
-Oddmash UI는 1.0 이전 단계에서 개발 중입니다. npm 0.8.0에는 초 단위까지 선택하고 시간대가 없는 로컬 ISO 값을 사용하는 접근성 높은 날짜·시간 폼 컨트롤 DateSelect가 추가되었습니다. 기본 선택 기능과 공통 테마 스타일을 제공하며 React 18.3.1 및 React 19를 계속 지원합니다.
+Oddmash UI는 1.0 이전 단계에서 개발 중입니다. npm 0.9.0에는 접근 가능한 달력 탐색, 날짜·월 선택, 초 단위까지 독립적으로 편집할 수 있는 기간 선택을 위한 DateCalendar, DatePicker, DateRangePicker가 추가되었습니다. 기존 DateSelect와 호환되며 모든 날짜 값에는 시간대가 없습니다. React 18.3.1 및 React 19를 계속 지원합니다.
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [기여 안내](../../CONTRIBUTING.md) · [MIT 라이선스](../../LICENSE)

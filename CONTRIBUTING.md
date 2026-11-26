@@ -16,7 +16,7 @@ pnpm run demo
 
 ## Use from another local project
 
-React 18.3.1 and React 19 are supported peers. Install the published package with `npm install @oddmash/ui`. To test a local change in a consuming project, build an archive with `pnpm pack`, then install the resulting `oddmash-ui-0.8.0.tgz` in the consuming project. Import `@oddmash/ui/styles.css` once. The package is ESM-only and does not include a global reset, Tailwind, an icon package, or a CSS-in-JS runtime.
+React 18.3.1 and React 19 are supported peers. Install the published package with `npm install @oddmash/ui`. To test a local change in a consuming project, build an archive with `pnpm pack`, then install the resulting `oddmash-ui-0.9.0.tgz` in the consuming project. Import `@oddmash/ui/styles.css` once. The package is ESM-only and does not include a global reset, Tailwind, an icon package, or a CSS-in-JS runtime.
 
 The documentation site serves Geist Sans and Geist Mono from `demo/public/fonts/` under the SIL Open Font License included there. Package consumers can self-host the fonts under those family names or use the system fallbacks in the font tokens.
 
@@ -45,6 +45,8 @@ tests/
 See the [component quality review](docs/component-quality-review.md) for the latest interaction audit and verification scope. The live Toast reference is the [Toast documentation page](https://oddmash.github.io/oddmash-ui/#/toast), which uses the localized component catalog. Mount stable controlled items before the action, keep newer items last, and retain items through their closing motion. Hover or keyboard focus expands a collapsed stack; touch and reduced-motion preferences use the expanded presentation. Controlled Toast consumers own expiry and return focus to a remaining notification or the triggering control. The optional `progress` prop accepts a remaining fraction from zero to one for decorative display, without starting a timer. ToastProvider supplies countdowns for finite durations automatically, pauses both the timer and indicator while its viewport is hovered or focused, and omits them for persistent notifications. Reduced-motion preferences use discrete countdown updates rather than per-frame animation.
 
 ## Documentation primitives
+
+DateCalendar uses local calendar dates (`YYYY-MM-DD`) and a keyboard-operable month grid. DatePicker combines native date fields with this calendar; its `mode` is `date` (default), `year-month` or `date-time`. In date-time mode, calendar selection preserves the current hour, minute and second and emits a timezone-free `YYYY-MM-DDTHH:mm:ss` value. Existing DateSelect consumers retain their six-field behavior. DateRangePicker accepts `{ start: string; end: string }`, independently empty bounds, and `withTime` for second precision. It marks reverse ranges invalid without silently replacing either value. Consumers own timezone conversion, range presets, and when to apply a draft. Supply localized `label`, `startLabel`, `endLabel`, `labels`, `locale` and `invalidMessage` as appropriate.
 
 Use the same primitives in React applications and static HTML without hydration. Load `@oddmash/ui/styles.css` in the same way as other components. The classes below map directly to exported React wrappers, and all wrappers forward native props and refs.
 

@@ -62,8 +62,8 @@ export const Preview = ({
   className?: string;
 }) => <div className={`preview ${className}`}>{children}</div>;
 export const Example = ({ id }: { id: ComponentId }) => {
-  const { t } = useLocale();
-  const componentPreviews = getComponentPreviews(t);
+  const { t, locale } = useLocale();
+  const componentPreviews = getComponentPreviews(t, locale);
   const [name, setName] = useState('Interaction Inspector');
   const [draftName, setDraftName] = useState(name);
   const [open, setOpen] = useState(false);
