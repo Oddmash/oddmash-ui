@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, it } from 'vitest';
-import { Tooltip, mountTooltip } from '../src/tooltip';
+import { Tooltip, mountTooltip, type TooltipController } from '../src/tooltip';
 
 it('retains link semantics, describes the trigger and dismisses on Escape', async () => {
   const user = userEvent.setup();
@@ -49,4 +49,19 @@ it('removes only its own description during teardown', () => {
   controller.destroy();
   expect(trigger).toHaveAttribute('aria-describedby', 'hint validation');
   expect(trigger).toHaveAccessibleDescription('Hint Validation error');
+});
+
+it('suppresses the latest native title and restores it on teardown', () => {
+  const view = render(<Tooltip content="Original"><button title="Old title">Reference</button></Tooltip>);
+  const trigger = screen.getByRole('button');
+  expect(trigger).not.toHaveAttribute('title');
+  view.rerender(<Tooltip content="Updated"><button title="New title">Reference</button></Tooltip>);
+  expect(trigger).not.toHaveAttribute('title');
+  view.unmount();
+  expect(trigger).toHaveAttribute('title', 'New title');
+});
+
+it('preserves the public destroy-only controller type', () => {
+  const controller: TooltipController = { destroy: () => undefined };
+  expect(controller.destroy()).toBeUndefined();
 });
