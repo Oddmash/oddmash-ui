@@ -48,6 +48,7 @@ describe('DatePicker', () => {
     expect(screen.queryByRole('grid')).not.toBeInTheDocument();
     await userEvent.click(trigger);
     expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByRole('button', { name: 'Thursday, February 29, 2024' })).toHaveFocus();
     await userEvent.click(screen.getByRole('button', { name: 'Wednesday, February 28, 2024' }));
     expect(onValueChange).toHaveBeenLastCalledWith('2024-02-28T23:58:59');
     expect(trigger).toHaveFocus();

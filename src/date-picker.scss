@@ -43,9 +43,13 @@
       font-size: var(--om-semantic-font-small);
       font-weight: var(--om-semantic-font-weight);
       color: var(--om-semantic-color-muted);
-      overflow-wrap: anywhere;
+      padding: var(--om-semantic-space-xs) 0;
+      border: 0;
+      text-align: center;
+      white-space: nowrap;
+      overflow-wrap: normal;
     }
-    td { padding: var(--om-semantic-dimension-px-2); }
+    td { padding: var(--om-semantic-dimension-px-2); border: 0; }
   }
   &-day {
     box-sizing: border-box;

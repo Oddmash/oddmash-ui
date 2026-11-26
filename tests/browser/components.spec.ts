@@ -291,6 +291,8 @@ test('date range calendar fits narrow screens in each documentation language', a
     await page.reload();
     await preview.locator('.om-date-picker-actions button[aria-expanded]').first().click();
     await expect(calendar).toBeVisible();
+    await expect(calendar.locator('th').first()).toHaveCSS('white-space', 'nowrap');
+    await expect(calendar.locator('th').first()).toHaveCSS('padding-inline-start', '0px');
     expect(await calendar.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
     expect(await preview.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
   }

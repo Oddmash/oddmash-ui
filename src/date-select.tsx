@@ -57,6 +57,7 @@ const DateFields = forwardRef<HTMLFieldSetElement, DateFieldsProps>(({
   const [, refresh] = useReducer((revision: number) => revision + 1, 0);
   const yearControl = useRef<HTMLSelectElement>(null);
   const calendarTrigger = useRef<HTMLButtonElement>(null);
+  const calendarPanel = useRef<HTMLDivElement>(null);
   const calendarId = useId();
   const [calendarOpen, setCalendarOpen] = useState(false);
   const normalize = (date: string) => mode === 'date' ? /^\d{4}-\d{2}-\d{2}$/.test(date) ? date + 'T00:00:00' : '' : mode === 'year-month' ? /^\d{4}-\d{2}$/.test(date) ? date + '-01T00:00:00' : '' : date;
@@ -109,6 +110,9 @@ const DateFields = forwardRef<HTMLFieldSetElement, DateFieldsProps>(({
       </label>)}
     </div>;
   const calendarEnabled = showCalendar && mode !== 'year-month';
+  useEffect(() => {
+    if (calendarEnabled && calendarOpen && !disabled) calendarPanel.current?.querySelector<HTMLButtonElement>('[tabindex="0"]')?.focus();
+  }, [calendarEnabled, calendarOpen, disabled]);
   const closeCalendar = () => { setCalendarOpen(false); calendarTrigger.current?.focus(); };
   const clear = !required && <Button type="button" className="om-date-select-clear" variant="ghost" size="sm" disabled={!parsed || disabled} onClick={() => { update(''); setCalendarOpen(false); yearControl.current?.focus(); }}>{fieldLabels.clear}</Button>;
 
@@ -120,7 +124,7 @@ const DateFields = forwardRef<HTMLFieldSetElement, DateFieldsProps>(({
       {calendarEnabled && <Button ref={calendarTrigger} type="button" variant="secondary" size="sm" aria-expanded={calendarOpen && !disabled} aria-controls={calendarOpen && !disabled ? calendarId : undefined} disabled={disabled} onClick={() => setCalendarOpen(open => !open)}><span aria-hidden="true">▦</span>{labels?.calendar ?? 'Calendar'}</Button>}
       {clear}
     </div> : clear}
-    {calendarEnabled && calendarOpen && !disabled && <div id={calendarId} onKeyDown={event => { if (event.key === 'Escape' && !event.defaultPrevented) { event.preventDefault(); event.stopPropagation(); closeCalendar(); } }}>
+    {calendarEnabled && calendarOpen && !disabled && <div id={calendarId} ref={calendarPanel} data-om-calendar-panel="" onKeyDown={event => { if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); closeCalendar(); } }}>
       <DateCalendar locale={locale} labels={labels} minYear={minYear} maxYear={maxYear} value={parsed ? format(parsed).slice(0, 10) : ''} onValueChange={date => { update(date + (parsed ? format(parsed).slice(10) : 'T00:00:00')); closeCalendar(); }} />
     </div>}
   </fieldset>;

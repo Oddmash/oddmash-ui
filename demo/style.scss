@@ -1499,6 +1499,14 @@ pre:focus-visible,
   text-align: start;
 }
 
+.example-primitives:has(> .om-date-range-picker) {
+  width: min(100%, 720px);
+}
+
+.example-primitives .om-date-picker label > .om-select {
+  margin-block-start: 0;
+}
+
 .example-primitives label > :is(.om-textarea, .om-select, .om-progress) {
   display: block;
   margin-block-start: 6px;
