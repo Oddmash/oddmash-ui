@@ -1,0 +1,11 @@
+{
+  "measure": "70ch",
+  "space": "1rem",
+  "spaceLarge": "2rem",
+  "spaceSmall": ".5rem",
+  "borderWidth": "1px",
+  "focusWidth": "2px",
+  "focusOffset": "2px",
+  "radius": ".5rem",
+  "underlineOffset": ".2em"
+}

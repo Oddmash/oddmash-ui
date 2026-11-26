@@ -354,6 +354,7 @@ const App = ({ onLocale }: { onLocale: (locale: Locale) => void }) => {
             <img className="footer-logo" src="./oddmash-logo.png" alt="" />
             Oddmash UI <span className="muted">· v{packageMinorVersion}</span>
           </span>
+          <a href={`./reference/${locale}/${component ? page + "/" : ""}`}>{t("Component reference")} <Arrow /></a>
           <a href="https://github.com/Oddmash/oddmash-ui/blob/main/CONTRIBUTING.md">
             {t('Contribute to the system')} <Arrow />
           </a>
@@ -367,6 +368,11 @@ const Root = () => {
 
   useLayoutEffect(() => {
     document.documentElement.lang = locale;
+    const url = new URL(window.location.href);
+    if (url.searchParams.has('lang') && Object.hasOwn(languages, url.searchParams.get('lang') ?? '')) {
+      url.searchParams.delete('lang');
+      window.history.replaceState(window.history.state, '', url);
+    }
     try {
       localStorage.setItem('om-docs-locale', locale);
     } catch {
