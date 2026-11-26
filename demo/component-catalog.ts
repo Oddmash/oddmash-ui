@@ -214,11 +214,11 @@ export const extendedComponents = {
   },
   'date-calendar': {
     title: 'Date Calendar', group: 'Forms', description: 'Choose a day in a monthly calendar.',
-    usage: 'Use a local YYYY-MM-DD value and year bounds.',
+    usage: 'Use a local YYYY-MM-DD value. Exact minDate and maxDate bounds intersect the optional year bounds and include both endpoints.',
     accessibility: 'Arrow keys move by day or week. Home and End move within a week, Page Up and Down change month, and Enter selects.',
-    props: [['value / defaultValue', 'string', 'Empty'], ['onValueChange', '(value: string) => void', 'None'], ['minYear / maxYear', 'number', '1900 / 2100'], ['locale', 'string', 'en'], ['labels', 'Partial<DateCalendarLabels>', 'English'], ['disabled', 'boolean', 'false']],
+    props: [['value / defaultValue', 'string', 'Empty'], ['onValueChange', '(value: string) => void', 'None'], ['minYear / maxYear', 'number', '1900 / 2100'], ['minDate / maxDate', 'YYYY-MM-DD', 'Year bounds'], ['locale', 'string', 'en'], ['labels', 'Partial<DateCalendarLabels>', 'English'], ['disabled', 'boolean', 'false']],
     exports: 'DateCalendar',
-    code: '<DateCalendar defaultValue="2026-11-17" />',
+    code: '<DateCalendar defaultValue="2026-11-17" minDate="2026-10-15" maxDate="2026-12-20" />',
   },
   'date-picker': {
     title: 'Date Picker', group: 'Forms', description: 'Select a date, month, or precise date and time.',

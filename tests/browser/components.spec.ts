@@ -140,6 +140,17 @@ const previewChecks = {
     await expect(next).toHaveAttribute('data-selected', 'true');
     await preview.getByRole('button', { name: 'Next month' }).click();
     await expect(preview.getByRole('grid', { name: 'December 2026' })).toBeVisible();
+    await expect(preview.getByRole('button', { name: 'Next month' })).toBeDisabled();
+    await expect(preview.getByRole('button', { name: 'Monday, December 21, 2026' })).toBeDisabled();
+    const last = preview.getByRole('button', { name: 'Sunday, December 20, 2026' });
+    await last.click();
+    await last.press('ArrowRight');
+    await expect(last).toBeFocused();
+    await preview.getByRole('button', { name: 'Previous month' }).click();
+    await preview.getByRole('button', { name: 'Previous month' }).click();
+    await expect(preview.getByRole('grid', { name: 'October 2026' })).toBeVisible();
+    await expect(preview.getByRole('button', { name: 'Previous month' })).toBeDisabled();
+    await expect(preview.getByRole('button', { name: 'Wednesday, October 14, 2026' })).toBeDisabled();
   },
   'date-picker': async (preview) => {
     const trigger = preview.getByRole('button', { name: 'Calendar' });
