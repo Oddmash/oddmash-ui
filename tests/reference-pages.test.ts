@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { createReferencePages } from '../demo/reference-pages';
+import { createReferencePages, resolveReferenceAsset } from '../demo/reference-pages';
 import { componentIds } from '../demo/content';
 
 it('generates unique static component and directory pages in every supported locale', () => {
@@ -27,4 +27,14 @@ it('generates unique static component and directory pages in every supported loc
   }
   expect(urls.size).toBe(4 * (componentIds.length + 1));
   for (const url of urls) expect(files['sitemap.xml']).toContain(`<loc>${url}</loc>`);
+});
+
+it('resolves generated development reference requests without falling back to the app', () => {
+  const reference = resolveReferenceAsset('/reference/ko/tooltip/');
+  expect(reference?.type).toBe('text/html');
+  expect(reference?.body).toContain('<h1>툴팁</h1>');
+  expect(resolveReferenceAsset('/reference/missing/')).toBeUndefined();
+  expect(resolveReferenceAsset('/reference/style.css')?.type).toBe('text/css');
+  expect(resolveReferenceAsset('/reference/style.css')?.body).toContain('outline:var(--reference-focusWidth)');
+  expect(resolveReferenceAsset('/sitemap.xml')?.type).toBe('application/xml');
 });
