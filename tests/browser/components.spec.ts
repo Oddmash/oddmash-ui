@@ -398,3 +398,20 @@ test('toggle-group: localized examples and 320px layout', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
   }
 });
+
+test('date-calendar Today button is fully opaque as soon as it is enabled', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.clock.setFixedTime(new Date('2026-11-18T12:00:00Z'));
+  await page.goto('/#/date-calendar');
+  const today = page.locator('.om-date-calendar').getByRole('button', { name: 'Today', exact: true }).first();
+  await expect(today).toBeEnabled();
+
+  await today.evaluate((button: HTMLButtonElement) => { button.disabled = true; });
+  await expect(today).toHaveCSS('opacity', '0.5');
+  // Read immediately after enabling so auto-retries cannot hide a fade.
+  const enabledOpacity = await today.evaluate((button: HTMLButtonElement) => {
+    button.disabled = false;
+    return getComputedStyle(button).opacity;
+  });
+  expect(enabledOpacity).toBe('1');
+});
