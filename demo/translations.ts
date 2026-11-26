@@ -5,6 +5,8 @@ import { previewTranslations } from './preview-translations';
 type Translation = [ko: string, ja: string, simplifiedChinese: string];
 
 export const translations: Record<string, Translation> = {
+  'Static HTML tooltip': ['정적 HTML 툴팁', '静的 HTML ツールチップ', '静态 HTML 工具提示'],
+  'Load the package stylesheet. In a package-aware build, import the controller, attach it to the native trigger and hidden panel, and call destroy before removing or replacing the elements.': ['패키지 스타일을 불러오세요. 패키지를 해석하는 빌드에서 컨트롤러를 가져와 기본 트리거와 숨겨진 패널에 연결하고 요소를 제거하거나 교체하기 전에 destroy를 호출하세요.', 'パッケージのスタイルシートを読み込んでください。パッケージ対応のビルドでコントローラーをインポートし、ネイティブのトリガーと非表示のパネルに接続します。要素を削除または置換する前に destroy を呼び出します。', '加载包的样式表。在支持包解析的构建中导入控制器，将其连接到原生触发器和隐藏面板，并在移除或替换元素之前调用 destroy。'],
   'Component reference': ['컴포넌트 참고 문서', 'コンポーネントリファレンス', '组件参考'],
   ...documentationNavigationTranslations,
   ...notificationTranslations,
