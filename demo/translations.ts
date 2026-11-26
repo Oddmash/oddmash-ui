@@ -680,11 +680,11 @@ export const translations: Record<string, Translation> = {
       'ラベルを常に表示し、送信前に入力条件を伝えます。',
       '始终显示标签，并在提交前说明输入要求。',
     ],
-  'Pair htmlFor and id. Use aria-invalid for errors and aria-describedby for hints. A placeholder is not a replacement for a label. Keep leadingIcon decorative.':
+  'Pair htmlFor and id. Use aria-invalid for errors and aria-describedby for hints. A placeholder is not a replacement for a label. Keep leadingIcon decorative. Pass null to remove a dynamic icon while keeping the input focused.':
     [
-      'htmlFor와 id로 연결하세요. 오류에는 aria-invalid, 도움말에는 aria-describedby를 사용합니다. leadingIcon은 장식에 사용하세요.',
-      'htmlFor と id で結び付け、エラーには aria-invalid、補足には aria-describedby を使います。leadingIcon は装飾に使用してください。',
-      '用 htmlFor 和 id 关联标签，错误用 aria-invalid，提示用 aria-describedby。leadingIcon 用于装饰。',
+      'htmlFor와 id로 연결하세요. 오류에는 aria-invalid, 도움말에는 aria-describedby를 사용합니다. leadingIcon은 장식에 사용하세요. 포커스를 유지한 채 아이콘을 숨기려면 null을 전달하세요.',
+      'htmlFor と id で結び付け、エラーには aria-invalid、補足には aria-describedby を使います。leadingIcon は装飾に使用してください。フォーカスを保ってアイコンを隠すには null を渡します。',
+      '用 htmlFor 和 id 关联标签，错误用 aria-invalid，提示用 aria-describedby。leadingIcon 用于装饰。传入 null 可隐藏动态图标并保持输入框焦点。',
     ],
   'Group related content and controls.': [
     '관련 정보와 컨트롤을 한곳에 묶습니다.',

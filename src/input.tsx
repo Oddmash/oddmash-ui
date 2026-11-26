@@ -6,13 +6,18 @@ export type InputProps = ComponentPropsWithoutRef<'input'> & {
 };
 
 export const Input = /* @__PURE__ */ forwardRef<HTMLInputElement, InputProps>(
-  ({ className, leadingIcon, ...props }, ref) => {
-    const input = <input {...props} ref={ref} className={cx('om-input', className)} />;
-    if (leadingIcon == null || leadingIcon === false) return input;
+  (props, ref) => {
+    const { className, leadingIcon, ...nativeProps } = props;
+    const input = <input {...nativeProps} ref={ref} className={cx('om-input', className)} />;
+    if (!Object.hasOwn(props, 'leadingIcon')) return input;
 
     return (
       <span className="om-input-with-icon">
-        <span className="om-input-leading-icon" aria-hidden="true">{leadingIcon}</span>
+        {leadingIcon != null && leadingIcon !== false && (
+          <span className="om-input-leading-icon" aria-hidden="true" ref={element => { element?.setAttribute('inert', ''); }}>
+            {leadingIcon}
+          </span>
+        )}
         {input}
       </span>
     );

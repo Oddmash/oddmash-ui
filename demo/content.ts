@@ -146,7 +146,7 @@ export const details: Record<
     usage:
       'Keep labels visible. Explain constraints before submission and connect error messages to their input.',
     accessibility:
-      'Pair htmlFor and id. Use aria-invalid for errors and aria-describedby for hints. A placeholder is not a replacement for a label. Keep leadingIcon decorative.',
+      'Pair htmlFor and id. Use aria-invalid for errors and aria-describedby for hints. A placeholder is not a replacement for a label. Keep leadingIcon decorative. Pass null to remove a dynamic icon while keeping the input focused.',
     props: [
       ['type', 'Native HTML input type', 'text'],
       ['disabled / readOnly', 'boolean', 'false'],

@@ -93,7 +93,7 @@
   display: grid;
   min-inline-size: 0;
 
-  > .om-input {
+  > .om-input-leading-icon + .om-input {
     padding-inline-start: calc(2 * var(--om-semantic-space-sm) + var(--om-input-icon-size));
   }
 

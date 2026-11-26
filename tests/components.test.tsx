@@ -33,6 +33,29 @@ describe('native contracts', () => {
     expect(screen.queryByRole('img')).not.toBeInTheDocument();
   });
 
+  it('preserves native focus and value when the icon in a declared slot changes', async () => {
+    const DecoratedIcon = () => <button type="button">Decorative</button>;
+    const props = { 'aria-label': 'Search', type: 'search' };
+    const view = render(<Input {...props} leadingIcon={null} />);
+    const input = screen.getByRole('searchbox');
+    await userEvent.click(input);
+    await userEvent.type(input, 'Oddmash');
+
+    view.rerender(<Input {...props} leadingIcon={<DecoratedIcon />} />);
+    const icon = screen.getByText('Decorative').parentElement;
+    expect(icon).toHaveAttribute('inert');
+    expect(screen.queryByRole('button', { name: 'Decorative' })).not.toBeInTheDocument();
+    expect(screen.getByRole('searchbox')).toBe(input);
+    expect(input).toHaveFocus();
+    expect(input).toHaveValue('Oddmash');
+
+    view.rerender(<Input {...props} leadingIcon={null} />);
+    expect(screen.queryByText('Decorative')).not.toBeInTheDocument();
+    expect(screen.getByRole('searchbox')).toBe(input);
+    expect(input).toHaveFocus();
+    expect(input).toHaveValue('Oddmash');
+  });
+
   it('does not wrap an input without an icon', () => {
     const { container } = render(<Input aria-label="Search" />);
     expect(container.firstElementChild).toBe(screen.getByRole('textbox'));
