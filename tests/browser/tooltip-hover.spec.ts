@@ -9,7 +9,7 @@ test('allows a slow pointer crossing between a trigger and its tooltip', async (
   const a = await trigger.boundingBox();
   const b = await panel.boundingBox();
   if (!a || !b) throw new Error('Expected visible trigger and tooltip bounds.');
-  const x = Math.max(a.x, b.x) + Math.min(a.x + a.width, b.x + b.width) / 2 - Math.max(a.x, b.x) / 2;
+  const x = (Math.max(a.x, b.x) + Math.min(a.x + a.width, b.x + b.width)) / 2;
   const above = b.y + b.height <= a.y;
   const near = above ? b.y + b.height : a.y + a.height;
   const far = above ? a.y : b.y;
