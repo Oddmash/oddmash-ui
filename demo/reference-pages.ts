@@ -14,7 +14,8 @@ const labels: Record<Language, { reference: string; preview: string; property: s
   ja: { reference: 'コンポーネントリファレンス', preview: 'インタラクティブなドキュメント', property: 'プロパティ', installation: 'インストール', directory: 'すべてのコンポーネント' },
   'zh-CN': { reference: '组件参考', preview: '交互式文档', property: '属性', installation: '安装', directory: '所有组件' },
 };
-const escape = (value: string) => value.replace(/[&<>"']/g, value => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[value]!));
+const entities: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+const escape = (value: string) => value.replace(/[&<>"']/g, character => entities[character]);
 const translate = (locale: Language, value: string) => locale === 'en' ? value : translations[value]?.[locale === 'ko' ? 0 : locale === 'ja' ? 1 : 2] ?? value;
 const route = (locale: Language, id = '') => `reference/${locale}/${id ? id + '/' : ''}`;
 const canonical = (locale: Language, id = '') => site + route(locale, id);
@@ -39,7 +40,7 @@ export const createReferencePages = () => {
     urls.push(canonical(locale));
     for (const page of components) {
       const detail = details[page.id as ComponentId];
-      const props = detail.props.map(row => `<tr>${row.map(cell => `<td>${escape(t(cell))}</td>`).join('')}</tr>`).join('');
+      const props = detail.props.map(row => `<tr>${row.map(cell => `<td>${escape(cell)}</td>`).join('')}</tr>`).join('');
       const code = detail.code ? `<pre><code>${escape(detail.code)}</code></pre>` : '';
       const body = `<h2>${escape(t('Usage'))}</h2><p>${escape(t(detail.usage))}</p><h2>${escape(t('Accessibility'))}</h2><p>${escape(t(detail.accessibility))}</p><table><thead><tr><th scope="col">${escape(labels[locale].property)}</th><th scope="col">${escape(t('Type'))}</th><th scope="col">${escape(t('Default'))}</th></tr></thead><tbody>${props}</tbody></table>${code}`;
       files[route(locale, page.id) + 'index.html'] = documentPage(locale, t(page.title), t(page.description), page.id, body);
