@@ -680,11 +680,11 @@ export const translations: Record<string, Translation> = {
       'ラベルを常に表示し、送信前に入力条件を伝えます。',
       '始终显示标签，并在提交前说明输入要求。',
     ],
-  'Pair htmlFor and id. Use aria-invalid for errors and aria-describedby for hints. A placeholder is not a replacement for a label.':
+  'Pair htmlFor and id. Use aria-invalid for errors and aria-describedby for hints. A placeholder is not a replacement for a label. Keep leadingIcon decorative.':
     [
-      'htmlFor와 id로 연결하세요. 오류에는 aria-invalid, 도움말에는 aria-describedby를 사용합니다.',
-      'htmlFor と id で結び付け、エラーには aria-invalid、補足には aria-describedby を使います。',
-      '用 htmlFor 和 id 关联标签，错误用 aria-invalid，提示用 aria-describedby。',
+      'htmlFor와 id로 연결하세요. 오류에는 aria-invalid, 도움말에는 aria-describedby를 사용합니다. leadingIcon은 장식에 사용하세요.',
+      'htmlFor と id で結び付け、エラーには aria-invalid、補足には aria-describedby を使います。leadingIcon は装飾に使用してください。',
+      '用 htmlFor 和 id 关联标签，错误用 aria-invalid，提示用 aria-describedby。leadingIcon 用于装饰。',
     ],
   'Group related content and controls.': [
     '관련 정보와 컨트롤을 한곳에 묶습니다.',

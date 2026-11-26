@@ -15,6 +15,29 @@ describe('native contracts', () => {
     await userEvent.click(screen.getByText('Submit'));
     expect(submissions).toBe(1);
   });
+  it('keeps a leading icon decorative while forwarding the native input contract', async () => {
+    const ref = createRef<HTMLInputElement>();
+    const { container } = render(
+      <form>
+        <Input ref={ref} name="query" type="search" aria-label="Search" className="custom"
+          leadingIcon={<svg role="img" aria-label="Magnifier" />} />
+      </form>,
+    );
+    const input = screen.getByRole('searchbox', { name: 'Search' });
+    await userEvent.tab();
+    expect(input).toHaveFocus();
+    await userEvent.type(input, 'Oddmash');
+    expect(new FormData(container.querySelector('form')!).get('query')).toBe('Oddmash');
+    expect(ref.current).toBe(input);
+    expect(input).toHaveClass('om-input', 'custom');
+    expect(screen.queryByRole('img')).not.toBeInTheDocument();
+  });
+
+  it('does not wrap an input without an icon', () => {
+    const { container } = render(<Input aria-label="Search" />);
+    expect(container.firstElementChild).toBe(screen.getByRole('textbox'));
+  });
+
   it('keeps disabled controls inert and supports labelled invalid input', async () => {
     let clicks = 0;
     const ref = createRef<HTMLInputElement>();

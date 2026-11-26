@@ -146,14 +146,15 @@ export const details: Record<
     usage:
       'Keep labels visible. Explain constraints before submission and connect error messages to their input.',
     accessibility:
-      'Pair htmlFor and id. Use aria-invalid for errors and aria-describedby for hints. A placeholder is not a replacement for a label.',
+      'Pair htmlFor and id. Use aria-invalid for errors and aria-describedby for hints. A placeholder is not a replacement for a label. Keep leadingIcon decorative.',
     props: [
       ['type', 'Native HTML input type', 'text'],
       ['disabled / readOnly', 'boolean', 'false'],
       ['aria-invalid', 'boolean', 'None'],
+      ['leadingIcon', 'ReactNode', 'None'],
       ['ref', 'HTMLInputElement', 'None'],
     ],
-    code: `<label htmlFor="project">Project name</label>\n<Input id="project" placeholder="Your next idea"\n  aria-describedby="project-hint" />\n<p id="project-hint">Use a short, memorable name.</p>`,
+    code: `<label htmlFor="project">Project name</label>\n<Input id="project" placeholder="Your next idea"\n  aria-describedby="project-hint"\n  leadingIcon={\n    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round">\n      <path d="M3 6h6l2 2h10v11H3z" />\n    </svg>\n  } />\n<p id="project-hint">Use a short, memorable name.</p>`,
   },
   card: {
     usage:
