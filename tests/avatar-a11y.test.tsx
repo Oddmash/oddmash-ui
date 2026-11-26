@@ -23,9 +23,14 @@ it('exposes the supplied accessible name even when an image fails to load', () =
   const avatar = screen.getByRole('img', { name: 'Project owner' });
   expect(avatar).not.toHaveAttribute('aria-hidden');
   expect(avatar).toHaveTextContent('PO');
-  fireEvent.error(avatar.querySelector('img')!);
+  const image = avatar.querySelector('img')!;
+  fireEvent.load(image);
+  expect(image).toBeVisible();
   expect(avatar).toHaveAccessibleName('Project owner');
-  expect(avatar.querySelector('img')).not.toBeVisible();
+  fireEvent.error(image);
+  expect(avatar).toHaveAccessibleName('Project owner');
+  expect(image).not.toBeVisible();
+  expect(screen.getByText('PO')).toBeVisible();
 });
 
 it('forwards the native span ref, class and attributes', () => {
