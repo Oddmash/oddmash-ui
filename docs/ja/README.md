@@ -32,6 +32,6 @@ Interaction Inspector のように、明確な操作と信頼できる挙動が�
 
 ## 現在の範囲
 
-Oddmash UI は 1.0 前の段階で開発中です。npm 0.9.0 では、アクセシブルなカレンダー操作、日付・月の選択、秒単位まで個別に編集できる期間選択のための DateCalendar、DatePicker、DateRangePicker を追加しました。既存の DateSelect と互換性があり、すべての日付値にはタイムゾーンがありません。React 18.3.1 と React 19 の対応は継続しています。
+Oddmash UI は 1.0 前の段階で開発中です。npm 0.10.0 では、単一・複数選択に対応するアクセシブルな ToggleGroup と、DateCalendar の日付範囲指定を追加しました。既存の日付コントロールとの互換性を維持し、React 18.3.1 と React 19 に対応しています。
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [コントリビューターガイド](../../CONTRIBUTING.md) · [MIT License](../../LICENSE)
