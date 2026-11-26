@@ -211,12 +211,30 @@ const previewChecks = {
     await page.keyboard.press('Enter');
     await expect(preview.getByRole('status')).toHaveCount(0);
   },
-  input: async (preview) => {
+  input: async (preview, page, browserName) => {
     const name = preview.getByRole('textbox', { name: 'Project name' });
+    const repository = preview.getByRole('textbox', { name: 'Repository URL' });
+    const icon = preview.locator('.om-input-leading-icon');
+    await expect(icon).toHaveAttribute('aria-hidden', 'true');
+    await page.getByRole('button', { name: 'Expand preview' }).press(tabToAllControls(browserName));
+    await expect(name).toBeFocused();
+    await expect(name).toHaveCSS('outline-style', 'solid');
     await name.fill('Oddmash');
     await expect(name).toHaveValue('Oddmash');
-    await expect(preview.getByRole('textbox', { name: 'Repository URL' }))
-      .toHaveAccessibleDescription('Enter a valid repository URL.');
+    await expect(repository).toHaveAccessibleDescription('Enter a valid repository URL.');
+
+    const iconFits = (rtl: boolean) => name.evaluate((element, rtl) => {
+      element.parentElement!.dir = rtl ? 'rtl' : 'ltr';
+      const input = element.getBoundingClientRect();
+      const inset = parseFloat(getComputedStyle(element).paddingInlineStart);
+      const icon = element.parentElement!.firstElementChild!.getBoundingClientRect();
+      return rtl ? icon.left > input.right - inset && icon.right < input.right
+        : icon.left > input.left && icon.right < input.left + inset;
+    }, rtl);
+    expect(await iconFits(false)).toBe(true);
+    expect(await iconFits(true)).toBe(true);
+    await name.evaluate(element => element.setAttribute('disabled', ''));
+    await expect(icon).toHaveCSS('opacity', '0.5');
   },
   card: async (preview) => {
     await expect(preview.getByRole('heading', { name: 'Interaction Inspector' })).toBeVisible();
