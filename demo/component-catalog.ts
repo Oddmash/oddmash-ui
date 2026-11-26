@@ -143,6 +143,39 @@ export const extendedComponents = {
     props: [['min / max / step', 'number', 'Native defaults']], exports: 'Slider',
     code: '<label>Width <Slider min={100} max={600} defaultValue={320} /></label>',
   },
+  'toggle-group': {
+    title: 'Toggle Group',
+    group: 'Forms',
+    description: 'Group toggle buttons for related settings.',
+    usage: 'Use single mode for a view choice and multiple mode for independent options. Empty selection is null in single mode and [] in multiple mode. Item values must be unique within each group.',
+    accessibility: 'Name the group and icon-only buttons. Tab enters the group once. Use Left and Right in horizontal groups, and Up and Down in vertical groups. Navigation wraps and skips disabled buttons. Home and End move to the edges. Space or Enter toggles the focused button.',
+    props: [
+      ['type', 'single | multiple', 'Required'],
+      ['value / defaultValue (group)', 'string | null (single), readonly string[] (multiple)', 'null / []'],
+      ['onValueChange', '(value: string | null) => void (single), (value: string[]) => void (multiple)', 'None'],
+      ['orientation', 'horizontal | vertical', 'horizontal'],
+      ['disabled (group or item)', 'boolean', 'false'],
+      ['value (item)', 'string', 'Required'],
+    ],
+    exports: 'ToggleGroup, ToggleGroupItem',
+    reactImports: ['useState'],
+    code: `const Example = () => {
+  const [view, setView] = useState<string | null>('grid');
+  return (
+    <>
+      <ToggleGroup aria-label="View mode" type="single" value={view} onValueChange={setView}>
+        <ToggleGroupItem value="grid">Grid view</ToggleGroupItem>
+        <ToggleGroupItem value="compact" disabled>Compact view</ToggleGroupItem>
+        <ToggleGroupItem value="list">List view</ToggleGroupItem>
+      </ToggleGroup>
+      <ToggleGroup aria-label="Text formatting" type="multiple" defaultValue={['bold']}>
+        <ToggleGroupItem value="bold">Bold</ToggleGroupItem>
+        <ToggleGroupItem value="italic">Italic</ToggleGroupItem>
+      </ToggleGroup>
+    </>
+  );
+};`,
+  },
   'command-palette': {
     title: 'Command Palette', group: 'Navigation', description: 'Find and execute actions.',
     usage: 'Open with an explicit trigger or an opt-in Mod+K shortcut. Supply descriptive grouped results and a consumer-owned filter when needed.', accessibility: 'Use arrow keys, Enter and Escape. Provide distinct result labels and descriptions.',
@@ -181,11 +214,11 @@ export const extendedComponents = {
   },
   'date-calendar': {
     title: 'Date Calendar', group: 'Forms', description: 'Choose a day in a monthly calendar.',
-    usage: 'Use a local YYYY-MM-DD value and year bounds.',
+    usage: 'Use a local YYYY-MM-DD value. Exact minDate and maxDate bounds intersect the optional year bounds and include both endpoints.',
     accessibility: 'Arrow keys move by day or week. Home and End move within a week, Page Up and Down change month, and Enter selects.',
-    props: [['value / defaultValue', 'string', 'Empty'], ['onValueChange', '(value: string) => void', 'None'], ['minYear / maxYear', 'number', '1900 / 2100'], ['locale', 'string', 'en'], ['labels', 'Partial<DateCalendarLabels>', 'English'], ['disabled', 'boolean', 'false']],
+    props: [['value / defaultValue', 'string', 'Empty'], ['onValueChange', '(value: string) => void', 'None'], ['minYear / maxYear', 'number', '1900 / 2100'], ['minDate / maxDate', 'YYYY-MM-DD', 'Year bounds'], ['locale', 'string', 'en'], ['labels', 'Partial<DateCalendarLabels>', 'English'], ['disabled', 'boolean', 'false']],
     exports: 'DateCalendar',
-    code: '<DateCalendar defaultValue="2026-11-17" />',
+    code: '<DateCalendar defaultValue="2026-11-17" minDate="2026-10-15" maxDate="2026-12-20" />',
   },
   'date-picker': {
     title: 'Date Picker', group: 'Forms', description: 'Select a date, month, or precise date and time.',

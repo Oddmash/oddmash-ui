@@ -83,6 +83,42 @@ const previewChecks = {
     await slider.press('ArrowRight');
     await expect(slider).toHaveValue('321');
   },
+  'toggle-group': async (preview, page, browserName) => {
+    const views = preview.getByRole('group', { name: 'View mode' });
+    const grid = views.getByRole('button', { name: 'Grid view' });
+    const list = views.getByRole('button', { name: 'List view' });
+    const formatting = preview.getByRole('group', { name: 'Text formatting' });
+    const bold = formatting.getByRole('button', { name: 'Bold' });
+    const italic = formatting.getByRole('button', { name: 'Italic' });
+
+    await expect(grid).toHaveAttribute('aria-pressed', 'true');
+    await expect(grid).toHaveAttribute('tabindex', '0');
+    await expect(views.getByRole('button', { name: 'Compact view' })).toBeDisabled();
+    await page.getByRole('button', { name: 'Expand preview' }).press(tabToAllControls(browserName));
+    await expect(grid).toBeFocused();
+    await expect(grid).toHaveCSS('outline-style', 'solid');
+    await page.keyboard.press('ArrowRight');
+    await expect(list).toBeFocused();
+    await expect(grid).toHaveAttribute('aria-pressed', 'true');
+    await expect(list).toHaveAttribute('aria-pressed', 'false');
+    await page.keyboard.press('ArrowRight');
+    await expect(grid).toBeFocused();
+    await page.keyboard.press('End');
+    await expect(list).toBeFocused();
+    await page.keyboard.press('Space');
+    await expect(list).toHaveAttribute('aria-pressed', 'true');
+    await expect(grid).toHaveAttribute('aria-pressed', 'false');
+    await page.keyboard.press('Enter');
+    await expect(list).toHaveAttribute('aria-pressed', 'false');
+    await page.keyboard.press(tabToAllControls(browserName));
+    await expect(bold).toBeFocused();
+    await italic.click();
+    await expect(bold).toHaveAttribute('aria-pressed', 'true');
+    await expect(italic).toHaveAttribute('aria-pressed', 'true');
+    await bold.click();
+    await expect(bold).toHaveAttribute('aria-pressed', 'false');
+    await expect(italic).toHaveAttribute('aria-pressed', 'true');
+  },
   'date-select': async (preview) => {
     const group = preview.getByRole('group', { name: 'Date and time' });
     await expect(group.getByRole('combobox')).toHaveCount(6);
@@ -104,6 +140,17 @@ const previewChecks = {
     await expect(next).toHaveAttribute('data-selected', 'true');
     await preview.getByRole('button', { name: 'Next month' }).click();
     await expect(preview.getByRole('grid', { name: 'December 2026' })).toBeVisible();
+    await expect(preview.getByRole('button', { name: 'Next month' })).toBeDisabled();
+    await expect(preview.getByRole('button', { name: 'Monday, December 21, 2026' })).toBeDisabled();
+    const last = preview.getByRole('button', { name: 'Sunday, December 20, 2026' });
+    await last.click();
+    await last.press('ArrowRight');
+    await expect(last).toBeFocused();
+    await preview.getByRole('button', { name: 'Previous month' }).click();
+    await preview.getByRole('button', { name: 'Previous month' }).click();
+    await expect(preview.getByRole('grid', { name: 'October 2026' })).toBeVisible();
+    await expect(preview.getByRole('button', { name: 'Previous month' })).toBeDisabled();
+    await expect(preview.getByRole('button', { name: 'Wednesday, October 14, 2026' })).toBeDisabled();
   },
   'date-picker': async (preview) => {
     const trigger = preview.getByRole('button', { name: 'Calendar' });
@@ -317,3 +364,27 @@ for (const id of componentIds.filter((id) => id !== 'dialog')) {
     }
   });
 }
+
+test('toggle-group: localized examples and 320px layout', async ({ page }) => {
+  await page.goto('/#/toggle-group');
+  const language = page.locator('.locale-select');
+  const preview = page.locator('.playground .preview');
+
+  for (const [locale, key, group, grid] of [
+    ['ko', 'ArrowDown', '보기 모드', '격자 보기'],
+    ['ja', 'ArrowDown', '表示モード', 'グリッド表示'],
+    ['zh-CN', 'ArrowDown', '视图模式', '网格视图'],
+    ['en', 'Home', 'View mode', 'Grid view'],
+  ]) {
+    await language.press('Enter');
+    await language.press(key);
+    await language.press('Enter');
+    await expect(page.locator('html')).toHaveAttribute('lang', locale);
+    await page.reload();
+    await expect(page.locator('html')).toHaveAttribute('lang', locale);
+    await page.setViewportSize({ width: 320, height: 780 });
+    await expect(preview.getByRole('group', { name: group }).getByRole('button', { name: grid, pressed: true })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+    await page.setViewportSize({ width: 1280, height: 800 });
+  }
+});

@@ -6,3 +6,10 @@ const included = Object.values(result.metafile.outputs).flatMap((output) => Obje
 if (included.some((name) => name.includes('@radix-ui'))) throw new Error('Button-only bundle includes Radix');
 if (bytes.length > 2000) throw new Error(`Button-only bundle exceeds 2 kB: ${bytes.length}`);
 console.log(JSON.stringify({ buttonBytes: bytes.length, buttonGzipBytes: gzipSync(bytes).length, radixIncluded: false }));
+
+const root = await import('@oddmash/ui');
+const subpath = await import('@oddmash/ui/toggle-group');
+if (!root.ToggleGroup || !root.ToggleGroupItem ||
+    root.ToggleGroup !== subpath.ToggleGroup || root.ToggleGroupItem !== subpath.ToggleGroupItem) {
+  throw new Error('ToggleGroup exports are missing or differ across package entry points');
+}

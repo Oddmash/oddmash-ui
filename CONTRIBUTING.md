@@ -16,7 +16,7 @@ pnpm run demo
 
 ## Use from another local project
 
-React 18.3.1 and React 19 are supported peers. Install the published package with `npm install @oddmash/ui`. To test a local change in a consuming project, build an archive with `pnpm pack`, then install the resulting `oddmash-ui-0.9.0.tgz` in the consuming project. Import `@oddmash/ui/styles.css` once. The package is ESM-only and does not include a global reset, Tailwind, an icon package, or a CSS-in-JS runtime.
+React 18.3.1 and React 19 are supported peers. Install the published package with `npm install @oddmash/ui`. To test a local change in a consuming project, build an archive with `pnpm pack`, then install the resulting `oddmash-ui-0.10.0.tgz` in the consuming project. Import `@oddmash/ui/styles.css` once. The package is ESM-only and does not include a global reset, Tailwind, an icon package, or a CSS-in-JS runtime.
 
 The documentation site serves Geist Sans and Geist Mono from `demo/public/fonts/` under the SIL Open Font License included there. Package consumers can self-host the fonts under those family names or use the system fallbacks in the font tokens.
 
@@ -47,6 +47,8 @@ See the [component quality review](docs/component-quality-review.md) for the lat
 ## Documentation primitives
 
 DateCalendar uses local calendar dates (`YYYY-MM-DD`) and a keyboard-operable month grid. DatePicker combines native date fields with this calendar; its `mode` is `date` (default), `year-month` or `date-time`. In date-time mode, calendar selection preserves the current hour, minute and second and emits a timezone-free `YYYY-MM-DDTHH:mm:ss` value. Existing DateSelect consumers retain their six-field behavior. DateRangePicker accepts `{ start: string; end: string }`, independently empty bounds, and `withTime` for second precision. It marks reverse ranges invalid without silently replacing either value. Consumers own timezone conversion, range presets, and when to apply a draft. Supply localized `label`, `startLabel`, `endLabel`, `labels`, `locale` and `invalidMessage` as appropriate.
+
+DateCalendar also accepts optional exact `minDate` and `maxDate` values in `YYYY-MM-DD` format. Their inclusive intersection with the year bounds determines selectable dates; invalid or disjoint bounds throw a RangeError. Navigation and keyboard focus stay within the interval. An out-of-bounds supplied selection remains unselected without emitting a replacement value.
 
 Use the same primitives in React applications and static HTML without hydration. Load `@oddmash/ui/styles.css` in the same way as other components. The classes below map directly to exported React wrappers, and all wrappers forward native props and refs.
 

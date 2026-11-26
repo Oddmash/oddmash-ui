@@ -30,6 +30,8 @@ import {
   ProseScroll,
   Avatar,
   Button,
+  ToggleGroup,
+  ToggleGroupItem,
   CommandPalette,
   Slider,
   Checkbox,
@@ -81,6 +83,24 @@ const CodeBlockPreview = ({ t }: { t: (text: string) => string }) => {
       </CodeBlockContent>
       <span role="status">{t(status)}</span>
     </CodeBlock>
+  );
+};
+
+const ToggleGroupPreview = ({ t }: { t: (text: string) => string }) => {
+  const [view, setView] = useState<string | null>('grid');
+
+  return (
+    <div className="example-stack">
+      <ToggleGroup aria-label={t('View mode')} type="single" value={view} onValueChange={setView}>
+        <ToggleGroupItem value="grid">{t('Grid view')}</ToggleGroupItem>
+        <ToggleGroupItem value="compact" disabled>{t('Compact view')}</ToggleGroupItem>
+        <ToggleGroupItem value="list">{t('List view')}</ToggleGroupItem>
+      </ToggleGroup>
+      <ToggleGroup aria-label={t('Text formatting')} type="multiple" defaultValue={['bold']}>
+        <ToggleGroupItem value="bold">{t('Bold')}</ToggleGroupItem>
+        <ToggleGroupItem value="italic">{t('Italic')}</ToggleGroupItem>
+      </ToggleGroup>
+    </div>
   );
 };
 
@@ -146,6 +166,7 @@ export const getComponentPreviews = (
     </Prose>
   ),
   slider: <label>{t('Width')} <Slider min={100} max={600} defaultValue={320} /></label>,
+  'toggle-group': <ToggleGroupPreview t={t} />,
   'command-palette': <CommandPalette trigger={<Button>{t('Commands')}</Button>} title={t('Commands')} description={t('Choose an action')} searchLabel={t('Search commands')} emptyLabel={t('No commands found')} dismissLabel={t('Close commands')} items={[{ id: 'save', label: t('Save project'), group: t('Project'), description: t('Save current changes'), onSelect: () => {} }, { id: 'guide', label: t('Usage guide'), group: t('Documentation'), onSelect: () => {} }]} />,
   textarea: (
     <label>
@@ -168,7 +189,7 @@ export const getComponentPreviews = (
     </div>
   ),
   'date-select': <DateSelect label={t('Date and time')} defaultValue="2026-11-25T14:30:42" labels={{year: t('Year'), month: t('Month'), day: t('Day'), hour: t('Hour'), minute: t('Minute'), second: t('Second'), clear: t('Clear date and time')}} />,
-  'date-calendar': <DateCalendar locale={locale} labels={pickerLabels(t)} defaultValue="2026-11-17" />,
+  'date-calendar': <DateCalendar locale={locale} labels={pickerLabels(t)} defaultValue="2026-11-17" minDate="2026-10-15" maxDate="2026-12-20" />,
   'date-picker': <DatePicker label={t('Date and time')} mode="date-time" locale={locale} labels={pickerLabels(t, true)} defaultValue="2026-11-25T14:30:42" />,
   'date-range-picker': <DateRangePicker label={t('Date range')} startLabel={t('Start date')} endLabel={t('End date')} locale={locale} labels={pickerLabels(t, true)} withTime defaultValue={{ start: '2026-11-01T00:00:00', end: '2026-11-25T23:59:59' }} invalidMessage={t('End date must not precede start date.')} />,
   checkbox: (

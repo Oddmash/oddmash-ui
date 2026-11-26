@@ -1,0 +1,64 @@
+.om-toggle-group {
+  &:not([hidden]) {
+    display: inline-flex;
+  }
+
+  flex-wrap: wrap;
+  gap: var(--om-semantic-space-sm);
+  max-inline-size: 100%;
+
+  &[data-orientation='vertical'] {
+    flex-direction: column;
+  }
+}
+
+.om-toggle-group-item {
+  box-sizing: border-box;
+  &:not([hidden]) {
+    display: inline-flex;
+  }
+
+  align-items: center;
+  justify-content: center;
+  gap: var(--om-semantic-space-sm);
+  min-block-size: var(--om-semantic-control-height);
+  padding: var(--om-semantic-space-xs) var(--om-semantic-space-md);
+  border: var(--om-semantic-border-default);
+  border-radius: var(--om-semantic-radius-sm);
+  background: var(--om-semantic-color-surface);
+  color: var(--om-semantic-color-text);
+  font-family: var(--om-semantic-font-family);
+  font-size: var(--om-semantic-font-size);
+  line-height: var(--om-semantic-font-line);
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    border-color: var(--om-semantic-color-muted);
+  }
+
+  &[aria-pressed='true'] {
+    background: var(--om-semantic-color-action);
+    color: var(--om-semantic-color-on-action);
+    border-color: var(--om-semantic-color-action);
+  }
+
+  &:focus-visible {
+    outline: var(--om-semantic-focus-width) solid var(--om-semantic-color-focus);
+    outline-offset: var(--om-semantic-focus-offset);
+  }
+
+  &:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+}
+
+@media (forced-colors: active) {
+  .om-toggle-group-item[aria-pressed='true'] {
+    border-color: Highlight;
+    border-style: double;
+    border-width: calc(var(--om-semantic-border-width) + var(--om-semantic-focus-width));
+    // Preserve the normal button dimensions with the thicker pressed border.
+    padding: calc(var(--om-semantic-space-xs) - var(--om-semantic-focus-width)) calc(var(--om-semantic-space-md) - var(--om-semantic-focus-width));
+  }
+}
