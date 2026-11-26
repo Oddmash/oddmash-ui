@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, type ReactElement, type ReactNode } from 'react';
-import { mountTooltip, type TooltipController } from './tooltip-controller';
+import { mountTooltip } from './tooltip-controller';
 
 export type TooltipProps = { children: ReactElement; content: ReactNode };
 
@@ -7,7 +7,7 @@ export const Tooltip = ({ children, content }: TooltipProps) => {
   const anchor = useRef<HTMLSpanElement>(null);
   const panel = useRef<HTMLSpanElement>(null);
   const id = useId();
-  const mounted = useRef<{ trigger: HTMLElement; panel: HTMLElement; controller: TooltipController } | null>(null);
+  const mounted = useRef<{ trigger: HTMLElement; panel: HTMLElement; controller: ReturnType<typeof mountTooltip> } | null>(null);
 
   useEffect(() => {
     const trigger = anchor.current?.firstElementChild;
