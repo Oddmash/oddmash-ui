@@ -699,11 +699,11 @@ export const translations: Record<string, Translation> = {
     '状態や分類を示します。',
     '标记状态或分类。',
   ],
-  'Describe status or category in a few words. Use semantic tones for meaningful operational states and neutral for unknown or ordinary categories.':
+  'Describe status or category in a few words. Use semantic tones for meaningful operational states and neutral for unknown or ordinary categories. danger and error share one visual tone, as do info and active; pick one name from each pair and use it consistently.':
     [
-      '상태나 분류를 짧게 표현하세요. 의미 있는 운영 상태에는 의미 기반 색상을, 알 수 없거나 일반적인 분류에는 neutral을 사용하세요.',
-      '状態や分類を短く示します。意味のある運用状態にはセマンティックな色調を、不明または通常の分類には neutral を使います。',
-      '简短描述状态或分类。对有意义的运行状态使用语义色调，对未知或普通分类使用 neutral。',
+      '상태나 분류를 짧게 표현하세요. 의미 있는 운영 상태에는 의미 기반 색상을, 알 수 없거나 일반적인 분류에는 neutral을 사용하세요. danger와 error는 같은 시각적 색상을 공유하고 info와 active도 마찬가지입니다. 각 쌍에서 하나의 이름을 골라 일관되게 사용하세요.',
+      '状態や分類を短く示します。意味のある運用状態にはセマンティックな色調を、不明または通常の分類には neutral を使います。danger と error は同じ色調で、info と active も同じ色調です。各組から一つの名前を選び、一貫して使います。',
+      '简短描述状态或分类。对有意义的运行状态使用语义色调，对未知或普通分类使用 neutral。danger 与 error 使用相同的视觉色调，info 与 active 也是如此；每组中选定一个名称并保持一致。',
     ],
   'Always include meaningful text; color alone should not communicate status. Badge is non-interactive. Use a button for an action.':
     [

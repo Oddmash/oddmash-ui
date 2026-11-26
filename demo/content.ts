@@ -161,7 +161,7 @@ export const details: Record<
   },
   badge: {
     usage:
-      'Describe status or category in a few words. Use semantic tones for meaningful operational states and neutral for unknown or ordinary categories.',
+      'Describe status or category in a few words. Use semantic tones for meaningful operational states and neutral for unknown or ordinary categories. danger and error share one visual tone, as do info and active; pick one name from each pair and use it consistently.',
     accessibility:
       'Always include meaningful text; color alone should not communicate status. Badge is non-interactive. Use a button for an action.',
     props: [
