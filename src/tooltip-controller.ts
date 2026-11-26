@@ -1,16 +1,17 @@
 import primitiveTokens from '../tokens/primitive.json' with { type: 'json' };
 
-export type TooltipController = { destroy: () => void; refresh: () => void };
+export type TooltipController = { destroy: () => void };
+type MountedTooltipController = TooltipController & { refresh: () => void };
 
 let nextId = 0;
 
-export const mountTooltip = (trigger: HTMLElement, tooltip: HTMLElement): TooltipController => {
+export const mountTooltip = (trigger: HTMLElement, tooltip: HTMLElement): MountedTooltipController => {
   const doc = trigger.ownerDocument;
   const view = doc.defaultView;
   if (!view) return { destroy: () => undefined, refresh: () => undefined };
 
   const previousDescription = trigger.getAttribute('aria-describedby');
-  const previousTitle = trigger.getAttribute('title');
+  let previousTitle = trigger.getAttribute('title');
   if (!tooltip.id) {
     do { tooltip.id = `om-tooltip-${++nextId}`; } while (doc.getElementById(tooltip.id) && doc.getElementById(tooltip.id) !== tooltip);
   }
@@ -126,7 +127,14 @@ export const mountTooltip = (trigger: HTMLElement, tooltip: HTMLElement): Toolti
 
   if (focused) show();
   return {
-    refresh: () => { describe(); position(); },
+    refresh: () => {
+      if (trigger.hasAttribute('title')) {
+        previousTitle = trigger.getAttribute('title');
+        trigger.removeAttribute('title');
+      }
+      describe();
+      position();
+    },
     destroy: () => {
       controller.abort();
       hide();
