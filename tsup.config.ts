@@ -5,6 +5,7 @@ export default defineConfig({
     button: 'src/button.tsx',
     input: 'src/input.tsx',
     slider: 'src/slider.tsx',
+    'toggle-group': 'src/toggle-group.tsx',
     'command-palette': 'src/command-palette.tsx',
     card: 'src/card.tsx',
     'link-card': 'src/link-card.tsx',

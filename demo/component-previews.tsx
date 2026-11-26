@@ -30,6 +30,8 @@ import {
   ProseScroll,
   Avatar,
   Button,
+  ToggleGroup,
+  ToggleGroupItem,
   CommandPalette,
   Slider,
   Checkbox,
@@ -81,6 +83,24 @@ const CodeBlockPreview = ({ t }: { t: (text: string) => string }) => {
       </CodeBlockContent>
       <span role="status">{t(status)}</span>
     </CodeBlock>
+  );
+};
+
+const ToggleGroupPreview = ({ t }: { t: (text: string) => string }) => {
+  const [view, setView] = useState<string | null>('grid');
+
+  return (
+    <div className="example-stack">
+      <ToggleGroup aria-label={t('View mode')} type="single" value={view} onValueChange={setView}>
+        <ToggleGroupItem value="grid">{t('Grid view')}</ToggleGroupItem>
+        <ToggleGroupItem value="compact" disabled>{t('Compact view')}</ToggleGroupItem>
+        <ToggleGroupItem value="list">{t('List view')}</ToggleGroupItem>
+      </ToggleGroup>
+      <ToggleGroup aria-label={t('Text formatting')} type="multiple" defaultValue={['bold']}>
+        <ToggleGroupItem value="bold">{t('Bold')}</ToggleGroupItem>
+        <ToggleGroupItem value="italic">{t('Italic')}</ToggleGroupItem>
+      </ToggleGroup>
+    </div>
   );
 };
 
@@ -146,6 +166,7 @@ export const getComponentPreviews = (
     </Prose>
   ),
   slider: <label>{t('Width')} <Slider min={100} max={600} defaultValue={320} /></label>,
+  'toggle-group': <ToggleGroupPreview t={t} />,
   'command-palette': <CommandPalette trigger={<Button>{t('Commands')}</Button>} title={t('Commands')} description={t('Choose an action')} searchLabel={t('Search commands')} emptyLabel={t('No commands found')} dismissLabel={t('Close commands')} items={[{ id: 'save', label: t('Save project'), group: t('Project'), description: t('Save current changes'), onSelect: () => {} }, { id: 'guide', label: t('Usage guide'), group: t('Documentation'), onSelect: () => {} }]} />,
   textarea: (
     <label>
