@@ -9,6 +9,8 @@ export type DateCalendarProps = Omit<ComponentPropsWithoutRef<'div'>, 'children'
   onValueChange?: (value: string) => void;
   minYear?: number;
   maxYear?: number;
+  minDate?: string;
+  maxDate?: string;
   locale?: string;
   labels?: Partial<DateCalendarLabels>;
   disabled?: boolean;
@@ -40,12 +42,22 @@ const localToday = () => {
 };
 
 export const DateCalendar = forwardRef<HTMLDivElement, DateCalendarProps>(({
-  value, defaultValue = '', onValueChange, minYear = 1900, maxYear = 2100, locale = 'en', labels, disabled, className, ...props
+  value, defaultValue = '', onValueChange, minYear = 1900, maxYear = 2100, minDate, maxDate, locale = 'en', labels, disabled, className, ...props
 }, ref) => {
   if (!Number.isInteger(minYear) || !Number.isInteger(maxYear) || minYear < 1 || maxYear > 9999 || minYear > maxYear) throw new RangeError('DateCalendar requires an ordered year range from 1 to 9999.');
+  const explicitMin = minDate === undefined ? null : parse(minDate);
+  const explicitMax = maxDate === undefined ? null : parse(maxDate);
+  if ((minDate !== undefined && (!explicitMin || explicitMin.getUTCFullYear() < 1)) || (maxDate !== undefined && (!explicitMax || explicitMax.getUTCFullYear() < 1))) throw new RangeError('DateCalendar requires valid YYYY-MM-DD date bounds.');
+  const yearStart = utc(minYear, 0, 1);
+  const yearEnd = utc(maxYear, 11, 31);
+  const minimum = explicitMin && explicitMin > yearStart ? explicitMin : yearStart;
+  const maximum = explicitMax && explicitMax < yearEnd ? explicitMax : yearEnd;
+  if (minimum > maximum) throw new RangeError('DateCalendar requires overlapping, ordered date and year bounds.');
+  const isSelectable = (date: Date) => date >= minimum && date <= maximum;
   const [internalValue, setInternalValue] = useState(defaultValue);
-  const selected = parse(value ?? internalValue);
-  const clamp = (date: Date) => date.getUTCFullYear() < minYear ? utc(minYear, 0, 1) : date.getUTCFullYear() > maxYear ? utc(maxYear, 11, 31) : date;
+  const supplied = parse(value ?? internalValue);
+  const selected = supplied && isSelectable(supplied) ? supplied : null;
+  const clamp = (date: Date) => date < minimum ? minimum : date > maximum ? maximum : date;
   const [cursor, setCursor] = useState(() => clamp(selected ?? new Date()));
   const [today, setToday] = useState<Date | null>(null);
   const active = clamp(cursor);
@@ -83,7 +95,7 @@ export const DateCalendar = forwardRef<HTMLDivElement, DateCalendarProps>(({
     setCursor(clamp(date));
   };
   const select = (date: Date) => {
-    if (disabled) return;
+    if (disabled || !isSelectable(date)) return;
     const next = iso(date);
     setCursor(date);
     if (value === undefined) setInternalValue(next);
@@ -108,9 +120,9 @@ export const DateCalendar = forwardRef<HTMLDivElement, DateCalendarProps>(({
 
   return <div {...props} ref={ref} className={cx('om-date-calendar', className)}>
     <div className="om-date-calendar-header">
-      <Button size="sm" variant="ghost" aria-label={strings.previousMonth} disabled={disabled || (first.getUTCFullYear() === minYear && first.getUTCMonth() === 0)} onClick={() => move(addMonths(active, -1))}><span aria-hidden="true">‹</span></Button>
+      <Button size="sm" variant="ghost" aria-label={strings.previousMonth} disabled={disabled || first.getTime() <= monthStart(minimum).getTime()} onClick={() => move(addMonths(active, -1))}><span aria-hidden="true">‹</span></Button>
       <span id={monthId} aria-live="polite">{monthFormatter.format(first)}</span>
-      <Button size="sm" variant="ghost" aria-label={strings.nextMonth} disabled={disabled || (first.getUTCFullYear() === maxYear && first.getUTCMonth() === 11)} onClick={() => move(addMonths(active, 1))}><span aria-hidden="true">›</span></Button>
+      <Button size="sm" variant="ghost" aria-label={strings.nextMonth} disabled={disabled || first.getTime() >= monthStart(maximum).getTime()} onClick={() => move(addMonths(active, 1))}><span aria-hidden="true">›</span></Button>
     </div>
     <table ref={grid} role="grid" aria-labelledby={monthId} className="om-date-calendar-grid">
       <thead><tr>{Array.from({ length: 7 }, (_, index) => <th key={index} scope="col">{weekdayFormatter.format(utc(2024, 0, 7 + index))}</th>)}</tr></thead>
@@ -121,11 +133,11 @@ export const DateCalendar = forwardRef<HTMLDivElement, DateCalendarProps>(({
         const key = iso(date);
         const current = today !== null && key === iso(today);
         return <td key={column} aria-selected={key === selectedKey}>
-          <button type="button" className="om-date-calendar-day" aria-label={dateFormatter.format(date)} aria-current={current ? 'date' : undefined} data-selected={key === selectedKey || undefined} tabIndex={key === iso(active) ? 0 : -1} disabled={disabled} onClick={() => select(date)} onKeyDown={onGridKey}>{day}</button>
+          <button type="button" className="om-date-calendar-day" aria-label={dateFormatter.format(date)} aria-current={current ? 'date' : undefined} data-selected={key === selectedKey || undefined} tabIndex={key === iso(active) ? 0 : -1} disabled={disabled || !isSelectable(date)} onClick={() => select(date)} onKeyDown={onGridKey}>{day}</button>
         </td>;
       })}</tr>)}</tbody>
     </table>
-    <Button size="sm" variant="ghost" disabled={disabled || !today || today.getUTCFullYear() < minYear || today.getUTCFullYear() > maxYear} onClick={() => { if (today) select(today); }}>{strings.today}</Button>
+    <Button size="sm" variant="ghost" disabled={disabled || !today || !isSelectable(today)} onClick={() => { if (today) select(today); }}>{strings.today}</Button>
   </div>;
 });
 DateCalendar.displayName = 'DateCalendar';

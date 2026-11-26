@@ -189,7 +189,7 @@ export const getComponentPreviews = (
     </div>
   ),
   'date-select': <DateSelect label={t('Date and time')} defaultValue="2026-11-25T14:30:42" labels={{year: t('Year'), month: t('Month'), day: t('Day'), hour: t('Hour'), minute: t('Minute'), second: t('Second'), clear: t('Clear date and time')}} />,
-  'date-calendar': <DateCalendar locale={locale} labels={pickerLabels(t)} defaultValue="2026-11-17" />,
+  'date-calendar': <DateCalendar locale={locale} labels={pickerLabels(t)} defaultValue="2026-11-17" minDate="2026-10-15" maxDate="2026-12-20" />,
   'date-picker': <DatePicker label={t('Date and time')} mode="date-time" locale={locale} labels={pickerLabels(t, true)} defaultValue="2026-11-25T14:30:42" />,
   'date-range-picker': <DateRangePicker label={t('Date range')} startLabel={t('Start date')} endLabel={t('End date')} locale={locale} labels={pickerLabels(t, true)} withTime defaultValue={{ start: '2026-11-01T00:00:00', end: '2026-11-25T23:59:59' }} invalidMessage={t('End date must not precede start date.')} />,
   checkbox: (

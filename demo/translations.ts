@@ -24,7 +24,7 @@ export const translations: Record<string, Translation> = {
   'Date Picker': ['날짜 선택기', '日付選択', '日期选择器'],
   'Date Range Picker': ['기간 선택기', '期間選択', '日期范围选择器'],
   'Choose a day in a monthly calendar.': ['월간 달력에서 날짜를 선택합니다.', '月間カレンダーから日を選択します。', '在月历中选择日期。'],
-  'Use a local YYYY-MM-DD value and year bounds.': ['로컬 YYYY-MM-DD 값과 연도 범위를 사용하세요.', 'ローカルの YYYY-MM-DD 値と年の範囲を使用します。', '使用本地 YYYY-MM-DD 值和年份范围。'],
+  'Use a local YYYY-MM-DD value. Exact minDate and maxDate bounds intersect the optional year bounds and include both endpoints.': ['로컬 YYYY-MM-DD 값을 사용하세요. minDate와 maxDate의 정확한 날짜 범위는 선택적 연도 범위와 교차하며 양쪽 경계를 포함합니다.', 'ローカルの YYYY-MM-DD 値を使用します。minDate と maxDate による正確な日付範囲は任意の年範囲との共通範囲で、両端を含みます。', '使用本地 YYYY-MM-DD 值。minDate 和 maxDate 的精确日期范围与可选年份范围取交集，并包含两个端点。'],
   'Arrow keys move by day or week. Home and End move within a week, Page Up and Down change month, and Enter selects.': ['화살표로 일·주 이동, Home과 End로 주 시작·끝 이동, Page Up과 Down으로 월 변경, Enter로 선택합니다.', '矢印キーで日・週を移動、Home と End で週の端へ移動、Page Up と Down で月を変更し、Enter で選択します。', '方向键按日或周移动，Home 和 End 移至周首尾，Page Up 和 Down 切换月份，Enter 选择。'],
   'Select a date, month, or precise date and time.': ['날짜, 월 또는 정밀한 날짜와 시간을 선택합니다.', '日付、月、または正確な日時を選択します。', '选择日期、月份或精确的日期和时间。'],
   'Use date for YYYY-MM-DD, year-month for YYYY-MM, or date-time for YYYY-MM-DDTHH:mm:ss. The calendar is optional.': ['YYYY-MM-DD는 date, YYYY-MM은 year-month, YYYY-MM-DDTHH:mm:ss는 date-time을 사용하세요. 달력은 선택 사항입니다.', 'YYYY-MM-DD は date、YYYY-MM は year-month、YYYY-MM-DDTHH:mm:ss は date-time を使用します。カレンダーは任意です。', 'YYYY-MM-DD 使用 date，YYYY-MM 使用 year-month，YYYY-MM-DDTHH:mm:ss 使用 date-time。日历可选。'],

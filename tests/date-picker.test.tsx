@@ -38,6 +38,55 @@ describe('DateCalendar', () => {
     expect(screen.getByRole('button', { name: 'Tuesday, December 31, 2024' })).toBeDisabled();
     expect(onValueChange).not.toHaveBeenCalled();
   });
+
+  it('disables dates outside exact inclusive bounds and clamps keyboard movement through leap day', async () => {
+    const onValueChange = vi.fn();
+    render(<DateCalendar defaultValue="2024-02-28" minDate="2024-02-28" maxDate="2024-03-02" onValueChange={onValueChange} />);
+    const first = screen.getByRole('button', { name: 'Wednesday, February 28, 2024' });
+    expect(screen.getByRole('button', { name: 'Tuesday, February 27, 2024' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Previous month' })).toBeDisabled();
+    first.focus();
+    await userEvent.keyboard('{ArrowLeft}');
+    expect(first).toHaveFocus();
+    await userEvent.keyboard('{ArrowRight}');
+    const leap = screen.getByRole('button', { name: 'Thursday, February 29, 2024' });
+    expect(leap).toHaveFocus();
+    await userEvent.keyboard('{PageDown}');
+    const last = screen.getByRole('button', { name: 'Saturday, March 2, 2024' });
+    expect(last).toHaveFocus();
+    expect(screen.getByRole('button', { name: 'Sunday, March 3, 2024' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Next month' })).toBeDisabled();
+    await userEvent.keyboard('{ArrowRight}{Enter}');
+    expect(last).toHaveFocus();
+    expect(onValueChange).toHaveBeenLastCalledWith('2024-03-02');
+  });
+
+  it('clamps an empty or outside selection to the only selectable day and respects Today', async () => {
+    vi.setSystemTime(new Date(2024, 1, 28, 12));
+    try {
+      const onValueChange = vi.fn();
+      const { rerender } = render(<DateCalendar value="2024-02-27" minYear={2024} maxYear={2024} minDate="2024-02-28" maxDate="2024-02-28" onValueChange={onValueChange} />);
+      const day = screen.getByRole('button', { name: 'Wednesday, February 28, 2024' });
+      expect(day).toHaveAttribute('tabindex', '0');
+      expect(day.closest('td')).toHaveAttribute('aria-selected', 'false');
+      expect(screen.getByRole('button', { name: 'Previous month' })).toBeDisabled();
+      expect(screen.getByRole('button', { name: 'Next month' })).toBeDisabled();
+      await userEvent.click(screen.getByRole('button', { name: 'Today' }));
+      expect(onValueChange).toHaveBeenLastCalledWith('2024-02-28');
+      rerender(<DateCalendar value="" minDate="2024-03-02" maxDate="2024-03-02" />);
+      expect(screen.getByRole('button', { name: 'Today' })).toBeDisabled();
+      expect(screen.getByRole('button', { name: 'Saturday, March 2, 2024' })).toHaveAttribute('tabindex', '0');
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('rejects malformed, inverted or disjoint dates and year bounds', () => {
+    expect(() => render(<DateCalendar minDate="2025-02-29" />)).toThrow(RangeError);
+    expect(() => render(<DateCalendar maxDate="0000-01-01" />)).toThrow(RangeError);
+    expect(() => render(<DateCalendar minDate="2024-03-02" maxDate="2024-03-01" />)).toThrow(RangeError);
+    expect(() => render(<DateCalendar minYear={2025} maxDate="2024-12-31" />)).toThrow(RangeError);
+  });
 });
 
 describe('DatePicker', () => {
