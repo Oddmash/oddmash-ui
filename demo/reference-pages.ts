@@ -1,3 +1,4 @@
+import { staticTooltipHeading, staticTooltipUsage, staticTooltipCode } from './tooltip-static-example';
 import { componentIds, details, pages } from './content';
 import { translations } from './translations';
 import { packageVersion } from './package-links';
@@ -43,7 +44,8 @@ export const createReferencePages = () => {
       const detail = details[page.id as ComponentId];
       const props = detail.props.map(row => `<tr>${row.map(cell => `<td>${escape(cell)}</td>`).join('')}</tr>`).join('');
       const code = detail.code ? `<pre><code>${escape(detail.code)}</code></pre>` : '';
-      const body = `<h2>${escape(t('Usage'))}</h2><p>${escape(t(detail.usage))}</p><h2>${escape(t('Accessibility'))}</h2><p>${escape(t(detail.accessibility))}</p><table><thead><tr><th scope="col">${escape(labels[locale].property)}</th><th scope="col">${escape(t('Type'))}</th><th scope="col">${escape(t('Default'))}</th></tr></thead><tbody>${props}</tbody></table>${code}`;
+      const staticTooltip = page.id === "tooltip" ? `<h2>${escape(t(staticTooltipHeading))}</h2><p>${escape(t(staticTooltipUsage))}</p><pre><code>${escape(staticTooltipCode)}</code></pre>` : "";
+      const body = `<h2>${escape(t('Usage'))}</h2><p>${escape(t(detail.usage))}</p><h2>${escape(t('Accessibility'))}</h2><p>${escape(t(detail.accessibility))}</p><table><thead><tr><th scope="col">${escape(labels[locale].property)}</th><th scope="col">${escape(t('Type'))}</th><th scope="col">${escape(t('Default'))}</th></tr></thead><tbody>${props}</tbody></table>${code}${staticTooltip}`;
       files[route(locale, page.id) + 'index.html'] = documentPage(locale, t(page.title), t(page.description), page.id, body);
       urls.push(canonical(locale, page.id));
     }
