@@ -18,6 +18,8 @@ export default defineConfig({
     'scroll-header': 'src/scroll-header.tsx',
     'locale-picker': 'src/locale-picker.tsx',
     'clipboard-button': 'src/clipboard-button.tsx',
+    tooltip: 'src/tooltip.tsx',
+    'tooltip-controller': 'src/tooltip-controller.ts',
     'toast-provider': 'src/toast-provider.tsx',
     badge: 'src/badge.tsx',
     tabs: 'src/tabs.tsx',

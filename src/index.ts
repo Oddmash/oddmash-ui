@@ -40,3 +40,4 @@ export * from './scroll-header';
 export * from './locale-picker';
 export * from './clipboard-button';
 export * from './toast-provider';
+export * from './tooltip';
