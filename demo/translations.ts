@@ -5,6 +5,7 @@ import { previewTranslations } from './preview-translations';
 type Translation = [ko: string, ja: string, simplifiedChinese: string];
 
 export const translations: Record<string, Translation> = {
+  'Component reference': ['컴포넌트 참고 문서', 'コンポーネントリファレンス', '组件参考'],
   ...documentationNavigationTranslations,
   ...notificationTranslations,
   ...previewTranslations,
