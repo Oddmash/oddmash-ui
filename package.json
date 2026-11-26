@@ -197,6 +197,14 @@
       "types": "./dist/clipboard-button.d.ts",
       "import": "./dist/clipboard-button.js"
     },
+    "./tooltip": {
+      "types": "./dist/tooltip.d.ts",
+      "import": "./dist/tooltip.js"
+    },
+    "./tooltip-controller": {
+      "types": "./dist/tooltip-controller.d.ts",
+      "import": "./dist/tooltip-controller.js"
+    },
     "./toast-provider": {
       "types": "./dist/toast-provider.d.ts",
       "import": "./dist/toast-provider.js"
