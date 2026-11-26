@@ -2,6 +2,7 @@ import { componentIds, details, pages } from './content';
 import { translations } from './translations';
 import { packageVersion } from './package-links';
 import type { ComponentId } from './content';
+import referenceTokens from './reference-tokens.json' with { type: 'json' };
 
 const site = 'https://oddmash.github.io/oddmash-ui/';
 const locales = ['en', 'ko', 'ja', 'zh-CN'] as const;
@@ -48,6 +49,15 @@ export const createReferencePages = () => {
     }
   }
   files['sitemap.xml'] = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map(url => `<url><loc>${escape(url)}</loc></url>`).join('')}</urlset>`;
-  files['reference/style.css'] = `html{color-scheme:light dark;font-family:system-ui,sans-serif}body{max-inline-size:70ch;margin:0 auto;padding:2rem 1rem;line-height:1.65}header,nav{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}header{justify-content:space-between;border-block-end:1px solid GrayText;padding-block-end:1rem}main{padding-block:1rem}.lead{color:GrayText}a{color:LinkText;text-underline-offset:.2em}li p{margin-block-start:0}pre{overflow:auto;padding:1rem;border:1px solid GrayText;border-radius:.5rem}table{border-collapse:collapse;inline-size:100%;overflow-wrap:anywhere}th,td{text-align:start;vertical-align:top;border-block-end:1px solid GrayText;padding:.5rem}footer{border-block-start:1px solid GrayText;padding-block-start:1rem}h1,h2{line-height:1.3}a:focus-visible{outline:2px solid Highlight;outline-offset:2px}`;
+  files['reference/style.css'] = `:root{${Object.entries(referenceTokens).map(([key,value])=>`--reference-${key}:${value}`).join(';')}}html{color-scheme:light dark;font-family:system-ui,sans-serif}body{max-inline-size:var(--reference-measure);margin:0 auto;padding:var(--reference-spaceLarge) var(--reference-space);line-height:1.65}header,nav{display:flex;flex-wrap:wrap;gap:var(--reference-space);align-items:center}header{justify-content:space-between;border-block-end:var(--reference-borderWidth) solid GrayText;padding-block-end:var(--reference-space)}main{padding-block:var(--reference-space)}.lead{color:GrayText}a{color:LinkText;text-underline-offset:var(--reference-underlineOffset)}li p{margin-block-start:0}pre{overflow:auto;padding:var(--reference-space);border:var(--reference-borderWidth) solid GrayText;border-radius:var(--reference-radius)}table{border-collapse:collapse;inline-size:100%;overflow-wrap:anywhere}th,td{text-align:start;vertical-align:top;border-block-end:var(--reference-borderWidth) solid GrayText;padding:var(--reference-spaceSmall)}footer{border-block-start:var(--reference-borderWidth) solid GrayText;padding-block-start:var(--reference-space)}h1,h2{line-height:1.3}a:focus-visible{outline:var(--reference-focusWidth) solid Highlight;outline-offset:var(--reference-focusOffset)}`;
   return files;
+};
+
+export const resolveReferenceAsset = (pathname: string) => {
+  const path = pathname.replace(/^\//, '');
+  const file = path.endsWith('/') ? path + 'index.html' : path;
+  const files = createReferencePages();
+  if (!Object.hasOwn(files, file)) return undefined;
+  const type = file.endsWith('.css') ? 'text/css' : file.endsWith('.xml') ? 'application/xml' : 'text/html';
+  return { body: files[file], type };
 };
