@@ -99,6 +99,19 @@ SiteHeader and SiteFooter are layout primitives, not a menu or router. Compose t
 
 Prose styles rendered, trusted content rather than converting Markdown to HTML. Preserve native document structure and locale. The default measure is 75ch; override `--om-prose-measure` and `--om-prose-link` as needed. For wide tables, keep the native table inside a named, focusable ProseScroll region. Existing language-aware line break engines can still operate on the rendered text.
 
+## Tooltip
+
+Use `Tooltip` from `@oddmash/ui/tooltip` with a single native interactive child and short, non-interactive content. Hover and keyboard focus reveal the description, Escape dismisses it, and the trigger retains its native action. For static HTML, give an existing trigger and a hidden `.om-tooltip` element to `mountTooltip` from `@oddmash/ui/tooltip-controller`; dispose its controller before replacing the page. The package stylesheet supplies the visual treatment. Keep essential information in the page as well because touch users may not hover.
+
+```tsx
+<Tooltip content="Open the original reference"><a href="/guide">Guide</a></Tooltip>
+```
+
+```ts
+const tooltip = mountTooltip(trigger, panel);
+tooltip.destroy();
+```
+
 ## Themes and product overrides
 
 Set `data-om-theme="light"` or `data-om-theme="dark"` on the document or a subtree. Applications own system preference and persistence. Load product overrides after the package CSS and override semantic variables rather than primitives. Shadow DOM consumers must inject the stylesheet and portal containers inside their root.
