@@ -1,3 +1,9 @@
+packages:
+  - '.'
+  - 'packages/mobile'
+sharedWorkspaceLockfile: false
+minimumReleaseAgeExclude:
+  - '@oddmash/*'
 allowBuilds:
   '@parcel/watcher': true
   esbuild: true
