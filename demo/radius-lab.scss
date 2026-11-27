@@ -1,0 +1,20 @@
+.radius-lab {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--om-semantic-dimension-px-240)), 1fr));
+  gap: var(--om-semantic-space-lg);
+}
+
+.radius-example-card {
+  display: grid;
+  gap: var(--om-semantic-space-sm);
+}
+
+.radius-example-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--om-semantic-space-sm);
+}
+
+.radius-example .om-dialog-content > :is(.om-input, .om-button) {
+  margin-block-start: var(--om-semantic-space-sm);
+}
