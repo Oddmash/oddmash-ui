@@ -15,7 +15,6 @@ for (const direction of ['ltr', 'rtl']) {
       document.body.append(spacer);
       const scrollport = document.createElement('div');
       scrollport.id = 'nested-scrollport';
-      scrollport.className = 'om-stable-scrollbar';
       scrollport.innerHTML = '<div id="nested-marker"></div>';
       document.body.append(scrollport);
     }, direction);
@@ -34,7 +33,12 @@ for (const direction of ['ltr', 'rtl']) {
 
     const nested = page.locator('#nested-scrollport');
     const nestedMarker = page.locator('#nested-marker');
+    const unreservedWidth = await nestedMarker.evaluate((element) => element.clientWidth);
+    await nested.evaluate((element) => element.classList.add('om-stable-scrollbar'));
     const nestedBox = await nestedMarker.boundingBox();
+    if (browserName === 'chromium') {
+      expect(nestedBox?.width).toBeLessThan(unreservedWidth);
+    }
     await nestedMarker.evaluate((element) => { element.style.height = '350px'; });
     expect(await nestedMarker.boundingBox()).toMatchObject({ x: nestedBox?.x, width: nestedBox?.width });
     await nested.evaluate((element) => { element.scrollTop = 40; });
