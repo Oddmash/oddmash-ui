@@ -32,6 +32,6 @@ Oddmash UI is for focused tools such as Interaction Inspector: products that nee
 
 ## Current scope
 
-Oddmash UI is under active pre-1.0 development. Version 0.11.0 adds an accessible Tooltip for React and a framework-neutral DOM controller for static content. Existing components remain compatible; React 18.3.1 and React 19 remain supported.
+Oddmash UI is under active pre-1.0 development. Version 0.12.0 adds an optional decorative leading icon to Input and keeps native typing and form behavior. React 18.3.1 and React 19 remain supported.
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [Contributor guide](CONTRIBUTING.md) · [MIT License](LICENSE)
