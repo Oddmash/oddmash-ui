@@ -15,7 +15,7 @@ export const checkTokenSources = async (root: string) => {
         await visit(path);
       } else if (entry.isFile() && entry.name.endsWith('.scss')) {
         const match = findRawDesignValues(await readFile(path, 'utf8'));
-        if (match.length) throw new Error(`src/${relative(root, path)}: raw design values ${match.join(', ')}; use JSON tokens`);
+        if (match.length) throw new Error(`src/${relative(root, path).replace(/\\/g, '/')}: raw design values ${match.join(', ')}; use JSON tokens`);
       }
     }
   };
