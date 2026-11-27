@@ -1,0 +1,452 @@
+{
+  "source": "Oddmash/oddmash-mobile",
+  "capturedAt": "2026-11-27",
+  "issues": [
+    {
+      "number": 28,
+      "title": "Build a browsable Mobile guide and clarify the landing-to-integration path",
+      "body": "## Acceptance criteria\n\n- Reconcile the public landing and documentation with all current exports and repository activity.\n- Keep the interactive demos and provide direct links to rendered Quickstart, six component references, recipes and verification.\n- Generate human pages and preserve stable raw Markdown URLs from reviewed sources.\n- Verify the production build, mobile reading and deployed links before closing.",
+      "state": "closed",
+      "author": "qtaghdi",
+      "assignees": [],
+      "labels": [
+        {
+          "name": "documentation",
+          "color": "0075ca",
+          "description": "Improvements or additions to documentation"
+        },
+        {
+          "name": "enhancement",
+          "color": "a2eeef",
+          "description": "New feature or request"
+        },
+        {
+          "name": "status: in progress",
+          "color": "FBCA04",
+          "description": "Work is actively claimed by a maintainer or session."
+        }
+      ],
+      "createdAt": "2026-11-26T16:52:22Z",
+      "closedAt": "2026-11-26T17:17:58Z",
+      "updatedAt": "2026-11-26T17:17:58Z",
+      "url": "https://github.com/Oddmash/oddmash-mobile/issues/28",
+      "comments": [
+        {
+          "id": 7198204124,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/28#issuecomment-7198204124",
+          "author": "qtaghdi",
+          "body": "Claiming landing, public guide, Markdown component references and their verification on docs/mobile-web-guide. No changes to library runtime contracts or existing demo anchors.",
+          "created_at": "2026-11-26T16:52:24Z",
+          "updated_at": "2026-11-26T16:52:24Z"
+        },
+        {
+          "id": 7198791679,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/28#issuecomment-7198791679",
+          "author": "qtaghdi",
+          "body": "Published via #29 and #30 at e4bba77. The official Pages build and deploy passed. Verified all six landing demo destinations, 13 rendered guides, 28 distinct internal links, code copy, 320 CSS px with doubled text, and original Markdown URLs on the public site. The Quickstart ran in clean React 18 and 19 consumers.",
+          "created_at": "2026-11-26T17:17:57Z",
+          "updated_at": "2026-11-26T17:17:57Z"
+        }
+      ]
+    },
+    {
+      "number": 24,
+      "title": "Add native-inspired action sheets and bottom navigation to the React alpha",
+      "body": "## Acceptance criteria\n\n- Add independently importable Action Sheet and Bottom Navigation with styleable web-native controls.\n- Verify action selection, cancellation, focus, responsive reflow, native link routing, safe areas and keyboard behavior.\n- Compare implementation choices with official iOS and Android behavior and open-source references, including Vaul for existing Bottom Sheet.\n- Add demos, usage documentation, SSR and browser evidence. Keep physical device and browser emulator evidence distinct.",
+      "state": "closed",
+      "author": "qtaghdi",
+      "assignees": [],
+      "labels": [
+        {
+          "name": "accessibility",
+          "color": "f143ab",
+          "description": "Barrier affecting people with disabilities"
+        },
+        {
+          "name": "documentation",
+          "color": "0075ca",
+          "description": "Improvements or additions to documentation"
+        },
+        {
+          "name": "enhancement",
+          "color": "a2eeef",
+          "description": "New feature or request"
+        },
+        {
+          "name": "status: in progress",
+          "color": "FBCA04",
+          "description": "Work is actively claimed by a maintainer or session."
+        }
+      ],
+      "createdAt": "2026-11-26T16:18:03Z",
+      "closedAt": "2026-11-26T16:50:56Z",
+      "updatedAt": "2026-11-26T16:50:56Z",
+      "url": "https://github.com/Oddmash/oddmash-mobile/issues/24",
+      "comments": [
+        {
+          "id": 7197459934,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/24#issuecomment-7197459934",
+          "author": "qtaghdi",
+          "body": "Claiming a first native parity slice. Scope includes new Action Sheet and Bottom Navigation components, public exports, documentation and browser coverage. Branch feat/mobile-native-patterns. Preserve the four alpha components and published support claims.",
+          "created_at": "2026-11-26T16:18:05Z",
+          "updated_at": "2026-11-26T16:18:05Z"
+        },
+        {
+          "id": 7197933434,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/24#issuecomment-7197933434",
+          "author": "qtaghdi",
+          "body": "Extending the same implementation claim to branch fix/action-sheet-initial-focus. Scope is the release review finding in #26 only: ensure native dialog focus starts on Cancel without briefly focusing a destructive action.",
+          "created_at": "2026-11-26T16:39:38Z",
+          "updated_at": "2026-11-26T16:39:38Z"
+        },
+        {
+          "id": 7198172790,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/24#issuecomment-7198172790",
+          "author": "qtaghdi",
+          "body": "Released on main at 8960a1a through #25, #27 and #26. The Pages build and deploy succeeded. The public site served all six working demos, safe opening focus, native navigation, and all eight documents. Chromium, Firefox and WebKit coverage and clean React 18/19 tarball installs passed. Physical iOS and Android, assistive technology, and registry release evidence remain in #7.",
+          "created_at": "2026-11-26T16:50:55Z",
+          "updated_at": "2026-11-26T16:50:55Z"
+        }
+      ]
+    },
+    {
+      "number": 21,
+      "title": "Align the Mobile GitHub account guidance with the maintainer default",
+      "body": "## Acceptance criteria\n\n- Use the verified maintainer identity for authorized work.\n- Reserve the alternate account for isolated tests and keep the external contribution approval rules.\n- Update only the repository instructions.",
+      "state": "closed",
+      "author": "qtaghdi",
+      "assignees": [],
+      "labels": [
+        {
+          "name": "documentation",
+          "color": "0075ca",
+          "description": "Improvements or additions to documentation"
+        },
+        {
+          "name": "status: in progress",
+          "color": "FBCA04",
+          "description": "Work is actively claimed by a maintainer or session."
+        }
+      ],
+      "createdAt": "2026-11-26T16:08:12Z",
+      "closedAt": "2026-11-26T16:16:36Z",
+      "updatedAt": "2026-11-26T16:16:36Z",
+      "url": "https://github.com/Oddmash/oddmash-mobile/issues/21",
+      "comments": [
+        {
+          "id": 7197229910,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/21#issuecomment-7197229910",
+          "author": "qtaghdi",
+          "body": "Claiming the GitHub account paragraph in AGENTS.md on docs/maintainer-account-guidance. The landing is independently being published from its approved revision.",
+          "created_at": "2026-11-26T16:08:13Z",
+          "updated_at": "2026-11-26T16:08:13Z"
+        }
+      ]
+    },
+    {
+      "number": 18,
+      "title": "feat: give the alpha landing a live product-first introduction",
+      "body": "## Current behavior\n\nThe alpha site presents the demos and large code snippets in a single document column. The first viewport gives no concrete view of a working interaction and the next action is a repository link.\n\n## Acceptance criteria\n\n- [ ] The first viewport identifies the React use case and shows an interactive Mobile component.\n- [ ] The in-site quickstart and all four existing demos remain usable and discoverable.\n- [ ] Check desktop and mobile renders, narrow text reflow, keyboard controls, and the three-engine browser suite.\n",
+      "state": "closed",
+      "author": "arvynoo",
+      "assignees": [],
+      "labels": [
+        {
+          "name": "documentation",
+          "color": "0075ca",
+          "description": "Improvements or additions to documentation"
+        },
+        {
+          "name": "enhancement",
+          "color": "a2eeef",
+          "description": "New feature or request"
+        },
+        {
+          "name": "status: in progress",
+          "color": "FBCA04",
+          "description": "Work is actively claimed by a maintainer or session."
+        }
+      ],
+      "createdAt": "2026-11-26T15:35:57Z",
+      "closedAt": "2026-11-26T16:09:22Z",
+      "updatedAt": "2026-11-26T16:09:22Z",
+      "url": "https://github.com/Oddmash/oddmash-mobile/issues/18",
+      "comments": [
+        {
+          "id": 7196498915,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/18#issuecomment-7196498915",
+          "author": "arvynoo",
+          "body": "Claim: Mobile landing redesign session, November 27 KST. Implementation branch feat/mobile-live-landing. Scope the demo shell, landing styles, site metadata and browser coverage. Preserve all public library exports.",
+          "created_at": "2026-11-26T15:36:17Z",
+          "updated_at": "2026-11-26T15:36:17Z"
+        },
+        {
+          "id": 7197255590,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/18#issuecomment-7197255590",
+          "author": "qtaghdi",
+          "body": "Published via #19 and #20. The Pages workflow for main at 9cf046f passed. Verified the public GitHub icon and destination, keyboard archive/restore, copyable Quickstart, all four live component flows, and all five documentation links. Physical devices and assistive technology remain tracked in #7.",
+          "created_at": "2026-11-26T16:09:21Z",
+          "updated_at": "2026-11-26T16:09:21Z"
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "title": "docs: document the alpha browser verification suite",
+      "body": "## Acceptance criteria\n\n- [x] Add a contributor-facing browser verification page that shows how to run the alpha browser suite and explains which browsers cover the shared interactions and the Chromium-only touch input scenario.\n\n## Verification\n\nUse this documentation-only change for the first live Oddmash Mobile Phase 4 smoke test after the runtime and alpha CI land. Target protected develop from the same repository. Record the successful GitHub Actions verify check, Lead's exact-head approval, and the merge actor.\n\n",
+      "state": "closed",
+      "author": "qtaghdi",
+      "assignees": [],
+      "labels": null,
+      "createdAt": "2026-11-26T14:02:54Z",
+      "closedAt": "2026-11-26T15:29:54Z",
+      "updatedAt": "2026-11-26T15:31:36Z",
+      "url": "https://github.com/Oddmash/oddmash-mobile/issues/12",
+      "comments": [
+        {
+          "id": 7195480198,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/12#issuecomment-7195480198",
+          "author": "arvynoo",
+          "body": "Live Phase 4 verification passed on PR #13. GitHub Actions verify passed on head `b72aa4a4481a68210700c46c8f00e5f8bbd329b1` in run 45843045444. Lead approved that head, and GitHub records `oddmash-lead[bot]` as the merge actor into protected develop at `619c4fed73e3a955ea4193a891635d554ac6fdec`. The v0.28.1 production workflow completed in run 45842806180.\n",
+          "created_at": "2026-11-26T14:53:22Z",
+          "updated_at": "2026-11-26T14:53:22Z"
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "title": "docs: link the Oddmash GitHub account policy",
+      "body": "## Documentation affected\n\nAGENTS.md\n\n## Current gap\n\nThe repository needs explicit account guidance for AI work, maintainer decisions, and automated review.\n\n## Proposed changes\n\nAdd the organization account policy to the repository's agent instructions.\n\n## Acceptance criteria\n\n- [x] The repository's agent instructions identify the AI development account and link the organization account policy.\n- [x] The instructions identify the maintainer for final approval and merge of external PRs, and preserve existing repository-specific guidance.\n",
+      "state": "closed",
+      "author": "arvynoo",
+      "assignees": [],
+      "labels": [
+        {
+          "name": "documentation",
+          "color": "0075ca",
+          "description": "Improvements or additions to documentation"
+        }
+      ],
+      "createdAt": "2026-11-26T12:33:52Z",
+      "closedAt": "2026-11-26T15:29:52Z",
+      "updatedAt": "2026-11-26T15:31:48Z",
+      "url": "https://github.com/Oddmash/oddmash-mobile/issues/8",
+      "comments": [
+        {
+          "id": 7192165596,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/8#issuecomment-7192165596",
+          "author": "arvynoo",
+          "body": "Claiming implementation in the account-policy session (2026-11-26). Branch: `docs/github-account-policy` targeting `develop`. Scope: AGENTS.md.",
+          "created_at": "2026-11-26T12:33:53Z",
+          "updated_at": "2026-11-26T12:33:53Z"
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "title": "feat: M5: prepare alpha package and documentation site",
+      "body": "## Acceptance criteria\n- [ ] Runnable documentation, npm tarball smoke check, support limits, CI and release gate.\n\nDevelopment targets develop. No production publishing before verified gates.",
+      "state": "open",
+      "author": "qtaghdi",
+      "assignees": [],
+      "labels": [
+        {
+          "name": "documentation",
+          "color": "0075ca",
+          "description": "Improvements or additions to documentation"
+        }
+      ],
+      "createdAt": "2026-11-26T12:27:13Z",
+      "closedAt": null,
+      "updatedAt": "2026-11-27T01:26:55Z",
+      "url": "https://github.com/Oddmash/oddmash-mobile/issues/7",
+      "comments": [
+        {
+          "id": 7192024034,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/7#issuecomment-7192024034",
+          "author": "qtaghdi",
+          "body": "Claim: mobile alpha implementation session, 2026-11-26 KST. Scope is the milestone acceptance criteria; branch `feat/mobile-alpha-foundation` targets develop. No production release before verification.",
+          "created_at": "2026-11-26T12:27:23Z",
+          "updated_at": "2026-11-26T12:27:23Z"
+        },
+        {
+          "id": 7196395610,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/7#issuecomment-7196395610",
+          "author": "arvynoo",
+          "body": "The public alpha documentation preview is live at https://oddmash.github.io/oddmash-mobile/ from main commit `2adca864868d83127838fc95a52db06d736758f4`. Pages deployment [45849647399](https://github.com/Oddmash/oddmash-mobile/actions/runs/45849647399) succeeded. The public demo passed a Chromium and WebKit smoke check, and all five direct Markdown links returned HTTP 200 with contents matching the source.\n\nThe unpublished `@oddmash/mobile-interactions` tarball was installed in React 18 and 19, and the copyable examples were built and exercised in Next.js. The browser suite passed 55 cases with two browser-specific skips. Desktop accessibility checks, bundle and frame readings, and the paired filtering and inbox measurements are documented in [Alpha verification](https://oddmash.github.io/oddmash-mobile/docs/alpha-verification.md).\n\nThis issue stays open for physical iOS/Android testing, VoiceOver/TalkBack, a release performance budget, and npm publication. The example focus behavior after an application removes an archived row is also a follow-up from PR #17. The public site is the documentation preview.\n",
+          "created_at": "2026-11-26T15:31:50Z",
+          "updated_at": "2026-11-26T15:31:50Z"
+        },
+        {
+          "id": 7206559238,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/7#issuecomment-7206559238",
+          "author": "qtaghdi",
+          "body": "Resuming #7 under maintainer direction. Scope: current-candidate package and performance evidence, focus when the consumer removes a row, real device or emulator accessibility checks, and alpha registry release after the documented gate. Branch fix/mobile-alpha-release-verification.",
+          "created_at": "2026-11-27T00:33:24Z",
+          "updated_at": "2026-11-27T00:33:24Z"
+        },
+        {
+          "id": 7207085134,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/7#issuecomment-7207085134",
+          "author": "qtaghdi",
+          "body": "Release verification update for #7.\n\n- The archive example's focus restoration, typed CSS export, device checklist and the enforced gzip budget are on main via #31 and #32. The public documentation preview is live.\n- Pixel 8 emulator, Android 16 API 36, WebView 133.0.6943.137, TalkBack 16.0.0.738667889. Demo tasks exercised all six components. TalkBack's speech display showed the archive confirmation and Next message in a React 18 consumer. Adaptive Dialog retained the edited value and focus through rotation with the keyboard open. The initial Refresh behavior lost accessibility focus while pending.\n- The Refresh fix in #33 retained focus while preserving the in-flight guard. The run observed the pending and completion messages, then a failed request and successful retry in a clean package consumer. The failure text was readable on the next TalkBack item. The WebView baseline also verified that introducing a second touch canceled a pull without starting a request.\n- The candidate `@oddmash/mobile-interactions@0.1.0-alpha.0` built in clean React 18 and 19 projects and passed `npm publish --dry-run --access public --tag alpha`. Archive SHA-256 `5f967b7d2db7096c16a9542eb332d6e703ae5758ff4871508928526877ebb396`. Public npm lookup returned 404. Registry authentication with publish access is still needed.\n\nRemaining for #7: standalone Android Chrome and physical Android, iOS Safari/PWA with VoiceOver on hardware, the remaining device checks, and the verified public npm alpha. Apple does not provide VoiceOver in iOS Simulator.\n\nPublished the reviewed fix and the updated device guide via #34 at main commit `06acb22f14358615147f5285d9d6ec88d386c61f`. [Pages run 45922477806](https://github.com/Oddmash/oddmash-mobile/actions/runs/45922477806) succeeded. The live demo again retained Refresh focus and displayed pending and success through TalkBack in Android WebView. The public Markdown matches main. Releasing the active claim while device access and npm authentication are pending.\n",
+          "created_at": "2026-11-27T01:11:19Z",
+          "updated_at": "2026-11-27T01:26:53Z"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "title": "feat: M4: implement Swipe Action and Pull to Refresh",
+      "body": "## Acceptance criteria\n- [x] Keyboard alternatives, pointer cancellation, async refresh and gesture isolation.\n\nDevelopment targets develop. No production publishing before verified gates.\n",
+      "state": "closed",
+      "author": "qtaghdi",
+      "assignees": [],
+      "labels": [
+        {
+          "name": "enhancement",
+          "color": "a2eeef",
+          "description": "New feature or request"
+        }
+      ],
+      "createdAt": "2026-11-26T12:27:12Z",
+      "closedAt": "2026-11-26T15:29:51Z",
+      "updatedAt": "2026-11-26T15:31:44Z",
+      "url": "https://github.com/Oddmash/oddmash-mobile/issues/6",
+      "comments": [
+        {
+          "id": 7192023600,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/6#issuecomment-7192023600",
+          "author": "qtaghdi",
+          "body": "Claim: mobile alpha implementation session, 2026-11-26 KST. Scope is the milestone acceptance criteria; branch `feat/mobile-alpha-foundation` targets develop. No production release before verification.",
+          "created_at": "2026-11-26T12:27:22Z",
+          "updated_at": "2026-11-26T12:27:22Z"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "feat: M3: implement Adaptive Dialog",
+      "body": "## Acceptance criteria\n- [x] Responsive sheet/dialog presentation, stable content and SSR-safe mode.\n\nDevelopment targets develop. No production publishing before verified gates.\n",
+      "state": "closed",
+      "author": "qtaghdi",
+      "assignees": [],
+      "labels": [
+        {
+          "name": "enhancement",
+          "color": "a2eeef",
+          "description": "New feature or request"
+        }
+      ],
+      "createdAt": "2026-11-26T12:27:11Z",
+      "closedAt": "2026-11-26T15:29:49Z",
+      "updatedAt": "2026-11-26T15:31:42Z",
+      "url": "https://github.com/Oddmash/oddmash-mobile/issues/5",
+      "comments": [
+        {
+          "id": 7192023160,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/5#issuecomment-7192023160",
+          "author": "qtaghdi",
+          "body": "Claim: mobile alpha implementation session, 2026-11-26 KST. Scope is the milestone acceptance criteria; branch `feat/mobile-alpha-foundation` targets develop. No production release before verification.",
+          "created_at": "2026-11-26T12:27:21Z",
+          "updated_at": "2026-11-26T12:27:21Z"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "feat: M2: implement accessible Bottom Sheet",
+      "body": "## Acceptance criteria\n- [x] Controlled state, snap points, cancelable handle drag, modal focus and scroll lock, demos and tests.\n\nDevelopment targets develop. No production publishing before verified gates.\n",
+      "state": "closed",
+      "author": "qtaghdi",
+      "assignees": [],
+      "labels": [
+        {
+          "name": "enhancement",
+          "color": "a2eeef",
+          "description": "New feature or request"
+        }
+      ],
+      "createdAt": "2026-11-26T12:27:09Z",
+      "closedAt": "2026-11-26T15:29:47Z",
+      "updatedAt": "2026-11-26T15:31:40Z",
+      "url": "https://github.com/Oddmash/oddmash-mobile/issues/4",
+      "comments": [
+        {
+          "id": 7192022683,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/4#issuecomment-7192022683",
+          "author": "qtaghdi",
+          "body": "Claim: mobile alpha implementation session, 2026-11-26 KST. Scope is the milestone acceptance criteria; branch `feat/mobile-alpha-foundation` targets develop. No production release before verification.",
+          "created_at": "2026-11-26T12:27:19Z",
+          "updated_at": "2026-11-26T12:27:19Z"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "feat: M1: initialize package and interaction foundations",
+      "body": "## Acceptance criteria\n- [x] Frozen dependency install, package exports, typecheck, gesture and viewport unit tests.\n\nDevelopment targets develop. No production publishing before verified gates.\n",
+      "state": "closed",
+      "author": "qtaghdi",
+      "assignees": [],
+      "labels": [
+        {
+          "name": "enhancement",
+          "color": "a2eeef",
+          "description": "New feature or request"
+        }
+      ],
+      "createdAt": "2026-11-26T12:27:08Z",
+      "closedAt": "2026-11-26T15:29:45Z",
+      "updatedAt": "2026-11-26T15:31:38Z",
+      "url": "https://github.com/Oddmash/oddmash-mobile/issues/3",
+      "comments": [
+        {
+          "id": 7192022301,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/3#issuecomment-7192022301",
+          "author": "qtaghdi",
+          "body": "Claim: mobile alpha implementation session, 2026-11-26 KST. Scope is the milestone acceptance criteria; branch `feat/mobile-alpha-foundation` targets develop. No production release before verification.",
+          "created_at": "2026-11-26T12:27:18Z",
+          "updated_at": "2026-11-26T12:27:18Z"
+        }
+      ]
+    },
+    {
+      "number": 1,
+      "title": "docs: establish product planning and MVP architecture",
+      "body": "## Scope\nEstablish a reviewable planning baseline before implementation.\n\n## Acceptance criteria\n- [x] Product brief, competitive alternatives, target audience and non-goals.\n- [x] Architecture and proposed public contracts.\n- [x] Prioritized component specifications and delivery roadmap.\n- [x] Browser, accessibility, performance and release gates.\n- [x] Open decisions and evidence gaps are explicit.\n\nNo implementation or npm publication in this issue.\n",
+      "state": "closed",
+      "author": "qtaghdi",
+      "assignees": [],
+      "labels": [
+        {
+          "name": "documentation",
+          "color": "0075ca",
+          "description": "Improvements or additions to documentation"
+        }
+      ],
+      "createdAt": "2026-11-26T12:20:53Z",
+      "closedAt": "2026-11-26T15:29:44Z",
+      "updatedAt": "2026-11-26T15:31:21Z",
+      "url": "https://github.com/Oddmash/oddmash-mobile/issues/1",
+      "comments": [
+        {
+          "id": 7191889342,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/1#issuecomment-7191889342",
+          "author": "qtaghdi",
+          "body": "Claim: Codex session 2026-11-26 mobile planning. Activity: documentation and architecture planning only. Branch: `docs/product-planning`. Paths: `README.md`, `AGENTS.md`, `docs/**`. No implementation or release changes.",
+          "created_at": "2026-11-26T12:21:04Z",
+          "updated_at": "2026-11-26T12:21:04Z"
+        },
+        {
+          "id": 7191961267,
+          "url": "https://github.com/Oddmash/oddmash-mobile/issues/1#issuecomment-7191961267",
+          "author": "qtaghdi",
+          "body": "Planning implementation complete at `99a1a209c8b34efc5d28e94204ffe90a1938ac09`. Verified all 12 new files against remote contents, plus all 10 index targets. PR #2 targets develop; independent review and integration remain pending. Releasing my documentation claim; do not implement before the planning review.",
+          "created_at": "2026-11-26T12:24:28Z",
+          "updated_at": "2026-11-26T12:24:28Z"
+        }
+      ]
+    }
+  ]
+}
