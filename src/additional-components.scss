@@ -22,7 +22,7 @@
   min-height: var(--om-semantic-control-height);
   padding: var(--om-semantic-space-xs) var(--om-semantic-space-sm);
   border: var(--om-semantic-border-width) solid var(--om-semantic-color-border);
-  border-radius: var(--om-semantic-radius-sm);
+  border-radius: var(--om-radius-control, var(--om-semantic-radius-sm));
   background: var(--om-semantic-color-bg);
 
   &:invalid:user-invalid,
@@ -455,7 +455,7 @@ select.om-select {
     overscroll-behavior: contain;
     list-style: none;
     border: var(--om-semantic-border-width) solid var(--om-semantic-color-border);
-    border-radius: var(--om-semantic-radius-md);
+    border-radius: var(--om-radius-menu, var(--om-semantic-radius-md));
     background: var(--om-semantic-color-surface);
     box-shadow: var(--om-semantic-shadow);
     color: var(--om-semantic-color-text);
