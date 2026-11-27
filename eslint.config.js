@@ -1,2 +1,2 @@
 import tseslint from 'typescript-eslint';
-export default tseslint.config({ ignores: ['dist/**', 'demo-dist/**', 'src/generated/**'] }, ...tseslint.configs.recommended);
+export default tseslint.config({ ignores: ['dist/**', 'demo-dist/**', 'src/generated/**', 'packages/mobile/**'] }, ...tseslint.configs.recommended);
