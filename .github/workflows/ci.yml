@@ -28,6 +28,7 @@ jobs:
       full: ${{ steps.classify.outputs.full }}
       browser: ${{ steps.classify.outputs.browser }}
       playwright: ${{ steps.playwright.outputs.version }}
+      mobile: ${{ steps.mobile.outputs.required }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
@@ -42,6 +43,23 @@ jobs:
         run: node scripts/ci-browser-scope.mjs
       - id: playwright
         run: node scripts/ci-playwright-version.mjs
+      - id: mobile
+        env:
+          CI_EVENT: ${{ github.event_name }}
+          CI_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "$CI_EVENT" != pull_request ]; then
+            echo required=true >> "$GITHUB_OUTPUT"
+          else
+            git diff --no-renames --name-only "$CI_BASE_SHA" HEAD > "$RUNNER_TEMP/mobile-scope-paths"
+            if grep -Eq '^(packages/mobile/|src/|tokens/|scripts/|package.json$|pnpm-lock.yaml$|pnpm-workspace.yaml$|tsup\.config\.ts$|tsconfig\.json$|eslint\.config\.js$|\.github/workflows/ci\.yml$)' "$RUNNER_TEMP/mobile-scope-paths"; then
+              echo required=true >> "$GITHUB_OUTPUT"
+            else
+              echo required=false >> "$GITHUB_OUTPUT"
+            fi
+          fi
   quality:
     needs: [scope, browser-scope]
     if: needs.scope.outputs.runtime == 'true' || needs.browser-scope.outputs.full == 'true'
@@ -172,8 +190,42 @@ jobs:
           name: browser-results-react-${{ matrix.react }}-${{ matrix.browser }}
           path: ${{ env.CHECK_DIR }}/test-results/
 
+  mobile:
+    needs: [browser-scope]
+    if: needs.browser-scope.outputs.mobile == 'true'
+    runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v${{ needs.browser-scope.outputs.playwright }}-noble
+      options: --shm-size=1g
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: |
+            pnpm-lock.yaml
+            packages/mobile/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm run build
+      - run: pnpm exec eslint packages/mobile
+      - run: pnpm --filter @oddmash/mobile-interactions run verify
+      - run: pnpm --filter @oddmash/mobile-interactions pack --pack-destination "$RUNNER_TEMP"
+      - name: Run Mobile browser tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          home_owner=$(stat -c '%u:%g' /github/home)
+          chown "$(id -u):$(id -g)" /github/home
+          trap 'chown "$home_owner" /github/home' EXIT
+          pnpm --filter @oddmash/mobile-interactions run test:browser
+
   verify:
-    needs: [scope, browser-scope, quality, browser]
+    needs: [scope, browser-scope, quality, browser, mobile]
     if: always()
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -186,6 +238,8 @@ jobs:
           RUN_BROWSER: ${{ (needs.scope.outputs.runtime == 'true' || needs.browser-scope.outputs.full == 'true') && needs.browser-scope.outputs.browser == 'true' }}
           QUALITY_RESULT: ${{ needs.quality.result }}
           BROWSER_RESULT: ${{ needs.browser.result }}
+          RUN_MOBILE: ${{ needs.browser-scope.outputs.mobile }}
+          MOBILE_RESULT: ${{ needs.mobile.result }}
         run: |
           set -e
           test "$SCOPE_RESULT" = success
@@ -193,3 +247,4 @@ jobs:
           verify() { case "$1:$2" in true:success|false:skipped) return 0 ;; *) return 1 ;; esac; }
           verify "$RUN_QUALITY" "$QUALITY_RESULT"
           verify "$RUN_BROWSER" "$BROWSER_RESULT"
+          verify "$RUN_MOBILE" "$MOBILE_RESULT"
