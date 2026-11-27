@@ -1,0 +1,11 @@
+:where([data-om-radius='soft']) {
+  --om-radius-control: var(--om-semantic-radius-soft-control);
+  --om-radius-menu: var(--om-semantic-radius-soft-menu);
+  --om-radius-surface: var(--om-semantic-radius-soft-surface);
+}
+
+:where([data-om-radius='default']) {
+  --om-radius-control: initial;
+  --om-radius-menu: initial;
+  --om-radius-surface: initial;
+}

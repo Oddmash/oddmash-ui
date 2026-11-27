@@ -24,6 +24,10 @@
   background: var(--om-semantic-color-surface);
   color: var(--om-semantic-color-text);
   font: var(--om-semantic-font-size) / var(--om-semantic-font-line) var(--om-semantic-font-family);
+  &-today.om-button {
+    // An enabled Today button needs readable text immediately.
+    transition-property: background-color, border-color, color;
+  }
   &-header {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;

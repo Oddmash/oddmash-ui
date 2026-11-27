@@ -21,6 +21,10 @@ For code or build changes, run the relevant subset of `pnpm run tokens:check`, `
 
 Use a focused branch and reviewable commits for each change. Target `develop` for feature, fix, test, documentation, and maintenance pull requests. Use `main` for consolidated release pull requests from `develop`; maintainer-authorized release hotfixes are the exception. Verify the relevant CI before merging. For an authorized npm release, use the GitHub Release and OIDC workflow documented in `CONTRIBUTING.md`.
 
+## GitHub account use
+
+Follow the [Oddmash GitHub account policy](https://github.com/Oddmash/.github/blob/main/docs/github-account-policy.md). Use `qtaghdi` for authorized GitHub work, including AI-assisted commits, issues, and pull requests. Use command-scoped authentication and a separate checkout or worktree per session. Reserve `arvynoo` for explicit tests that require an isolated second account. Only `qtaghdi` gives final approval to and manually merges external contributions.
+
 ## Public contribution language
 
 Write issue and pull request titles, bodies, public review discussions, commit messages, and changelog entries in English. Use the shared English issue and PR templates from [Oddmash](https://github.com/Oddmash/.github/blob/main/CONTRIBUTING.md). Preserve existing product documentation localization and provide translation help when needed.

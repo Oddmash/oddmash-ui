@@ -400,6 +400,13 @@
           "unit": "px"
         }
       },
+      "soft-control": {
+        "$type": "dimension",
+        "$value": {
+          "value": 10,
+          "unit": "px"
+        }
+      },
       "lg": {
         "$type": "dimension",
         "$value": {

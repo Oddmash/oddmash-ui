@@ -5,6 +5,21 @@ import { previewTranslations } from './preview-translations';
 type Translation = [ko: string, ja: string, simplifiedChinese: string];
 
 export const translations: Record<string, Translation> = {
+  Close: ['닫기', '閉じる', '关闭'],
+  Unavailable: ['사용할 수 없음', '利用不可', '不可用'],
+  'Use soft corners': ['부드러운 모서리 적용하기', '丸みのある角を使う', '使用柔和圆角'],
+  'Scoped corner styles': ['영역별 모서리 스타일', '範囲を指定した角のスタイル', '限定范围的圆角样式'],
+  'Add data-om-radius="soft" to a section or the page root. Use data-om-radius="default" on a nested section to restore the default corners.': ['섹션이나 페이지 루트에 data-om-radius="soft"를 추가하세요. 하위 섹션에 data-om-radius="default"를 지정하면 기본 모서리로 돌아갑니다.', 'セクションまたはページのルートに data-om-radius="soft" を追加します。入れ子のセクションに data-om-radius="default" を指定すると、標準の角に戻ります。', '在区块或页面根元素上添加 data-om-radius="soft"。在嵌套区块上使用 data-om-radius="default" 可恢复默认圆角。'],
+  'For a Dialog in a soft section, pass an element inside that section as the container. Select menus already render inside their own section.': ['부드러운 모서리를 적용한 섹션에서 Dialog를 열려면 그 섹션 안의 요소를 container로 전달하세요. Select 메뉴는 원래 Select가 있는 영역 안에 표시됩니다.', '丸みのある角を適用したセクション内の Dialog には、そのセクション内の要素を container として渡します。Select のメニューは Select と同じ範囲に表示されます。', '柔和圆角区块中的 Dialog 应将该区块内的元素传给 container。Select 菜单会显示在 Select 所在的区块内。'],
+  'Corner styles': ['모서리 스타일', '角のスタイル', '圆角样式'],
+  'Compare the default and soft corners on the same controls.': ['같은 컨트롤에서 기본 모서리와 부드러운 모서리를 비교합니다.', '同じコントロールで標準の角と丸みのある角を比較します。', '在同一组控件中比较默认圆角与柔和圆角。'],
+  'Default corners': ['기본 모서리', '標準の角', '默认圆角'],
+  'Soft corners': ['부드러운 모서리', '丸みのある角', '柔和圆角'],
+  'Invalid project name': ['잘못된 프로젝트 이름', '無効なプロジェクト名', '无效的项目名称'],
+  'Update the project name.': ['프로젝트 이름을 수정합니다.', 'プロジェクト名を更新します。', '更新项目名称。'],
+  'Choose the scroll container whose content should stay aligned. On the document root, the gutter stays reserved while Dialog locks body scrolling. Other scroll containers keep their own gutter.': ['콘텐츠 정렬을 유지할 스크롤 컨테이너를 선택하세요. 문서 루트의 여백은 Dialog가 본문 스크롤을 잠근 동안에도 유지됩니다. 다른 스크롤 컨테이너는 각자의 여백을 유지합니다.', '内容の位置を保つスクロールコンテナーを選びます。文書ルートの余白は Dialog が body のスクロールをロックしている間も確保されます。他のスクロールコンテナーは自身の余白を維持します。', '选择需要保持内容对齐的滚动容器。Dialog 锁定页面滚动时，文档根元素仍会预留滚动条空间。其他滚动容器各自保留自己的空间。'],
+  'Stable scrollbar space': ['스크롤바 공간 유지', 'スクロールバー領域の確保', '保留滚动条空间'],
+  'Add the class to the document root or to an existing scroll container. Classic scrollbars reserve space. Overlay scrollbars take no extra space.': ['문서 루트 또는 기존 스크롤 컨테이너에 클래스를 추가하세요. 일반 스크롤바는 공간을 확보하며 오버레이 스크롤바는 추가 공간을 차지하지 않습니다.', 'ドキュメントのルートまたは既存のスクロールコンテナーにクラスを追加します。通常のスクロールバーには領域を確保し、オーバーレイには余白を追加しません。', '将此类添加到文档根元素或现有滚动容器。经典滚动条会预留空间，覆盖式滚动条不会占用额外空间。'],
   'Static HTML tooltip': ['정적 HTML 툴팁', '静的 HTML ツールチップ', '静态 HTML 工具提示'],
   'Load the package stylesheet. In a package-aware build, import the controller, attach it to the native trigger and hidden panel, and call destroy before removing or replacing the elements.': ['패키지 스타일을 불러오세요. 패키지를 해석하는 빌드에서 컨트롤러를 가져와 기본 트리거와 숨겨진 패널에 연결하고 요소를 제거하거나 교체하기 전에 destroy를 호출하세요.', 'パッケージのスタイルシートを読み込んでください。パッケージ対応のビルドでコントローラーをインポートし、ネイティブのトリガーと非表示のパネルに接続します。要素を削除または置換する前に destroy を呼び出します。', '加载包的样式表。在支持包解析的构建中导入控制器，将其连接到原生触发器和隐藏面板，并在移除或替换元素之前调用 destroy。'],
   'Component reference': ['컴포넌트 참고 문서', 'コンポーネントリファレンス', '组件参考'],
@@ -680,11 +695,11 @@ export const translations: Record<string, Translation> = {
       'ラベルを常に表示し、送信前に入力条件を伝えます。',
       '始终显示标签，并在提交前说明输入要求。',
     ],
-  'Pair htmlFor and id. Use aria-invalid for errors and aria-describedby for hints. A placeholder is not a replacement for a label.':
+  'Pair htmlFor and id. Use aria-invalid for errors and aria-describedby for hints. A placeholder is not a replacement for a label. Keep leadingIcon decorative. Pass null to remove a dynamic icon while keeping the input focused.':
     [
-      'htmlFor와 id로 연결하세요. 오류에는 aria-invalid, 도움말에는 aria-describedby를 사용합니다.',
-      'htmlFor と id で結び付け、エラーには aria-invalid、補足には aria-describedby を使います。',
-      '用 htmlFor 和 id 关联标签，错误用 aria-invalid，提示用 aria-describedby。',
+      'htmlFor와 id로 연결하세요. 오류에는 aria-invalid, 도움말에는 aria-describedby를 사용합니다. leadingIcon은 장식에 사용하세요. 포커스를 유지한 채 아이콘을 숨기려면 null을 전달하세요.',
+      'htmlFor と id で結び付け、エラーには aria-invalid、補足には aria-describedby を使います。leadingIcon は装飾に使用してください。フォーカスを保ってアイコンを隠すには null を渡します。',
+      '用 htmlFor 和 id 关联标签，错误用 aria-invalid，提示用 aria-describedby。leadingIcon 用于装饰。传入 null 可隐藏动态图标并保持输入框焦点。',
     ],
   'Group related content and controls.': [
     '관련 정보와 컨트롤을 한곳에 묶습니다.',

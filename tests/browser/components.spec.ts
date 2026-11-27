@@ -211,12 +211,30 @@ const previewChecks = {
     await page.keyboard.press('Enter');
     await expect(preview.getByRole('status')).toHaveCount(0);
   },
-  input: async (preview) => {
+  input: async (preview, page, browserName) => {
     const name = preview.getByRole('textbox', { name: 'Project name' });
+    const repository = preview.getByRole('textbox', { name: 'Repository URL' });
+    const icon = preview.locator('.om-input-leading-icon');
+    await expect(icon).toHaveAttribute('aria-hidden', 'true');
+    await page.getByRole('button', { name: 'Expand preview' }).press(tabToAllControls(browserName));
+    await expect(name).toBeFocused();
+    await expect(name).toHaveCSS('outline-style', 'solid');
     await name.fill('Oddmash');
     await expect(name).toHaveValue('Oddmash');
-    await expect(preview.getByRole('textbox', { name: 'Repository URL' }))
-      .toHaveAccessibleDescription('Enter a valid repository URL.');
+    await expect(repository).toHaveAccessibleDescription('Enter a valid repository URL.');
+
+    const iconFits = (rtl: boolean) => name.evaluate((element, rtl) => {
+      element.parentElement!.dir = rtl ? 'rtl' : 'ltr';
+      const input = element.getBoundingClientRect();
+      const inset = parseFloat(getComputedStyle(element).paddingInlineStart);
+      const icon = element.parentElement!.firstElementChild!.getBoundingClientRect();
+      return rtl ? icon.left > input.right - inset && icon.right < input.right
+        : icon.left > input.left && icon.right < input.left + inset;
+    }, rtl);
+    expect(await iconFits(false)).toBe(true);
+    expect(await iconFits(true)).toBe(true);
+    await name.evaluate(element => element.setAttribute('disabled', ''));
+    await expect(icon).toHaveCSS('opacity', '0.5');
   },
   card: async (preview) => {
     await expect(preview.getByRole('heading', { name: 'Interaction Inspector' })).toBeVisible();
@@ -316,12 +334,26 @@ const previewChecks = {
     await expect(overview).toHaveAttribute('aria-current', 'page');
     await expect(page).toHaveURL(/#\/breadcrumbs$/);
   },
-  pagination: async (preview, page) => {
+  pagination: async (preview, page, browserName) => {
     const pagination = preview.getByRole('navigation', { name: 'Example pagination' });
-    await expect(pagination.locator('[aria-current="page"]')).toHaveText('2');
-    await pagination.getByRole('button', { name: 'Page 3' }).click();
-    await expect(pagination.locator('[aria-current="page"]')).toHaveText('3');
-    await expect(page).toHaveURL(/#\/pagination$/);
+    const pageOne = pagination.getByRole('button', { name: 'Page 1', exact: true });
+    const pageTwo = pagination.getByRole('button', { name: 'Page 2', exact: true });
+    const pageThree = pagination.getByRole('button', { name: 'Page 3', exact: true });
+    const tab = tabToAllControls(browserName);
+    const docsUrl = page.url();
+
+    await expect(pageTwo).toHaveAttribute('aria-current', 'page');
+    await page.getByRole('button', { name: 'Expand preview' }).press(tab);
+    await expect(pageOne).toBeFocused();
+    await page.keyboard.press(tab);
+    await expect(pageTwo).toBeFocused();
+    await page.keyboard.press(tab);
+    await expect(pageThree).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(pageThree).toHaveAttribute('aria-current', 'page');
+    await expect(pagination.locator('[aria-current="page"]')).toHaveCount(1);
+    await expect(pageThree).toBeFocused();
+    await expect(page).toHaveURL(docsUrl);
   },
   'empty-state': async (preview) => {
     await expect(preview.getByText('No events captured')).toBeVisible();
@@ -397,4 +429,21 @@ test('toggle-group: localized examples and 320px layout', async ({ page }) => {
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
     await page.setViewportSize({ width: 1280, height: 800 });
   }
+});
+
+test('date-calendar Today button is fully opaque as soon as it is enabled', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.clock.setFixedTime(new Date('2026-11-18T12:00:00Z'));
+  await page.goto('/#/date-calendar');
+  const today = page.locator('.om-date-calendar').getByRole('button', { name: 'Today', exact: true }).first();
+  await expect(today).toBeEnabled();
+
+  await today.evaluate((button: HTMLButtonElement) => { button.disabled = true; });
+  await expect(today).toHaveCSS('opacity', '0.5');
+  // Read immediately after enabling so auto-retries cannot hide a fade.
+  const enabledOpacity = await today.evaluate((button: HTMLButtonElement) => {
+    button.disabled = false;
+    return getComputedStyle(button).opacity;
+  });
+  expect(enabledOpacity).toBe('1');
 });

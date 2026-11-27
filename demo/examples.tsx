@@ -27,6 +27,12 @@ import { getComponentPreviews } from './component-previews';
 import type { ExtendedComponentId } from './component-catalog';
 import { PreviewFrame } from './preview-frame';
 
+const projectIcon = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round">
+    <path d="M3 6h6l2 2h10v11H3z" />
+  </svg>
+);
+
 export const Arrow = () => <span aria-hidden="true">↗</span>;
 export const Code = ({
   children,
@@ -99,6 +105,7 @@ export const Example = ({ id }: { id: ComponentId }) => {
         <label htmlFor="example-project">{t('Project name')}</label>
         <Input
           id="example-project"
+          leadingIcon={projectIcon}
           placeholder={t('Your next idea')}
           aria-describedby="project-hint"
         />
