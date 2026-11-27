@@ -340,7 +340,7 @@ npm install /path/to/oddmash-ui-${packageVersion}.tgz`}</Code>
         <p className="body-copy">
           {t('Add the class to the document root or to an existing scroll container. Classic scrollbars reserve space. Overlay scrollbars take no extra space.')}
         </p>
-        <Code label="index.html">{'<html class="om-stable-scrollbar">\n  <!-- Your application -->\n</html>'}</Code>
+        <Code label={t('Stable scrollbar space')}>{'<html class="om-stable-scrollbar">\n  <!-- Your application -->\n</html>'}</Code>
       </section>
     </>
   );
