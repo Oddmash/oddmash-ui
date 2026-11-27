@@ -1,0 +1,11 @@
+.om-stable-scrollbar {
+  scrollbar-gutter: stable;
+}
+
+@supports (scrollbar-gutter: stable) {
+  // The root gutter stays reserved while Dialog locks the body.
+  // Cancel react-remove-scroll's extra physical margin in that case.
+  html.om-stable-scrollbar > body[data-scroll-locked] {
+    margin-right: 0 !important;
+  }
+}
