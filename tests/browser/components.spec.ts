@@ -334,12 +334,26 @@ const previewChecks = {
     await expect(overview).toHaveAttribute('aria-current', 'page');
     await expect(page).toHaveURL(/#\/breadcrumbs$/);
   },
-  pagination: async (preview, page) => {
+  pagination: async (preview, page, browserName) => {
     const pagination = preview.getByRole('navigation', { name: 'Example pagination' });
-    await expect(pagination.locator('[aria-current="page"]')).toHaveText('2');
-    await pagination.getByRole('button', { name: 'Page 3' }).click();
-    await expect(pagination.locator('[aria-current="page"]')).toHaveText('3');
-    await expect(page).toHaveURL(/#\/pagination$/);
+    const pageOne = pagination.getByRole('button', { name: 'Page 1', exact: true });
+    const pageTwo = pagination.getByRole('button', { name: 'Page 2', exact: true });
+    const pageThree = pagination.getByRole('button', { name: 'Page 3', exact: true });
+    const tab = tabToAllControls(browserName);
+    const docsUrl = page.url();
+
+    await expect(pageTwo).toHaveAttribute('aria-current', 'page');
+    await page.getByRole('button', { name: 'Expand preview' }).press(tab);
+    await expect(pageOne).toBeFocused();
+    await page.keyboard.press(tab);
+    await expect(pageTwo).toBeFocused();
+    await page.keyboard.press(tab);
+    await expect(pageThree).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(pageThree).toHaveAttribute('aria-current', 'page');
+    await expect(pagination.locator('[aria-current="page"]')).toHaveCount(1);
+    await expect(pageThree).toBeFocused();
+    await expect(page).toHaveURL(docsUrl);
   },
   'empty-state': async (preview) => {
     await expect(preview.getByText('No events captured')).toBeVisible();
