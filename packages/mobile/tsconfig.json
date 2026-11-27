@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "target": "ES2022", "module": "NodeNext", "moduleResolution": "NodeNext", "jsx": "react-jsx",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"], "strict": true, "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true, "verbatimModuleSyntax": true, "noEmit": true
+  },
+  "include": ["src", "tests", "demo", "playwright.config.ts"]
+}

@@ -1,0 +1,48 @@
+{
+  "name": "@oddmash/mobile-interactions",
+  "version": "0.1.0-alpha.0",
+  "description": "Mobile interaction primitives for React web applications.",
+  "type": "module",
+  "license": "MIT",
+  "packageManager": "pnpm@11.25.0",
+  "engines": { "node": ">=20" },
+  "repository": { "type": "git", "url": "https://github.com/Oddmash/oddmash-mobile.git" },
+  "files": ["dist", "README.md", "LICENSE"],
+  "publishConfig": { "access": "public", "tag": "alpha" },
+  "sideEffects": ["**/*.css"],
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./bottom-sheet": { "types": "./dist/bottom-sheet.d.ts", "import": "./dist/bottom-sheet.js" },
+    "./adaptive-dialog": { "types": "./dist/adaptive-dialog.d.ts", "import": "./dist/adaptive-dialog.js" },
+    "./swipe-action": { "types": "./dist/swipe-action.d.ts", "import": "./dist/swipe-action.js" },
+    "./pull-to-refresh": { "types": "./dist/pull-to-refresh.d.ts", "import": "./dist/pull-to-refresh.js" },
+    "./action-sheet": { "types": "./dist/action-sheet.d.ts", "import": "./dist/action-sheet.js" },
+    "./bottom-navigation": { "types": "./dist/bottom-navigation.d.ts", "import": "./dist/bottom-navigation.js" },
+    "./styles.css": { "types": "./dist/styles.css.d.ts", "default": "./dist/styles.css" }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "build": "tsc -p tsconfig.build.json && node scripts/copy-css.mjs",
+    "test": "vitest run",
+    "test:browser": "playwright test",
+    "dev": "vite --host 127.0.0.1",
+    "build:docs": "vite build --base ./ --outDir docs-dist && node scripts/build-docs-content.mjs",
+    "verify:budget": "node scripts/check-package-budget.mjs",
+    "verify": "pnpm typecheck && pnpm test && pnpm build && pnpm verify:budget && pnpm build:docs"
+  },
+  "peerDependencies": { "react": "^18.0.0 || ^19.0.0", "react-dom": "^18.0.0 || ^19.0.0" },
+  "devDependencies": {
+    "@oddmash/ui": "0.11.0",
+    "@playwright/test": "1.65.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@types/node": "26.6.6",
+    "jsdom": "29.1.1",
+    "markdown-it": "15.0.3",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "typescript": "6.0.3",
+    "vite": "8.3.8",
+    "vitest": "5.1.0"
+  }
+}
