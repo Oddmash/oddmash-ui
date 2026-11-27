@@ -1,0 +1,77 @@
+name: One-time Mobile record verification
+on:
+  push:
+    branches: [chore/mobile-history-import-runner]
+    paths: [.github/workflows/mobile-history-records.yml]
+permissions:
+  contents: write
+concurrency:
+  group: mobile-record-verification
+  cancel-in-progress: false
+jobs:
+  records:
+    if: github.repository == 'Oddmash/oddmash-ui' && github.ref == 'refs/heads/chore/mobile-history-import-runner'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: docs/mobile-history-records
+          fetch-depth: 0
+      - name: Verify original public records
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = 6f6fcf440471d59166ef92f7d1c9cc09439bf09c
+          mkdir -p "$RUNNER_TEMP/mobile-source-records"
+          python - <<'PY'
+          import json
+          import os
+          import urllib.request
+          from pathlib import Path
+          base = 'https://api.github.com/repos/Oddmash/oddmash-mobile'
+          def fetch_pages(path):
+              results = []
+              for page in range(1, 11):
+                  req = urllib.request.Request(f'{base}/{path}?per_page=100&page={page}', headers={'Accept': 'application/vnd.github+json', 'User-Agent': 'Oddmash-Mobile-Migration'})
+                  with urllib.request.urlopen(req, timeout=30) as response:
+                      data = json.load(response)
+                  if not isinstance(data, list):
+                      raise ValueError(path)
+                  results.extend(data)
+                  if len(data) < 100:
+                      return results
+              raise ValueError('pagination exceeded bound')
+          comments = {x['id']: x for x in fetch_pages('issues/comments')}
+          issues_path = Path('docs/archive/mobile/issues.json')
+          issues = json.loads(issues_path.read_text())
+          count = 0
+          for issue in issues['issues']:
+              for comment in issue['comments']:
+                  original = comments[comment['id']]
+                  assert original['body'] == comment['body'], comment['id']
+                  assert original['user']['login'] == comment['author'], comment['id']
+                  comment['created_at'] = original['created_at']
+                  comment['updated_at'] = original['updated_at']
+                  assert comment['created_at'] and comment['updated_at']
+                  count += 1
+          assert count == 20
+          issues_path.write_text(json.dumps(issues, indent=2, ensure_ascii=False) + '\n')
+          tags = fetch_pages('tags')
+          releases = fetch_pages('releases')
+          release_inventory = {
+              'source': 'Oddmash/oddmash-mobile',
+              'capturedAt': '2026-11-27',
+              'tags': [{'name': x['name'], 'sha': x['commit']['sha']} for x in tags],
+              'releases': [{'id': x['id'], 'tag': x['tag_name'], 'name': x['name'], 'body': x['body'], 'draft': x['draft'], 'prerelease': x['prerelease'], 'publishedAt': x['published_at'], 'url': x['html_url'], 'assets': [{'name': y['name'], 'size': y['size'], 'url': y['browser_download_url']} for y in x['assets']]} for x in releases]
+          }
+          Path('docs/archive/mobile/releases.json').write_text(json.dumps(release_inventory, indent=2, ensure_ascii=False) + '\n')
+          print(f'Verified {count} original issue comments, {len(tags)} tags, {len(releases)} releases')
+          PY
+          printf '\n## 한국어\n기존 Mobile 저장소의 이슈, PR 대화, 브랜치 및 릴리스 기록을 보존한 역사적 자료입니다.\n\n## 日本語\n旧 Mobile リポジトリの Issue、PR の議論、ブランチとリリースの履歴を保存した資料です。\n\n## 简体中文\n此归档保存原 Mobile 仓库的议题、PR 讨论、分支和发布记录。\n' >> docs/archive/mobile/README.md
+          git config user.name 'qtaghdi'
+          git config user.email '135234546+qtaghdi@users.noreply.github.com'
+          git add -- docs/archive/mobile/issues.json docs/archive/mobile/releases.json docs/archive/mobile/README.md
+          git diff --cached --check
+          git commit -m "docs: preserve original comment timestamps and release inventory"
+          git push origin HEAD:refs/heads/docs/mobile-history-records
