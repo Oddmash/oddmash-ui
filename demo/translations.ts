@@ -7,6 +7,10 @@ type Translation = [ko: string, ja: string, simplifiedChinese: string];
 export const translations: Record<string, Translation> = {
   Close: ['닫기', '閉じる', '关闭'],
   Unavailable: ['사용할 수 없음', '利用不可', '不可用'],
+  'Use soft corners': ['부드러운 모서리 적용하기', '丸みのある角を使う', '使用柔和圆角'],
+  'Scoped corner styles': ['영역별 모서리 스타일', '範囲を指定した角のスタイル', '限定范围的圆角样式'],
+  'Add data-om-radius="soft" to a section or the page root. Use data-om-radius="default" on a nested section to restore the default corners.': ['섹션이나 페이지 루트에 data-om-radius="soft"를 추가하세요. 하위 섹션에 data-om-radius="default"를 지정하면 기본 모서리로 돌아갑니다.', 'セクションまたはページのルートに data-om-radius="soft" を追加します。入れ子のセクションに data-om-radius="default" を指定すると、標準の角に戻ります。', '在区块或页面根元素上添加 data-om-radius="soft"。在嵌套区块上使用 data-om-radius="default" 可恢复默认圆角。'],
+  'For a Dialog in a soft section, pass an element inside that section as the container. Select menus already render inside their own section.': ['부드러운 모서리를 적용한 섹션에서 Dialog를 열려면 그 섹션 안의 요소를 container로 전달하세요. Select 메뉴는 원래 Select가 있는 영역 안에 표시됩니다.', '丸みのある角を適用したセクション内の Dialog には、そのセクション内の要素を container として渡します。Select のメニューは Select と同じ範囲に表示されます。', '柔和圆角区块中的 Dialog 应将该区块内的元素传给 container。Select 菜单会显示在 Select 所在的区块内。'],
   'Corner styles': ['모서리 스타일', '角のスタイル', '圆角样式'],
   'Compare the default and soft corners on the same controls.': ['같은 컨트롤에서 기본 모서리와 부드러운 모서리를 비교합니다.', '同じコントロールで標準の角と丸みのある角を比較します。', '在同一组控件中比较默认圆角与柔和圆角。'],
   'Default corners': ['기본 모서리', '標準の角', '默认圆角'],

@@ -1,5 +1,6 @@
 import { useId, useState } from 'react';
 import { Button, Card, Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, DialogTrigger, Input, Select } from '@oddmash/ui';
+import { Code } from './examples';
 import { useLocale } from './locale';
 import './radius-lab.scss';
 
@@ -44,9 +45,51 @@ const RadiusExample = ({ profile }: { profile: 'default' | 'soft' }) => {
   );
 };
 
-export const RadiusLab = () => (
-  <div className="radius-lab">
-    <RadiusExample profile="default" />
-    <RadiusExample profile="soft" />
-  </div>
-);
+const scopedRadiusExample = `import { useState } from 'react';
+import { Button, Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '@oddmash/ui';
+import '@oddmash/ui/styles.css';
+
+export function ProjectControls() {
+  const [portal, setPortal] = useState<HTMLDivElement | null>(null);
+
+  return (
+    <section data-om-radius="soft">
+      <Dialog>
+        <DialogTrigger asChild><Button>Edit project</Button></DialogTrigger>
+        {portal && (
+          <DialogContent container={portal} aria-describedby={undefined}>
+            <DialogTitle>Edit project</DialogTitle>
+            <DialogClose asChild><Button>Close</Button></DialogClose>
+          </DialogContent>
+        )}
+      </Dialog>
+      <div ref={setPortal} />
+      <div data-om-radius="default">
+        <Button variant="secondary">Reset project</Button>
+      </div>
+    </section>
+  );
+}`;
+
+export const RadiusLab = () => {
+  const { t } = useLocale();
+
+  return (
+    <>
+      <div className="radius-lab">
+        <RadiusExample profile="default" />
+        <RadiusExample profile="soft" />
+      </div>
+      <section className="doc-section">
+        <h2>{t('Use soft corners')}</h2>
+        <p>
+          {t('Add data-om-radius="soft" to a section or the page root. Use data-om-radius="default" on a nested section to restore the default corners.')}
+        </p>
+        <p>
+          {t('For a Dialog in a soft section, pass an element inside that section as the container. Select menus already render inside their own section.')}
+        </p>
+        <Code label={t('Scoped corner styles')}>{scopedRadiusExample}</Code>
+      </section>
+    </>
+  );
+};
