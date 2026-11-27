@@ -10,21 +10,21 @@ Preserve every existing public import, default appearance, ESM output, React 18/
 
 | Phase | Issue | Deliverable | Prerequisite |
 | --- | --- | --- | --- |
-| A | #186 | Visual and motion audit, baseline and prioritized inventory | Current develop |
-| B | #187 | Semantic motion roles and interruption policy | A |
-| B | #188 | Portable theme and scoped visual profiles | A; coordinate #172 and #104 |
-| C | #189 | Press, toggle and selection polish | Motion foundation; coordinate #104 |
-| C | #190 | Overlay and disclosure transitions | Motion foundation; coordinate #182 |
-| C | #191 | Feedback, notification and loading motion | Motion foundation |
-| D | #192 | Recipe registry and playground infrastructure | Motion plan and foundation |
-| D | #193 | Twelve independently runnable recipes in review batches | Registry; Mobile gestures after #195 |
-| E | #194 | Visual, motion, performance and compatibility gates | Baseline; validate each completed batch |
-| M1 | #195 | Import Mobile history and package, installable workspace | Clean current source/destination |
-| M2 | #196 | Unified docs, CI and release configuration | M1 |
-| M3 | #197 | Retained Mobile device/alpha verification gates | M1, M2 |
-| M4 | #198 | Historical records, redirects, backup, retirement | M1–M3 and verified destination |
+| A | [#186](https://github.com/Oddmash/oddmash-ui/issues/186) | Visual and motion audit, baseline and prioritized inventory | Current develop |
+| B | [#187](https://github.com/Oddmash/oddmash-ui/issues/187) | Semantic motion roles and interruption policy | A |
+| B | [#188](https://github.com/Oddmash/oddmash-ui/issues/188) | Portable theme and scoped visual profiles | A; coordinate [#172](https://github.com/Oddmash/oddmash-ui/issues/172) and [#104](https://github.com/Oddmash/oddmash-ui/issues/104) |
+| C | [#189](https://github.com/Oddmash/oddmash-ui/issues/189) | Press, toggle and selection polish | Motion foundation; coordinate [#104](https://github.com/Oddmash/oddmash-ui/issues/104) |
+| C | [#190](https://github.com/Oddmash/oddmash-ui/issues/190) | Overlay and disclosure transitions | Motion foundation; coordinate [#182](https://github.com/Oddmash/oddmash-ui/issues/182) |
+| C | [#191](https://github.com/Oddmash/oddmash-ui/issues/191) | Feedback, notification and loading motion | Motion foundation |
+| D | [#192](https://github.com/Oddmash/oddmash-ui/issues/192) | Recipe registry and playground infrastructure | Motion plan and foundation |
+| D | [#193](https://github.com/Oddmash/oddmash-ui/issues/193) | Twelve independently runnable recipes in review batches | Registry; Mobile gestures after [#195](https://github.com/Oddmash/oddmash-ui/issues/195) |
+| E | [#194](https://github.com/Oddmash/oddmash-ui/issues/194) | Visual, motion, performance and compatibility gates | Baseline; validate each completed batch |
+| M1 | [#195](https://github.com/Oddmash/oddmash-ui/issues/195) | Import Mobile history and package, installable workspace | Clean current source/destination |
+| M2 | [#196](https://github.com/Oddmash/oddmash-ui/issues/196) | Unified docs, CI and release configuration | M1 |
+| M3 | [#197](https://github.com/Oddmash/oddmash-ui/issues/197) | Retained Mobile device/alpha verification gates | M1, M2 |
+| M4 | [#198](https://github.com/Oddmash/oddmash-ui/issues/198) | Historical records, redirects, backup, retirement | M1–M3 and verified destination |
 
-Parent migration #183; parent gallery #184. Earlier design PR #185 is separate and must finish its existing review. Do not rewrite or duplicate active reviews.
+Parent migration [#183](https://github.com/Oddmash/oddmash-ui/issues/183); parent gallery [#184](https://github.com/Oddmash/oddmash-ui/issues/184). Earlier design PR [#185](https://github.com/Oddmash/oddmash-ui/pull/185) contains the gallery plan. Do not rewrite or duplicate active reviews.
 
 ## Implementation contracts
 
@@ -53,16 +53,16 @@ Retain package identity `@oddmash/mobile-interactions` and six existing exports:
 
 ## Verification and collaboration
 
-For every issue: inspect current develop and linked discussions, active claims and open PRs; claim the scoped work with status label and comment; use an isolated checkout, issue-linked feature branch, reviewable commits and develop target. Preserve pending external contributions #70 and #171 and any later contributor interest. Do not request repeated reviews.
+For every issue: inspect current develop and linked discussions, active claims and open PRs; claim the scoped work with status label and comment; use an isolated checkout, issue-linked feature branch, reviewable commits and develop target. Preserve pending external contributions [#70](https://github.com/Oddmash/oddmash-ui/pull/70) and [#171](https://github.com/Oddmash/oddmash-ui/pull/171) and any later contributor interest. Do not request repeated reviews.
 
 Use current local project commands and existing CI. Run token checks, typecheck, lint, unit tests, build, bundle checks, demo build and browser tests appropriate to changed surfaces. Verify both themes, 320/390px and desktop, keyboard/touch, forced colors, reduced motion, rapid input and interruptibility, focus and native form semantics. Test Chromium, Firefox and WebKit, standalone packed React 18/19 consumers and SSR. Record exact commit and honest actual results; physical device coverage is separate from emulation. A subjective design target is not evidence of quality.
 
 ## Migration safety and current handoff
 
-Source issue Oddmash/oddmash-mobile#7 has remaining physical Android/iOS, VoiceOver and registry authentication work. Preserve it and its complete discussion. Record all source issues, PRs, comments, branches, tags, release and deployment evidence. GitHub-native transfers where supported must be validated, and nontransferable records backed up. Deleting the source before verified migration risks losing historical PR links and public Pages URLs.
+Source issue [Oddmash/oddmash-mobile#7](https://github.com/Oddmash/oddmash-mobile/issues/7) has remaining physical Android/iOS, VoiceOver and registry authentication work. Preserve it and its complete discussion. Record all source issues, PRs, comments, branches, tags, release and deployment evidence. GitHub-native transfers where supported must be validated, and nontransferable records backed up. Deleting the source before verified migration risks losing historical PR links and public Pages URLs.
 
-The local checkout has unrelated uncommitted changes; the local Git credential is invalid and GitHub DNS is unavailable in the current session. The GitHub connector is authenticated as the maintainer but cannot perform a verified full-history import or repository retirement. No package code was imported, no issue or PR history was transferred, and no source repository was deleted. Resume with an isolated, authenticated checkout in a network-enabled environment. Confirm the latest source and destination refs before work. Do not archive or delete the original repository until #198 is verified.
+Track the active history-preserving workspace import in PR [#201](https://github.com/Oddmash/oddmash-ui/pull/201). The source repository must remain available until full archival records, documentation and deployment continuity are verified. Confirm the latest source and destination refs before work. Do not archive or delete the original repository until [#198](https://github.com/Oddmash/oddmash-ui/issues/198) is verified.
 
 ## Recommended first action for the next session
 
-Start #186 and #195 as independent work where claims and paths do not overlap. Check the current review status of #185 and preserve contributor PRs. Then execute the dependency table, splitting implementation into focused PRs instead of a single sweeping redesign. Release only with the existing approval and verification gates.
+Start [#186](https://github.com/Oddmash/oddmash-ui/issues/186) after checking active claims; coordinate Mobile integration through [#195](https://github.com/Oddmash/oddmash-ui/issues/195) and PR [#201](https://github.com/Oddmash/oddmash-ui/pull/201). Preserve contributor PRs. Then execute the dependency table, splitting implementation into focused PRs instead of a single sweeping redesign. Release only with the existing approval and verification gates.
