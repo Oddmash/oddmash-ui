@@ -28,3 +28,12 @@ Original branch names and exact Git commit SHAs are retained under the destinati
 | `main` | `mobile-history/main` | `a13ea7ac080baa9a2aec88234dcb8ac152715a02` |
 
 The maintainer has waived preserving the old standalone Pages site. Registry publication, real-device coverage, tags/releases inventory, and source retirement remain separate from this snapshot; do not claim they passed without evidence.
+
+## 한국어
+기존 Mobile 저장소의 이슈, PR 대화, 브랜치 및 릴리스 기록을 보존한 역사적 자료입니다.
+
+## 日本語
+旧 Mobile リポジトリの Issue、PR の議論、ブランチとリリースの履歴を保存した資料です。
+
+## 简体中文
+此归档保存原 Mobile 仓库的议题、PR 讨论、分支和发布记录。
