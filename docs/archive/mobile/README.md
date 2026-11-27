@@ -4,6 +4,7 @@ Source: Oddmash/oddmash-mobile. Captured 2026-11-27 before retirement.
 
 - [Issue records](issues.json): 12 issues, including the open alpha verification issue.
 - [Pull request records](pull-requests.json): 25 closed, merged PRs with discussions and original commit references.
+- [Release and tag inventory](releases.json): the source API returned no tags or releases. All 20 issue comment creation and update timestamps were verified against the original public GitHub API.
 - Active alpha follow-up: [Oddmash UI #197](https://github.com/Oddmash/oddmash-ui/issues/197). Migration and retirement: [#198](https://github.com/Oddmash/oddmash-ui/issues/198).
 
 Original branch names and exact Git commit SHAs are retained under the destination's `mobile-history/` namespace. All 16 destination refs and 25 PR head SHAs were verified against the source. Original Git commit author history is preserved; the archive records original issue/PR numbers, authors, bodies, review discussion, timestamps and state. Original GitHub URLs may become unavailable after source deletion. This is a historical record, not a recreation of native PRs or issues.
@@ -27,7 +28,7 @@ Original branch names and exact Git commit SHAs are retained under the destinati
 | `fix/refresh-talkback-focus` | `mobile-history/fix/refresh-talkback-focus` | `09fe48ded64fb1c9a1dc9b74060102b432e9ca96` |
 | `main` | `mobile-history/main` | `a13ea7ac080baa9a2aec88234dcb8ac152715a02` |
 
-The maintainer has waived preserving the old standalone Pages site. Registry publication, real-device coverage, tags/releases inventory, and source retirement remain separate from this snapshot; do not claim they passed without evidence.
+The maintainer has waived preserving the old standalone Pages site. Registry publication, real-device coverage and source retirement remain separate from this snapshot; do not claim they passed without evidence.
 
 ## 한국어
 기존 Mobile 저장소의 이슈, PR 대화, 브랜치 및 릴리스 기록을 보존한 역사적 자료입니다.
