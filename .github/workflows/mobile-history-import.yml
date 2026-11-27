@@ -1,0 +1,50 @@
+name: One-time Mobile history import
+on:
+  push:
+    branches:
+      - chore/mobile-history-import-runner
+    paths:
+      - .github/workflows/mobile-history-import.yml
+permissions:
+  contents: write
+concurrency:
+  group: mobile-history-import
+  cancel-in-progress: false
+jobs:
+  import:
+    if: github.repository == 'Oddmash/oddmash-ui' && github.ref == 'refs/heads/chore/mobile-history-import-runner'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          fetch-depth: 0
+      - name: Preserve Mobile history
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'qtaghdi'
+          git config user.email '135234546+qtaghdi@users.noreply.github.com'
+          git fetch origin refs/heads/develop:refs/remotes/origin/develop
+          git fetch --no-tags https://github.com/Oddmash/oddmash-mobile.git '+refs/heads/*:refs/remotes/mobile/*' '+refs/tags/*:refs/tags/mobile-history/*'
+          test "$(git rev-parse refs/remotes/mobile/develop)" = a453709b53f579746dd2d0b6b4b01d61236adf82
+          test "$(git rev-parse refs/remotes/mobile/main)" = a13ea7ac080baa9a2aec88234dcb8ac152715a02
+          git switch --create refactor/mobile-workspace-import refs/remotes/origin/develop
+          test ! -e packages/mobile
+          git subtree add --prefix=packages/mobile refs/remotes/mobile/develop -m "refactor: import Mobile package with original history"
+          if ! git merge-base --is-ancestor refs/remotes/mobile/main HEAD; then
+            git merge -s ours --no-ff --allow-unrelated-histories refs/remotes/mobile/main -m "chore: retain Mobile release history"
+          fi
+          test "$(git rev-parse HEAD:packages/mobile)" = "$(git rev-parse refs/remotes/mobile/develop^{tree})"
+          git merge-base --is-ancestor refs/remotes/mobile/develop HEAD
+          git merge-base --is-ancestor refs/remotes/mobile/main HEAD
+          git fsck --connectivity-only --no-dangling
+          git push origin HEAD:refs/heads/refactor/mobile-workspace-import
+          while IFS= read -r ref; do
+            name="${ref#refs/remotes/mobile/}"
+            git push origin "$ref:refs/heads/mobile-history/$name"
+          done < <(git for-each-ref --format='%(refname)' refs/remotes/mobile/)
+          while IFS= read -r ref; do
+            git push origin "$ref:$ref"
+          done < <(git for-each-ref --format='%(refname)' refs/tags/mobile-history/)
+          git ls-remote origin 'refs/heads/refactor/mobile-workspace-import' 'refs/heads/mobile-history/*' 'refs/tags/mobile-history/*'
