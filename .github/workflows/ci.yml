@@ -209,6 +209,7 @@ jobs:
             packages/mobile/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile --ignore-scripts
       - run: pnpm run build
+      - run: pnpm exec eslint packages/mobile
       - run: pnpm --filter @oddmash/mobile-interactions run verify
       - run: pnpm --filter @oddmash/mobile-interactions pack --pack-destination "$RUNNER_TEMP"
       - run: pnpm --filter @oddmash/mobile-interactions exec playwright install --with-deps chromium firefox webkit
