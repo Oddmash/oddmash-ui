@@ -37,6 +37,12 @@ export const pages = [
     description: 'Browse the design tokens and their CSS variables.',
   },
   {
+    id: 'radius',
+    title: 'Corner styles',
+    group: 'Foundations',
+    description: 'Compare the default and soft corners on the same controls.',
+  },
+  {
     id: 'button',
     title: 'Button',
     group: 'Components',

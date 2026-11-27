@@ -7,6 +7,7 @@
 @use 'toggle-group';
 @use 'date-picker';
 @use 'tooltip';
+@use 'radius-profile';
 
 .om-button,
 .om-input,
@@ -44,6 +45,9 @@
     cursor: not-allowed;
   }
 }
+.om-button:where(:not(.om-button--sm, .om-button--icon)) {
+  border-radius: var(--om-radius-control, var(--om-semantic-radius-sm));
+}
 .om-button--primary {
   background: var(--om-semantic-color-action);
   color: var(--om-semantic-color-on-action);
@@ -73,7 +77,7 @@
   min-width: 0;
   border: var(--om-semantic-border-width) var(--om-semantic-border-style)
     var(--om-semantic-color-border);
-  border-radius: var(--om-semantic-radius-sm);
+  border-radius: var(--om-radius-control, var(--om-semantic-radius-sm));
   padding: var(--om-semantic-space-xs) var(--om-semantic-space-sm);
   background: var(--om-semantic-color-bg);
   &::placeholder {
@@ -122,7 +126,7 @@
   padding: var(--om-semantic-space-xl);
   border: var(--om-semantic-border-width) var(--om-semantic-border-style)
     var(--om-semantic-color-border);
-  border-radius: var(--om-semantic-radius-lg);
+  border-radius: var(--om-radius-surface, var(--om-semantic-radius-lg));
   background: var(--om-semantic-color-surface);
   border-color: var(--om-semantic-color-border-subtle);
 }
@@ -225,7 +229,7 @@
   background: var(--om-semantic-color-surface);
   border: var(--om-semantic-border-width) var(--om-semantic-border-style)
     var(--om-semantic-color-border);
-  border-radius: var(--om-semantic-radius-lg);
+  border-radius: var(--om-radius-surface, var(--om-semantic-radius-lg));
   box-shadow: var(--om-semantic-shadow);
 }
 :is(

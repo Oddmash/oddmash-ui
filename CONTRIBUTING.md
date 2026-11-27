@@ -116,6 +116,10 @@ tooltip.destroy();
 
 Set `data-om-theme="light"` or `data-om-theme="dark"` on the document or a subtree. Applications own system preference and persistence. Load product overrides after the package CSS and override semantic variables rather than primitives. Shadow DOM consumers must inject the stylesheet and portal containers inside their root.
 
+Use `data-om-radius="soft"` on the application root or a subtree to round standard buttons, form controls, cards, dialog surfaces, and Select menus. The [Corner styles lab](https://oddmash.github.io/oddmash-ui/#/radius) shows both profiles in the active color theme. The soft profile uses 10px controls, 12px Select menus, and 16px cards and dialogs. Small and icon buttons, segmented controls, and round indicators keep their geometry.
+
+With a subtree profile, pass an element inside the subtree as the `container` for `DialogContent`. The Select menu is rendered within the Select subtree. Set `data-om-radius="default"` on a nested scope to restore the standard radii, or remove the attribute when there is no soft ancestor. To customize a soft scope, set `--om-radius-control`, `--om-radius-menu`, or `--om-radius-surface` on that scope after importing the package stylesheet.
+
 ## Verification
 
 | Command | Purpose |

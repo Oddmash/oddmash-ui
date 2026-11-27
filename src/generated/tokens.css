@@ -35,6 +35,7 @@
   --om-primitive-space-32: 32px;
   --om-primitive-radius-sm: 6px;
   --om-primitive-radius-md: 8px;
+  --om-primitive-radius-soft-control: 10px;
   --om-primitive-radius-lg: 12px;
   --om-primitive-radius-xl: 16px;
   --om-primitive-radius-2xl: 24px;
@@ -137,6 +138,9 @@
   --om-semantic-radius-xl: var(--om-primitive-radius-xl);
   --om-semantic-radius-2xl: var(--om-primitive-radius-2xl);
   --om-semantic-radius-pill: var(--om-primitive-radius-pill);
+  --om-semantic-radius-soft-control: var(--om-primitive-radius-soft-control);
+  --om-semantic-radius-soft-menu: var(--om-primitive-radius-lg);
+  --om-semantic-radius-soft-surface: var(--om-primitive-radius-xl);
   --om-semantic-font-family: var(--om-primitive-font-family);
   --om-semantic-font-size: var(--om-primitive-font-size-md);
   --om-semantic-font-small: var(--om-primitive-font-size-sm);
@@ -242,6 +246,7 @@
   --om-primitive-space-32: 32px;
   --om-primitive-radius-sm: 6px;
   --om-primitive-radius-md: 8px;
+  --om-primitive-radius-soft-control: 10px;
   --om-primitive-radius-lg: 12px;
   --om-primitive-radius-xl: 16px;
   --om-primitive-radius-2xl: 24px;
@@ -344,6 +349,9 @@
   --om-semantic-radius-xl: var(--om-primitive-radius-xl);
   --om-semantic-radius-2xl: var(--om-primitive-radius-2xl);
   --om-semantic-radius-pill: var(--om-primitive-radius-pill);
+  --om-semantic-radius-soft-control: var(--om-primitive-radius-soft-control);
+  --om-semantic-radius-soft-menu: var(--om-primitive-radius-lg);
+  --om-semantic-radius-soft-surface: var(--om-primitive-radius-xl);
   --om-semantic-font-family: var(--om-primitive-font-family);
   --om-semantic-font-size: var(--om-primitive-font-size-md);
   --om-semantic-font-small: var(--om-primitive-font-size-sm);
