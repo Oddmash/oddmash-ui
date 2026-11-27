@@ -23,7 +23,7 @@ Use a focused branch and reviewable commits for each change. Target `develop` fo
 
 ## GitHub account use
 
-Follow the [Oddmash GitHub account policy](https://github.com/Oddmash/.github/blob/main/docs/github-account-policy.md). Use `arvynoo` for AI-authored commits, issues and PRs with command-scoped authentication and a separate checkout or worktree per session. Only `qtaghdi` gives final approval to and manually merges external contributions.
+Follow the [Oddmash GitHub account policy](https://github.com/Oddmash/.github/blob/main/docs/github-account-policy.md). Use `qtaghdi` for authorized GitHub work, including AI-assisted commits, issues, and pull requests. Use command-scoped authentication and a separate checkout or worktree per session. Reserve `arvynoo` for explicit tests that require an isolated second account. Only `qtaghdi` gives final approval to and manually merges external contributions.
 
 ## Public contribution language
 
