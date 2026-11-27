@@ -194,6 +194,9 @@ jobs:
     needs: [browser-scope]
     if: needs.browser-scope.outputs.mobile == 'true'
     runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v${{ needs.browser-scope.outputs.playwright }}-noble
+      options: --shm-size=1g
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
@@ -212,8 +215,14 @@ jobs:
       - run: pnpm exec eslint packages/mobile
       - run: pnpm --filter @oddmash/mobile-interactions run verify
       - run: pnpm --filter @oddmash/mobile-interactions pack --pack-destination "$RUNNER_TEMP"
-      - run: pnpm --filter @oddmash/mobile-interactions exec playwright install --with-deps chromium firefox webkit
-      - run: pnpm --filter @oddmash/mobile-interactions run test:browser
+      - name: Run Mobile browser tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          home_owner=$(stat -c '%u:%g' /github/home)
+          chown "$(id -u):$(id -g)" /github/home
+          trap 'chown "$home_owner" /github/home' EXIT
+          pnpm --filter @oddmash/mobile-interactions run test:browser
 
   verify:
     needs: [scope, browser-scope, quality, browser, mobile]
