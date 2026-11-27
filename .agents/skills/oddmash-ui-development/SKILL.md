@@ -20,14 +20,14 @@ Use this workflow for substantive work in `Oddmash/oddmash-ui`. Treat the packag
 - JSON under `tokens/` is the source of truth. Do not hand-edit `src/generated/` or `dist/`.
 - Put raw palette and scale values in `tokens/primitive.json`. Put intent-based aliases in both semantic theme files.
 - Keep light and dark semantic key sets identical. Prefer semantic CSS variables in component SCSS instead of primitive values or duplicate SCSS variables.
-- After token edits, run `npm run tokens`, review the generated diff, and run `npm run tokens:check`.
+- After token edits, run `pnpm run tokens`, review the generated diff, and run `pnpm run tokens:check`.
 - Treat product-specific palettes and layout rules as consumer overrides rather than additions to the shared foundation unless more than one Oddmash product needs them.
 
 ## Brand, demos, and languages
 
 - Use the existing Oddmash mark as the shape reference. Its folded ribbon appears as paired diagonals and adjoining surfaces in `demo/brand.scss`. Use Geist Sans for UI and Geist Mono for code and event values, with locale-appropriate fallback fonts.
 - Keep the palette neutral and limit state color to its semantic purpose. Apply brief opacity-free movement to content that must remain readable during a transition. Honor `prefers-reduced-motion` and keep focus indicators visible in both themes.
-- Use real exported components in the playground. Provide a trigger for Alert, Dialog, Toast, and loading examples. Keep Breadcrumbs and Pagination previews within their own state, preserve keyboard focus, and verify the URL stays unchanged. Use shared components for playground settings, including SelectDropdown for single-choice controls. Provide a clear way to dismiss feedback.
+- Use real exported components in the playground. Provide a trigger for Alert, Dialog, Toast, and loading examples. Keep Breadcrumbs and Pagination previews within their own state, preserve keyboard focus, and verify the URL stays unchanged. Use shared components for playground settings, including Select for single-choice controls. Provide a clear way to dismiss feedback.
 - Treat English as source copy. Update `demo/translations.ts` with Korean, Japanese, and Simplified Chinese for changed headings, descriptions, controls, error messages, and accessible labels. Keep API names, props, event names, and copyable code stable. Check the language choice survives reload and all four layouts fit at 320 px.
 - Keep preview code and the live example synchronized. For larger recipes, use the same example source for the preview and copyable code. When the public UI changes materially, keep the four READMEs linked to current light and dark captures.
 
@@ -38,17 +38,17 @@ Use this workflow for substantive work in `Oddmash/oddmash-ui`. Treat the packag
 - Keep page navigation static. Check that Accordion visibly expands and collapses, including on keyboard activation, and switches instantly under reduced motion. Preserve native details and summary behavior.
 - Keep Button's default `type="button"` behavior and retain keyboard, focus, disabled, reduced-motion, and forced-colors behavior.
 - For Tabs and Dialog, preserve the underlying Radix controlled and uncontrolled APIs, keyboard behavior, focus trapping, restoration, and explicit portal-container support.
-- Keep native Select available for browser-native validation, optgroups, and multi-select. Use SelectDropdown for a styled single choice. Check keyboard navigation, type-ahead, cancellation, disabled options, and focus.
-- Keep Toast controlled and render its live region before the message appears. Use polite status for confirmations and alert for urgent errors. Keep dismissal available and return focus in the caller when appropriate.
+- Use Select for a styled single choice. Use the HTML select element for native validation, optgroups, or multi-select. Retain the SelectDropdown alias for existing consumers. Check keyboard navigation, type-ahead, cancellation, disabled options, and focus.
+- Keep Toast controlled and render its live region before the message appears. Use polite status for confirmations and alert for urgent errors. Keep dismissal available, restore focus to a remaining notification or the trigger, and follow the [shared feedback motion guidance](https://github.com/Oddmash/oddmash-skills/blob/main/skills/oddmash-motion-feedback/SKILL.md) for entry, exit, stack reflow, pointer and keyboard expansion, reduced motion, and overflow. A single notification screenshot is not evidence of stack quality.
 - Update `src/index.ts`, `package.json` subpaths, `tsup.config.ts` entries, declarations, tests, examples, and documentation together when the public API changes.
 - Avoid adding a runtime dependency or component family solely for completeness. Explain the demonstrated consumer need and bundle impact.
 
 ## Verify proportionally
 
-- Token-only changes: `npm run tokens:check`, `npm test`, and `npm run build`.
-- Component, export, or build changes: `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, and `npm run test:bundle`.
-- Interaction, focus, theme, responsive, or visual changes: also run `npm run test:browser` and `npm run build:demo`.
-- Documentation-site changes: run `npm run build:demo`; run browser tests when navigation, live examples, themes, or responsive behavior changes.
+- Token-only changes: `pnpm run tokens:check`, `pnpm test`, and `pnpm run build`.
+- Component, export, or build changes: `pnpm run typecheck`, `pnpm run lint`, `pnpm test`, `pnpm run build`, and `pnpm run test:bundle`.
+- Interaction, focus, theme, responsive, or visual changes: also run `pnpm run test:browser` and `pnpm run build:demo`.
+- Documentation-site changes: run `pnpm run build:demo`; run browser tests when navigation, live examples, themes, or responsive behavior changes.
 - Keep English, Korean, Japanese, and Simplified Chinese README claims aligned when shared behavior changes.
 
 If a required browser is not installed, report the missing prerequisite instead of claiming the browser suite passed. Do not weaken an accessibility assertion or disable a rule merely to make CI green.

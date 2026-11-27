@@ -4,7 +4,10 @@
 
 Oddmash UI は、Oddmash 製品で共有するインターフェース基盤です。小規模な React 開発ツールに、一貫したビジュアル言語、アクセシブルな操作パターン、テーマ変更可能なデザイントークンを提供しつつ、製品固有のレイアウトまでは規定しません。
 
-![パターンとコンポーネント一覧を表示する Oddmash UI ドキュメント](../assets/playground.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/playground-dark.png">
+  <img alt="パターンとコンポーネント一覧を表示する Oddmash UI ドキュメント" src="../assets/playground.png">
+</picture>
 
 ## 提供するもの
 
@@ -13,6 +16,7 @@ Oddmash UI は、Oddmash 製品で共有するインターフェース基盤で�
 - アプリ全体または一部に適用できるライト・ダークテーマ
 - ライブ例、API ガイド、アクセシビリティ情報、トークンエクスプローラーを備えたドキュメントサイト
 - コンポーネントを組み合わせた開発者ツールの UI で、フォーカス、キー入力、クリックを確認できる Interaction Lab
+- リンクカード、コード例、サイトナビゲーション、レンダリング済み Markdown、プラットフォーム・アイコンリンク、コピーフィードバック、通知管理、言語選択、スクロール方向に応じたヘッダー、グループ検索の構成要素と静的 HTML のクラス契約
 
 ## 対象
 
@@ -28,6 +32,6 @@ Interaction Inspector のように、明確な操作と信頼できる挙動が�
 
 ## 現在の範囲
 
-Oddmash UI は 1.0 前の段階で開発中です。npm 0.3.0 では、Toast を含む 24 種類のコンポーネントを提供します。
+Oddmash UI は 1.0 前の段階で開発中です。npm 0.11.0 では アクセシビリティに配慮した React Tooltip と静的 HTML 向けのフレームワーク非依存 DOM コントローラーを追加しました。既存のコンポーネントとの互換性を維持し、React 18.3.1 と React 19 に対応しています。
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [コントリビューターガイド](../../CONTRIBUTING.md) · [MIT License](../../LICENSE)

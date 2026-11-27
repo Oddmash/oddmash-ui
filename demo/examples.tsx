@@ -1,9 +1,13 @@
+import { staticTooltipHeading, staticTooltipUsage, staticTooltipCode } from './tooltip-static-example';
+import { packageVersion } from './package-links';
 import { useLocale } from './locale';
 import { useState, type ReactNode } from 'react';
 import {
   Button,
+  Tooltip,
+  ClipboardButton,
   Input,
-  SelectDropdown,
+  Select,
   Card,
   Badge,
   Tabs,
@@ -21,6 +25,7 @@ import {
 import { details, type ComponentId } from './content';
 import { getComponentPreviews } from './component-previews';
 import type { ExtendedComponentId } from './component-catalog';
+import { PreviewFrame } from './preview-frame';
 
 export const Arrow = () => <span aria-hidden="true">↗</span>;
 export const Code = ({
@@ -31,27 +36,23 @@ export const Code = ({
   label?: string;
 }) => {
   const { t } = useLocale();
-  const [status, setStatus] = useState('');
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(children);
-      setStatus('Copied');
-    } catch {
-      setStatus('Select the code to copy');
-    }
-  };
   return (
     <div className="code-block">
       <div className="code-toolbar">
         <span>{label}</span>
-        <button onClick={copy}>{t('Copy code')}</button>
+        <ClipboardButton
+          text={children}
+          labels={{
+            idle: t('Copy code'),
+            pending: t('Copying code'),
+            copied: t('Copied'),
+            error: t('Select the code to copy'),
+          }}
+        />
       </div>
       <pre tabIndex={0} role="region" aria-label={`${label} ${t('code')}`}>
         <code>{children}</code>
       </pre>
-      <span className="copy-status" role="status">
-        {t(status)}
-      </span>
     </div>
   );
 };
@@ -63,8 +64,8 @@ export const Preview = ({
   className?: string;
 }) => <div className={`preview ${className}`}>{children}</div>;
 export const Example = ({ id }: { id: ComponentId }) => {
-  const { t } = useLocale();
-  const componentPreviews = getComponentPreviews(t);
+  const { t, locale } = useLocale();
+  const componentPreviews = getComponentPreviews(t, locale);
   const [name, setName] = useState('Interaction Inspector');
   const [draftName, setDraftName] = useState(name);
   const [open, setOpen] = useState(false);
@@ -75,6 +76,7 @@ export const Example = ({ id }: { id: ComponentId }) => {
       </div>
     );
   }
+  if (id === 'tooltip') return <Tooltip content={t('Open the original reference')}><Button variant="secondary">{t('Reference')}</Button></Tooltip>;
   if (id === 'button')
     return (
       <div className="example-stack">
@@ -136,7 +138,13 @@ export const Example = ({ id }: { id: ComponentId }) => {
             {t('Active')}
           </Badge>
           <Badge>{t('Draft')}</Badge>
-          <Badge>v0.3.0</Badge>
+          <Badge>v{packageVersion}</Badge>
+          <Badge tone="active">{t('Running')}</Badge>
+          <Badge>{t('Waiting')}</Badge>
+          <Badge tone="success">{t('Succeeded')}</Badge>
+          <Badge tone="danger">{t('Failed')}</Badge>
+          <Badge tone="warning">{t('Attention required')}</Badge>
+          <Badge>{t('Unknown')}</Badge>
         </div>
         <p className="muted">{t('A little context. No extra noise.')}</p>
       </div>
@@ -241,23 +249,7 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
         <div className="section-title">
           <h2 id="playground-heading">{t('Playground')}</h2>
         </div>
-        <div className="playground">
-          <div className="playground-toolbar">
-            <div className="view-switch">
-              <button
-                aria-pressed={view === 'preview'}
-                onClick={() => setView('preview')}
-              >
-                {t('Preview')}
-              </button>
-              <button
-                aria-pressed={view === 'code'}
-                onClick={() => setView('code')}
-              >
-                {t('Code')}
-              </button>
-            </div>
-          </div>
+        <PreviewFrame view={view} onViewChange={setView}>
           {view === 'preview' ? (
             <Preview>
               {id === 'button' ? (
@@ -281,7 +273,7 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
             <div className="playground-controls">
               <div className="playground-control">
                 <label htmlFor="button-variant">{t('Variant')}</label>
-                <SelectDropdown
+                <Select
                   id="button-variant"
                   value={variant}
                   options={[
@@ -294,7 +286,7 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
               </div>
               <div className="playground-control">
                 <label htmlFor="button-size">{t('Size')}</label>
-                <SelectDropdown
+                <Select
                   id="button-size"
                   value={size}
                   options={[
@@ -314,7 +306,7 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
               </label>
             </div>
           )}
-        </div>
+        </PreviewFrame>
       </section>
       <section className="doc-section" id="usage">
         <h2>{t('Usage')}</h2>
@@ -359,6 +351,7 @@ export const ComponentPage = ({ id }: { id: ComponentId }) => {
           </table>
         </div>
       </section>
+      {id === "tooltip" && <section className="doc-section" id="static-tooltip"><h2>{t(staticTooltipHeading)}</h2><p className="body-copy">{t(staticTooltipUsage)}</p><Code>{staticTooltipCode}</Code></section>}
       <section className="doc-section" id="accessibility">
         <h2>{t('Accessibility')}</h2>
         <p className="body-copy">{t(info.accessibility)}</p>

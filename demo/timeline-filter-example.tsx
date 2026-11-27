@@ -30,22 +30,17 @@ export const TimelineFilterExample = ({
   return (
     <div className="timeline-filter-example">
       <Field legend={t('Timeline filters')}>
-        <label>
-          {t('Event type')}
+        <div className="timeline-select">
+          <span>{t('Event type')}</span>
           <Select
+            aria-label={t('Event type')}
             value={eventFilter}
-            onChange={(event) =>
-              setEventFilter(event.target.value as EventType | 'all')
+            onValueChange={(value) =>
+              setEventFilter(value as EventType | 'all')
             }
-          >
-            <option value="all">{t('All events')}</option>
-            {eventTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </Select>
-        </label>
+            options={[{ value: 'all', label: t('All events') }, ...eventTypes.map((type) => ({ value: type, label: type }))]}
+          />
+        </div>
         <label>
           <Switch
             checked={selectedOnly}

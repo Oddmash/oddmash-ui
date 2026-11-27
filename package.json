@@ -1,8 +1,11 @@
 {
   "name": "@oddmash/ui",
-  "version": "0.3.0",
+  "version": "0.11.0",
   "description": "Small, themeable React foundations for Oddmash tools.",
+  "homepage": "https://oddmash.github.io/oddmash-ui/",
+  "keywords": ["react", "component-library", "design-system", "design-tokens", "accessibility", "scss", "dark-mode", "ui-components"],
   "type": "module",
+  "packageManager": "pnpm@11.25.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -61,6 +64,22 @@
     "./select": {
       "types": "./dist/select.d.ts",
       "import": "./dist/select.js"
+    },
+    "./date-select": {
+      "types": "./dist/date-select.d.ts",
+      "import": "./dist/date-select.js"
+    },
+    "./date-calendar": {
+      "types": "./dist/date-calendar.d.ts",
+      "import": "./dist/date-calendar.js"
+    },
+    "./date-picker": {
+      "types": "./dist/date-picker.d.ts",
+      "import": "./dist/date-picker.js"
+    },
+    "./date-range-picker": {
+      "types": "./dist/date-range-picker.d.ts",
+      "import": "./dist/date-range-picker.js"
     },
     "./checkbox": {
       "types": "./dist/checkbox.d.ts",
@@ -125,6 +144,70 @@
     "./toast": {
       "types": "./dist/toast.d.ts",
       "import": "./dist/toast.js"
+    },
+    "./toggle-group": {
+      "types": "./dist/toggle-group.d.ts",
+      "import": "./dist/toggle-group.js"
+    },
+    "./slider": {
+      "types": "./dist/slider.d.ts",
+      "import": "./dist/slider.js"
+    },
+    "./command-palette": {
+      "types": "./dist/command-palette.d.ts",
+      "import": "./dist/command-palette.js"
+    },
+    "./link-card": {
+      "types": "./dist/link-card.d.ts",
+      "import": "./dist/link-card.js"
+    },
+    "./code-block": {
+      "types": "./dist/code-block.d.ts",
+      "import": "./dist/code-block.js"
+    },
+    "./site-layout": {
+      "types": "./dist/site-layout.d.ts",
+      "import": "./dist/site-layout.js"
+    },
+    "./prose": {
+      "types": "./dist/prose.d.ts",
+      "import": "./dist/prose.js"
+    },
+    "./platform-link": {
+      "types": "./dist/platform-link.d.ts",
+      "import": "./dist/platform-link.js"
+    },
+    "./kbd": {
+      "types": "./dist/kbd.d.ts",
+      "import": "./dist/kbd.js"
+    },
+    "./docs-navigation": {
+      "types": "./dist/docs-navigation.d.ts",
+      "import": "./dist/docs-navigation.js"
+    },
+    "./scroll-header": {
+      "types": "./dist/scroll-header.d.ts",
+      "import": "./dist/scroll-header.js"
+    },
+    "./locale-picker": {
+      "types": "./dist/locale-picker.d.ts",
+      "import": "./dist/locale-picker.js"
+    },
+    "./clipboard-button": {
+      "types": "./dist/clipboard-button.d.ts",
+      "import": "./dist/clipboard-button.js"
+    },
+    "./tooltip": {
+      "types": "./dist/tooltip.d.ts",
+      "import": "./dist/tooltip.js"
+    },
+    "./tooltip-controller": {
+      "types": "./dist/tooltip-controller.d.ts",
+      "import": "./dist/tooltip-controller.js"
+    },
+    "./toast-provider": {
+      "types": "./dist/toast-provider.d.ts",
+      "import": "./dist/toast-provider.js"
     }
   },
   "engines": {
@@ -133,17 +216,17 @@
   "scripts": {
     "tokens": "node --import tsx scripts/tokens.ts",
     "tokens:check": "node --import tsx scripts/tokens.ts --check",
-    "build": "npm run tokens && tsup && sass --no-source-map src/styles.scss dist/styles.css && cp src/generated/tokens.css dist/tokens.css",
+    "build": "pnpm run tokens && tsup && sass --no-source-map src/styles.scss dist/styles.css && cp src/generated/tokens.css dist/tokens.css",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
     "demo": "vite --config demo/vite.config.ts",
     "build:demo": "vite build --config demo/vite.config.ts",
-    "check": "npm run tokens:check && npm run build && npm run typecheck && npm run lint && npm test && npm run test:bundle && npm run build:demo",
+    "check": "pnpm run tokens:check && pnpm run build && pnpm run typecheck && pnpm run lint && pnpm test && pnpm run test:bundle && pnpm run build:demo",
     "test:browser": "playwright test",
     "test:a11y": "playwright test --grep \"accessibility|contrast\"",
     "test:visual": "playwright test visual.spec.ts --project=chromium",
-    "prepare": "npm run build",
+    "prepare": "pnpm run build",
     "test:bundle": "node --import tsx scripts/bundle.ts"
   },
   "devDependencies": {

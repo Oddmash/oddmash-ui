@@ -37,7 +37,7 @@ button {
 }
 :where(button, a, input, select, textarea, summary):focus-visible {
   outline: 2px solid var(--om-semantic-color-focus);
-  outline-offset: 3px;
+  outline-offset: -1px;
 }
 h1,
 h2,
@@ -181,10 +181,14 @@ h1:focus {
   width: 100%;
   min-width: 0;
   border: 0;
-  outline-offset: 1px;
+  outline: none;
   background: transparent;
   color: inherit;
   font-size: 13px;
+}
+.search-box:has(input:focus-visible) {
+  outline: 2px solid var(--om-semantic-color-focus);
+  outline-offset: -1px;
 }
 .search-box input::placeholder {
   color: var(--om-semantic-color-muted);
@@ -713,20 +717,18 @@ h1:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 12px;
   font:
     10px var(--om-semantic-font-mono-family);
   color: var(--om-semantic-color-muted);
 }
-.code-toolbar button {
-  border: 0;
-  background: transparent;
-  font-size: 10px;
-  padding: 4px;
-  color: var(--om-semantic-color-text);
-}
-.code-toolbar button:hover {
-  text-decoration: underline;
+.code-toolbar .om-clipboard-button {
+  min-block-size: 44px;
+  min-inline-size: 44px;
+  max-inline-size: 100%;
+  overflow-wrap: anywhere;
+  margin-inline-start: auto;
 }
 .code-block pre {
   font:
@@ -740,17 +742,9 @@ h1:focus {
   tab-size: 2;
   color: var(--om-semantic-color-text);
 }
-.copy-status {
-  display: block;
-  font-size: 11px;
-  color: var(--om-semantic-color-accent);
-  padding: 0 16px;
-}
-.copy-status:not(:empty) {
-  padding-bottom: 10px;
-}
 .site-footer {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
@@ -1504,6 +1498,14 @@ pre:focus-visible,
   width: min(100%, 380px);
   min-width: 0;
   text-align: start;
+}
+
+.example-primitives:has(> .om-date-range-picker) {
+  width: min(100%, 720px);
+}
+
+.example-primitives .om-date-picker label > .om-select {
+  margin-block-start: 0;
 }
 
 .example-primitives label > :is(.om-textarea, .om-select, .om-progress) {

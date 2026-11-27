@@ -7,19 +7,22 @@
       name="description"
       content="A small, considered design system for developer tools. Explore live React components, JSON tokens, and practical usage guides."
     />
+    <link rel="canonical" href="https://oddmash.github.io/oddmash-ui/" />
     <link rel="icon" type="image/png" href="./oddmash-logo.png" />
     <title>Oddmash UI | Design system</title>
     <script>
-      try {
-        const theme =
-          localStorage.getItem('om-docs-theme') === 'dark' ? 'dark' : 'light';
-        document.documentElement.dataset.omTheme = theme;
-        document.documentElement.style.colorScheme = theme;
-      } catch {}
+      let preference;
+      try { preference = localStorage.getItem('om-docs-theme'); } catch {}
+      const theme = preference === 'light' || preference === 'dark'
+        ? preference
+        : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.omTheme = theme;
+      document.documentElement.style.colorScheme = theme;
     </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript><main><h1>Oddmash UI</h1><p>Browse the component reference, API properties and accessibility guidance without JavaScript.</p><a href="./reference/en/">Component reference</a> · <a href="./reference/ko/" lang="ko">한국어</a> · <a href="./reference/ja/" lang="ja">日本語</a> · <a href="./reference/zh-CN/" lang="zh-CN">简体中文</a></main></noscript>
     <script type="module" src="/main.tsx"></script>
   </body>
 </html>

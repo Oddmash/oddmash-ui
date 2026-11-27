@@ -4,7 +4,10 @@
 
 Oddmash UI는 Oddmash 제품이 함께 사용하는 인터페이스 기반입니다. 작은 React 개발 도구에 일관된 시각 언어, 접근 가능한 상호작용 패턴, 테마를 바꿀 수 있는 디자인 토큰을 제공하되 제품의 화면 구성까지 대신 결정하지는 않습니다.
 
-![제품 패턴과 컴포넌트 목록이 보이는 Oddmash UI 문서](../assets/playground.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/playground-dark.png">
+  <img alt="제품 패턴과 컴포넌트 목록이 보이는 Oddmash UI 문서" src="../assets/playground.png">
+</picture>
 
 ## 무엇을 제공하나요?
 
@@ -13,6 +16,7 @@ Oddmash UI는 Oddmash 제품이 함께 사용하는 인터페이스 기반입니
 - 앱 전체 또는 일부 영역에 적용할 수 있는 라이트·다크 테마
 - 실시간 예제, API 안내, 접근성 설명, 토큰 탐색기를 갖춘 문서 사이트
 - 컴포넌트를 조합한 개발자 도구 UI에서 포커스, 키 입력, 클릭을 직접 확인할 수 있는 Interaction Lab
+- 링크 카드, 코드 예제, 사이트 탐색, 렌더링된 Markdown, 플랫폼·아이콘 링크, 복사 피드백, 알림 관리, 언어 선택, 스크롤 방향 헤더, 그룹 검색 구성 요소 및 정적 HTML 클래스 계약
 
 ## 누구를 위한 시스템인가요?
 
@@ -28,6 +32,6 @@ Interaction Inspector처럼 명확한 조작과 안정적인 동작이 필요하
 
 ## 현재 범위
 
-Oddmash UI는 1.0 이전 단계에서 개발 중입니다. npm 0.3.0은 Toast를 포함해 24개 컴포넌트 계열을 제공합니다.
+Oddmash UI는 1.0 이전 단계에서 개발 중입니다. npm 0.11.0에는 접근성을 지원하는 React Tooltip과 정적 HTML에서 사용할 수 있는 프레임워크 독립 DOM 컨트롤러가 추가되었습니다. 기존 컴포넌트와 호환되며 React 18.3.1 및 React 19를 계속 지원합니다.
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [기여 안내](../../CONTRIBUTING.md) · [MIT 라이선스](../../LICENSE)

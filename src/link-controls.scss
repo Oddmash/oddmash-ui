@@ -1,0 +1,127 @@
+.om-button.om-button--link {
+  text-decoration: none;
+}
+.om-button.om-button--icon {
+  inline-size: var(--om-semantic-control-height);
+  min-inline-size: var(--om-semantic-control-height);
+  flex-shrink: 0;
+  padding: var(--om-semantic-space-xs);
+}
+.om-button.om-button--icon.om-button--sm {
+  inline-size: var(--om-semantic-control-small);
+  min-inline-size: var(--om-semantic-control-small);
+}
+.om-button.om-button--icon > svg {
+  display: block;
+  max-inline-size: 100%;
+  flex-shrink: 0;
+}
+
+.om-platform-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--om-semantic-space-xs);
+}
+.om-platform-link {
+  box-sizing: border-box;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  inline-size: var(--om-platform-link-size, var(--om-semantic-control-touch-target));
+  min-block-size: var(--om-platform-link-size, var(--om-semantic-control-touch-target));
+  border: var(--om-semantic-border-width) solid transparent;
+  border-radius: var(--om-semantic-radius-lg);
+  background: transparent;
+  color: var(--om-platform-link-muted, var(--om-semantic-color-muted));
+  text-decoration: none;
+  transition: color var(--om-semantic-duration-ms-220) ease, border-color var(--om-semantic-duration-ms-220) ease, background-color var(--om-semantic-duration-ms-220) ease;
+}
+.om-platform-link > svg {
+  display: block;
+  max-inline-size: var(--om-semantic-dimension-px-28);
+  transform-origin: center;
+  transition: transform var(--om-semantic-duration-ms-220) var(--om-semantic-easing-curve-0-2-0-8-0-2-1);
+}
+.om-platform-link:focus-visible,
+.om-platform-link:active {
+  color: var(--om-platform-link-color, var(--om-semantic-color-text));
+  border-color: var(--om-semantic-color-border-subtle);
+  background: var(--om-semantic-color-bg);
+}
+.om-platform-link:focus-visible {
+  outline: var(--om-semantic-focus-width) solid var(--om-semantic-color-focus);
+  outline-offset: var(--om-semantic-focus-offset);
+}
+.om-platform-link[data-platform='npm'] {
+  --om-platform-link-color: var(--om-platform-link-npm-color, #cb3837);
+}
+.om-platform-link:active > svg {
+  transform: scale(.95);
+}
+@media (hover: hover) and (pointer: fine) {
+  .om-platform-link:hover {
+    color: var(--om-platform-link-color, var(--om-semantic-color-text));
+    border-color: var(--om-semantic-color-border-subtle);
+    background: var(--om-semantic-color-bg);
+  }
+  .om-platform-link:hover > svg {
+    animation: om-platform-pulse var(--om-platform-link-pulse-duration, var(--om-semantic-duration-ms-950)) var(--om-semantic-easing-curve-0-45-0-0-55-1) 1;
+  }
+  .om-platform-link:active > svg {
+    animation: none;
+    transform: scale(.95);
+  }
+}
+@keyframes om-platform-pulse {
+  0%, 100% { transform: scale(1); }
+  30% { transform: scale(1.07); }
+  68% { transform: scale(1.02); }
+}
+
+.om-kbd {
+  box-sizing: border-box;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-inline-size: 1.6em;
+  padding-inline: var(--om-semantic-space-xs);
+  border: var(--om-semantic-border-width) solid var(--om-semantic-color-border-subtle);
+  border-radius: var(--om-semantic-radius-sm);
+  background: var(--om-semantic-color-bg);
+  color: var(--om-semantic-color-muted);
+  font-family: var(--om-semantic-font-mono-family);
+  font-size: var(--om-semantic-font-small);
+  line-height: 1.5;
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  .om-platform-link,
+  .om-platform-link > svg {
+    transition: none;
+  }
+  .om-platform-link:hover > svg,
+  .om-platform-link:active > svg {
+    animation: none;
+    transform: none;
+  }
+}
+@media (forced-colors: active) {
+  .om-platform-link,
+  .om-kbd {
+    border-color: ButtonText;
+    color: LinkText;
+  }
+  .om-platform-link:focus-visible,
+  .om-platform-link:hover,
+  .om-platform-link:active {
+    color: HighlightText;
+    background: Highlight;
+  }
+  .om-platform-link:focus-visible {
+    outline-color: Highlight;
+  }
+  .om-kbd {
+    color: ButtonText;
+  }
+}

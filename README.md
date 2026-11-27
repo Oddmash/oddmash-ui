@@ -4,7 +4,10 @@
 
 Oddmash UI is the shared interface foundation for Oddmash products. It gives small React developer tools a consistent visual language, accessible interaction patterns, and themeable design tokens without deciding the product layout for them.
 
-![Oddmash UI documentation with its patterns and component index](docs/assets/playground.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/playground-dark.png">
+  <img alt="Oddmash UI documentation with its patterns and component index" src="docs/assets/playground.png">
+</picture>
 
 ## What it provides
 
@@ -13,6 +16,7 @@ Oddmash UI is the shared interface foundation for Oddmash products. It gives sma
 - Light and dark themes that can be applied to a whole app or a single subtree.
 - A documentation site with live examples, API guidance, accessibility notes, and a token explorer.
 - An Interaction Lab that shows how the components work together in a developer-tool interface.
+- Documentation and landing primitives for linked cards, code examples, site navigation, rendered Markdown, platform/icon links, copy feedback, managed notifications, language selection, scroll-aware headers, and grouped search, with static HTML class contracts.
 
 ## Who it is for
 
@@ -28,6 +32,6 @@ Oddmash UI is for focused tools such as Interaction Inspector: products that nee
 
 ## Current scope
 
-Oddmash UI is under active pre-1.0 development. Version 0.3.0 includes 24 component families, including Toast.
+Oddmash UI is under active pre-1.0 development. Version 0.11.0 adds an accessible Tooltip for React and a framework-neutral DOM controller for static content. Existing components remain compatible; React 18.3.1 and React 19 remain supported.
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [Contributor guide](CONTRIBUTING.md) · [MIT License](LICENSE)

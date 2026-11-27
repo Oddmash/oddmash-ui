@@ -1,3 +1,4 @@
+import { packageVersion } from './package-links';
 import {
   extendedComponents,
   extendedComponentIds,
@@ -71,6 +72,7 @@ export const pages = [
     group: 'Components',
     description: 'Open a modal for editing or confirmation.',
   },
+  { id: 'tooltip', title: 'Tooltip', group: 'Components', description: 'Reveal a short description on hover or focus.' },
   ...extendedComponentIds.map((id) => {
     const { title, group, description } = extendedComponents[id];
     return { id, title, group, description };
@@ -97,6 +99,7 @@ export type ComponentId =
   | 'badge'
   | 'tabs'
   | 'dialog'
+  | 'tooltip'
   | ExtendedComponentId;
 export const componentIds: ComponentId[] = [
   'button',
@@ -105,6 +108,7 @@ export const componentIds: ComponentId[] = [
   'badge',
   'tabs',
   'dialog',
+  'tooltip',
   ...extendedComponentIds,
 ];
 export const details: Record<
@@ -119,6 +123,12 @@ export const details: Record<
   }
 > = {
   ...extendedComponents,
+  tooltip: {
+    usage: 'Keep essential information in the page and use a tooltip for a short supplementary description.',
+    accessibility: 'Show on hover and keyboard focus; Escape dismisses it without changing focus.',
+    props: [['content', 'ReactNode', 'Required'], ['children', 'ReactElement', 'Required']],
+    code: '<Tooltip content="Open the original reference"><Button>Reference</Button></Tooltip>',
+  },
   button: {
     usage:
       'Use one primary action per section. Secondary actions sit alongside it; ghost buttons keep repeated utility actions light.',
@@ -160,16 +170,16 @@ export const details: Record<
   },
   badge: {
     usage:
-      'Describe status or category in a few words. Reserve the accent tone for a state that deserves attention.',
+      'Describe status or category in a few words. Use semantic tones for meaningful operational states and neutral for unknown or ordinary categories. danger and error share one visual tone, as do info and active; pick one name from each pair and use it consistently.',
     accessibility:
       'Always include meaningful text; color alone should not communicate status. Badge is non-interactive. Use a button for an action.',
     props: [
-      ['tone', 'neutral | accent', 'neutral'],
+      ['tone', 'neutral | accent | success | warning | danger | error | info | active', 'neutral'],
       ['children', 'ReactNode', 'None'],
       ['className', 'string', 'None'],
       ['ref', 'HTMLSpanElement', 'None'],
     ],
-    code: `<Badge>Draft</Badge>\n<Badge tone="accent">Active</Badge>\n<Badge>v0.3.0</Badge>`,
+    code: `<Badge>Draft</Badge>\n<Badge tone="accent">Active</Badge>\n<Badge tone="active">Running</Badge>\n<Badge>Waiting</Badge>\n<Badge tone="success">Succeeded</Badge>\n<Badge tone="danger">Failed</Badge>\n<Badge tone="warning">Attention required</Badge>\n<Badge>Unknown</Badge>\n<Badge>v${packageVersion}</Badge>`,
   },
   tabs: {
     usage:

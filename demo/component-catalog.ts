@@ -1,4 +1,198 @@
+import { documentationNavigationComponents } from './docs-navigation-catalog';
+import { notificationComponents } from './notification-catalog';
+
 export const extendedComponents = {
+  ...documentationNavigationComponents,
+  ...notificationComponents,
+  "link-controls": {
+    "title": "Link Controls",
+    "group": "Documentation",
+    "description": "Style links, named icon controls and keyboard shortcuts without changing native behavior.",
+    "usage": "Use ButtonLink for navigation, IconButton for an action, and IconLink or PlatformLink for a named icon destination. Supply href and localization yourself.",
+    "accessibility": "Name each icon-only control, hide decorative icons, and use Kbd for shortcuts. Platform hover respects reduced motion.",
+    "props": [
+      [
+        "href (links)",
+        "string",
+        "Required"
+      ],
+      [
+        "aria-label / aria-labelledby (icon controls)",
+        "string",
+        "Required"
+      ],
+      [
+        "platform",
+        "github | npm",
+        "Required"
+      ],
+      [
+        "variant",
+        "primary | secondary | ghost",
+        "Native defaults"
+      ],
+      [
+        "size",
+        "sm | md",
+        "md"
+      ]
+    ],
+    "exports": "ButtonLink, IconButton, IconLink, PlatformLink, PlatformLinks, Kbd",
+    "code": "<>\n  <ButtonLink href=\"#/link-controls\">Read guide</ButtonLink>\n  <IconButton aria-label=\"Open search example\"><span aria-hidden=\"true\">⌕</span></IconButton>\n  <IconLink href=\"#/link-controls\" aria-label=\"Open reference example\"><span aria-hidden=\"true\">↗</span></IconLink>\n  <PlatformLinks role=\"group\" aria-label=\"Platform links\">\n    <PlatformLink platform=\"github\" href=\"#/link-controls\" aria-label=\"GitHub example\" />\n    <PlatformLink platform=\"npm\" href=\"#/link-controls\" aria-label=\"npm example\" />\n  </PlatformLinks>\n  <Kbd>Ctrl K</Kbd>\n</>"
+  },
+  'link-card': {
+    title: 'Link Card',
+    group: 'Documentation',
+    description: 'Present a document or destination as a single link.',
+    usage: 'Use LinkCard for a single destination. The same om-link-card class works in static HTML, and om-link-card-arrow is optional.',
+    accessibility: 'Keep the destination clear, avoid nested controls and hide decorative arrows. Focus remains visible and the fill respects reduced motion.',
+    props: [['href', 'string', 'Native anchor'], ['className', 'string', 'None']],
+    exports: 'LinkCard',
+    code: `<LinkCard href="#/link-card">
+  <strong>Usage guide</strong> <span className="om-link-card-arrow" aria-hidden="true">→</span>
+  <p>Learn how to use the library.</p>
+</LinkCard>`,
+  },
+  'code-block': {
+    title: 'Code Block',
+    group: 'Documentation',
+    description: 'Display readable code with an optional caption and action.',
+    usage: 'Compose CodeBlock with CodeBlockHeader, CodeBlockCaption and CodeBlockContent. CodeBlockCopy is a native button; the consumer owns copying and feedback.',
+    accessibility: 'Label copy actions and announce the result. A named, focusable code region lets keyboard users scroll long lines. Preserve whitespace and syntax markup.',
+    props: [['children', 'ReactNode', 'None'], ['tabIndex (Content)', 'number', 'Native default'], ['onClick (Copy)', 'MouseEventHandler', 'None'], ['type (Copy)', 'button | submit | reset', 'button']],
+    exports: 'CodeBlock, CodeBlockHeader, CodeBlockCaption, CodeBlockContent, CodeBlockCopy',
+    reactImports: ['useState'],
+    code: `const Example = () => {
+  const code = 'pnpm add @oddmash/ui';
+  const [status, setStatus] = useState('');
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setStatus('Copied');
+    } catch {
+      setStatus('Select the code to copy');
+    }
+  };
+
+  return (
+    <CodeBlock>
+      <CodeBlockHeader>
+        <CodeBlockCaption>Terminal</CodeBlockCaption>
+        <CodeBlockCopy onClick={copy}>Copy code</CodeBlockCopy>
+      </CodeBlockHeader>
+      <CodeBlockContent tabIndex={0} role="region" aria-label="Terminal code">
+        <code>{code}</code>
+      </CodeBlockContent>
+      <span role="status">{status}</span>
+    </CodeBlock>
+  );
+};`,
+  },
+  'site-layout': {
+    title: 'Site Layout',
+    group: 'Documentation',
+    description: 'Compose neutral headers, footers and navigation landmarks.',
+    usage: 'Combine SiteHeader or SiteFooter with their Inner wrapper and SiteNav. Branding, responsive navigation choices and sticky behavior stay with the product.',
+    accessibility: 'Keep native header, footer and nav semantics. Name each navigation landmark when there is more than one, and mark the current link with aria-current.',
+    props: [['children', 'ReactNode', 'None'], ['aria-label (SiteNav)', 'string', 'None'], ['className', 'string', 'None']],
+    exports: 'SiteHeader, SiteHeaderInner, SiteFooter, SiteFooterInner, SiteNav',
+    code: `<>
+  <SiteHeader>
+    <SiteHeaderInner>
+      <strong>Oddmash</strong>
+      <SiteNav aria-label="Header navigation example">
+        <a href="#/site-layout" aria-current="page">Docs</a>
+        <a href="#/site-layout">Examples</a>
+      </SiteNav>
+    </SiteHeaderInner>
+  </SiteHeader>
+  <SiteFooter>
+    <SiteFooterInner>
+      <span>Open source</span>
+      <SiteNav aria-label="Footer navigation example">
+        <a href="#/site-layout">Docs</a>
+      </SiteNav>
+    </SiteFooterInner>
+  </SiteFooter>
+</>`,
+  },
+  prose: {
+    title: 'Prose',
+    group: 'Documentation',
+    description: 'Style rendered Markdown without choosing a parser.',
+    usage: 'Wrap trusted rendered article markup with Prose or the om-prose class. Use ProseScroll around wide tables. The Markdown renderer remains a consumer choice.',
+    accessibility: 'Preserve native headings, lists, tables and links. Use the document language and label focusable scroll regions. Code preserves whitespace.',
+    props: [['children', 'ReactNode', 'None'], ['lang', 'string', 'Inherited'], ['className', 'string', 'None']],
+    exports: 'Prose, ProseScroll',
+    code: `<Prose>
+  <h3>Usage guide</h3>
+  <p>Learn how to use the library.</p>
+  <ul><li>Install the package.</li></ul>
+  <pre tabIndex={0} role="region" aria-label="Terminal code"><code>pnpm add @oddmash/ui</code></pre>
+  <ProseScroll tabIndex={0} role="region" aria-label="Example options table">
+    <table>
+      <thead><tr><th scope="col">Name</th><th scope="col">Type</th></tr></thead>
+      <tbody><tr><td>href</td><td>string</td></tr></tbody>
+    </table>
+  </ProseScroll>
+</Prose>`,
+  },
+  slider: {
+    title: 'Slider', group: 'Forms', description: 'Adjust a numeric value.',
+    usage: 'Use a visible label and native range limits.', accessibility: 'Arrow keys adjust the value.',
+    props: [['min / max / step', 'number', 'Native defaults']], exports: 'Slider',
+    code: '<label>Width <Slider min={100} max={600} defaultValue={320} /></label>',
+  },
+  'toggle-group': {
+    title: 'Toggle Group',
+    group: 'Forms',
+    description: 'Group toggle buttons for related settings.',
+    usage: 'Use single mode for a view choice and multiple mode for independent options. Empty selection is null in single mode and [] in multiple mode. Item values must be unique within each group.',
+    accessibility: 'Name the group and icon-only buttons. Tab enters the group once. Use Left and Right in horizontal groups, and Up and Down in vertical groups. Navigation wraps and skips disabled buttons. Home and End move to the edges. Space or Enter toggles the focused button.',
+    props: [
+      ['type', 'single | multiple', 'Required'],
+      ['value / defaultValue (group)', 'string | null (single), readonly string[] (multiple)', 'null / []'],
+      ['onValueChange', '(value: string | null) => void (single), (value: string[]) => void (multiple)', 'None'],
+      ['orientation', 'horizontal | vertical', 'horizontal'],
+      ['disabled (group or item)', 'boolean', 'false'],
+      ['value (item)', 'string', 'Required'],
+    ],
+    exports: 'ToggleGroup, ToggleGroupItem',
+    reactImports: ['useState'],
+    code: `const Example = () => {
+  const [view, setView] = useState<string | null>('grid');
+  return (
+    <>
+      <ToggleGroup aria-label="View mode" type="single" value={view} onValueChange={setView}>
+        <ToggleGroupItem value="grid">Grid view</ToggleGroupItem>
+        <ToggleGroupItem value="compact" disabled>Compact view</ToggleGroupItem>
+        <ToggleGroupItem value="list">List view</ToggleGroupItem>
+      </ToggleGroup>
+      <ToggleGroup aria-label="Text formatting" type="multiple" defaultValue={['bold']}>
+        <ToggleGroupItem value="bold">Bold</ToggleGroupItem>
+        <ToggleGroupItem value="italic">Italic</ToggleGroupItem>
+      </ToggleGroup>
+    </>
+  );
+};`,
+  },
+  'command-palette': {
+    title: 'Command Palette', group: 'Navigation', description: 'Find and execute actions.',
+    usage: 'Open with an explicit trigger or an opt-in Mod+K shortcut. Supply descriptive grouped results and a consumer-owned filter when needed.', accessibility: 'Use arrow keys, Enter and Escape. Provide distinct result labels and descriptions.',
+    props: [['items', 'readonly CommandPaletteItem[]', 'Required'], ['open / defaultOpen', 'boolean', 'false'], ['onOpenChange', '(open: boolean) => void', 'None'], ['shortcut', 'boolean', 'false'], ['dismissLabel', 'string', 'None'], ['maxResults', 'number', 'All'], ['filter', '(item, query) => boolean', 'Default matching']], exports: 'Button, CommandPalette',
+    code: `<CommandPalette
+  trigger={<Button>Commands</Button>}
+  title="Commands"
+  description="Choose an action"
+  searchLabel="Search commands"
+  emptyLabel="No commands found"
+  dismissLabel="Close commands"
+  items={[
+    { id: 'save', label: 'Save project', group: 'Project', description: 'Save current changes', onSelect: () => {} },
+    { id: 'guide', label: 'Usage guide', group: 'Documentation', onSelect: () => {} },
+  ]}
+/>`,
+  },
   textarea: {
     title: 'Textarea',
     group: 'Forms',
@@ -10,24 +204,56 @@ export const extendedComponents = {
     exports: 'Textarea',
     code: '<label>Release notes\n  <Textarea rows={3} placeholder="Describe what changed" />\n</label>',
   },
+  'date-select': {
+    title: 'Date Select', group: 'Forms', description: 'Select a date and time through seconds.',
+    usage: 'Use a timezone-free local ISO value. An empty selection starts at today at midnight, or day one when selecting a month or year first. The consumer owns timezone conversion.',
+    accessibility: 'Each native select has a visible label. The group has a legend and supports keyboard and touch selection. Use required to prevent clearing.',
+    props: [['label', 'ReactNode', 'Required'], ['labels', 'Partial<DateSelectLabels>', 'English'], ['value / defaultValue', 'string', 'Empty'], ['onValueChange', '(value: string) => void', 'None'], ['minYear / maxYear', 'number', '1900 / 2100'], ['required', 'boolean', 'false'], ['name', 'string', 'None']],
+    exports: 'DateSelect',
+    code: '<DateSelect label="Date and time" defaultValue="2026-11-25T14:30:42" />',
+  },
+  'date-calendar': {
+    title: 'Date Calendar', group: 'Forms', description: 'Choose a day in a monthly calendar.',
+    usage: 'Use a local YYYY-MM-DD value. Exact minDate and maxDate bounds intersect the optional year bounds and include both endpoints.',
+    accessibility: 'Arrow keys move by day or week. Home and End move within a week, Page Up and Down change month, and Enter selects.',
+    props: [['value / defaultValue', 'string', 'Empty'], ['onValueChange', '(value: string) => void', 'None'], ['minYear / maxYear', 'number', '1900 / 2100'], ['minDate / maxDate', 'YYYY-MM-DD', 'Year bounds'], ['locale', 'string', 'en'], ['labels', 'Partial<DateCalendarLabels>', 'English'], ['disabled', 'boolean', 'false']],
+    exports: 'DateCalendar',
+    code: '<DateCalendar defaultValue="2026-11-17" minDate="2026-10-15" maxDate="2026-12-20" />',
+  },
+  'date-picker': {
+    title: 'Date Picker', group: 'Forms', description: 'Select a date, month, or precise date and time.',
+    usage: 'Use date for YYYY-MM-DD, year-month for YYYY-MM, or date-time for YYYY-MM-DDTHH:mm:ss. The calendar is optional.',
+    accessibility: 'Native selects and a calendar disclosure provide keyboard and touch selection. Escape closes the calendar and restores focus.',
+    props: [['label', 'ReactNode', 'Required'], ['mode', 'date | year-month | date-time', 'date'], ['value / defaultValue', 'string', 'Empty'], ['onValueChange', '(value: string) => void', 'None'], ['labels', 'Partial<DatePickerLabels>', 'English'], ['locale', 'string', 'en'], ['showCalendar', 'boolean', 'true'], ['minYear / maxYear', 'number', '1900 / 2100'], ['required / disabled', 'boolean', 'false'], ['name', 'string', 'None']],
+    exports: 'DatePicker',
+    code: '<DatePicker label="Date and time" mode="date-time" defaultValue="2026-11-25T14:30:42" />',
+  },
+  'date-range-picker': {
+    title: 'Date Range Picker', group: 'Forms', description: 'Choose independent start and end dates.',
+    usage: 'Each bound can be empty. Set withTime for seconds. Reverse ranges remain editable and invalid until corrected; no value is silently changed.',
+    accessibility: 'Each bound has a named group. An invalid range has visible feedback and blocks native form submission.',
+    props: [['label / startLabel / endLabel', 'ReactNode', 'Required / Start date / End date'], ['value / defaultValue', 'DateRange', '{ start: "", end: "" }'], ['onValueChange', '(value: DateRange) => void', 'None'], ['withTime', 'boolean', 'false'], ['labels', 'Partial<DatePickerLabels>', 'English'], ['locale', 'string', 'en'], ['startName / endName', 'string', 'None'], ['required / disabled', 'boolean', 'false'], ['invalidMessage', 'string', 'English'], ['minYear / maxYear', 'number', '1900 / 2100'], ['showCalendar', 'boolean', 'true']],
+    exports: 'DateRangePicker',
+    code: '<DateRangePicker label="Date range" withTime defaultValue={{ start: "2026-11-01T00:00:00", end: "2026-11-25T23:59:59" }} />',
+  },
   select: {
     title: 'Select',
     group: 'Forms',
     description: 'Choose from a compact list of options.',
     usage:
-      'Use SelectDropdown for a styled single choice. Use Select with native options for native validation, optgroups, or multiple selection.',
+      'Use Select for a styled single choice. Use the HTML select element for native validation, optgroups, or multiple selection.',
     accessibility:
       'Provide a visible label. Use arrow keys to move, type to search by label, Enter to select, and Escape to dismiss.',
     props: [
-      ['options', 'readonly SelectDropdownOption[]', 'Required'],
+      ['options', 'readonly SelectOption[]', 'Required'],
       ['value / defaultValue', 'string', 'None'],
       ['onValueChange', '(value: string) => void', 'None'],
       ['name', 'string', 'None'],
     ],
-    exports: 'SelectDropdown',
+    exports: 'Select',
     code: `<div>
   <label htmlFor="environment">Environment</label>
-  <SelectDropdown
+  <Select
     id="environment"
     name="environment"
     defaultValue="staging"
@@ -88,12 +314,12 @@ export const extendedComponents = {
   alert: {
     title: 'Alert',
     group: 'Feedback',
-    description: 'Surface a status or a problem in context.',
-    usage: 'Lead with the outcome and tell the user what they can do next.',
+    description: 'Require acknowledgment of an important message.',
+    usage: 'Use AlertDialog for acknowledgment and Alert for inline status.',
     accessibility:
-      'Include text that describes the state. Use role="alert" for urgent messages added dynamically.',
-    props: [['tone', 'neutral | danger', 'neutral']],
-    exports: 'Alert, Button',
+      'The modal traps focus and restores it on confirmation. Inline alerts can use role="alert".',
+    props: [['open', 'boolean', 'Required'], ['title', 'string', 'Required'], ['onConfirm', '() => void', 'Required'], ['confirmLabel', 'string', 'OK']],
+    exports: 'AlertDialog, Alert, Button',
     code: `import { useState } from 'react';
 
 export const RecordingNotice = () => {
@@ -101,15 +327,10 @@ export const RecordingNotice = () => {
 
   return (
     <>
-      <Button aria-expanded={visible} onClick={() => setVisible(!visible)}>
-        {visible ? 'Hide alert' : 'Show alert'}
-      </Button>
-      {visible && (
-        <Alert tone="danger" role="alert">
-          <strong>Recording stopped</strong>
-          <div>Reconnect the inspector to continue capturing events.</div>
-        </Alert>
-      )}
+      <Button onClick={() => setVisible(true)}>Show alert</Button>
+      <AlertDialog open={visible} title="Recording stopped" onConfirm={() => setVisible(false)}>
+        Reconnect the inspector to continue capturing events.
+      </AlertDialog>
     </>
   );
 };`,
@@ -119,35 +340,63 @@ export const RecordingNotice = () => {
     group: 'Feedback',
     description: 'Confirm a completed action in a dismissible notification.',
     usage:
-      'Mount Toast before the action runs and control its open state. Give each notification a short title.',
+      'Mount controlled Toasts within ToastViewport to stack notifications. For automatically expiring notifications with a countdown, use ToastProvider and set duration when needed. Hover or focus pauses expiry.',
     accessibility:
-      'Use neutral for confirmations and danger for urgent errors. Keep the dismiss button available and restore focus when it is used.',
+      'Use neutral, success, info, warning or loading for polite updates and danger or error for urgent errors. Keep the dismiss button available and restore focus to the next notification or trigger. Custom icons are decorative; use null to hide the icon.',
     props: [
       ['open', 'boolean', 'Required'],
       ['title', 'string', 'Required'],
       ['onDismiss', '() => void', 'Required'],
       ['dismissLabel', 'string', 'Dismiss notification'],
-      ['tone', 'neutral | danger', 'neutral'],
+      ['tone', 'neutral | success | info | warning | danger | error | loading', 'neutral'],
+      ['icon', 'ReactNode', 'Tone icon; null hides it'],
+      ['progress', 'number (0–1)', 'None'],
     ],
-    exports: 'Button, Toast',
+    exports: 'Button, Select, ToastProvider, useToast',
     code: `import { useRef, useState } from 'react';
 
-export const SaveNotice = () => {
-  const [open, setOpen] = useState(false);
-  const trigger = useRef<HTMLButtonElement>(null);
+const toastMessages = {
+  neutral: { label: 'Notice', title: 'Project updated', description: 'The project has a new update.' },
+  loading: { label: 'Loading', title: 'Saving project', description: 'Your changes are being synchronized.' },
+  success: { label: 'Success', title: 'Project saved', description: 'Your changes are ready.' },
+  info: { label: 'Information', title: 'Export ready', description: 'Your export is available in the project history.' },
+  warning: { label: 'Warning', title: 'Connection interrupted', description: 'Your changes are preserved locally. Reconnect before continuing.' },
+  error: { label: 'Error', title: 'Save failed', description: 'Your changes could not be synchronized. Check your network connection and retry when you are ready.' },
+} as const;
 
+type PreviewTone = keyof typeof toastMessages;
+
+const NoticeControls = () => {
+  const trigger = useRef<HTMLButtonElement>(null);
+  const { showToast } = useToast();
+  const [tone, setTone] = useState<PreviewTone>('success');
+  const options = (Object.keys(toastMessages) as PreviewTone[]).map(value => ({ value, label: toastMessages[value].label }));
+  const show = () => showToast({
+    title: toastMessages[tone].title,
+    description: toastMessages[tone].description,
+    tone,
+    duration: tone === 'neutral' || tone === 'success' || tone === 'info' ? 10000 : null,
+    restoreFocusTo: trigger.current,
+  });
   return (
-    <>
-      <Button ref={trigger} onClick={() => setOpen(true)}>Show toast</Button>
-      <Toast open={open} title="Project saved" onDismiss={() => {
-        setOpen(false);
-        trigger.current?.focus();
-      }}>
-        Your changes are ready.
-      </Toast>
-    </>
+    <div className="preview-toast-controls">
+      <Select aria-label={'Notification tone'} options={options} value={tone} onValueChange={value => {
+        if (Object.hasOwn(toastMessages, value)) setTone(value as PreviewTone);
+      }} />
+      <Button ref={trigger} variant="secondary" onClick={show}>
+        {'Show toast'}
+      </Button>
+    </div>
   );
-};`,
+};
+
+export const SaveNotice = () => (
+  <div className="preview-toast">
+    <ToastProvider className="preview-toast-viewport" maxVisible={3}>
+      <NoticeControls />
+    </ToastProvider>
+  </div>
+);`,
   },
   progress: {
     title: 'Progress',

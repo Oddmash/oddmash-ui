@@ -1,3 +1,5 @@
+import { getDocumentationNavigationPreviews } from './docs-navigation-previews';
+import { ClipboardButtonPreview, ToastProviderPreview } from './notification-previews';
 import {
   AlertPreview,
   BreadcrumbPreview,
@@ -7,14 +9,41 @@ import {
 } from './feedback-previews';
 import {
   Accordion,
+  LinkCard,
+  ButtonLink,
+  IconButton,
+  IconLink,
+  PlatformLink,
+  PlatformLinks,
+  Kbd,
+  CodeBlock,
+  CodeBlockHeader,
+  CodeBlockCaption,
+  CodeBlockContent,
+  CodeBlockCopy,
+  SiteHeader,
+  SiteHeaderInner,
+  SiteFooter,
+  SiteFooterInner,
+  SiteNav,
+  Prose,
+  ProseScroll,
   Avatar,
   Button,
+  ToggleGroup,
+  ToggleGroupItem,
+  CommandPalette,
+  Slider,
   Checkbox,
   EmptyState,
   Field,
   Progress,
   Radio,
-  SelectDropdown,
+  Select,
+  DateSelect,
+  DateCalendar,
+  DatePicker,
+  DateRangePicker,
   Separator,
   Skeleton,
   Spinner,
@@ -23,11 +52,122 @@ import {
   Textarea,
 } from '@oddmash/ui';
 import type { ExtendedComponentId } from './component-catalog';
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
+import type { Locale } from './locale';
+
+const pickerLabels = (t: (text: string) => string, withTime = false) => ({
+  year: t('Year'), month: t('Month'), day: t('Day'), hour: t('Hour'), minute: t('Minute'), second: t('Second'),
+  clear: t(withTime ? 'Clear date and time' : 'Clear date'), calendar: t('Calendar'), previousMonth: t('Previous month'), nextMonth: t('Next month'), today: t('Today'),
+});
+
+const CodeBlockPreview = ({ t }: { t: (text: string) => string }) => {
+  const code = 'pnpm add @oddmash/ui';
+  const [status, setStatus] = useState('');
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setStatus('Copied');
+    } catch {
+      setStatus('Select the code to copy');
+    }
+  };
+
+  return (
+    <CodeBlock>
+      <CodeBlockHeader>
+        <CodeBlockCaption>{t('Terminal')}</CodeBlockCaption>
+        <CodeBlockCopy onClick={copy}>{t('Copy code')}</CodeBlockCopy>
+      </CodeBlockHeader>
+      <CodeBlockContent tabIndex={0} role="region" aria-label={t('Terminal code')}>
+        <code>{code}</code>
+      </CodeBlockContent>
+      <span role="status">{t(status)}</span>
+    </CodeBlock>
+  );
+};
+
+const ToggleGroupPreview = ({ t }: { t: (text: string) => string }) => {
+  const [view, setView] = useState<string | null>('grid');
+
+  return (
+    <div className="example-stack">
+      <ToggleGroup aria-label={t('View mode')} type="single" value={view} onValueChange={setView}>
+        <ToggleGroupItem value="grid">{t('Grid view')}</ToggleGroupItem>
+        <ToggleGroupItem value="compact" disabled>{t('Compact view')}</ToggleGroupItem>
+        <ToggleGroupItem value="list">{t('List view')}</ToggleGroupItem>
+      </ToggleGroup>
+      <ToggleGroup aria-label={t('Text formatting')} type="multiple" defaultValue={['bold']}>
+        <ToggleGroupItem value="bold">{t('Bold')}</ToggleGroupItem>
+        <ToggleGroupItem value="italic">{t('Italic')}</ToggleGroupItem>
+      </ToggleGroup>
+    </div>
+  );
+};
 
 export const getComponentPreviews = (
   t: (text: string) => string,
+  locale: Locale,
 ): Record<ExtendedComponentId, ReactNode> => ({
+  ...getDocumentationNavigationPreviews(t),
+  'clipboard-button': <ClipboardButtonPreview t={t} />,
+  'toast-provider': <ToastProviderPreview t={t} />,
+  "link-controls": (
+    <>
+      <ButtonLink href="#/link-controls">{t('Read guide')}</ButtonLink>
+      <IconButton aria-label={t('Open search example')}><span aria-hidden="true">⌕</span></IconButton>
+      <IconLink href="#/link-controls" aria-label={t('Open reference example')}><span aria-hidden="true">↗</span></IconLink>
+      <PlatformLinks role="group" aria-label={t('Platform links')}>
+        <PlatformLink platform="github" href="#/link-controls" aria-label={t('GitHub example')} />
+        <PlatformLink platform="npm" href="#/link-controls" aria-label={t('npm example')} />
+      </PlatformLinks>
+      <Kbd>Ctrl K</Kbd>
+    </>
+  ),
+  'link-card': (
+    <LinkCard href="#/link-card">
+      <strong>{t('Usage guide')}</strong> <span className="om-link-card-arrow" aria-hidden="true">→</span>
+      <p>{t('Learn how to use the library.')}</p>
+    </LinkCard>
+  ),
+  'code-block': <CodeBlockPreview t={t} />,
+  'site-layout': (
+    <>
+      <SiteHeader>
+        <SiteHeaderInner>
+          <strong>Oddmash</strong>
+          <SiteNav aria-label={t('Header navigation example')}>
+            <a href="#/site-layout" aria-current="page">{t('Docs')}</a>
+            <a href="#/site-layout">{t('Examples')}</a>
+          </SiteNav>
+        </SiteHeaderInner>
+      </SiteHeader>
+      <SiteFooter>
+        <SiteFooterInner>
+          <span>{t('Open source')}</span>
+          <SiteNav aria-label={t('Footer navigation example')}>
+            <a href="#/site-layout">{t('Docs')}</a>
+          </SiteNav>
+        </SiteFooterInner>
+      </SiteFooter>
+    </>
+  ),
+  prose: (
+    <Prose>
+      <h3>{t('Usage guide')}</h3>
+      <p>{t('Learn how to use the library.')}</p>
+      <ul><li>{t('Install the package.')}</li></ul>
+      <pre tabIndex={0} role="region" aria-label={t('Terminal code')}><code>pnpm add @oddmash/ui</code></pre>
+      <ProseScroll tabIndex={0} role="region" aria-label={t('Example options table')}>
+        <table>
+          <thead><tr><th scope="col">{t('Name')}</th><th scope="col">{t('Type')}</th></tr></thead>
+          <tbody><tr><td>href</td><td>string</td></tr></tbody>
+        </table>
+      </ProseScroll>
+    </Prose>
+  ),
+  slider: <label>{t('Width')} <Slider min={100} max={600} defaultValue={320} /></label>,
+  'toggle-group': <ToggleGroupPreview t={t} />,
+  'command-palette': <CommandPalette trigger={<Button>{t('Commands')}</Button>} title={t('Commands')} description={t('Choose an action')} searchLabel={t('Search commands')} emptyLabel={t('No commands found')} dismissLabel={t('Close commands')} items={[{ id: 'save', label: t('Save project'), group: t('Project'), description: t('Save current changes'), onSelect: () => {} }, { id: 'guide', label: t('Usage guide'), group: t('Documentation'), onSelect: () => {} }]} />,
   textarea: (
     <label>
       {t('Release notes')}
@@ -37,7 +177,7 @@ export const getComponentPreviews = (
   select: (
     <div>
       <label htmlFor="example-environment">{t('Environment')}</label>
-      <SelectDropdown
+      <Select
         id="example-environment"
         defaultValue="staging"
         options={[
@@ -48,6 +188,10 @@ export const getComponentPreviews = (
       />
     </div>
   ),
+  'date-select': <DateSelect label={t('Date and time')} defaultValue="2026-11-25T14:30:42" labels={{year: t('Year'), month: t('Month'), day: t('Day'), hour: t('Hour'), minute: t('Minute'), second: t('Second'), clear: t('Clear date and time')}} />,
+  'date-calendar': <DateCalendar locale={locale} labels={pickerLabels(t)} defaultValue="2026-11-17" minDate="2026-10-15" maxDate="2026-12-20" />,
+  'date-picker': <DatePicker label={t('Date and time')} mode="date-time" locale={locale} labels={pickerLabels(t, true)} defaultValue="2026-11-25T14:30:42" />,
+  'date-range-picker': <DateRangePicker label={t('Date range')} startLabel={t('Start date')} endLabel={t('End date')} locale={locale} labels={pickerLabels(t, true)} withTime defaultValue={{ start: '2026-11-01T00:00:00', end: '2026-11-25T23:59:59' }} invalidMessage={t('End date must not precede start date.')} />,
   checkbox: (
     <label className="example-choice">
       <Checkbox name="events" value="keyboard" defaultChecked />{' '}

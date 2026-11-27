@@ -5,7 +5,7 @@ import light from '../tokens/semantic/light.json';
 import dark from '../tokens/semantic/dark.json';
 import { tokens, type TokenName } from '@oddmash/ui/tokens';
 import { Code } from './examples';
-import { npmPackageUrl, repositoryUrl } from './package-links';
+import { npmPackageUrl, repositoryUrl, packageVersion } from './package-links';
 
 type Token = { $type: string; $value: unknown };
 const flatten = (value: unknown, prefix = ''): [string, Token][] => {
@@ -181,7 +181,7 @@ export const TokenExplorer = () => {
         <div>
           <span>{t('02 / BUILD')}</span>
           <strong>Style Dictionary</strong>
-          <code>npm run tokens</code>
+          <code>pnpm run tokens</code>
         </div>
         <span aria-hidden="true">→</span>
         <div>
@@ -274,7 +274,7 @@ export const TokenExplorer = () => {
             ))}
         </div>
         <h2>{t('Change once. Update everywhere.')}</h2>
-        <Code label="terminal">{`npm run tokens        # generate CSS + typed references\nnpm run tokens:check  # reject drift and missing aliases`}</Code>
+        <Code label="terminal">{`pnpm run tokens        # generate CSS + typed references\npnpm run tokens:check  # reject drift and missing aliases`}</Code>
         <p className="body-copy">
           {t(
             'Edit tokens/primitive.json and tokens/semantic/light.json or dark.json. Never edit src/generated directly. DTCG $type / $value and aliases keep the source portable.',
@@ -297,7 +297,7 @@ export const Installation = () => {
           </a>
           .
         </p>
-        <Code label="npm install">{`npm install @oddmash/ui@0.3.0`}</Code>
+        <Code label="npm install">{`npm install @oddmash/ui@${packageVersion}`}</Code>
       </section>
       <section className="doc-section">
         <h2>{t('Build from GitHub')}</h2>
@@ -313,11 +313,11 @@ export const Installation = () => {
         </p>
         <Code label="GitHub source">{`git clone ${repositoryUrl}.git
 cd oddmash-ui
-npm ci
-npm pack
+pnpm install --frozen-lockfile
+pnpm pack
 
 # In your React project:
-npm install /path/to/oddmash-ui-0.3.0.tgz`}</Code>
+npm install /path/to/oddmash-ui-${packageVersion}.tgz`}</Code>
       </section>
       <section className="doc-section">
         <h2>{t('Make something small')}</h2>

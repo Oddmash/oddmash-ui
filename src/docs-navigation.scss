@@ -1,0 +1,148 @@
+@use 'generated/breakpoints' as bp;
+.om-docs-navigation,
+.om-table-of-contents {
+  box-sizing: border-box;
+  display: grid;
+  gap: var(--om-semantic-space-sm);
+  min-inline-size: 0;
+  color: var(--om-semantic-color-text);
+  font-family: var(--om-semantic-font-family);
+  font-size: var(--om-semantic-font-small);
+}
+
+.om-docs-group + .om-docs-group {
+  margin-block-start: var(--om-semantic-space-lg);
+}
+
+.om-docs-group-label,
+.om-toc-label {
+  margin: 0 0 var(--om-semantic-space-xs);
+  font-weight: var(--om-semantic-font-weight);
+  color: var(--om-semantic-color-muted);
+}
+
+.om-docs-links,
+.om-toc-links {
+  display: grid;
+  gap: var(--om-semantic-dimension-px-2);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.om-docs-links a,
+.om-toc-links a,
+.om-locale-options a,
+.om-locale-options span {
+  box-sizing: border-box;
+  display: block;
+  min-block-size: var(--om-semantic-dimension-px-32);
+  padding: var(--om-semantic-space-xs) var(--om-semantic-space-sm);
+  border-inline-start: var(--om-semantic-dimension-px-2) solid transparent;
+  border-radius: var(--om-semantic-radius-sm);
+  color: inherit;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.om-docs-links a[aria-current='page'],
+.om-toc-links a[aria-current='location'],
+.om-locale-options a[aria-current='page'] {
+  border-inline-start-color: var(--om-semantic-color-accent);
+  background: var(--om-semantic-color-bg);
+  font-weight: var(--om-semantic-font-weight);
+}
+
+.om-toc-links li[data-level='3'] { padding-inline-start: var(--om-semantic-space-sm); }
+.om-toc-links li:is([data-level='4'], [data-level='5'], [data-level='6']) { padding-inline-start: var(--om-semantic-space-lg); }
+
+.om-docs-navigation .om-docs-toggle,
+.om-table-of-contents .om-docs-toggle { display: none; }
+
+@media (max-width: bp.$compact) {
+  :is(.om-docs-navigation, .om-table-of-contents)[data-enhanced='true'][data-collapsible='true'] .om-docs-toggle {
+    display: flex;
+    justify-content: space-between;
+    inline-size: 100%;
+  }
+  :is(.om-docs-navigation, .om-table-of-contents)[data-enhanced='true'][data-collapsible='true'][data-expanded='false'] > .om-docs-panel {
+    display: none;
+  }
+  .om-table-of-contents[data-enhanced='true'][data-collapsible='true'] > .om-toc-label { display: none; }
+}
+
+.om-scroll-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--om-scroll-header-z-index, 20);
+  transform: translateY(0);
+  transition: transform var(--om-semantic-motion-duration) var(--om-semantic-motion-ease);
+}
+
+.om-scroll-header[data-om-scroll-hidden='true']:not(:focus-within) {
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+
+.om-locale-picker {
+  box-sizing: border-box;
+  min-inline-size: 0;
+  color: var(--om-semantic-color-text);
+  font-family: var(--om-semantic-font-family);
+  font-size: var(--om-semantic-font-small);
+}
+
+.om-locale-fallback {
+  position: relative;
+}
+
+.om-locale-fallback[hidden] {
+  display: none;
+}
+
+.om-locale-fallback summary {
+  min-block-size: var(--om-semantic-control-height);
+  box-sizing: border-box;
+  border: var(--om-semantic-border-default);
+  border-radius: var(--om-semantic-radius-sm);
+  padding: var(--om-semantic-space-xs) var(--om-semantic-space-sm);
+  cursor: pointer;
+  background: var(--om-semantic-color-surface);
+}
+
+.om-locale-options {
+  box-sizing: border-box;
+  list-style: none;
+  padding: var(--om-semantic-space-xs);
+  margin-block: var(--om-semantic-space-xs) 0;
+  margin-inline: 0;
+  border: var(--om-semantic-border-default);
+  border-radius: var(--om-semantic-radius-sm);
+  background: var(--om-semantic-color-surface);
+}
+
+.om-locale-options span[aria-disabled='true'] {
+  color: var(--om-semantic-color-muted);
+}
+
+:is(.om-docs-links, .om-toc-links, .om-locale-options) a:focus-visible,
+.om-locale-fallback summary:focus-visible {
+  outline: var(--om-semantic-focus-width) solid var(--om-semantic-color-focus);
+  outline-offset: var(--om-semantic-focus-offset);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :is(.om-docs-links, .om-toc-links, .om-locale-options) a:hover {
+    background: var(--om-semantic-color-bg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .om-scroll-header { transition: none; }
+}
+
+@media (forced-colors: active) {
+  :is(.om-docs-links, .om-toc-links, .om-locale-options) a[aria-current] { border-inline-start-color: Highlight; }
+  :is(.om-docs-links, .om-toc-links, .om-locale-options) a:focus-visible,
+  .om-locale-fallback summary:focus-visible { outline-color: Highlight; }
+}
