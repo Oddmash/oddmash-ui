@@ -19,6 +19,7 @@ import './brand.scss';
 import './docs-shell.scss';
 import InteractionLab from './interaction-lab';
 import { TimelineFilters } from './timeline-filters';
+import { RadiusLab } from './radius-lab';
 import { npmPackageUrl, repositoryUrl, packageMinorVersion } from './package-links';
 import { readThemePreference, readSystemTheme, themeOptions, type ThemePreference } from './theme';
 import docsShellTokens from './docs-shell-tokens.json';
@@ -315,6 +316,8 @@ const App = ({ onLocale }: { onLocale: (locale: Locale) => void }) => {
                 <Typography />
               ) : page === 'tokens' ? (
                 <TokenExplorer />
+              ) : page === 'radius' ? (
+                <RadiusLab />
               ) : page === 'timeline-filters' ? (
                 <TimelineFilters />
               ) : page === 'interaction-pattern' ? (

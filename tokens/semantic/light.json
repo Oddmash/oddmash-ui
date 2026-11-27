@@ -116,6 +116,18 @@
       "pill": {
         "$type": "dimension",
         "$value": "{primitive.radius.pill}"
+      },
+      "soft-control": {
+        "$type": "dimension",
+        "$value": "{primitive.radius.soft-control}"
+      },
+      "soft-menu": {
+        "$type": "dimension",
+        "$value": "{primitive.radius.lg}"
+      },
+      "soft-surface": {
+        "$type": "dimension",
+        "$value": "{primitive.radius.xl}"
       }
     },
     "font": {

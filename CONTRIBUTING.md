@@ -16,7 +16,7 @@ pnpm run demo
 
 ## Use from another local project
 
-React 18.3.1 and React 19 are supported peers. Install the published package with `npm install @oddmash/ui`. To test a local change in a consuming project, build an archive with `pnpm pack`, then install the resulting `oddmash-ui-0.11.0.tgz` in the consuming project. Import `@oddmash/ui/styles.css` once. The package is ESM-only and does not include a global reset, Tailwind, an icon package, or a CSS-in-JS runtime.
+React 18.3.1 and React 19 are supported peers. Install the published package with `npm install @oddmash/ui`. To test a local change in a consuming project, build an archive with `pnpm pack`, then install the resulting `oddmash-ui-0.12.0.tgz` in the consuming project. Import `@oddmash/ui/styles.css` once. The package is ESM-only and does not include a global reset, Tailwind, an icon package, or a CSS-in-JS runtime.
 
 The documentation site serves Geist Sans and Geist Mono from `demo/public/fonts/` under the SIL Open Font License included there. Package consumers can self-host the fonts under those family names or use the system fallbacks in the font tokens.
 
@@ -115,6 +115,16 @@ tooltip.destroy();
 ## Themes and product overrides
 
 Set `data-om-theme="light"` or `data-om-theme="dark"` on the document or a subtree. Applications own system preference and persistence. Load product overrides after the package CSS and override semantic variables rather than primitives. Shadow DOM consumers must inject the stylesheet and portal containers inside their root.
+
+Use `data-om-radius="soft"` on the application root or a subtree to round standard buttons, form controls, cards, dialog surfaces, and Select menus. The [Corner styles lab](https://oddmash.github.io/oddmash-ui/#/radius) shows both profiles in the active color theme. The soft profile uses 10px controls, 12px Select menus, and 16px cards and dialogs. Small and icon buttons, segmented controls, and round indicators keep their geometry.
+
+With a subtree profile, pass an element inside the subtree as the `container` for `DialogContent`. The Select menu is rendered within the Select subtree. Set `data-om-radius="default"` on a nested scope to restore the standard radii, or remove the attribute when there is no soft ancestor. To customize a soft scope, set `--om-radius-control`, `--om-radius-menu`, or `--om-radius-surface` on that scope after importing the package stylesheet.
+
+## Stable scrollbar space
+
+Apply `om-stable-scrollbar` to the scrollport that can gain or lose a classic scrollbar. Use `<html class="om-stable-scrollbar">` for a document scrollport, or apply the class to an element that already uses `overflow: auto` for its own scroll area. Choose one scrollport for the layout you want to stabilize. Overlay scrollbars reserve no additional space, and browsers without `scrollbar-gutter` keep their native behavior.
+
+The document form keeps its reserved gutter while Oddmash Dialog locks the body. Keep custom shell spacing on an inner wrapper. A nested scrollport keeps its own gutter during a document-level lock. CSS does not change focus order or manage scroll restoration.
 
 ## Verification
 
