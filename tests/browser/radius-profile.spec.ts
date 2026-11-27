@@ -70,3 +70,22 @@ test('the soft profile honors nested defaults and preserves compact controls', a
   await page.goto('/#/toggle-group');
   await expect(page.locator('.om-toggle-group-item').first()).toHaveCSS('border-radius', '6px');
 });
+
+test('the narrow lab documents scoped setup in each supported language', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 900 });
+  for (const [locale, heading, portalGuidance] of [
+    ['en', 'Use soft corners', 'pass an element inside that section'],
+    ['ko', '부드러운 모서리 적용하기', '요소를 container로 전달하세요'],
+    ['ja', '丸みのある角を使う', '要素を container として渡します'],
+    ['zh-CN', '使用柔和圆角', '元素传给 container'],
+  ]) {
+    await page.goto(`/?lang=${locale}#/radius`);
+    await expect(page.getByRole('heading', { name: heading, exact: true })).toBeVisible();
+    await expect(page.getByText(portalGuidance, { exact: false })).toBeVisible();
+    const example = page.locator('.code-block pre');
+    for (const fragment of ['data-om-radius="soft"', 'data-om-radius="default"', 'container={portal}', 'ref={setPortal}']) {
+      await expect(example).toContainText(fragment);
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
+  }
+});
