@@ -32,6 +32,6 @@ Interaction Inspector처럼 명확한 조작과 안정적인 동작이 필요하
 
 ## 현재 범위
 
-Oddmash UI는 1.0 이전 단계에서 개발 중입니다. 0.12.0부터 Input 안에 장식용 아이콘을 넣을 수 있습니다. 기본 입력 및 폼 동작을 유지하며 React 18.3.1과 React 19를 계속 지원합니다.
+Oddmash UI는 1.0 이전 단계에서 개발 중입니다. 0.12.0부터 Input의 시작 부분에 장식용 아이콘을 선택적으로 넣을 수 있습니다. 기본 입력 및 폼 동작을 유지하며 React 18.3.1과 React 19를 계속 지원합니다.
 
 [Docs](https://oddmash.github.io/oddmash-ui/) · [npm](https://www.npmjs.com/package/@oddmash/ui) · [GitHub](https://github.com/Oddmash/oddmash-ui) · [기여 안내](../../CONTRIBUTING.md) · [MIT 라이선스](../../LICENSE)
